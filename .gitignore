@@ -1,7 +1,5 @@
 values.yaml
 cloudflared.yaml
 system-upgrade/
-pv.yaml
-pvc.yaml
 secret.yaml
 apps.yaml
