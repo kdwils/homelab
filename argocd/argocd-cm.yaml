@@ -8,5 +8,5 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   statusbadge.enabled: "true"
-  statusbadge.url: "https://argocd.kyledev.co"
+  statusbadge.url: "https://argocd.kyledev.co/"
   accounts.testuser: login
