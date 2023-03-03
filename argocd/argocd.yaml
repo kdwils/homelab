@@ -14708,8 +14708,8 @@ metadata:
   namespace: argocd
 data:
   statusbadge.enabled: "true"
-  statusbadge.url: "https://argocd.kyledev.co"
-  accounts.testuser: login
+  statusbadge.url: "https://argocd.kyledev.co/"
+  accounts.reader: login
 ---
 apiVersion: v1
 data:
