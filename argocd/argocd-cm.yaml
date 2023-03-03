@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
-  url: https://argocd.kyledev.co
   statusbadge.enabled: "true"
   statusbadge.url: "https://argocd.kyledev.co"
-  users.anonymous.enabled: "true"
+  accounts.testuser: login
