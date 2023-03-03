@@ -1,0 +1,119 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bazarr
+  namespace: argocd
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: bazarr
+    repoURL: "https://github.com/kdwils/media"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jackett
+  namespace: argocd
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: jackett
+    repoURL: "https://github.com/kdwils/media"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: plex
+  namespace: argocd
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: plex
+    repoURL: "https://github.com/kdwils/media"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: radarr
+  namespace: argocd
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: radarr
+    repoURL: "https://github.com/kdwils/media"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarr
+  namespace: argocd
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: sonarr
+    repoURL: "https://github.com/kdwils/media"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: transmission
+  namespace: argocd
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: transmission
+    repoURL: "https://github.com/kdwils/media"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

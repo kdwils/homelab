@@ -1,0 +1,10 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - argocd-app.yaml
+  - ingress-controller-app.yaml
+  - media-app.yaml
+  - metallb-app.yaml
+  - pihiole-app.yaml
+  - system-upgrade-app.yaml
