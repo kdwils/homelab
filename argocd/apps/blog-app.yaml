@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: blog
+  namespace: argocd
+spec:
+  destination:
+    namespace: blog
+    server: "https://kubernetes.default.svc"
+  source:
+    path: deploy/homelab
+    repoURL: "https://github.com/kdwils/blog"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
