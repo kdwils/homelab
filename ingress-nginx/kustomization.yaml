@@ -1,5 +1,15 @@
-kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
-
+kind: Kustomization
 resources:
-  - ingress-controller.yaml
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
+  - configmap.yaml
+  - deployment.yaml
+  - ingressclass.yaml
+  - job.yaml
+  - namespace.yaml
+  - role.yaml
+  - rolebinding.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - validatingwebhookconfiguration.yaml
