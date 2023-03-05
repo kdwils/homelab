@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared-dns
+    metallb.universe.tf/loadBalancerIPs: 10.0.1.70
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-dns-tcp
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns
+      port: 53
+      protocol: TCP
+      targetPort: dns
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared-dns
+    metallb.universe.tf/loadBalancerIPs: 10.0.1.70
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-dns-udp
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: dns-udp
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.0.1.71
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-web
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer

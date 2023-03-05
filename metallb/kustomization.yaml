@@ -1,6 +1,17 @@
-kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
-
+kind: Kustomization
 resources:
-  - metallb.yaml
-  - network.yaml
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
+  - customresourcedefinition.yaml
+  - daemonset.yaml
+  - deployment.yaml
+  - ipaddresspool.yaml
+  - l2advertisement.yaml
+  - namespace.yaml
+  - role.yaml
+  - rolebinding.yaml
+  - secret.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - validatingwebhookconfiguration.yaml

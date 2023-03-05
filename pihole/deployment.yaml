@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+      release: homelab
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum.config.adlists: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.blacklist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.dnsmasqConfig: 622ac6ff4c980b4443e393f5251d8190a29a0c471c3f1ddeeebaaee554fbf67
+        checksum.config.regex: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.staticDhcpConfig: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.whitelist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+      labels:
+        app: pihole
+        release: homelab
+    spec:
+      containers:
+        - env:
+            - name: WEB_PORT
+              value: "80"
+            - name: VIRTUAL_HOST
+              value: pi.hole
+            - name: WEBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: homelab-pihole-password
+            - name: PIHOLE_DNS_
+              value: 1.1.1.1;8.8.8.8
+          image: pihole/pihole:2023.01
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /admin/index.php
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          name: pihole
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+            - containerPort: 53
+              name: dns
+              protocol: TCP
+            - containerPort: 53
+              name: dns-udp
+              protocol: UDP
+            - containerPort: 443
+              name: https
+              protocol: TCP
+            - containerPort: 67
+              name: client-udp
+              protocol: UDP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /admin/index.php
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          resources: {}
+          securityContext:
+            privileged: false
+          volumeMounts:
+            - mountPath: /etc/pihole
+              name: config
+            - mountPath: /etc/dnsmasq.d/02-custom.conf
+              name: custom-dnsmasq
+              subPath: 02-custom.conf
+            - mountPath: /etc/addn-hosts
+              name: custom-dnsmasq
+              subPath: addn-hosts
+            - mountPath: /etc/dnsmasq.d/05-pihole-custom-cname.conf
+              name: custom-dnsmasq
+              subPath: 05-pihole-custom-cname.conf
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
+          - 8.8.8.8
+      dnsPolicy: None
+      hostNetwork: false
+      hostname: null
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pihole
+        - configMap:
+            defaultMode: 420
+            name: homelab-pihole-custom-dnsmasq
+          name: custom-dnsmasq
