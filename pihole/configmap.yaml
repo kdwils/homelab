@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  02-custom.conf: |
+    addn-hosts=/etc/addn-hosts
+    address=/int.kyledev.co/10.0.1.0
+  05-pihole-custom-cname.conf: ""
+  addn-hosts: ""
+kind: ConfigMap
+metadata:
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-custom-dnsmasq
