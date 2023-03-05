@@ -11,6 +11,8 @@ spec:
     path: pihole
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
+    kustomize:
+      version: v3.8.1
   sources: []
   project: default
   syncPolicy:
