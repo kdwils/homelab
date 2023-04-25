@@ -3,6 +3,7 @@ data:
   accounts.reader: login
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
+  accounts.image-updater: apiKey
 kind: ConfigMap
 metadata:
   labels:
@@ -44,6 +45,9 @@ data:
     p, role:syncer, applications, sync, */*, allow
     p, role:syncer, projects, get, *, allow
     p, role:syncer, repositories, get, *, allow
+    p, role:image-updater, applications, get, */*, allow
+    p, role:image-updater, applications, update, */*, allow
+    g, image-updater, role:image-updater
   policy.default: role:syncer
 kind: ConfigMap
 metadata:

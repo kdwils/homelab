@@ -8,7 +8,7 @@ spec:
     namespace: argocd
     server: "https://kubernetes.default.svc"
   source:
-    path: argocd/apps
+    path: apps
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
