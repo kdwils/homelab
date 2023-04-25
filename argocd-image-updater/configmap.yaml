@@ -11,7 +11,8 @@ data:
     - name: Github Container Registry
       api_url: https://ghcr.io
       prefix: ghcr.io
-      credentials: pullsecret:argocd/github-registry
+      credentials: pullsecret:argocd/regcred
+      ping: no
       default: true
 ---
 apiVersion: v1
