@@ -6,6 +6,7 @@ metadata:
   annotations:
     argocd-image-updater.argoproj.io/image-list: blog=ghcr.io/kdwils/blog
     argocd-image-updater.argoproj.io/blog.platforms: linux/arm64,linux/amd64
+    argocd-image-updater.argoproj.io/blog.update-strategy: latest
 spec:
   destination:
     namespace: blog
