@@ -3,6 +3,9 @@ kind: Application
 metadata:
   name: blog
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: blog=ghcr.io/kdwils/blog
+    argocd-image-updater.argoproj.io/blog.platforms: linux/arm64,linux/amd64
 spec:
   destination:
     namespace: blog
