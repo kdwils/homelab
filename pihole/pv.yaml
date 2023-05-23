@@ -22,19 +22,7 @@ spec:
               operator: In
               values:
                 - nuc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pihole
-  namespace: pihole
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 500Mi
-  selector:
-    matchLabels:
-      pv: pihole
-  storageClassName: local-storage
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - worker-2
