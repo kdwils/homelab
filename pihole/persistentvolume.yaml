@@ -18,7 +18,8 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - nuc
+                - worker-2
+                # - nuc
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   volumeMode: Filesystem
