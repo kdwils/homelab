@@ -100,7 +100,6 @@ spec:
           - 8.8.8.8
       dnsPolicy: None
       hostNetwork: false
-      hostname: null
       volumes:
         - name: config
           persistentVolumeClaim:
