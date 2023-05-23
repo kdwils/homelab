@@ -5,13 +5,5 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - 10.0.1.0/24
----
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: load-balancer-eo
-  namespace: metallb-system
-spec:
-  addresses:
+    # - 10.0.1.0/24
     - 192.168.101.0/24
