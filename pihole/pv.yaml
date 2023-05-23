@@ -21,8 +21,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - nuc
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
                 - worker-2
