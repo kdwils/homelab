@@ -1784,7 +1784,7 @@ spec:
       containers:
       - args:
         - --port=7472
-        - --log-level=info
+        - --log-level=all
         env:
         - name: METALLB_NODE_NAME
           valueFrom:
