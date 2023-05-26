@@ -3,7 +3,7 @@ kind: Service
 metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: shared-dns
-    metallb.universe.tf/loadBalancerIPs: 192.168.1.150
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.231
   labels:
     app: pihole
     chart: pihole-2.11.1
@@ -27,7 +27,7 @@ kind: Service
 metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: shared-dns
-    metallb.universe.tf/loadBalancerIPs: 192.168.1.150
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.231
   labels:
     app: pihole
     chart: pihole-2.11.1
