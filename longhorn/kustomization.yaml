@@ -10,6 +10,7 @@ resources:
   - customresourcedefinition.yaml
   - daemonset.yaml
   - deployment.yaml
+  - ingress.yaml
   - namespace.yaml
   - service.yaml
   - serviceaccount.yaml
