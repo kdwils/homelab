@@ -10,3 +10,4 @@ resources:
   - metallb-app.yaml
   - pihole-app.yaml
   - system-upgrade-app.yaml
+  - longhorn-app.yaml
