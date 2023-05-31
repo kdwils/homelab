@@ -3,14 +3,14 @@ kind: Kustomization
 
 namespace: longhorn-system
 
-# resources:
-  # - clusterrole.yaml
-  # - clusterrolebinding.yaml
-  # - configmap.yaml
-  # - customresourcedefinition.yaml
-  # - daemonset.yaml
-  # - deployment.yaml
-  # - ingress.yaml
-  # - namespace.yaml
-  # - service.yaml
-  # - serviceaccount.yaml
+resources:
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
+  - configmap.yaml
+  - customresourcedefinition.yaml
+  - daemonset.yaml
+  - deployment.yaml
+  - ingress.yaml
+  - namespace.yaml
+  - service.yaml
+  - serviceaccount.yaml
