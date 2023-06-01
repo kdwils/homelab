@@ -21,7 +21,7 @@ spec:
         app.kubernetes.io/version: v1.4.1
     spec:
       nodeSelector:
-        os-arch-bit: "64"
+        beta.kubernetes.io/arch: "arm64"
       containers:
         - command:
             - longhorn-manager
@@ -94,7 +94,7 @@ spec:
         app.kubernetes.io/version: v1.4.1
     spec:
       nodeSelector:
-        os-arch-bit: "64"
+        beta.kubernetes.io/arch: "arm64"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -282,7 +282,7 @@ spec:
         app.kubernetes.io/version: v1.4.1
     spec:
       nodeSelector:
-        os-arch-bit: "64"
+        beta.kubernetes.io/arch: "arm64"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
