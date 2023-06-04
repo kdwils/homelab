@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: bitwarden-rs
     helm.sh/chart: bitwarden-rs-0.1.7
-  name: bitwarden-bitwarden-rs
+  name: bitwarden-rs
   namespace: bitwarden
 spec:
   replicas: 1

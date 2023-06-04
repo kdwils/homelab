@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/instance: bitwarden
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: bitwarden-rs
-  name: bitwarden-bitwarden-rs
+  name: bitwarden-rs
   namespace: bitwarden
 spec:
   clusterIP: ""
