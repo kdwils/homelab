@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: bitwarden
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: bitwarden-rs
+    helm.sh/chart: bitwarden-rs-0.1.7
+  name: bitwarden-bitwarden-rs
+  namespace: bitwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: bitwarden
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: bitwarden-rs
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: bitwarden
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: bitwarden-rs
+    spec:
+      affinity: {}
+      containers:
+        - image: vaultwarden/server:1.27.0-alpine
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 2
+          name: bitwarden-rs
+          ports:
+            - containerPort: 80
+              name: http
+            - containerPort: 3012
+              name: websocket
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 2
+          resources:
+            limits:
+              cpu: 1100m
+              memory: 32Mi
+            requests:
+              cpu: 1100m
+              memory: 32Mi
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      nodeSelector: {}
+      tolerations: []
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: bitwarden
