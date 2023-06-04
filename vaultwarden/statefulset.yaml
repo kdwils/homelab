@@ -130,7 +130,7 @@ spec:
           name: dshm
         - name: data
           persistentVolumeClaim:
-            claimName: postgres
+            claimName: postgres-vaultwarden
   updateStrategy:
     rollingUpdate: {}
     type: RollingUpdate
