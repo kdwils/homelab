@@ -14,7 +14,7 @@ spec:
         paths:
           - backend:
               service:
-                name: homelab-vaultwarden-web
+                name: vaultwarden
                 port:
                   name: http
             path: /
