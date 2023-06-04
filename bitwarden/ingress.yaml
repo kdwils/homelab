@@ -13,7 +13,7 @@ spec:
         paths:
           - backend:
               service:
-                name: homelab-bitwarden-web
+                name: bitwarden-rs
                 port:
                   name: http
             path: /
