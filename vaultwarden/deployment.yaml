@@ -28,7 +28,7 @@ spec:
         - env:
             - name: DATA_FOLDER
               value: config
-          image: vaultwarden/server:1.25.2
+          image: vaultwarden/server:1.27.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
