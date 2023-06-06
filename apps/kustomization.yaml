@@ -12,3 +12,4 @@ resources:
   - pihole-app.yaml
   - system-upgrade-app.yaml
   - longhorn-app.yaml
+  - cert-manager-app.yaml
