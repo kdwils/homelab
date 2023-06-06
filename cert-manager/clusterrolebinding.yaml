@@ -2,25 +2,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   labels:
-    app.kubernetes.io/instance: reflector
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: reflector
-    app.kubernetes.io/version: 6.1.47
-    helm.sh/chart: reflector-6.1.47
-  name: reflector
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: reflector
-subjects:
-  - kind: ServiceAccount
-    name: reflector
-    namespace: default
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  labels:
     app: cainjector
     app.kubernetes.io/component: cainjector
     app.kubernetes.io/instance: cert-manager
