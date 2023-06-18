@@ -7,6 +7,7 @@ resources:
   - customresourcedefinition.yaml
   - deployment.yaml
   - ingress.yaml
+  - namespace.yaml
   - networkpolicy.yaml
   - role.yaml
   - rolebinding.yaml
