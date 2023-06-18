@@ -8,7 +8,7 @@ resources:
   # - blog-app.yaml
   # - ingress-controller-app.yaml
   # - media-app.yaml
-  # - metallb-app.yaml
+  - metallb-app.yaml
   # - pihole-app.yaml
   # - system-upgrade-app.yaml
   # - longhorn-app.yaml
