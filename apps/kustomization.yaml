@@ -5,11 +5,11 @@ resources:
   - argocd-app.yaml
   - argocd-image-updater-app.yaml
   # - vaultwarden-app.yaml
-  # - blog-app.yaml
+  - blog-app.yaml
   - ingress-controller-app.yaml
-  # - media-app.yaml
+  - media-app.yaml
   - metallb-app.yaml
-  # - pihole-app.yaml
+  - pihole-app.yaml
   # - system-upgrade-app.yaml
   # - longhorn-app.yaml
   - cert-manager-app.yaml
