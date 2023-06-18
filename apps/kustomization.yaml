@@ -13,4 +13,4 @@ resources:
   # - system-upgrade-app.yaml
   # - longhorn-app.yaml
   - cert-manager-app.yaml
-  # - sealed-secret-app.yaml
+  - sealed-secret-app.yaml
