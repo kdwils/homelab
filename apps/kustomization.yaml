@@ -4,12 +4,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
   - argocd-app.yaml
   - argocd-image-updater-app.yaml
-  - vaultwarden-app.yaml
-  - blog-app.yaml
+  # - vaultwarden-app.yaml
+  # - blog-app.yaml
   - ingress-controller-app.yaml
-  - media-app.yaml
+  # - media-app.yaml
   - metallb-app.yaml
-  - pihole-app.yaml
-  - system-upgrade-app.yaml
-  - longhorn-app.yaml
+  # - pihole-app.yaml
+  # - system-upgrade-app.yaml
+  # - longhorn-app.yaml
   - cert-manager-app.yaml
