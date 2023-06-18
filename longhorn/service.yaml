@@ -21,6 +21,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.236
   labels:
     app: longhorn-ui
     app.kubernetes.io/instance: longhorn
