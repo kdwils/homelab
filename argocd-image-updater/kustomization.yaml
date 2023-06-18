@@ -5,5 +5,5 @@ resources:
   - deployment.yaml
   - role.yaml
   - rolebinding.yaml
-  - sealed-secret.yaml
+  - sealedsecret.yaml
   - serviceaccount.yaml
