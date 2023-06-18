@@ -1,20 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations: {}
   labels:
-    app.kubernetes.io/instance: sealed-secrets
-    app.kubernetes.io/name: sealed-secrets
-    app.kubernetes.io/part-of: sealed-secrets
-    app.kubernetes.io/version: v0.22.0
-  name: sealed-secrets
+    name: sealed-secrets-controller
+  name: sealed-secrets-controller
   namespace: kube-system
 spec:
   ports:
-    - name: http
-      nodePort: null
-      port: 8080
-      targetPort: http
+    - port: 8080
+      targetPort: 8080
   selector:
-    app.kubernetes.io/instance: sealed-secrets
-    app.kubernetes.io/name: sealed-secrets
+    name: sealed-secrets-controller
   type: ClusterIP

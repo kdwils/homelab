@@ -1,31 +1,26 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
+  annotations: {}
   labels:
-    app.kubernetes.io/instance: sealed-secrets
-    app.kubernetes.io/name: sealed-secrets
-    app.kubernetes.io/part-of: sealed-secrets
-    app.kubernetes.io/version: v0.22.0
-  name: sealed-secrets-key-admin
+    name: sealed-secrets-controller
+  name: sealed-secrets-controller
   namespace: kube-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: sealed-secrets-key-admin
 subjects:
-  - apiGroup: ""
-    kind: ServiceAccount
-    name: sealed-secrets
+  - kind: ServiceAccount
+    name: sealed-secrets-controller
     namespace: kube-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
+  annotations: {}
   labels:
-    app.kubernetes.io/instance: sealed-secrets
-    app.kubernetes.io/name: sealed-secrets
-    app.kubernetes.io/part-of: sealed-secrets
-    app.kubernetes.io/version: v0.22.0
+    name: sealed-secrets-service-proxier
   name: sealed-secrets-service-proxier
   namespace: kube-system
 roleRef:

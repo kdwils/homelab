@@ -1,11 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  annotations: {}
   labels:
-    app.kubernetes.io/instance: sealed-secrets
-    app.kubernetes.io/name: sealed-secrets
-    app.kubernetes.io/part-of: sealed-secrets
-    app.kubernetes.io/version: v0.22.0
+    name: secrets-unsealer
   name: secrets-unsealer
 rules:
   - apiGroups:
@@ -40,3 +38,9 @@ rules:
     verbs:
       - create
       - patch
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get

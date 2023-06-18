@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - clusterrole.yaml
   - clusterrolebinding.yaml
+  - customresourcedefinition.yaml
   - deployment.yaml
   - role.yaml
   - rolebinding.yaml

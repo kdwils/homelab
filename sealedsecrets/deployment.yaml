@@ -1,72 +1,63 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations: {}
   labels:
-    app.kubernetes.io/instance: sealed-secrets
-    app.kubernetes.io/name: sealed-secrets
-    app.kubernetes.io/part-of: sealed-secrets
-    app.kubernetes.io/version: v0.22.0
-  name: sealed-secrets
+    name: sealed-secrets-controller
+  name: sealed-secrets-controller
   namespace: kube-system
 spec:
+  minReadySeconds: 30
   replicas: 1
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app.kubernetes.io/instance: sealed-secrets
-      app.kubernetes.io/name: sealed-secrets
+      name: sealed-secrets-controller
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
+      annotations: {}
       labels:
-        app.kubernetes.io/instance: sealed-secrets
-        app.kubernetes.io/name: sealed-secrets
+        name: sealed-secrets-controller
     spec:
       containers:
-        - args:
-            - --update-status
-            - --key-prefix
-            - sealed-secrets-key
+        - args: []
           command:
             - controller
+          env: []
           image: docker.io/bitnami/sealed-secrets-controller:v0.22.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
-            failureThreshold: 3
             httpGet:
               path: /healthz
               port: http
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          name: controller
+          name: sealed-secrets-controller
           ports:
             - containerPort: 8080
               name: http
           readinessProbe:
-            failureThreshold: 3
             httpGet:
               path: /healthz
               port: http
-            initialDelaySeconds: 0
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          resources:
-            limits: {}
-            requests: {}
           securityContext:
-            capabilities:
-              drop:
-                - ALL
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1001
+          stdin: false
+          tty: false
           volumeMounts:
             - mountPath: /tmp
               name: tmp
+      imagePullSecrets: []
+      initContainers: []
       securityContext:
         fsGroup: 65534
-      serviceAccountName: sealed-secrets
+      serviceAccountName: sealed-secrets-controller
+      terminationGracePeriodSeconds: 30
       volumes:
         - emptyDir: {}
           name: tmp
