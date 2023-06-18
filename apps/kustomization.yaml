@@ -6,7 +6,7 @@ resources:
   - argocd-image-updater-app.yaml
   - blog-app.yaml
   - ingress-controller-app.yaml
-  # - media-app.yaml
+  - media-app.yaml
   - metallb-app.yaml
   - pihole-app.yaml
   - system-upgrade-app.yaml
