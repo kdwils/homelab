@@ -33,7 +33,6 @@ metadata:
 spec:
   ports:
     - name: http
-      nodePort: null
       port: 80
       targetPort: http
   selector:

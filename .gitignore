@@ -1,2 +1,2 @@
-cloudflared.yaml
+cloudflared/
 secret-template.yaml
