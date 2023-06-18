@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/part-of: sealed-secrets
     app.kubernetes.io/version: v0.22.0
   name: sealed-secrets-key-admin
-  namespace: default
+  namespace: kube-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -16,7 +16,7 @@ subjects:
   - apiGroup: ""
     kind: ServiceAccount
     name: sealed-secrets
-    namespace: default
+    namespace: kube-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -27,7 +27,7 @@ metadata:
     app.kubernetes.io/part-of: sealed-secrets
     app.kubernetes.io/version: v0.22.0
   name: sealed-secrets-service-proxier
-  namespace: default
+  namespace: kube-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/part-of: sealed-secrets
     app.kubernetes.io/version: v0.22.0
   name: sealed-secrets-key-admin
-  namespace: default
+  namespace: kube-system
 rules:
   - apiGroups:
       - ""
@@ -34,7 +34,7 @@ metadata:
     app.kubernetes.io/part-of: sealed-secrets
     app.kubernetes.io/version: v0.22.0
   name: sealed-secrets-service-proxier
-  namespace: default
+  namespace: kube-system
 rules:
   - apiGroups:
       - ""
