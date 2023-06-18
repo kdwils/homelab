@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: sealed-secrets
+    app.kubernetes.io/name: sealed-secrets
+    app.kubernetes.io/part-of: sealed-secrets
+    app.kubernetes.io/version: v0.22.0
+  name: sealed-secrets
+  namespace: default
+spec:
+  ports:
+    - name: http
+      nodePort: null
+      port: 8080
+      targetPort: http
+  selector:
+    app.kubernetes.io/instance: sealed-secrets
+    app.kubernetes.io/name: sealed-secrets
+  type: ClusterIP
