@@ -11,6 +11,6 @@ resources:
   - metallb-app.yaml
   - pihole-app.yaml
   - system-upgrade-app.yaml
-  # - longhorn-app.yaml
+  - longhorn-app.yaml
   - cert-manager-app.yaml
   - sealed-secret-app.yaml
