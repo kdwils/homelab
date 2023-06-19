@@ -41,13 +41,19 @@ spec:
       volumes:
         - name: creds
           secret:
-            secretName: tunnel-credentials
+            secretName: tunnel
+            items:
+              - key: homelab.json
+                path: homelab.json
         - name: cert
           secret:
-            secretName: tunnel-cert
+            secretName: tunnel
+            items:
+              - key: cert.pem
+                path: cert.pem
         - name: config
           secret:
-            secretName: tunnel-config
+            secretName: tunnel
             items:
               - key: config.yaml
                 path: config.yaml

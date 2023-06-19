@@ -1,2 +1,3 @@
 secret-template.yaml
-cloudflared/configmap.yaml
+cloudflared/config.yaml
+sealedsecrets/tls.*
