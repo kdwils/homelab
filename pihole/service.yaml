@@ -23,7 +23,7 @@ spec:
     app: pihole
     release: homelab
   type: LoadBalancer
-  loadBalancerClass: tailscale
+  # loadBalancerClass: tailscale
 ---
 apiVersion: v1
 kind: Service
