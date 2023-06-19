@@ -1,1 +1,2 @@
 secret-template.yaml
+cloudflared/configmap.yaml
