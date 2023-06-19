@@ -4,6 +4,7 @@ metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: shared-dns
     metallb.universe.tf/loadBalancerIPs: 192.168.1.231
+    tailscale.com/expose: "true"
   labels:
     app: pihole
     chart: pihole-2.11.1
@@ -28,6 +29,7 @@ metadata:
   annotations:
     metallb.universe.tf/allow-shared-ip: shared-dns
     metallb.universe.tf/loadBalancerIPs: 192.168.1.231
+    tailscale.com/expose: "true"
   labels:
     app: pihole
     chart: pihole-2.11.1
