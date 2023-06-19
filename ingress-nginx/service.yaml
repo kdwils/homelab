@@ -33,6 +33,7 @@ spec:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
   type: LoadBalancer
+  loadBalancerClass: tailscale
 ---
 apiVersion: v1
 kind: Service
