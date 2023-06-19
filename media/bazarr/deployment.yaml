@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bazarr
+  namespace: media
+  labels:
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/name: bazarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bazarr
+      app.kubernetes.io/instance: bazarr
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bazarr
+        app.kubernetes.io/instance: bazarr
+    spec:
+      volumes:
+        - name: media-ssd
+          persistentVolumeClaim:
+            claimName: "media-ssd"
+      nodeSelector:
+        kubernetes.io/arch: "amd64"
+      containers:
+        - name: bazarr
+          image: "lscr.io/linuxserver/bazarr:latest"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: UTC
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 6767
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: media-ssd
+              subPath: configs/bazarr
+            - mountPath: /movies
+              name: media-ssd
+              subPath: movies
+            - mountPath: /tv
+              name: media-ssd
+              subPath: tv
+          livenessProbe:
+            tcpSocket:
+              port: 6767
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 6767
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 6767
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5

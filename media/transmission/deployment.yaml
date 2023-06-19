@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: media
+  name: transmission
+  labels:
+    app: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+      release: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+        release: transmission
+    spec:
+      volumes:
+        - name: media-ssd
+          persistentVolumeClaim:
+            claimName: media-ssd
+        - hostPath:
+            path: /dev/net/tun
+          name: dev-tun
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+      securityContext: {}
+      nodeSelector:
+        kubernetes.io/arch: "amd64"
+      containers:
+        - name: transmission
+          image: "haugene/transmission-openvpn:4.1"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OPENVPN_PROVIDER
+              value: NORDVPN
+            - name: OPENVPN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: openvpn
+            - name: OPENVPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: openvpn
+            - name: NORDVPN_PROTOCOL
+              value: TCP
+            - name: NORDVPN_COUNTRY
+              value: US
+            - name: NORDVPN_CATEGORY
+              value: P2P
+            - name: LOCAL_NETWORK
+              value: 10.0.0.0/24
+            - name: TRANSMISSION_PEER_PORT
+              value: "47444"
+            - name: TRANSMISSION_DOWNLOAD_DIR
+              value: /downloads/transmission
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 9091
+              protocol: TCP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          volumeMounts:
+            - mountPath: /data
+              name: media-ssd
+              subPath: configs/transmission-data
+            - mountPath: /downloads/transmission
+              name: media-ssd
+              subPath: downloads/transmission
+            - mountPath: /dev/net/tun
+              name: dev-tun
+          resources: {}

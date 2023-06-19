@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: media
+  labels:
+    app: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+      release: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+        release: radarr
+    spec:
+      volumes:
+        - name: media-ssd
+          persistentVolumeClaim:
+            claimName: media-ssd
+      nodeSelector:
+        kubernetes.io/arch: "amd64"
+      containers:
+        - name: radarr
+          image: "linuxserver/radarr:amd64-latest"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "0"
+            - name: PGID
+              value: "0"
+          ports:
+            - name: http
+              containerPort: 7878
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: media-ssd
+              subPath: configs/radarr
+            - mountPath: /downloads/transmission
+              name: media-ssd
+              subPath: downloads/transmission
+            - mountPath: /movies
+              name: media-ssd
+              subPath: movies
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 256Mi
+            requests:
+              cpu: "0.1"
+              memory: 128Mi

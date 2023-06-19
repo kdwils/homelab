@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-ssd
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 4300Gi
+  selector:
+    matchLabels:
+      pv: media-ssd
+  storageClassName: longhorn-static

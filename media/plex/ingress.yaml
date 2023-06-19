@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: plex
+  namespace: media
+spec:
+  rules:
+    - host: plex.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: plex
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - plex.int.kyledev.co
+      secretName: plex-kyledev-tls-prod
+

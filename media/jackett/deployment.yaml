@@ -1,0 +1,65 @@
+# Source: jackett/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+  namespace: media
+  labels:
+    app: jackett
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jackett
+      release: jackett
+  template:
+    metadata:
+      labels:
+        app: jackett
+        release: jackett
+    spec:
+      volumes:
+        - name: media-ssd
+          persistentVolumeClaim:
+            claimName: media-ssd
+        - hostPath:
+            path: /dev/net/tun
+          name: dev-tun
+        - name: jackett-secret
+          secret:
+            secretName: openvpn
+      nodeSelector:
+        kubernetes.io/arch: "amd64"
+      containers:
+        - name: jackett
+          image: "linuxserver/jackett:latest"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 9117
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: media-ssd
+              subPath: configs/jackett
+            - mountPath: /downloads
+              name: media-ssd
+              subPath: downloads/jackett
+            - mountPath: /config/openvpn/
+              name: jackett-secret
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: 256Mi
+            requests:
+              cpu: "0.1"
+              memory: 128Mi
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN

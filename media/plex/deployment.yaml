@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  namespace: media
+  labels:
+    app: plex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      hostname: "plex"
+      nodeSelector:
+        kubernetes.io/arch: "amd64"
+      containers:
+        - name: plex
+          image: "linuxserver/plex:latest"
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /identity
+              port: 32400
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /identity
+              port: 32400
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+          ports:
+            - name: pms
+              containerPort: 32400
+            - name: http
+              containerPort: 32400
+            - name: https
+              containerPort: 32443
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/New_York"
+          volumeMounts:
+            - name: media-ssd
+              mountPath: /movies
+              subPath: movies
+            - name: media-ssd
+              mountPath: /tv
+              subPath: tv
+            - mountPath: /config
+              name: media-ssd
+              subPath: configs/plex
+          resources: {}
+      volumes:
+        - name: media-ssd
+          persistentVolumeClaim:
+            claimName: "media-ssd"

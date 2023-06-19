@@ -8,8 +8,8 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: bazarr
-    repoURL: "https://github.com/kdwils/media"
+    path: media/bazarr
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: default
@@ -28,8 +28,8 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: jackett
-    repoURL: "https://github.com/kdwils/media"
+    path: media/jackett
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: default
@@ -48,8 +48,8 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: plex
-    repoURL: "https://github.com/kdwils/media"
+    path: media/plex
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: default
@@ -68,8 +68,8 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: radarr
-    repoURL: "https://github.com/kdwils/media"
+    path: media/radarr
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: default
@@ -88,8 +88,8 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: sonarr
-    repoURL: "https://github.com/kdwils/media"
+    path: media/sonarr
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: default
@@ -108,8 +108,8 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: transmission
-    repoURL: "https://github.com/kdwils/media"
+    path: media/transmission
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: default

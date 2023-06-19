@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: sonarr
+  namespace: media
+spec:
+  rules:
+    - host: sonarr.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: sonarr
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - sonarr.int.kyledev.co
+      secretName: sonarr-kyledev-tls-prod
