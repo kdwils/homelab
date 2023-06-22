@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - sealedsecret.yaml
   - grafana.yaml
+  - namespace.yaml
