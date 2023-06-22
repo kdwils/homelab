@@ -934,24 +934,6 @@ kind: Namespace
 metadata:
   name: argocd
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - clusterrole.yaml
-  - clusterrolebinding.yaml
-  - configmap.yaml
-  - customresourcedefinition.yaml
-  - deployment.yaml
-  - ingress.yaml
-  - namespace.yaml
-  - networkpolicy.yaml
-  - role.yaml
-  - rolebinding.yaml
-  - secret.yaml
-  - service.yaml
-  - serviceaccount.yaml
-  - statefulset.yaml
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
