@@ -49,7 +49,7 @@ rules:
     resources:
       - secrets
     verbs:
-      - '*'
+      - "*"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -62,13 +62,13 @@ rules:
     resources:
       - secrets
     verbs:
-      - '*'
+      - "*"
   - apiGroups:
       - apps
     resources:
       - statefulsets
     verbs:
-      - '*'
+      - "*"
 ---
 apiVersion: v1
 kind: Namespace
@@ -115,6 +115,7 @@ spec:
             - name: AUTH_PROXY
               value: "false"
           image: tailscale/k8s-operator:unstable
+          imagePullPolicy: Always
           name: operator
           resources:
             requests:
@@ -154,4 +155,4 @@ rules:
       - services
       - services/status
     verbs:
-      - '*'
+      - "*"
