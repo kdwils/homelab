@@ -17,4 +17,4 @@ resources:
   - tailscale-app.yaml
   # - prometheus-app.yaml
   # - grafana-app.yaml
-  - monitoring-stack.yaml
+  # - monitoring-stack.yaml
