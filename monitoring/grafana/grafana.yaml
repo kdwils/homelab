@@ -39,6 +39,8 @@ data:
     provisioning = /etc/grafana/provisioning
     [server]
     domain = grafana.int.kyledev.co
+  datasources.yaml: |
+    apiVersion: 1
 ---
 # Source: grafana/templates/pvc.yaml
 apiVersion: v1
@@ -273,7 +275,7 @@ spec:
             initialDelaySeconds: 60
             timeoutSeconds: 30
           readinessProbe:
-            initialDelaySeconds: 30
+            initialDelaySeconds: 10
             httpGet:
               path: /api/health
               port: 3000
