@@ -1087,7 +1087,7 @@ spec:
               subPath: ""
       securityContext:
         fsGroup: 65534
-        runAsNonRoot: true
+        runAsNonRoot: false
         runAsUser: 65534
       volumes:
         - name: storage-volume
