@@ -450,26 +450,26 @@ data:
     {}
 ---
 # Source: prometheus/templates/pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-    app.kubernetes.io/component: server
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: v2.44.0
-    helm.sh/chart: prometheus-22.6.6
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/part-of: prometheus
-  name: homelab-prometheus-server
-  namespace: prometheus
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: default
-  resources:
-    requests:
-      storage: "8Gi"
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   labels:
+#     app.kubernetes.io/component: server
+#     app.kubernetes.io/name: prometheus
+#     app.kubernetes.io/instance: homelab
+#     app.kubernetes.io/version: v2.44.0
+#     helm.sh/chart: prometheus-22.6.6
+#     app.kubernetes.io/managed-by: Helm
+#     app.kubernetes.io/part-of: prometheus
+#   name: homelab-prometheus-server
+#   namespace: prometheus
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   storageClassName: default
+#   resources:
+#     requests:
+#       storage: "8Gi"
 ---
 # Source: prometheus/charts/kube-state-metrics/templates/role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -1191,9 +1191,15 @@ spec:
         - name: config-volume
           configMap:
             name: homelab-prometheus-server
-        - name: storage-volume
-          persistentVolumeClaim:
-            claimName: homelab-prometheus-server
+  volumeClaimTemplates:
+    - metadata:
+        name: storage-volume
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
 ---
 # Source: prometheus/charts/alertmanager/templates/statefulset.yaml
 apiVersion: apps/v1
