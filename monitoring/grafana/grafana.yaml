@@ -39,14 +39,6 @@ data:
     provisioning = /etc/grafana/provisioning
     [server]
     domain = grafana.int.kyledev.co
-  datasources.yaml: |
-    apiVersion: 1
-    datasources:
-    - access: proxy
-      isDefault: true
-      name: Prometheus
-      type: prometheus
-      url: http://homelab-prometheus-server.prometheus.svc.cluster.local
 ---
 # Source: grafana/templates/pvc.yaml
 apiVersion: v1
