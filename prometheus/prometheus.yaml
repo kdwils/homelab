@@ -1320,5 +1320,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - longhorn.int.kyledev.co
-      secretName: longhorn-kyledev-tls-prod
+        - prometheus.int.kyledev.co
+      secretName: prometheus-kyledev-tls-prod
