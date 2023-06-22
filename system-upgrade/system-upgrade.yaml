@@ -55,16 +55,6 @@ kind: Namespace
 metadata:
   name: system-upgrade
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - clusterrolebinding.yaml
-  - configmap.yaml
-  - deployment.yaml
-  - namespace.yaml
-  - plan.yaml
-  - serviceaccount.yaml
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:

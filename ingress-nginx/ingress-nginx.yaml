@@ -272,22 +272,6 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
   name: ingress-nginx
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - clusterrole.yaml
-  - clusterrolebinding.yaml
-  - configmap.yaml
-  - deployment.yaml
-  - ingressclass.yaml
-  - job.yaml
-  - namespace.yaml
-  - role.yaml
-  - rolebinding.yaml
-  - service.yaml
-  - serviceaccount.yaml
-  - validatingwebhookconfiguration.yaml
----
 apiVersion: batch/v1
 kind: Job
 metadata:

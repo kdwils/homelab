@@ -154,21 +154,6 @@ kind: Namespace
 metadata:
   name: longhorn-system
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: longhorn-system
-resources:
-  - clusterrole.yaml
-  - clusterrolebinding.yaml
-  - configmap.yaml
-  - customresourcedefinition.yaml
-  - daemonset.yaml
-  - deployment.yaml
-  - ingress.yaml
-  - namespace.yaml
-  - service.yaml
-  - serviceaccount.yaml
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
