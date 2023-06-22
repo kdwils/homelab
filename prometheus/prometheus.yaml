@@ -466,7 +466,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: "longhorn-static"
+  storageClassName: default
   resources:
     requests:
       storage: "8Gi"
