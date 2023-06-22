@@ -87,15 +87,3 @@ spec:
               - key: config.yaml
                 path: config.yaml
             secretName: tunnel
----
-credentials-file: /etc/cloudflared/creds/homelab.json
-ingress:
-  - hostname: blog.kyledev.co
-    service: http://blog.blog.svc.cluster.local
-  - hostname: argocd.kyledev.co
-    service: http://argocd-server.argocd.svc.cluster.local
-  - service: http_status:404
-metrics: 0.0.0.0:2000
-no-autoupdate: true
-protocol: http2
-tunnel: 34a29bd3-c367-4439-bc8d-32a6dbfc98ff
