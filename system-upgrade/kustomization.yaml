@@ -5,5 +5,5 @@ resources:
   - configmap.yaml
   - deployment.yaml
   - namespace.yaml
-  - serviceaccount.yaml
   - plan.yaml
+  - serviceaccount.yaml
