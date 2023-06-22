@@ -15,4 +15,87 @@ spec:
       creationTimestamp: null
       name: tunnel
       namespace: cloudflared
-
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloudflared
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - namespace.yaml
+  - sealedsecret.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared
+  namespace: cloudflared
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflared
+  template:
+    metadata:
+      labels:
+        app: cloudflared
+    spec:
+      containers:
+        - args:
+            - tunnel
+            - --config
+            - /etc/cloudflared/config/config.yaml
+            - run
+          image: cloudflare/cloudflared:2023.6.0
+          livenessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          name: cloudflared
+          volumeMounts:
+            - mountPath: /etc/cloudflared/config/config.yaml
+              name: config
+              subPath: config.yaml
+            - mountPath: /etc/cloudflared/creds/homelab.json
+              name: creds
+              subPath: homelab.json
+            - mountPath: /etc/cloudflared/cert.pem
+              name: cert
+              subPath: cert.pem
+      volumes:
+        - name: creds
+          secret:
+            items:
+              - key: homelab.json
+                path: homelab.json
+            secretName: tunnel
+        - name: cert
+          secret:
+            items:
+              - key: cert.pem
+                path: cert.pem
+            secretName: tunnel
+        - name: config
+          secret:
+            items:
+              - key: config.yaml
+                path: config.yaml
+            secretName: tunnel
+---
+credentials-file: /etc/cloudflared/creds/homelab.json
+ingress:
+  - hostname: blog.kyledev.co
+    service: http://blog.blog.svc.cluster.local
+  - hostname: argocd.kyledev.co
+    service: http://argocd-server.argocd.svc.cluster.local
+  - service: http_status:404
+metrics: 0.0.0.0:2000
+no-autoupdate: true
+protocol: http2
+tunnel: 34a29bd3-c367-4439-bc8d-32a6dbfc98ff

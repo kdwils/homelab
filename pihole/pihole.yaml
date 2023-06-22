@@ -1,0 +1,515 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared-dns
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.231
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-dns-tcp
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns
+      port: 53
+      protocol: TCP
+      targetPort: dns
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared-dns
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.231
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-dns-udp
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: dns-udp
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: pihole
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-web
+spec:
+  externalTrafficPolicy: Cluster
+  loadBalancerClass: tailscale
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: homelab-pihole-password
+  namespace: pihole
+spec:
+  encryptedData:
+    password: AgB77pl3o67DhAreaCCItRLpyO+1vf1C2nKnRtp1cWqP7BAvCHW5YCFQ1+kkmMseJ45kGZR0kwiagco3uGn5WTPDWzHpxtMMof9XL1L1SL/p2fpK4ce3ZNwbcjR3l4yDMq8kccQCL/zNWZmKUtOUDnxUGL/Umpmu3hKRkV2IYICjVbcUG3FFTAdncZbhu3sPWIbRoiRjKoVdd7ppdaIU43Sfhizt1lf7tyW1FRwEVAx3nXzBN4rgqsJWd94yCazysVbfq7YOISNgUzjzt3CqmER3xTT0bOwQkg96t+ENN/9PWpZsTGbgGYKGWfxNG44+AnE3kDDAiteC4pD4p92caEkE2ArGP83zs0tYlrcLymXs4CMHAF6T0Cc01fUZZDDtGxwvgJjQbiXFQ5t5IeXnAbnsAEz7fzWEyaUU5Gm5/uP1JGnXV+jc5xH5gCSGSx1bXFc1W7fU2MO55S9WSOxIlc0qSrUE/pzzOssJLtjZ02LxxDPrrfE8l6h40LZRrNt+m706gCjzfI4WLL5J/oMwW+8merxSkUv36jyTzyqyn2hy84ZhduoZHP2VGKvxXyBnwA/w0JG3TMjbEtBIKoQNTczKHMXc9LiJSOAj7iu+1hKEMHZ3qq+cXiOT5Z8F/p2doOpbIt5fPEqLy0hN17mdDy/j1IRanTIzqKucNVH11LrqTqdkhhWv/XJxSzp3HAatqa0FRs3nTH/R6w==
+  template:
+    data: null
+    metadata:
+      creationTimestamp: null
+      name: homelab-pihole-password
+      namespace: pihole
+    type: Opaque
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared-dns
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.231
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-dns-tcp
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns
+      port: 53
+      protocol: TCP
+      targetPort: dns
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/allow-shared-ip: shared-dns
+    metallb.universe.tf/loadBalancerIPs: 192.168.1.231
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-dns-udp
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: dns-udp
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: pihole
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-web
+spec:
+  externalTrafficPolicy: Cluster
+  loadBalancerClass: tailscale
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pihole
+  namespace: pihole
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - pih
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/app-root: /admin
+  name: pihole
+  namespace: pihole
+spec:
+  rules:
+    - host: pihole.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: homelab-pihole-web
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - pihole.int.kyledev.co
+      secretName: wildcard-kyledev-tls-prod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+      release: homelab
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum.config.adlists: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.blacklist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.dnsmasqConfig: 622ac6ff4c980b4443e393f5251d8190a29a0c471c3f1ddeeebaaee554fbf67
+        checksum.config.regex: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.staticDhcpConfig: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.whitelist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+      labels:
+        app: pihole
+        release: homelab
+    spec:
+      containers:
+        - env:
+            - name: WEB_PORT
+              value: "80"
+            - name: VIRTUAL_HOST
+              value: pi.hole
+            - name: WEBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: homelab-pihole-password
+            - name: PIHOLE_DNS_
+              value: 1.1.1.1;8.8.8.8
+          image: pihole/pihole:2023.05.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /admin/index.php
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          name: pihole
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+            - containerPort: 53
+              name: dns
+              protocol: TCP
+            - containerPort: 53
+              name: dns-udp
+              protocol: UDP
+            - containerPort: 443
+              name: https
+              protocol: TCP
+            - containerPort: 67
+              name: client-udp
+              protocol: UDP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /admin/index.php
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          resources: {}
+          securityContext:
+            privileged: false
+          volumeMounts:
+            - mountPath: /etc/pihole
+              name: config
+            - mountPath: /etc/dnsmasq.d/02-custom.conf
+              name: custom-dnsmasq
+              subPath: 02-custom.conf
+            - mountPath: /etc/addn-hosts
+              name: custom-dnsmasq
+              subPath: addn-hosts
+            - mountPath: /etc/dnsmasq.d/05-pihole-custom-cname.conf
+              name: custom-dnsmasq
+              subPath: 05-pihole-custom-cname.conf
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
+          - 8.8.8.8
+      dnsPolicy: None
+      hostNetwork: false
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pihole
+        - configMap:
+            defaultMode: 420
+            name: homelab-pihole-custom-dnsmasq
+          name: custom-dnsmasq
+---
+apiVersion: v1
+data:
+  02-custom.conf: |
+    addn-hosts=/etc/addn-hosts
+    address=/int.kyledev.co/192.168.1.230
+  05-pihole-custom-cname.conf: ""
+  addn-hosts: ""
+kind: ConfigMap
+metadata:
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-custom-dnsmasq
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pihole
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - pih
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/app-root: /admin
+  name: pihole
+  namespace: pihole
+spec:
+  rules:
+    - host: pihole.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: homelab-pihole-web
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - pihole.int.kyledev.co
+      secretName: wildcard-kyledev-tls-prod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+      release: homelab
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum.config.adlists: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.blacklist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.dnsmasqConfig: 622ac6ff4c980b4443e393f5251d8190a29a0c471c3f1ddeeebaaee554fbf67
+        checksum.config.regex: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.staticDhcpConfig: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+        checksum.config.whitelist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
+      labels:
+        app: pihole
+        release: homelab
+    spec:
+      containers:
+        - env:
+            - name: WEB_PORT
+              value: "80"
+            - name: VIRTUAL_HOST
+              value: pi.hole
+            - name: WEBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: homelab-pihole-password
+            - name: PIHOLE_DNS_
+              value: 1.1.1.1;8.8.8.8
+          image: pihole/pihole:2023.05.2
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /admin/index.php
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          name: pihole
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+            - containerPort: 53
+              name: dns
+              protocol: TCP
+            - containerPort: 53
+              name: dns-udp
+              protocol: UDP
+            - containerPort: 443
+              name: https
+              protocol: TCP
+            - containerPort: 67
+              name: client-udp
+              protocol: UDP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /admin/index.php
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          resources: {}
+          securityContext:
+            privileged: false
+          volumeMounts:
+            - mountPath: /etc/pihole
+              name: config
+            - mountPath: /etc/dnsmasq.d/02-custom.conf
+              name: custom-dnsmasq
+              subPath: 02-custom.conf
+            - mountPath: /etc/addn-hosts
+              name: custom-dnsmasq
+              subPath: addn-hosts
+            - mountPath: /etc/dnsmasq.d/05-pihole-custom-cname.conf
+              name: custom-dnsmasq
+              subPath: 05-pihole-custom-cname.conf
+      dnsConfig:
+        nameservers:
+          - 1.1.1.1
+          - 8.8.8.8
+      dnsPolicy: None
+      hostNetwork: false
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: pihole
+        - configMap:
+            defaultMode: 420
+            name: homelab-pihole-custom-dnsmasq
+          name: custom-dnsmasq
+---
+apiVersion: v1
+data:
+  02-custom.conf: |
+    addn-hosts=/etc/addn-hosts
+    address=/int.kyledev.co/192.168.1.230
+  05-pihole-custom-cname.conf: ""
+  addn-hosts: ""
+kind: ConfigMap
+metadata:
+  labels:
+    app: pihole
+    chart: pihole-2.11.1
+    heritage: Helm
+    release: homelab
+  name: homelab-pihole-custom-dnsmasq
