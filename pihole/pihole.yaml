@@ -351,11 +351,6 @@ kind: Namespace
 metadata:
   name: pihole
 ---
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - pih
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
