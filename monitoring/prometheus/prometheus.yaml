@@ -469,7 +469,6 @@ spec:
   resources:
     requests:
       storage: "8Gi"
-  storageClass: longhorn
 ---
 # Source: prometheus/charts/kube-state-metrics/templates/role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
