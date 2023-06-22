@@ -16,3 +16,4 @@ resources:
   - sealed-secret-app.yaml
   - tailscale-app.yaml
   - prometheus-app.yaml
+  - grafana-app.yaml
