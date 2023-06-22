@@ -15,5 +15,5 @@ resources:
   - cert-manager-app.yaml
   - sealed-secret-app.yaml
   - tailscale-app.yaml
-  - prometheus-app.yaml
-  - grafana-app.yaml
+  # - prometheus-app.yaml
+  # - grafana-app.yaml
