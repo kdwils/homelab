@@ -68,17 +68,7 @@ spec:
   resources:
     requests:
       storage: "10Gi"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: homelab-grafana
-spec:
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 10Gi
-  persistentVolumeReclaimPolicy: Retain
+  storageClass: longhorn
 ---
 # Source: grafana/templates/clusterrole.yaml
 kind: ClusterRole

@@ -469,17 +469,7 @@ spec:
   resources:
     requests:
       storage: "8Gi"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: homelab-prometheus-server
-spec:
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 10Gi
-  persistentVolumeReclaimPolicy: Retain
+  storageClass: longhorn
 ---
 # Source: prometheus/charts/kube-state-metrics/templates/role.yaml
 apiVersion: rbac.authorization.k8s.io/v1
