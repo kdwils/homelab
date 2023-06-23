@@ -1633,12 +1633,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-credentials
-                  key: admin-user
+                  key: username
             - name: REQ_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-credentials
-                  key: admin-password
+                  key: password
             - name: REQ_URL
               value: http://localhost:3000/api/admin/provisioning/dashboards/reload
             - name: REQ_METHOD
@@ -1671,12 +1671,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-credentials
-                  key: admin-user
+                  key: username
             - name: REQ_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-credentials
-                  key: admin-password
+                  key: password
             - name: REQ_URL
               value: http://localhost:3000/api/admin/provisioning/datasources/reload
             - name: REQ_METHOD
@@ -1733,12 +1733,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-credentials
-                  key: admin-user
+                  key: username
             - name: GF_SECURITY_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-credentials
-                  key: admin-password
+                  key: password
             - name: GF_PATHS_DATA
               value: /var/lib/grafana/
             - name: GF_PATHS_LOGS
