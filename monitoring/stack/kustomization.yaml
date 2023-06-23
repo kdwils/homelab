@@ -4,3 +4,4 @@ resources:
   - stack.yaml
   - namespace.yaml
   - sealedsecret.yaml
+  - crds.yaml
