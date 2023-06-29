@@ -33,7 +33,7 @@ spec:
         kubernetes.io/arch: "amd64"
       containers:
         - name: transmission
-          image: "haugene/transmission-openvpn:4.1"
+          image: "haugene/transmission-openvpn:5.0.2"
           imagePullPolicy: IfNotPresent
           env:
             - name: OPENVPN_PROVIDER
