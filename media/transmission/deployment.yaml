@@ -21,9 +21,9 @@ spec:
         - name: media-ssd
           persistentVolumeClaim:
             claimName: media-ssd
-        - hostPath:
-            path: /dev/net/tun
-          name: dev-tun
+        # - hostPath:
+        #     path: /dev/net/tun
+        #   name: dev-tun
       dnsPolicy: None
       dnsConfig:
         nameservers:
@@ -33,7 +33,7 @@ spec:
         kubernetes.io/arch: "amd64"
       containers:
         - name: transmission
-          image: "haugene/transmission-openvpn:latest"
+          image: "haugene/transmission-openvpn:5.0.2"
           imagePullPolicy: IfNotPresent
           env:
             - name: OPENVPN_PROVIDER
@@ -79,6 +79,6 @@ spec:
             - mountPath: /downloads/transmission
               name: media-ssd
               subPath: downloads/transmission
-            - mountPath: /dev/net/tun
-              name: dev-tun
+            # - mountPath: /dev/net/tun
+            #   name: dev-tun
           resources: {}
