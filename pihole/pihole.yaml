@@ -67,7 +67,6 @@ metadata:
   name: homelab-pihole-web
 spec:
   externalTrafficPolicy: Cluster
-  loadBalancerClass: tailscale
   ports:
     - name: http
       port: 80

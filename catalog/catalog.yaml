@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-server
+  namespace: catalog-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-server
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: catalog-server
+    spec:
+      containers:
+        - image: ghcr.io/kdwils/catalog-server:sha-bc5a7bd8dea4918305588016b6434d42ed5fb70e
+          env:
+            - name: CATALOG_SQLITE_FILE
+              value: "/database/catalog.db"
+          imagePullPolicy: Always
+          name: catalog-server
+          command: ["./catalog"]
+          args: ["serve"]
+          resources:
+            requests:
+              cpu: 500m
+              memory: 100Mi
+          volumeMounts:
+            - mountPath: /database
+              name: catalog-database
+      volumes:
+        - name: catalog-database
+          persistentVolumeClaim:
+            claimName: catalog-database
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: catalog-database
+  namespace: catalog-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-server
+  namespace: catalog-system
+spec:
+  selector:
+    app: catalog-server
+  ports:
+    - port: 80
+      name: http
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  name: catalog-controller-igress
+  namespace: catalog-system
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: catalog.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: catalog-server
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - catalog.int.kyledev.co
+      secretName: wildcard-kyledev-tls-prod

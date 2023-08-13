@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-controller
+  namespace: catalog-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-controller
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: catalog-controller
+    spec:
+      serviceAccountName: catalog-controller
+      containers:
+        - image: ghcr.io/kdwils/catalog-controller:sha-681b59491a2c240a74ba564fe9ee2ead83efbab6
+          env:
+            - name: CATALOG_API_SERVER_ADDRESS
+              value: "catalog-server.catalog-system.svc.cluster.local"
+            - name: CATALOG_API_SERVER_PORT
+              value: "80"
+            - name: CATALOG_API_SERVER_SCHEME
+              value: "http"
+          imagePullPolicy: Always
+          name: catalog-controller
+          resources:
+            requests:
+              cpu: 500m
+              memory: 100Mi
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: catalog-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: catalog-controller
+subjects:
+  - kind: ServiceAccount
+    name: catalog-controller
+    namespace: catalog-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: catalog-controller
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - "list"
+      - "get"
+      - "watch"
+  - apiGroups:
+      - apps
+    resources:
+      - statefulsets
+      - replicasets
+      - daemonsets
+    verbs:
+      - "get"
+      - "list"
+      - "watch"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: catalog-controller
+  namespace: catalog-system
