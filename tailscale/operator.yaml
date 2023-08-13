@@ -109,11 +109,13 @@ spec:
             - name: CLIENT_SECRET_FILE
               value: /oauth/client_secret
             - name: PROXY_IMAGE
-              value: tailscale/tailscale:unstable-v1.47.36
+              value: tailscale/tailscale:unstable-v1.47.113
             - name: PROXY_TAGS
               value: tag:k8s
             - name: AUTH_PROXY
               value: "false"
+            - name: TS_TEST_USENFT
+              value: "true"
           image: tailscale/k8s-operator:unstable
           imagePullPolicy: Always
           name: operator
