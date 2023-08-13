@@ -23,6 +23,7 @@ spec:
     app: pihole
     release: homelab
   type: LoadBalancer
+  loadBalancerClass: tailscale
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -66,6 +67,7 @@ spec:
     app: pihole
     release: homelab
   type: LoadBalancer
+  loadBalancerClass: tailscale
 ---
 apiVersion: v1
 kind: Service
