@@ -112,7 +112,7 @@ spec:
                 secretKeyRef:
                   name: code-server
                   key: password
-            - name: PUID
+            - name: PGID
               value: "1000"
             - name: GUID
               value: "1000"
