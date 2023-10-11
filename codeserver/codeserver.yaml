@@ -104,8 +104,6 @@ spec:
         - name: code-server
           image: codeserver
           imagePullPolicy: Always
-          securityContext:
-            runAsUser: 1000
           env:
             - name: PASSWORD
               valueFrom:
