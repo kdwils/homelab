@@ -143,6 +143,8 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: code-server
+      nodeSelector:
+        kubernetes.io/hostname: "nuc"
 ---
 apiVersion: v1
 kind: Pod
