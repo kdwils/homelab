@@ -94,7 +94,7 @@ spec:
             - sh
             - -c
             - |
-              chown -R 1000:1000 /home && chown -R 1000:1000 /config
+              chown -R 1000:1000 /home/code-server && chown -R 1000:1000 /config
           securityContext:
             runAsUser: 0
           volumeMounts:
@@ -119,7 +119,7 @@ spec:
             - name: TZ
               value: "America/New_York"
             - name: DEFAULT_WORKSPACE
-              value: /home/kyle
+              value: /home/code-server/workspace
           volumeMounts:
             - name: data
               mountPath: /home/code-server
@@ -169,7 +169,7 @@ metadata:
   namespace: codeserver
 spec:
   encryptedData:
-    password: AgD04GCbR79rm4LoBYkLMSd9OqSY2FI/XLO8lCwLNiOvKoLn/2qxJaP8ZDdsQjv6PWxZB0W98QppXZEjTKFipzKiSuPeYgkwpDz8og39rv4r0gKg2Is6K1cDTFvhQMyq0GmzkIg2/t1gli0D8VT5L/YloNQDg/h88SCxDwFVEz8I4+4oHMDnGOJQT47jjbRix2J5yF/V8R55D31Lf7az4CAzA6/pTCpu+qKI9Uya4ucEIFAUJjBbN8szcCcKuOAkVmew33QFQzK2S9Bf/LdhdE2/0IXnyfkXJ0v+8e6BK0zVV5uQRlF1ikUImEu7/CCxJzAVaomonfPZunknS9KAONxZPN476NRlsWsj9xZNqMjPRLiacAbKUV/wltst5/7gHYjpQnR3H7tFE49fg3rYMmw99AnpMwhhb3LU2wk0iPW8mwNh77ZF+vCqK3+6dZDUp4ih80S85QljSm4qxZYyfPDXbn9AVX0HYdgmWUfDTyuHoJp/KFX7iUf4Qva11k+/vg7YElsCFPIHZKYwSqf9hiliMkcJVzZUv3qhMFuEMeTjA1qmu3uioCzeS0e3MKXI5YK/YEw5tDJ/UvbX+7SnyMLs3y7mpqb4yhoumXpauUWcK+nd5ycDT59rTIMEFO9s3l0bpHeanT9BHmIil4HVtqkyG3GvSt4B6uqaVhWSEVAI8JYBkBSldCnlmMh49AyMd2NGm0YsIacfGg==
+    password: AgDJ0E//yymRMos/jvPZ5/OIaKTdyVXYEgQGjQAw3zc7+hydxU/uOAiWngA8jgtp2t74xN3qPRkDNwdurOKoajwhl+vAkmBLfHcxKinXgbNwKfLDeXt0DvXMdrjPaKatdz2qonMXqQWp3sAi+FjMo2gq3dMibEowM0OswpumJFcqM6SAhrbzbgMnkTkGZwlFzzXFYwrw1hMn2lZDz1tyl1e3MC3MJ5PZJQWR2naeJpQHB6edpqZjKmrncFPMY84hFgeAcV5IOA3nJIjqn7J8GmvyrcMifFsAtbVMlifK88WBuHnIFnFkmdUKkTAv3A4+106D45KI2lKZQ8bFThpJ/BFlK8yeJgtpAg9XNQp8ry6mqGbWe2k5J37XtDF8HLeALWB6pGq2IhzryOJ5bhU4ZwjZQtMFTV5FjasXY0tjbCAt33f1XpW4FqlWqGWkJX3h9hcLT6tnzhqRGiItkjo6uoZM19M4JfWH5wDaMFxs/9lOcAr7hVoYGHs6MRz21fC6CbF4l4ZCjjVgP3gCEMJiejb4FJEJQFhvJdblarzg4BQEqvZ5G4VrJ3lp7U9HvWbGM0Qh3vmHNnRZUzsG9Vts8wU+52L3Bou7q8Zlh6y6xcPB1Cg1faomE8ktI1k66fi4xkIr1VPs7a09JP0EQRwd8rAAY8l05gZ6+lEyfFc8eFfXfzTIZ3fx3sw2/cb1PmDg7s+MoodDKuF2jpRVHLASaGk=
   template:
     data: null
     metadata:
