@@ -14,7 +14,7 @@ resources:
   - longhorn-app.yaml
   - cert-manager-app.yaml
   - sealed-secret-app.yaml
-  - tailscale-app.yaml
+  # - tailscale-app.yaml
   # - prometheus-app.yaml
   # - grafana-app.yaml
   # - monitoring-stack.yaml
