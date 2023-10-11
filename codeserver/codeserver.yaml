@@ -100,6 +100,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /home/code-server
+            - name: data
+              mountPath: /config
       containers:
         - name: code-server
           image: codeserver
