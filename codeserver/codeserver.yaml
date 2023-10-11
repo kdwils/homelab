@@ -112,6 +112,14 @@ spec:
                 secretKeyRef:
                   name: code-server
                   key: password
+            - name: PUID
+              value: "1000"
+            - name: GUID
+              value: "1000"
+            - name: TZ
+              value: "America/New_York"
+            - name: DEFAULT_WORKSPACE
+              value: /home/code-server
           volumeMounts:
             - name: data
               mountPath: /home/code-server
