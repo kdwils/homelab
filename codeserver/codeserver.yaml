@@ -94,7 +94,7 @@ spec:
             - sh
             - -c
             - |
-              chown -R 1000:1000 /home/code-server && chown -R 1000:1000 /config
+              chown -R 1000:1000 /home && chown -R 1000:1000 /config
           securityContext:
             runAsUser: 0
           volumeMounts:
@@ -119,7 +119,7 @@ spec:
             - name: TZ
               value: "America/New_York"
             - name: DEFAULT_WORKSPACE
-              value: /home/code-server
+              value: /home/kyle
           volumeMounts:
             - name: data
               mountPath: /home/code-server
