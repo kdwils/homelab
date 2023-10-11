@@ -157,15 +157,11 @@ metadata:
   namespace: codeserver
 spec:
   encryptedData:
-    password: AgBMAju8QI0pAQbBpHrkHE2n/gEy7YebFCx8BVnBX8TpVIqhBRchNUId67F0Ega9zc1ItdKUFDNEZYLB2wB9coBAxcH581cBMoLhfWC/ANMTe1XiC9tXqxYwOEAY3xCldMP5P+jdouUTHDHgox7d3RjNxxF9tkpY5U5tPlnYRd2mOlyKXCtW2/DeVBm8iekja5I3w5WD0vcSjbMUW50CdG//95L8HnbiasZxi2VTSX3dARyz2kNUIDRmWpEju3SoMqYnIuuaLi4zndyJ12YNsk+yNWuiPTW8rVxYHnzEPtqhlX56bPcyDs3qQQlveLXIQu0j2vDouDNczPQW62+odwXMruMJhAxhHwjx9iyZQJ3oWOj/AeaSSddqwKzRN6Q2ke+Y92GPxsdYBstWmbyhhel0p8pna4hwUc9Pd0g1QY+Zsjs+3e+4hkYdmBBT0FrkP/5gwwmL2MQ33pAUKL4HIJVnZRhsamCE1TIVwuK6fkzeGh9a+NrQbnLInz3BZjUOepGGmm4NTOHyzzg87TYNSf/blLViu1Diin9NHyr9KSAO5o1lVony7+QHOiRNDLlTRnbQVc91JE0x4YP+99CMEkz8akFSekP4oqE7WPNtweMFxljXtc/y/qdW9HdTPW+wjk5i1dt5MZlbFlyjUPwsnd8uzDsLArGkoCI9NkVLeQWLgQ1zVtRkESGSiy+5VK3YzHrY41iaC8eYCw==
+    password: AgD04GCbR79rm4LoBYkLMSd9OqSY2FI/XLO8lCwLNiOvKoLn/2qxJaP8ZDdsQjv6PWxZB0W98QppXZEjTKFipzKiSuPeYgkwpDz8og39rv4r0gKg2Is6K1cDTFvhQMyq0GmzkIg2/t1gli0D8VT5L/YloNQDg/h88SCxDwFVEz8I4+4oHMDnGOJQT47jjbRix2J5yF/V8R55D31Lf7az4CAzA6/pTCpu+qKI9Uya4ucEIFAUJjBbN8szcCcKuOAkVmew33QFQzK2S9Bf/LdhdE2/0IXnyfkXJ0v+8e6BK0zVV5uQRlF1ikUImEu7/CCxJzAVaomonfPZunknS9KAONxZPN476NRlsWsj9xZNqMjPRLiacAbKUV/wltst5/7gHYjpQnR3H7tFE49fg3rYMmw99AnpMwhhb3LU2wk0iPW8mwNh77ZF+vCqK3+6dZDUp4ih80S85QljSm4qxZYyfPDXbn9AVX0HYdgmWUfDTyuHoJp/KFX7iUf4Qva11k+/vg7YElsCFPIHZKYwSqf9hiliMkcJVzZUv3qhMFuEMeTjA1qmu3uioCzeS0e3MKXI5YK/YEw5tDJ/UvbX+7SnyMLs3y7mpqb4yhoumXpauUWcK+nd5ycDT59rTIMEFO9s3l0bpHeanT9BHmIil4HVtqkyG3GvSt4B6uqaVhWSEVAI8JYBkBSldCnlmMh49AyMd2NGm0YsIacfGg==
   template:
     data: null
     metadata:
-      annotations:
-        helm.sh/hook: pre-install
       creationTimestamp: null
-      labels:
-        app.kubernetes.io/name: code-server
       name: code-server
       namespace: codeserver
     type: Opaque
