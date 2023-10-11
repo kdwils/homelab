@@ -1,0 +1,10 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+images:
+  - name: excalidraw
+    newName: excalidraw/excalidraw
+    newTag: latest
+
+resources:
+  - excalidraw.yaml

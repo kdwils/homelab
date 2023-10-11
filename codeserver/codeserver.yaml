@@ -1,0 +1,172 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pihole
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: code-server
+  namespace: codeserver
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: vscode.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: code-server
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - vscode.int.kyledev.co
+      secretName: wildcard-kyledev-tls-prod
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: code-server
+  name: code-server
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: code-server
+  namespace: codeserver
+  labels:
+    app.kubernetes.io/name: code-server
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "10Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-server
+  labels:
+    app.kubernetes.io/name: code-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: code-server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-server
+  labels:
+    app.kubernetes.io/name: code-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: code-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: code-server
+    spec:
+      imagePullSecrets: []
+      securityContext:
+        fsGroup: 1000
+      initContainers:
+        - name: init-chmod-data
+          image: busybox:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 1000:1000 /home/code-server
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: data
+              mountPath: /home/code-server
+      containers:
+        - name: code-server
+          image: codeserver
+          imagePullPolicy: Always
+          securityContext:
+            runAsUser: 1000
+          env:
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: code-server
+                  key: password
+          volumeMounts:
+            - name: data
+              mountPath: /home/code-server
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources: {}
+      serviceAccountName: code-server
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: code-server
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "code-server-test-connection"
+  labels:
+    app.kubernetes.io/name: code-server
+
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ["wget"]
+      args: ["code-server:8080"]
+  restartPolicy: Never
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: code-server
+  namespace: codeserver
+spec:
+  encryptedData:
+    password: AgBMAju8QI0pAQbBpHrkHE2n/gEy7YebFCx8BVnBX8TpVIqhBRchNUId67F0Ega9zc1ItdKUFDNEZYLB2wB9coBAxcH581cBMoLhfWC/ANMTe1XiC9tXqxYwOEAY3xCldMP5P+jdouUTHDHgox7d3RjNxxF9tkpY5U5tPlnYRd2mOlyKXCtW2/DeVBm8iekja5I3w5WD0vcSjbMUW50CdG//95L8HnbiasZxi2VTSX3dARyz2kNUIDRmWpEju3SoMqYnIuuaLi4zndyJ12YNsk+yNWuiPTW8rVxYHnzEPtqhlX56bPcyDs3qQQlveLXIQu0j2vDouDNczPQW62+odwXMruMJhAxhHwjx9iyZQJ3oWOj/AeaSSddqwKzRN6Q2ke+Y92GPxsdYBstWmbyhhel0p8pna4hwUc9Pd0g1QY+Zsjs+3e+4hkYdmBBT0FrkP/5gwwmL2MQ33pAUKL4HIJVnZRhsamCE1TIVwuK6fkzeGh9a+NrQbnLInz3BZjUOepGGmm4NTOHyzzg87TYNSf/blLViu1Diin9NHyr9KSAO5o1lVony7+QHOiRNDLlTRnbQVc91JE0x4YP+99CMEkz8akFSekP4oqE7WPNtweMFxljXtc/y/qdW9HdTPW+wjk5i1dt5MZlbFlyjUPwsnd8uzDsLArGkoCI9NkVLeQWLgQ1zVtRkESGSiy+5VK3YzHrY41iaC8eYCw==
+  template:
+    data: null
+    metadata:
+      annotations:
+        helm.sh/hook: pre-install
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: code-server
+      name: code-server
+      namespace: codeserver
+    type: Opaque

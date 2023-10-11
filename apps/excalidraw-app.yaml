@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: code-server
+  namespace: argocd
+spec:
+  destination:
+    namespace: excalidraw
+    server: "https://kubernetes.default.svc"
+  source:
+    path: excalidraw
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
