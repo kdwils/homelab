@@ -112,6 +112,11 @@ spec:
                 secretKeyRef:
                   name: code-server
                   key: password
+            - name: SUDO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: code-server
+                  key: password
             - name: PGID
               value: "1000"
             - name: GUID
@@ -175,5 +180,21 @@ spec:
     metadata:
       creationTimestamp: null
       name: code-server
+      namespace: codeserver
+    type: Opaque
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: code-server-sudo-password
+  namespace: codeserver
+spec:
+  encryptedData:
+    password: AgDTAETln6ecPJ8jrf+GkIwUQ06+wi5DVicXdobVouZZcuzlEP94i6HzOYq2dAF05Dd61zg559oRv8O6gW0NFfGFzvNyytq4ol5z3dqtYcKfzXzy3Ewv47n6D1o9Uu78stYdeQUEx8gskz3cZnd8eVZdYXzwphaC0WS+Z1EenFRx10Myd0BBnvs6n4RlAnh9MIWgEKv2RBMRDQSes3LPvFHlx2sRY9J//GBELA8mbK6ZDue5JjlMdR8L8Lc9f79Jn/PwDpIviCs/LcJEFjw0v12TVBPslPDFGT0W2eEJsnrApDBpLqpuv6VrD9IVxFAm/U8g6z1cs5tkD4G4h9qGbv6S50W0JvyDzzXovAfRa4ZrRYwL4M4LxiV/Ztejx9zKfo0v6UChlFBIYcl0zG5lY/8tu9Xepf170T9cg4mQuBa2iZq5oYOO5zHd2JrY/TlECYmo0ptEcglT3HylKPqXZsAZBiY2xXXUx0Pz6mfegFdLQGzgLI2/H3mcPY5/Gj6o4q36OPfoOpya9AfTBVxOeJjW7GFOG1bUBbTwPQIknMk7FcfjWu2XrI2g/DqCEAGVCURFQDTm1s5vQRu4ZTrn9ple8D3CK1kcx9C0lHzWp3XRxLBgljWucDMn9r2/gdcoVP9cF/31d7lwT7upQ1epRCduZWJLUQ1xnJSTpL68uUDF7rh37C8jS3PrcNy5PJb5XrBhwvR2oJjAEg==
+  template:
+    data: null
+    metadata:
+      creationTimestamp: null
+      name: code-server-sudo-password
       namespace: codeserver
     type: Opaque
