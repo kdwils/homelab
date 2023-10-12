@@ -115,7 +115,7 @@ spec:
             - name: SUDO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: code-server
+                  name: code-server-sudo-password
                   key: password
             - name: PGID
               value: "1000"
