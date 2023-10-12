@@ -124,7 +124,7 @@ spec:
             - name: TZ
               value: "America/New_York"
             - name: DEFAULT_WORKSPACE
-              value: /home/code-server/workspace
+              value: /config/go/src
           volumeMounts:
             - name: data
               mountPath: /home/code-server
