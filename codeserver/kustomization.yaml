@@ -4,6 +4,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 images:
   - name: codeserver
     newName: ghcr.io/kdwils/code-server
-    newTag: sha-13f84e9834a439b9237ff21d0582e9b00647acef
+    newTag: sha-8b7c3928138ff3a779c0797534fad1e1a62af460
 resources:
   - codeserver.yaml
