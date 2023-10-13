@@ -58,7 +58,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8080
+    - port: 22
       targetPort: http
       protocol: TCP
       name: http
@@ -104,15 +104,15 @@ spec:
         - name: code-server
           image: codeserver
           imagePullPolicy: Always
-          env:
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: code-server
-                  key: password
           volumeMounts:
             - name: data
               mountPath: /home/code-server
+            - name: ssh-volume
+              subPath: sshd_config
+              mountPath: /etc/ssh/sshd_config
+            - name: ssh-volume
+              subPath: authorized_keys
+              mountPath: /root/.ssh/authorized_keys
           ports:
             - name: http
               containerPort: 22
@@ -131,37 +131,20 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: code-server
+        - name: ssh-volume
+          configMap:
+            name: ssh-config
       nodeSelector:
         kubernetes.io/hostname: "nuc"
 ---
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: code-server
-  namespace: codeserver
-spec:
-  encryptedData:
-    password: AgDJ0E//yymRMos/jvPZ5/OIaKTdyVXYEgQGjQAw3zc7+hydxU/uOAiWngA8jgtp2t74xN3qPRkDNwdurOKoajwhl+vAkmBLfHcxKinXgbNwKfLDeXt0DvXMdrjPaKatdz2qonMXqQWp3sAi+FjMo2gq3dMibEowM0OswpumJFcqM6SAhrbzbgMnkTkGZwlFzzXFYwrw1hMn2lZDz1tyl1e3MC3MJ5PZJQWR2naeJpQHB6edpqZjKmrncFPMY84hFgeAcV5IOA3nJIjqn7J8GmvyrcMifFsAtbVMlifK88WBuHnIFnFkmdUKkTAv3A4+106D45KI2lKZQ8bFThpJ/BFlK8yeJgtpAg9XNQp8ry6mqGbWe2k5J37XtDF8HLeALWB6pGq2IhzryOJ5bhU4ZwjZQtMFTV5FjasXY0tjbCAt33f1XpW4FqlWqGWkJX3h9hcLT6tnzhqRGiItkjo6uoZM19M4JfWH5wDaMFxs/9lOcAr7hVoYGHs6MRz21fC6CbF4l4ZCjjVgP3gCEMJiejb4FJEJQFhvJdblarzg4BQEqvZ5G4VrJ3lp7U9HvWbGM0Qh3vmHNnRZUzsG9Vts8wU+52L3Bou7q8Zlh6y6xcPB1Cg1faomE8ktI1k66fi4xkIr1VPs7a09JP0EQRwd8rAAY8l05gZ6+lEyfFc8eFfXfzTIZ3fx3sw2/cb1PmDg7s+MoodDKuF2jpRVHLASaGk=
-  template:
-    data: null
-    metadata:
-      creationTimestamp: null
-      name: code-server
-      namespace: codeserver
-    type: Opaque
----
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  name: code-server-sudo-password
-  namespace: codeserver
-spec:
-  encryptedData:
-    password: AgDTAETln6ecPJ8jrf+GkIwUQ06+wi5DVicXdobVouZZcuzlEP94i6HzOYq2dAF05Dd61zg559oRv8O6gW0NFfGFzvNyytq4ol5z3dqtYcKfzXzy3Ewv47n6D1o9Uu78stYdeQUEx8gskz3cZnd8eVZdYXzwphaC0WS+Z1EenFRx10Myd0BBnvs6n4RlAnh9MIWgEKv2RBMRDQSes3LPvFHlx2sRY9J//GBELA8mbK6ZDue5JjlMdR8L8Lc9f79Jn/PwDpIviCs/LcJEFjw0v12TVBPslPDFGT0W2eEJsnrApDBpLqpuv6VrD9IVxFAm/U8g6z1cs5tkD4G4h9qGbv6S50W0JvyDzzXovAfRa4ZrRYwL4M4LxiV/Ztejx9zKfo0v6UChlFBIYcl0zG5lY/8tu9Xepf170T9cg4mQuBa2iZq5oYOO5zHd2JrY/TlECYmo0ptEcglT3HylKPqXZsAZBiY2xXXUx0Pz6mfegFdLQGzgLI2/H3mcPY5/Gj6o4q36OPfoOpya9AfTBVxOeJjW7GFOG1bUBbTwPQIknMk7FcfjWu2XrI2g/DqCEAGVCURFQDTm1s5vQRu4ZTrn9ple8D3CK1kcx9C0lHzWp3XRxLBgljWucDMn9r2/gdcoVP9cF/31d7lwT7upQ1epRCduZWJLUQ1xnJSTpL68uUDF7rh37C8jS3PrcNy5PJb5XrBhwvR2oJjAEg==
-  template:
-    data: null
-    metadata:
-      creationTimestamp: null
-      name: code-server-sudo-password
-      namespace: codeserver
-    type: Opaque
+  name: ssh-config
+data:
+  sshd_config: |
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+    UsePAM no
+  authorized_keys: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZVyL80CpitMD2Gj3RdvoHguAOPElpFLCKgC+MCzlTJQNj9jE0iFv6QGPA2+yD6szWUBXz9QwvsJGTvNEucC7x1TK6iG8uUIXqU47lYg1f/nTLWuinKfbGHU02Lp+EqQ6YslU6wtbjjCpIxNm5/WSNrM3BVKBZLrmWQYqIM3NoKVypWYnAfi1GgC+HkhgQ7j5FYwVmF1w02eO2Z8zhOx0DA3OVbEHu8oXrg7KlpWnp6Glb4w+Wxje3RrreKmCukIkZpTvAA60Gwbu4ha/gdSP39UEGB+mvl0sNvSoAAsDQUbfk8DYF3uyVTuBgcuui7J21c524MTCb2VOddWIHQU3dwUOtyyYoSFypRl32DVZmsmA8WM5LK0eW4F1KedZGL/CBxBeZ4K3MHtdia0tl2TCaNtOHfYCDr6CTS+5/+P6gBwhQVfKIEZJi8exTMvexDkwQ0Or1/laVDFYjse6QoB5EUc3x3uzTbOJVZkYWCVAE26xpDflHO9aM5JgISJMuuPs= kyle.wilson@kyledev.co
