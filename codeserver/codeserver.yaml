@@ -58,10 +58,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 22
-      targetPort: http
+    - port: 2222
+      targetPort: ssh
       protocol: TCP
-      name: http
+      name: ssh
   selector:
     app.kubernetes.io/name: code-server
 ---
@@ -94,57 +94,67 @@ spec:
             - sh
             - -c
             - |
-              chown -R 1000:1000 /home/code-server
+              chown -R 1000:1000 /config
           securityContext:
             runAsUser: 0
           volumeMounts:
             - name: data
-              mountPath: /home/code-server
+              mountPath: /config
       containers:
         - name: code-server
           image: codeserver
           imagePullPolicy: Always
+          env:
+            - name: PUBLIC_KEY
+              value: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZVyL80CpitMD2Gj3RdvoHguAOPElpFLCKgC+MCzlTJQNj9jE0iFv6QGPA2+yD6szWUBXz9QwvsJGTvNEucC7x1TK6iG8uUIXqU47lYg1f/nTLWuinKfbGHU02Lp+EqQ6YslU6wtbjjCpIxNm5/WSNrM3BVKBZLrmWQYqIM3NoKVypWYnAfi1GgC+HkhgQ7j5FYwVmF1w02eO2Z8zhOx0DA3OVbEHu8oXrg7KlpWnp6Glb4w+Wxje3RrreKmCukIkZpTvAA60Gwbu4ha/gdSP39UEGB+mvl0sNvSoAAsDQUbfk8DYF3uyVTuBgcuui7J21c524MTCb2VOddWIHQU3dwUOtyyYoSFypRl32DVZmsmA8WM5LK0eW4F1KedZGL/CBxBeZ4K3MHtdia0tl2TCaNtOHfYCDr6CTS+5/+P6gBwhQVfKIEZJi8exTMvexDkwQ0Or1/laVDFYjse6QoB5EUc3x3uzTbOJVZkYWCVAE26xpDflHO9aM5JgISJMuuPs= kyle.wilson@kyledev.co
+            - name: SUDO_ACCESS
+              value: "true"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: "USER_NAME"
+              value: "kdwils"
+            - name: USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: code-server-sudo-password
+            - name: "TZ"
+              value: "America/New_York"
           volumeMounts:
             - name: data
-              mountPath: /home/code-server
-            - name: ssh-volume
-              subPath: sshd_config
-              mountPath: /etc/ssh/sshd_config
-            - name: ssh-volume
-              subPath: authorized_keys
-              mountPath: /root/.ssh/authorized_keys
+              mountPath: /config
           ports:
-            - name: http
-              containerPort: 22
+            - name: ssh
+              containerPort: 2222
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: ssh
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: ssh
           resources: {}
       serviceAccountName: code-server
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: code-server
-        - name: ssh-volume
-          configMap:
-            name: ssh-config
       nodeSelector:
         kubernetes.io/hostname: "nuc"
 ---
-apiVersion: v1
-kind: ConfigMap
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
 metadata:
-  name: ssh-config
-data:
-  sshd_config: |
-    PasswordAuthentication no
-    ChallengeResponseAuthentication no
-    UsePAM no
-  authorized_keys: |
-    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZVyL80CpitMD2Gj3RdvoHguAOPElpFLCKgC+MCzlTJQNj9jE0iFv6QGPA2+yD6szWUBXz9QwvsJGTvNEucC7x1TK6iG8uUIXqU47lYg1f/nTLWuinKfbGHU02Lp+EqQ6YslU6wtbjjCpIxNm5/WSNrM3BVKBZLrmWQYqIM3NoKVypWYnAfi1GgC+HkhgQ7j5FYwVmF1w02eO2Z8zhOx0DA3OVbEHu8oXrg7KlpWnp6Glb4w+Wxje3RrreKmCukIkZpTvAA60Gwbu4ha/gdSP39UEGB+mvl0sNvSoAAsDQUbfk8DYF3uyVTuBgcuui7J21c524MTCb2VOddWIHQU3dwUOtyyYoSFypRl32DVZmsmA8WM5LK0eW4F1KedZGL/CBxBeZ4K3MHtdia0tl2TCaNtOHfYCDr6CTS+5/+P6gBwhQVfKIEZJi8exTMvexDkwQ0Or1/laVDFYjse6QoB5EUc3x3uzTbOJVZkYWCVAE26xpDflHO9aM5JgISJMuuPs= kyle.wilson@kyledev.co
+  name: code-server-sudo-password
+  namespace: codeserver
+spec:
+  encryptedData:
+    password: AgCCC6j4ux2zietVH9ynBw3MRt8Quuw7/qylBKrtaF3xoQoypX7kgouCsD6LaTjfNkyO/rfPf+migLIaY/k09+dHzwj9LZdmJh6d3MV73YfiSeboYtoIfK02v7zxUuMnn+DFKa9vgoshVJjfprdQW4xJdDl1i72DlsIJHmzCvJyb3CWwDsku2+LCrYakA9Qmt4T6sfr7MlTyB6FFoe58QxVTYLjLtIA9uJYWnaY7hOApM0ghbd2R1dWyHuW04IpiTSapG3iaA/Y5cl9DE81+To3+2S/qAIe26IKGTEzxkvsIdQSYNetUCu/YP7tR9ljLBcxidhbmood6ptEudQ/cK6t4E+1ZeVrySr0JrYXyn4NLlhfznzES8s7WH10/4LqELgFNIgFwtKgeM0chlcaPCH8LrrTllfRsgr1Pex9VkqDe9+ao4Ll1KkUQufYyUUfdYANiZObuRm3z3FgOmqluUWwLYEtQub991kJ5LgGQKbZaxxbGUsTP5l8zg5ChoPKkuMBR5F52mNTinP2X2R3lYtiYCRL1zZgfxKtG11R9mWKPcHfDWazH3bA7xbRnIV0Zh65zZJ2Ead9SYOOzWRMCBg8S+1/yq+7DZ4OSLPkl6ZGqmGvbhV8a7nW1s6rkEKZj7sBelqxM9vY/k3QrN9o4yLUZ+tdDrpLSZTjC5iTEpvOAxwFxbz7iMHayuzsLZfJCU8YVz4mqNZ8sAw==
+  template:
+    data: null
+    metadata:
+      name: code-server-sudo-password
+      namespace: codeserver
+    type: Opaque
