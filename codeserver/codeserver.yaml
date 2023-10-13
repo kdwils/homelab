@@ -55,8 +55,9 @@ metadata:
   name: code-server
   labels:
     app.kubernetes.io/name: code-server
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "codeserver"
 spec:
-  type: ClusterIP
   ports:
     - port: 2222
       targetPort: ssh
@@ -64,6 +65,8 @@ spec:
       name: ssh
   selector:
     app.kubernetes.io/name: code-server
+  type: LoadBalancer
+  loadBalancerClass: tailscale
 ---
 apiVersion: apps/v1
 kind: Deployment
