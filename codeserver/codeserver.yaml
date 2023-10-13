@@ -58,7 +58,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8443
+    - port: 8080
       targetPort: http
       protocol: TCP
       name: http
@@ -94,14 +94,12 @@ spec:
             - sh
             - -c
             - |
-              chown -R 1000:1000 /home/code-server && chown -R 1000:1000 /config
+              chown -R 1000:1000 /home/code-server
           securityContext:
             runAsUser: 0
           volumeMounts:
             - name: data
               mountPath: /home/code-server
-            - name: data
-              mountPath: /config
       containers:
         - name: code-server
           image: codeserver
@@ -112,27 +110,12 @@ spec:
                 secretKeyRef:
                   name: code-server
                   key: password
-            - name: SUDO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: code-server-sudo-password
-                  key: password
-            - name: PGID
-              value: "1000"
-            - name: GUID
-              value: "1000"
-            - name: TZ
-              value: "America/New_York"
-            - name: DEFAULT_WORKSPACE
-              value: /home/code-server/workspace
           volumeMounts:
             - name: data
               mountPath: /home/code-server
-            - name: data
-              mountPath: /config
           ports:
             - name: http
-              containerPort: 8443
+              containerPort: 22
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -150,22 +133,6 @@ spec:
             claimName: code-server
       nodeSelector:
         kubernetes.io/hostname: "nuc"
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: "code-server-test-connection"
-  labels:
-    app.kubernetes.io/name: code-server
-  annotations:
-    "helm.sh/hook": test-success
-spec:
-  containers:
-    - name: wget
-      image: busybox
-      command: ["wget"]
-      args: ["code-server:8080"]
-  restartPolicy: Never
 ---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
