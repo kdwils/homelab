@@ -3,31 +3,6 @@ kind: Namespace
 metadata:
   name: codeserver
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  name: code-server
-  namespace: codeserver
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: code.int.kyledev.co
-      http:
-        paths:
-          - backend:
-              service:
-                name: code-server
-                port:
-                  name: http
-            path: /
-            pathType: Prefix
-  tls:
-    - hosts:
-        - code.int.kyledev.co
-      secretName: wildcard-kyledev-tls-prod
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
