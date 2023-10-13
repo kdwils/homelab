@@ -130,11 +130,15 @@ spec:
               containerPort: 2222
               protocol: TCP
           livenessProbe:
-            tcpSocket:
-              port: ssh
+            exec:
+              command:
+                - echo
+                - "up"
           readinessProbe:
-            tcpSocket:
-              port: ssh
+            exec:
+              command:
+                - echo
+                - "up"
           resources: {}
       serviceAccountName: code-server
       volumes:
