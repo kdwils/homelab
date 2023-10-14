@@ -100,8 +100,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
-            # - name: data
-            #   mountPath: /root
+            - name: data
+              mountPath: /
           ports:
             - name: ssh
               containerPort: 2222
