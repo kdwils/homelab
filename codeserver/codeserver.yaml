@@ -121,7 +121,7 @@ data:
     AllowTcpForwarding no
     GatewayPorts no
     X11Forwarding no
-    ClientAliveInterval 5
+    ClientAliveInterval 300
     ClientAliveCountMax 3
     PidFile /config/sshd.pid
     Subsystem	sftp	internal-sftp
