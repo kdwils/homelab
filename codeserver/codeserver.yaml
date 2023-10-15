@@ -89,7 +89,6 @@ spec:
             claimName: code-server
         - name: ssh-volume
           configMap:
-            defaultMode: 0600
             name: ssh-config
       nodeSelector:
         kubernetes.io/hostname: "nuc"
@@ -118,7 +117,7 @@ data:
   sshd_config: |
     Port 22
     AuthorizedKeysFile	.ssh/authorized_keys
-    PasswordAuthentication yes
+    PasswordAuthentication false
     AllowTcpForwarding no
     GatewayPorts no
     X11Forwarding no
