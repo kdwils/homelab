@@ -98,9 +98,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
-            - name: ssh-volume
-              mountPath: /etc/ssh/sshd_config
-              subPath: sshd_config
           ports:
             - name: ssh
               containerPort: 2222
@@ -117,10 +114,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: code-server
-        - name: ssh-volume
-          configMap:
-            defaultMode: 0600
-            name: ssh-config
       nodeSelector:
         kubernetes.io/hostname: "nuc"
 ---
@@ -138,21 +131,3 @@ spec:
       name: code-server-sudo-password
       namespace: codeserver
     type: Opaque
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ssh-config
-  namespace: codeserver
-data:
-  sshd_config: |
-    Port 2222
-    AuthorizedKeysFile	.ssh/authorized_keys
-    PasswordAuthentication no
-    AllowTcpForwarding no
-    GatewayPorts no
-    X11Forwarding no
-    ClientAliveInterval 5
-    ClientAliveCountMax 3
-    PidFile /config/sshd.pid
-    Subsystem	sftp	internal-sftp
