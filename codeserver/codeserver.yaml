@@ -74,7 +74,7 @@ spec:
             - name: data
               mountPath: /config
             - mountPath: /etc/ssh/sshd_config
-              name: ssh-config
+              name: sshd-config
               subPath: sshd_config
       containers:
         - name: code-server
@@ -154,6 +154,4 @@ data:
     Subsystem	sftp	internal-sftp
 kind: ConfigMap
 metadata:
-  labels:
-    app: code-server
   name: sshd-config
