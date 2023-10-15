@@ -74,7 +74,6 @@ spec:
             - name: data
               mountPath: /config
             - name: ssh-volume
-              subPath: sshd_config
               mountPath: /etc/ssh/sshd_config
       containers:
         - name: code-server
