@@ -70,7 +70,7 @@ spec:
               subPath: sshd_config
             - name: ssh-volume
               subPath: authorized_keys
-              mountPath: /root/.ssh/authorized_keys
+              mountPath: /home/kyle/.ssh/authorized_keys
           ports:
             - name: ssh
               containerPort: 22
