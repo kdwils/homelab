@@ -73,9 +73,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
-            - name: ssh-volume
-              subPath: sshd_config
-              mountPath: /etc/ssh/sshd_config
       containers:
         - name: code-server
           image: codeserver
@@ -101,6 +98,9 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /config
+            - name: ssh-volume
+              mountPath: /etc/ssh/sshd_config
+              subPath: sshd_config
           ports:
             - name: ssh
               containerPort: 2222
