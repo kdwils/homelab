@@ -32,7 +32,7 @@ metadata:
     app.kubernetes.io/name: code-server
 spec:
   ports:
-    - port: 2222
+    - port: 22
       targetPort: ssh
       protocol: TCP
       name: ssh
@@ -58,49 +58,22 @@ spec:
       labels:
         app.kubernetes.io/name: code-server
     spec:
-      imagePullSecrets: []
-      initContainers:
-        - name: init-chmod-data
-          image: busybox:latest
-          imagePullPolicy: IfNotPresent
-          command:
-            - sh
-            - -c
-            - |
-              chown -R 1000:1000 /config
-          securityContext:
-            runAsUser: 0
-          volumeMounts:
-            - name: data
-              mountPath: /config
       containers:
         - name: code-server
           image: codeserver
           imagePullPolicy: Always
-          env:
-            - name: PUBLIC_KEY
-              value: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZVyL80CpitMD2Gj3RdvoHguAOPElpFLCKgC+MCzlTJQNj9jE0iFv6QGPA2+yD6szWUBXz9QwvsJGTvNEucC7x1TK6iG8uUIXqU47lYg1f/nTLWuinKfbGHU02Lp+EqQ6YslU6wtbjjCpIxNm5/WSNrM3BVKBZLrmWQYqIM3NoKVypWYnAfi1GgC+HkhgQ7j5FYwVmF1w02eO2Z8zhOx0DA3OVbEHu8oXrg7KlpWnp6Glb4w+Wxje3RrreKmCukIkZpTvAA60Gwbu4ha/gdSP39UEGB+mvl0sNvSoAAsDQUbfk8DYF3uyVTuBgcuui7J21c524MTCb2VOddWIHQU3dwUOtyyYoSFypRl32DVZmsmA8WM5LK0eW4F1KedZGL/CBxBeZ4K3MHtdia0tl2TCaNtOHfYCDr6CTS+5/+P6gBwhQVfKIEZJi8exTMvexDkwQ0Or1/laVDFYjse6QoB5EUc3x3uzTbOJVZkYWCVAE26xpDflHO9aM5JgISJMuuPs= kyle.wilson@kyledev.co
-            - name: SUDO_ACCESS
-              value: "true"
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
-            - name: "USER_NAME"
-              value: "kyle"
-            - name: USER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: code-server-sudo-password
-            - name: "TZ"
-              value: "America/New_York"
           volumeMounts:
             - name: data
               mountPath: /config
+            - name: ssh-volume
+              mountPath: /etc/ssh/sshd_config
+              subPath: sshd_config
+            - name: ssh-volume
+              subPath: authorized_keys
+              mountPath: /root/.ssh/authorized_keys
           ports:
             - name: ssh
-              containerPort: 2222
+              containerPort: 22
               protocol: TCP
           livenessProbe:
             tcpSocket:
@@ -114,6 +87,9 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: code-server
+        - name: ssh-volume
+          configMap:
+            name: ssh-config
       nodeSelector:
         kubernetes.io/hostname: "nuc"
 ---
@@ -131,3 +107,23 @@ spec:
       name: code-server-sudo-password
       namespace: codeserver
     type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ssh-config
+  namespace: codeserver
+data:
+  sshd_config: |
+    Port 22
+    AuthorizedKeysFile	.ssh/authorized_keys
+    PasswordAuthentication no
+    AllowTcpForwarding no
+    GatewayPorts no
+    X11Forwarding no
+    ClientAliveInterval 5
+    ClientAliveCountMax 3
+    PidFile /config/sshd.pid
+    Subsystem	sftp	internal-sftp
+  authorized_keys: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDZVyL80CpitMD2Gj3RdvoHguAOPElpFLCKgC+MCzlTJQNj9jE0iFv6QGPA2+yD6szWUBXz9QwvsJGTvNEucC7x1TK6iG8uUIXqU47lYg1f/nTLWuinKfbGHU02Lp+EqQ6YslU6wtbjjCpIxNm5/WSNrM3BVKBZLrmWQYqIM3NoKVypWYnAfi1GgC+HkhgQ7j5FYwVmF1w02eO2Z8zhOx0DA3OVbEHu8oXrg7KlpWnp6Glb4w+Wxje3RrreKmCukIkZpTvAA60Gwbu4ha/gdSP39UEGB+mvl0sNvSoAAsDQUbfk8DYF3uyVTuBgcuui7J21c524MTCb2VOddWIHQU3dwUOtyyYoSFypRl32DVZmsmA8WM5LK0eW4F1KedZGL/CBxBeZ4K3MHtdia0tl2TCaNtOHfYCDr6CTS+5/+P6gBwhQVfKIEZJi8exTMvexDkwQ0Or1/laVDFYjse6QoB5EUc3x3uzTbOJVZkYWCVAE26xpDflHO9aM5JgISJMuuPs= kyle.wilson@kyledev.co
