@@ -59,8 +59,6 @@ spec:
         app.kubernetes.io/name: code-server
     spec:
       imagePullSecrets: []
-      securityContext:
-        fsGroup: 1000
       initContainers:
         - name: init-chmod-data
           image: busybox:latest
@@ -105,15 +103,11 @@ spec:
               containerPort: 2222
               protocol: TCP
           livenessProbe:
-            exec:
-              command:
-                - echo
-                - "up"
+            tcpSocket:
+              port: ssh
           readinessProbe:
-            exec:
-              command:
-                - echo
-                - "up"
+            tcpSocket:
+              port: ssh
           resources: {}
       serviceAccountName: code-server
       volumes:
