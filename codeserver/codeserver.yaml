@@ -119,6 +119,7 @@ spec:
             claimName: code-server
         - name: ssh-volume
           configMap:
+            defaultMode: 0600
             name: ssh-config
       nodeSelector:
         kubernetes.io/hostname: "nuc"
