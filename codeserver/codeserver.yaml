@@ -118,7 +118,7 @@ data:
   sshd_config: |
     Port 22
     AuthorizedKeysFile	.ssh/authorized_keys
-    PasswordAuthentication no
+    PasswordAuthentication yes
     AllowTcpForwarding no
     GatewayPorts no
     X11Forwarding no
