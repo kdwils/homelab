@@ -58,23 +58,20 @@ spec:
       labels:
         app.kubernetes.io/name: code-server
     spec:
-      # initContainers:
-      #   - name: init-chmod-data
-      #     image: busybox:latest
-      #     imagePullPolicy: IfNotPresent
-      #     command:
-      #       - sh
-      #       - -c
-      #       - |
-      #         chown -R 1000:1000 /home/kyle
-      #     securityContext:
-      #       runAsUser: 0
-      #     volumeMounts:
-      #       - name: data
-      #         mountPath: /home/kyle
-      #       - name: ssh-volume
-      #         subPath: authorized_keys
-      #         mountPath: /home/kyle/.ssh/authorized_keys
+      initContainers:
+        - name: init-chmod-data
+          image: busybox:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 1000:1000 /home/kyle
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: data
+              mountPath: /home/kyle
       containers:
         - name: code-server
           image: ghcr.io/kdwils/code-server:sha-6b1f9a7da84c1c2bfed9e34eee2deb8102077e5f
@@ -106,6 +103,7 @@ spec:
             claimName: code-server
         - name: ssh-volume
           configMap:
+            defaultMode: 0600
             name: ssh-config
       nodeSelector:
         kubernetes.io/hostname: "nuc"
