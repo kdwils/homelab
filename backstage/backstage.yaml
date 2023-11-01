@@ -159,6 +159,14 @@ spec:
             - name: backend
               containerPort: 7007
               protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/backstage/app-config.yaml
+              subPath: app-config.yaml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: backstage-config
 ---
 # Source: backstage/charts/postgresql/templates/primary/statefulset.yaml
 apiVersion: apps/v1

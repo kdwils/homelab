@@ -5,3 +5,4 @@ resources:
   - backstage.yaml
   - sealed-secret.yaml
   - namespace.yaml
+  - configmap.yaml
