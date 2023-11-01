@@ -1,6 +1,10 @@
 apiVersion: v1
 data:
   app-config.yaml: |
+    app:
+      title: kyledev.co
+    organization:
+      name: kyledev.co
     auth:
       environment: development
       providers:

@@ -161,7 +161,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: config-volume
-              mountPath: /etc/backstage/app-config.yaml
+              mountPath: /app/app-config.yaml
               subPath: app-config.yaml
       volumes:
         - name: config-volume
