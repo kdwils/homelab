@@ -159,10 +159,10 @@ spec:
             - name: backend
               containerPort: 7007
               protocol: TCP
-          volumeMounts:
-            - name: config-volume
-              mountPath: /app/app-config.yaml
-              subPath: app-config.yaml
+          # volumeMounts:
+          #   - name: config-volume
+          #     mountPath: /app/app-config.yaml
+          #     subPath: app-config.yaml
       volumes:
         - name: config-volume
           configMap:

@@ -3,6 +3,14 @@ data:
   app-config.yaml: |
     app:
       title: kyledev.co
+    backend:
+      baseUrl: https://backstage.int.kyledev.co
+      listen:
+        port: 7007
+      cors:
+        origin: http://localhost:3000
+        methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+        credentials: true
     organization:
       name: kyledev.co
     auth:
