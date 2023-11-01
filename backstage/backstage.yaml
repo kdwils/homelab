@@ -62,7 +62,6 @@ spec:
     - name: tcp-postgresql
       port: 5432
       targetPort: tcp-postgresql
-      nodePort: null
   selector:
     app.kubernetes.io/instance: backstage
     app.kubernetes.io/name: postgresql
@@ -88,7 +87,6 @@ spec:
       port: 7007
       targetPort: backend
       protocol: TCP
-      nodePort: null
   selector:
     app.kubernetes.io/name: backstage
     app.kubernetes.io/instance: backstage
@@ -106,7 +104,6 @@ metadata:
     app.kubernetes.io/instance: backstage
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: backstage
-  annotations:
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -127,8 +124,6 @@ spec:
         checksum/app-config: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
     spec:
       serviceAccountName: backstage
-      volumes:
-
       containers:
         - name: backstage-backend
           image: ghcr.io/backstage/backstage:latest
@@ -136,8 +131,17 @@ spec:
           command:
             - node
             - packages/backend
-          args:
           env:
+            - name: AUTH_GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: oauth
+                  key: AUTH_GITHUB_CLIENT_ID
+            - name: AUTH_GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: oauth
+                  key: AUTH_GITHUB_CLIENT_SECRET
             - name: APP_CONFIG_backend_listen_port
               value: "7007"
             - name: POSTGRES_HOST
