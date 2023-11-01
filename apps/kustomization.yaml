@@ -4,6 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
   - argocd-app.yaml
   - argocd-image-updater-app.yaml
+  - backstage-app.yaml
   - blog-app.yaml
   - cloudflared-app.yaml
   - ingress-controller-app.yaml
@@ -16,7 +17,7 @@ resources:
   - sealed-secret-app.yaml
   - code-server-app.yaml
   - excalidraw-app.yaml
-  - tailscale-app.yaml
+  # - tailscale-app.yaml
   # - prometheus-app.yaml
   # - grafana-app.yaml
   # - monitoring-stack.yaml
