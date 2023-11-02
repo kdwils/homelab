@@ -3,16 +3,29 @@ data:
   app-config.yaml: |
     app:
       title: kyledev.co
-    backend:
       baseUrl: https://backstage.int.kyledev.co
-      listen:
-        port: 7007
-      cors:
-        origin: http://localhost:3000
-        methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
-        credentials: true
     organization:
       name: kyledev.co
+    backend:
+      baseUrl: https://backstage.int.kyledev.co
+      listen: ':7007'
+      database:
+        client: pg
+        connection:
+          host: ${POSTGRES_HOST}
+          port: ${POSTGRES_PORT}
+          user: ${POSTGRES_USER}
+          password: ${POSTGRES_PASSWORD}
+    integrations:
+      github:
+        - host: github.com
+          token: ${GITHUB_TOKEN}
+    techdocs:
+      builder: 'local' # Alternatives - 'external'
+      generator:
+        runIn: 'docker' # Alternatives - 'local'
+      publisher:
+        type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
     auth:
       environment: development
       providers:
