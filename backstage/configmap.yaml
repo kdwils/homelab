@@ -3,7 +3,7 @@ data:
   app-config.yaml: |
     app:
       title: kyledev.co
-      baseUrl: https://backstage.int.kyledev.co
+      baseUrl: http://backstage
     organization:
       name: kyledev.co
     backend:
