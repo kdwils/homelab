@@ -3,7 +3,7 @@ data:
   app-config.yaml: |
     app:
       title: kyledev.co
-      baseUrl: http://backstage:7007
+      baseUrl: https://backstage.int.kyledev.co
     organization:
       name: kyledev.co
     backend:
@@ -17,6 +17,10 @@ data:
           port: ${POSTGRES_PORT}
           user: ${POSTGRES_USER}
           password: ${POSTGRES_PASSWORD}
+      cors:
+        origin: https://backstage.int.kyledev.co
+        methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+        credentials: true
     integrations:
       github:
         - host: github.com
