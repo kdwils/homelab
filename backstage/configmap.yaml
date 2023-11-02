@@ -8,7 +8,8 @@ data:
       name: kyledev.co
     backend:
       baseUrl: https://backstage.int.kyledev.co
-      listen: 7007
+      listen: 
+        port: 7007
       database:
         client: pg
         connection:
