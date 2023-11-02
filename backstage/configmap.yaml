@@ -8,7 +8,7 @@ data:
       name: kyledev.co
     backend:
       baseUrl: https://backstage.int.kyledev.co
-      listen: ':7007'
+      listen: 7007
       database:
         client: pg
         connection:
@@ -21,11 +21,11 @@ data:
         - host: github.com
           token: ${GITHUB_TOKEN}
     techdocs:
-      builder: 'local' # Alternatives - 'external'
+      builder: 'local'
       generator:
-        runIn: 'docker' # Alternatives - 'local'
+        runIn: 'docker'
       publisher:
-        type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+        type: 'local'
     auth:
       environment: development
       providers:
