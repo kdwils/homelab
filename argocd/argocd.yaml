@@ -16098,6 +16098,7 @@ spec:
 apiVersion: v1
 data:
   accounts.image-updater: apiKey
+  accounts.backstage: apiKey
   accounts.reader: login
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
