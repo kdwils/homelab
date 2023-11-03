@@ -16098,7 +16098,7 @@ spec:
 apiVersion: v1
 data:
   accounts.image-updater: apiKey
-  accounts.backstage: apiKey
+  accounts.backstage: login
   accounts.reader: login
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
@@ -16146,6 +16146,7 @@ data:
     p, role:image-updater, applications, get, */*, allow
     p, role:image-updater, applications, update, */*, allow
     g, image-updater, role:image-updater
+    g, backstage, role:syncer
   policy.default: role:syncer
 kind: ConfigMap
 metadata:
