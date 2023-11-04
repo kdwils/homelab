@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: backstage
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: backstage=ghcr.io/kdwils/backstage
+    argocd-image-updater.argoproj.io/backstage.platforms: linux/arm64,linux/amd64
+    argocd-image-updater.argoproj.io/backstage.update-strategy: latest
 spec:
   destination:
     namespace: backstage
