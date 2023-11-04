@@ -51,5 +51,3 @@ kind: ConfigMap
 metadata:
   name: backstage-config
   namespace: backstage
-
-ARGO TOKEN:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmdvY2QiLCJzdWIiOiJiYWNrc3RhZ2U6YXBpS2V5IiwibmJmIjoxNjk4OTY3MjY5LCJpYXQiOjE2OTg5NjcyNjksImp0aSI6ImM1ODVkNmEzLTljYjYtNDgyOS04NTFmLWNkZTNiZjRiZTBhYyJ9.c9vIwjwKm1xe_6Kbynh43IXFO-haHWTvBU8GM0AsJ2g
