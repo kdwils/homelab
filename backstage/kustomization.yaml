@@ -6,3 +6,4 @@ resources:
   - sealed-secret.yaml
   - namespace.yaml
   - configmap.yaml
+  - rbac.yaml
