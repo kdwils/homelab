@@ -16146,7 +16146,7 @@ data:
     p, role:image-updater, applications, get, */*, allow
     p, role:image-updater, applications, update, */*, allow
     g, image-updater, role:image-updater
-    g, backstage, role:syncer
+    g, backstage, role:syncer, applications, 
   policy.default: role:syncer
 kind: ConfigMap
 metadata:
