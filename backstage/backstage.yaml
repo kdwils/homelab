@@ -126,27 +126,42 @@ spec:
       serviceAccountName: backstage
       containers:
         - name: backstage-backend
-          image: ghcr.io/backstage/backstage:latest
+          image: backstage
           imagePullPolicy: "Always"
           command:
             - node
             - packages/backend
           env:
-            - name: AUTH_GITHUB_CLIENT_ID
+            - name: GITHUB_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: auth
+                  name: credentials
                   key: github_client_id
-            - name: AUTH_GITHUB_CLIENT_SECRET
+            - name: GITHUB_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: auth
+                  name: credentials
                   key: github_client_secret
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: auth
+                  name: credentials
                   key: github_token
+            - name: ARGOCD_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: argocd_username
+            - name: ARGOCD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: argocd_password
+            - name: ARGOCD_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: argocd_auth_token
             - name: APP_CONFIG_backend_listen_port
               value: "7007"
             - name: POSTGRES_HOST
