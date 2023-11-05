@@ -43,10 +43,13 @@ data:
             $env: ARGOCD_AUTH_TOKEN
 
     auth:
-      environment: development
+      environment: production
       providers:
         github:
           development:
+            clientId: ${GITHUB_CLIENT_ID}
+            clientSecret: ${GITHUB_CLIENT_SECRET}
+          production:
             clientId: ${GITHUB_CLIENT_ID}
             clientSecret: ${GITHUB_CLIENT_SECRET}
 
@@ -76,7 +79,6 @@ data:
                 - group: "argoproj.io"
                   apiVersion: "v1alpha1"
                   plural: "rollouts"
-
 kind: ConfigMap
 metadata:
   name: backstage-config
