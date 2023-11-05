@@ -10,6 +10,7 @@ data:
       baseUrl: https://backstage.int.kyledev.co
       csp:
         connect-src: ["'self'", 'http:', 'https:']
+        img-src: ["'self'", "https: data:"],
       listen:
         port: 7007
       database:
