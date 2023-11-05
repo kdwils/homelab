@@ -21,12 +21,12 @@ metadata:
     app.kubernetes.io/name: postgresql
     helm.sh/chart: postgresql-12.10.0
     app.kubernetes.io/component: primary
+    backstage.io/kubernetes-id: backstage
   annotations:
     # Use this annotation in addition to the actual publishNotReadyAddresses
     # field below because the annotation will stop being respected soon but the
     # field is broken in some versions of Kubernetes:
     # https://github.com/kubernetes/kubernetes/issues/58662
-    backstage.io/kubernetes-id: backstage
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   type: ClusterIP
@@ -56,7 +56,6 @@ metadata:
     app.kubernetes.io/name: postgresql
     helm.sh/chart: postgresql-12.10.0
     app.kubernetes.io/component: primary
-  annotations:
     backstage.io/kubernetes-id: backstage
 spec:
   type: ClusterIP
@@ -82,7 +81,6 @@ metadata:
     app.kubernetes.io/instance: backstage
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: backstage
-  annotations:
     backstage.io/kubernetes-id: backstage
 spec:
   type: ClusterIP
@@ -109,7 +107,6 @@ metadata:
     app.kubernetes.io/instance: backstage
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: backstage
-  annotations:
     backstage.io/kubernetes-id: backstage
 spec:
   replicas: 1
@@ -127,7 +124,6 @@ spec:
         app.kubernetes.io/instance: backstage
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: backstage
-      annotations:
         backstage.io/kubernetes-id: backstage
         checksum/app-config: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
     spec:
@@ -210,7 +206,6 @@ metadata:
     app.kubernetes.io/name: postgresql
     helm.sh/chart: postgresql-12.10.0
     app.kubernetes.io/component: primary
-  annotations:
     backstage.io/kubernetes-id: backstage
 spec:
   replicas: 1
@@ -379,8 +374,8 @@ metadata:
     app.kubernetes.io/instance: backstage
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: backstage
-  annotations:
     backstage.io/kubernetes-id: backstage
+  annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
