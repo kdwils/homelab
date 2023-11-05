@@ -37,7 +37,7 @@ data:
 
     proxy:
       "/argocd/api":
-        target: https://argocd.kyledev.co/api/v1/
+        target: http://argocd-server.argocd.svc.cluster.local/api/v1/
         changeOrigin: true
         # only if your argocd api has self-signed cert
         secure: false
@@ -64,7 +64,7 @@ data:
         - type: "config"
           instances:
             - name: argocd
-              url: https://argocd.kyledev.co
+              url: http://argocd-server.argocd.svc.cluster.local
               token: ${ARGOCD_AUTH_TOKEN}
 
     kubernetes:
