@@ -57,6 +57,7 @@ data:
             clientSecret: ${GITHUB_CLIENT_SECRET}
 
     argocd:
+      baseUrl: https://argocd.kyledev.co
       username: ${ARGOCD_USERNAME}
       password: ${ARGOCD_PASSWORD}
       appLocatorMethods:
