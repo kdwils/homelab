@@ -75,10 +75,6 @@ data:
               skipTLSVerify: false
               skipMetricsLookup: true
               serviceAccount: backstage
-              customResources:
-                - group: "argoproj.io"
-                  apiVersion: "v1alpha1"
-                  plural: "rollouts"
 kind: ConfigMap
 metadata:
   name: backstage-config
