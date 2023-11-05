@@ -7,6 +7,7 @@ metadata:
   namespace: backstage
   labels:
     app.kubernetes.io/component: backstage
+    backstage.io/kubernetes-id: backstage
 automountServiceAccountToken: true
 ---
 # Source: backstage/charts/postgresql/templates/primary/svc-headless.yaml
@@ -226,12 +227,11 @@ spec:
         app.kubernetes.io/name: postgresql
         helm.sh/chart: postgresql-12.10.0
         app.kubernetes.io/component: primary
+        backstage.io/kubernetes-id: backstage
     spec:
       serviceAccountName: default
-
       affinity:
         podAffinity:
-
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
@@ -354,6 +354,8 @@ spec:
       kind: PersistentVolumeClaim
       metadata:
         name: data
+        labels:
+          backstage.io/kubernetes-id: backstage
       spec:
         accessModes:
           - "ReadWriteOnce"
