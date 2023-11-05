@@ -8,6 +8,8 @@ data:
       name: kyledev.co
     backend:
       baseUrl: https://backstage.int.kyledev.co
+      csp:
+        connect-src: ["'self'", 'http:', 'https:']
       listen:
         port: 7007
       database:
