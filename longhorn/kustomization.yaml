@@ -2,3 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - longhorn.yaml
+
+images:
+  - name: longhorn-manager
+    newName: longhornio/longhorn-manager
+    newTag: v1.4.1
+  - name: longhorn-ui
+    newName: longhornio/longhorn-ui
+    newTag: v1.4.1
