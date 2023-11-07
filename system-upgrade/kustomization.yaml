@@ -4,6 +4,6 @@ resources:
   - system-upgrade.yaml
 
 images:
-  - name: image-update-controller
+  - name: image-upgrade-controller
     newName: rancher/system-upgrade-controller
     newTag: v0.10.0
