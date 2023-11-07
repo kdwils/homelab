@@ -89,7 +89,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: default-controller-env
-          image: rancher/system-upgrade-controller:v0.10.0
+          image: system-upgrade-controller
           imagePullPolicy: IfNotPresent
           name: system-upgrade-controller
           volumeMounts:
