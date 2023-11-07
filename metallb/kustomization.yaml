@@ -7,3 +7,11 @@ resources:
   - metallb.yaml
   - l2advertisement.yaml
   - ipaddresspool.yaml
+
+images:
+  - name: speaker
+    newName: quay.io/metallb/speaker
+    newTag: v0.13.9
+  - name: controller
+    newName: quay.io/metallb/controller
+    newTag: v0.13.9
