@@ -2,3 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - sealed-secrets.yaml
+
+images:
+  - name: sealed-secrets-controller
+    newName: docker.io/bitnami/sealed-secrets-controller
+    newTag: v0.22.0
