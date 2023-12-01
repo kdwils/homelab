@@ -45,6 +45,20 @@ apiVersion: v1
 data:
   nats.conf: |
     {
+      "cluster": {
+        "name": "nats",
+        "no_advertise": true,
+        "port": 6222,
+        "routes": [
+          "tls://nats-0.nats-headless:6222",
+          "tls://nats-1.nats-headless:6222",
+          "tls://nats-2.nats-headless:6222"
+        ],
+        "tls": {
+          "cert_file": "/etc/nats-certs/cluster/tls.crt",
+          "key_file": "/etc/nats-certs/cluster/tls.key"
+        }
+      },
       "http_port": 8222,
       "jetstream": {
         "max_file_store": 10Gi,
@@ -55,7 +69,11 @@ data:
       "lame_duck_grace_period": "10s",
       "pid_file": "/var/run/nats/nats.pid",
       "port": 4222,
-      "server_name": $SERVER_NAME
+      "server_name": $SERVER_NAME,
+      "tls": {
+        "cert_file": "/etc/nats-certs/nats/tls.crt",
+        "key_file": "/etc/nats-certs/nats/tls.key"
+      }
     }
 kind: ConfigMap
 metadata:
@@ -85,14 +103,18 @@ metadata:
 spec:
   clusterIP: None
   ports:
-    - appProtocol: tcp
-      name: nats
-      port: 4222
-      targetPort: nats
-    - appProtocol: http
-      name: monitor
-      port: 8222
-      targetPort: monitor
+  - appProtocol: tls
+    name: nats
+    port: 4222
+    targetPort: nats
+  - appProtocol: tls
+    name: cluster
+    port: 6222
+    targetPort: cluster
+  - appProtocol: http
+    name: monitor
+    port: 8222
+    targetPort: monitor
   publishNotReadyAddresses: true
   selector:
     app.kubernetes.io/component: nats
@@ -114,10 +136,10 @@ metadata:
   namespace: nats
 spec:
   ports:
-    - appProtocol: tcp
-      name: nats
-      port: 4222
-      targetPort: nats
+  - appProtocol: tls
+    name: nats
+    port: 4222
+    targetPort: nats
   selector:
     app.kubernetes.io/component: nats
     app.kubernetes.io/instance: nats
@@ -155,33 +177,33 @@ spec:
         helm.sh/chart: nats-1.1.5
     spec:
       containers:
-        - args:
-            - trap true INT TERM; sleep infinity & wait
-          command:
-            - sh
-            - -ec
-            - |
-              work_dir="$(pwd)"
-              mkdir -p "$XDG_CONFIG_HOME/nats"
-              cd "$XDG_CONFIG_HOME/nats"
-              if ! [ -s context ]; then
-                ln -s /etc/nats-contexts context
-              fi
-              if ! [ -f context.txt ]; then
-                echo -n "default" > context.txt
-              fi
-              cd "$work_dir"
-              exec sh -ec "$0"
-          image: natsio/nats-box:0.14.1
-          name: nats-box
-          volumeMounts:
-            - mountPath: /etc/nats-contexts
-              name: contexts
+      - args:
+        - trap true INT TERM; sleep infinity & wait
+        command:
+        - sh
+        - -ec
+        - |
+          work_dir="$(pwd)"
+          mkdir -p "$XDG_CONFIG_HOME/nats"
+          cd "$XDG_CONFIG_HOME/nats"
+          if ! [ -s context ]; then
+            ln -s /etc/nats-contexts context
+          fi
+          if ! [ -f context.txt ]; then
+            echo -n "default" > context.txt
+          fi
+          cd "$work_dir"
+          exec sh -ec "$0"
+        image: natsio/nats-box:0.14.1
+        name: nats-box
+        volumeMounts:
+        - mountPath: /etc/nats-contexts
+          name: contexts
       enableServiceLinks: false
       volumes:
-        - name: contexts
-          secret:
-            secretName: nats-box-contexts
+      - name: contexts
+        secret:
+          secretName: nats-box-contexts
 ---
 # Source: nats/templates/stateful-set.yaml
 apiVersion: apps/v1
@@ -198,7 +220,7 @@ metadata:
   namespace: nats
 spec:
   podManagementPolicy: Parallel
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/component: nats
@@ -208,7 +230,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: d5431c3b712ea462d58db3d4dcf967c795019b1a32cce5b7bdbae23991eb3a17
+        checksum/config: d0ada8650b5ae097aa93517d898e2db9cef46a1c893240aa2b416a3ad3f336e4
       labels:
         app.kubernetes.io/component: nats
         app.kubernetes.io/instance: nats
@@ -218,92 +240,116 @@ spec:
         helm.sh/chart: nats-1.1.5
     spec:
       containers:
-        - args:
-            - --config
-            - /etc/nats-config/nats.conf
-          env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: SERVER_NAME
-              value: $(POD_NAME)
-          image: nats:2.10.3-alpine
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  - nats-server
-                  - -sl=ldm=/var/run/nats/nats.pid
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /healthz?js-enabled-only=true
-              port: monitor
-            initialDelaySeconds: 10
-            periodSeconds: 30
-            successThreshold: 1
-            timeoutSeconds: 5
+      - args:
+        - --config
+        - /etc/nats-config/nats.conf
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SERVER_NAME
+          value: $(POD_NAME)
+        image: nats:2.10.3-alpine
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - nats-server
+              - -sl=ldm=/var/run/nats/nats.pid
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz?js-enabled-only=true
+            port: monitor
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: nats
+        ports:
+        - containerPort: 4222
           name: nats
-          ports:
-            - containerPort: 4222
-              name: nats
-            - containerPort: 8222
-              name: monitor
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /healthz?js-server-only=true
-              port: monitor
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-          startupProbe:
-            failureThreshold: 90
-            httpGet:
-              path: /healthz
-              port: monitor
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-          volumeMounts:
-            - mountPath: /etc/nats-config
-              name: config
-            - mountPath: /var/run/nats
-              name: pid
-            - mountPath: /data
-              name: nats-js
-        - args:
-            - -pid
-            - /var/run/nats/nats.pid
-            - -config
-            - /etc/nats-config/nats.conf
-          image: natsio/nats-server-config-reloader:0.13.0
-          name: reloader
-          volumeMounts:
-            - mountPath: /var/run/nats
-              name: pid
-            - mountPath: /etc/nats-config
-              name: config
+        - containerPort: 6222
+          name: cluster
+        - containerPort: 8222
+          name: monitor
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz?js-server-only=true
+            port: monitor
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        startupProbe:
+          failureThreshold: 90
+          httpGet:
+            path: /healthz
+            port: monitor
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        volumeMounts:
+        - mountPath: /etc/nats-config
+          name: config
+        - mountPath: /var/run/nats
+          name: pid
+        - mountPath: /data
+          name: nats-js
+        - mountPath: /etc/nats-certs/nats
+          name: nats-tls
+        - mountPath: /etc/nats-certs/cluster
+          name: cluster-tls
+      - args:
+        - -pid
+        - /var/run/nats/nats.pid
+        - -config
+        - /etc/nats-config/nats.conf
+        - -config
+        - /etc/nats-certs/cluster/tls.crt
+        - -config
+        - /etc/nats-certs/cluster/tls.key
+        - -config
+        - /etc/nats-certs/nats/tls.crt
+        - -config
+        - /etc/nats-certs/nats/tls.key
+        image: natsio/nats-server-config-reloader:0.13.0
+        name: reloader
+        volumeMounts:
+        - mountPath: /var/run/nats
+          name: pid
+        - mountPath: /etc/nats-config
+          name: config
+        - mountPath: /etc/nats-certs/nats
+          name: nats-tls
+        - mountPath: /etc/nats-certs/cluster
+          name: cluster-tls
       enableServiceLinks: false
       shareProcessNamespace: true
       volumes:
-        - configMap:
-            name: nats-config
-          name: config
-        - emptyDir: {}
-          name: pid
+      - configMap:
+          name: nats-config
+        name: config
+      - emptyDir: {}
+        name: pid
+      - name: nats-tls
+        secret:
+          secretName: nats-tls
+      - name: cluster-tls
+        secret:
+          secretName: nats-tls
   volumeClaimTemplates:
-    - metadata:
-        name: nats-js
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 10Gi
+  - metadata:
+      name: nats-js
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
 ---
 # Source: nats/templates/tests/request-reply.yaml
 apiVersion: v1
@@ -322,37 +368,32 @@ metadata:
   name: nats-test-request-reply
 spec:
   containers:
-    - args:
-        - nats reply --echo echo & pid="$!"; sleep 1; nats request echo hi > /tmp/resp;
-          kill "$pid"; wait; grep -qF hi /tmp/resp
-      command:
-        - sh
-        - -ec
-        - |
-          work_dir="$(pwd)"
-          mkdir -p "$XDG_CONFIG_HOME/nats"
-          cd "$XDG_CONFIG_HOME/nats"
-          if ! [ -s context ]; then
-            ln -s /etc/nats-contexts context
-          fi
-          if ! [ -f context.txt ]; then
-            echo -n "default" > context.txt
-          fi
-          cd "$work_dir"
-          exec sh -ec "$0"
-      image: natsio/nats-box:0.14.1
-      name: nats-box
-      volumeMounts:
-        - mountPath: /etc/nats-contexts
-          name: contexts
+  - args:
+    - nats reply --echo echo & pid="$!"; sleep 1; nats request echo hi > /tmp/resp;
+      kill "$pid"; wait; grep -qF hi /tmp/resp
+    command:
+    - sh
+    - -ec
+    - |
+      work_dir="$(pwd)"
+      mkdir -p "$XDG_CONFIG_HOME/nats"
+      cd "$XDG_CONFIG_HOME/nats"
+      if ! [ -s context ]; then
+        ln -s /etc/nats-contexts context
+      fi
+      if ! [ -f context.txt ]; then
+        echo -n "default" > context.txt
+      fi
+      cd "$work_dir"
+      exec sh -ec "$0"
+    image: natsio/nats-box:0.14.1
+    name: nats-box
+    volumeMounts:
+    - mountPath: /etc/nats-contexts
+      name: contexts
   enableServiceLinks: false
   restartPolicy: Never
   volumes:
-    - name: contexts
-      secret:
-        secretName: nats-box-contexts
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: nats
+  - name: contexts
+    secret:
+      secretName: nats-box-contexts
