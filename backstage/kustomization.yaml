@@ -11,4 +11,4 @@ resources:
 images:
   - name: backstage
     newName: ghcr.io/kdwils/backstage
-    newTag: main
+    newTag: sha-4593dd1d14ff5d58d9ed7a42cea411769331c39e
