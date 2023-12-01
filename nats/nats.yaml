@@ -45,20 +45,6 @@ apiVersion: v1
 data:
   nats.conf: |
     {
-      "cluster": {
-        "name": "nats",
-        "no_advertise": true,
-        "port": 6222,
-        "routes": [
-          "tls://nats-0.nats-headless:6222",
-          "tls://nats-1.nats-headless:6222",
-          "tls://nats-2.nats-headless:6222"
-        ],
-        "tls": {
-          "cert_file": "/etc/nats-certs/cluster/tls.crt",
-          "key_file": "/etc/nats-certs/cluster/tls.key"
-        }
-      },
       "http_port": 8222,
       "jetstream": {
         "max_file_store": 10Gi,
@@ -69,11 +55,7 @@ data:
       "lame_duck_grace_period": "10s",
       "pid_file": "/var/run/nats/nats.pid",
       "port": 4222,
-      "server_name": $SERVER_NAME,
-      "tls": {
-        "cert_file": "/etc/nats-certs/nats/tls.crt",
-        "key_file": "/etc/nats-certs/nats/tls.key"
-      }
+      "server_name": $SERVER_NAME
     }
 kind: ConfigMap
 metadata:
@@ -103,14 +85,10 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - appProtocol: tls
+  - appProtocol: tcp
     name: nats
     port: 4222
     targetPort: nats
-  - appProtocol: tls
-    name: cluster
-    port: 6222
-    targetPort: cluster
   - appProtocol: http
     name: monitor
     port: 8222
@@ -136,7 +114,7 @@ metadata:
   namespace: nats
 spec:
   ports:
-  - appProtocol: tls
+  - appProtocol: tcp
     name: nats
     port: 4222
     targetPort: nats
@@ -220,7 +198,7 @@ metadata:
   namespace: nats
 spec:
   podManagementPolicy: Parallel
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: nats
@@ -230,7 +208,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: d0ada8650b5ae097aa93517d898e2db9cef46a1c893240aa2b416a3ad3f336e4
+        checksum/config: d5431c3b712ea462d58db3d4dcf967c795019b1a32cce5b7bdbae23991eb3a17
       labels:
         app.kubernetes.io/component: nats
         app.kubernetes.io/instance: nats
@@ -270,8 +248,6 @@ spec:
         ports:
         - containerPort: 4222
           name: nats
-        - containerPort: 6222
-          name: cluster
         - containerPort: 8222
           name: monitor
         readinessProbe:
@@ -299,23 +275,11 @@ spec:
           name: pid
         - mountPath: /data
           name: nats-js
-        - mountPath: /etc/nats-certs/nats
-          name: nats-tls
-        - mountPath: /etc/nats-certs/cluster
-          name: cluster-tls
       - args:
         - -pid
         - /var/run/nats/nats.pid
         - -config
         - /etc/nats-config/nats.conf
-        - -config
-        - /etc/nats-certs/cluster/tls.crt
-        - -config
-        - /etc/nats-certs/cluster/tls.key
-        - -config
-        - /etc/nats-certs/nats/tls.crt
-        - -config
-        - /etc/nats-certs/nats/tls.key
         image: natsio/nats-server-config-reloader:0.13.0
         name: reloader
         volumeMounts:
@@ -323,10 +287,6 @@ spec:
           name: pid
         - mountPath: /etc/nats-config
           name: config
-        - mountPath: /etc/nats-certs/nats
-          name: nats-tls
-        - mountPath: /etc/nats-certs/cluster
-          name: cluster-tls
       enableServiceLinks: false
       shareProcessNamespace: true
       volumes:
@@ -335,12 +295,6 @@ spec:
         name: config
       - emptyDir: {}
         name: pid
-      - name: nats-tls
-        secret:
-          secretName: nats-tls
-      - name: cluster-tls
-        secret:
-          secretName: nats-tls
   volumeClaimTemplates:
   - metadata:
       name: nats-js
