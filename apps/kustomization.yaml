@@ -8,6 +8,7 @@ resources:
   - blog-app.yaml
   - cloudflared-app.yaml
   - ingress-controller-app.yaml
+  - nats-app.yaml
   # - media-app.yaml
   - metallb-app.yaml
   - pihole-app.yaml
