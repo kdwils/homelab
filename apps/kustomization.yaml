@@ -16,6 +16,7 @@ resources:
   - longhorn-app.yaml
   - cert-manager-app.yaml
   - sealed-secret-app.yaml
+  - gatekeeper-app.yaml
   # - code-server-app.yaml
   # - excalidraw-app.yaml
   # - tailscale-app.yaml
