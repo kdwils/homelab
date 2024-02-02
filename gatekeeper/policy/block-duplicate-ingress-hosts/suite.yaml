@@ -1,0 +1,19 @@
+kind: Suite
+apiVersion: test.gatekeeper.sh/v1alpha1
+metadata:
+  name: uniqueingresshost
+tests:
+  - name: unique-ingress-host
+    template: template.yaml
+    constraint: constraint.yaml
+    cases:
+      - name: allowed
+        object: tests/unique-host.yaml
+        assertions:
+          - violations: no
+      - name: duplicate
+        object: tests/duplicate-host.yaml
+        inventory:
+          - tests/duplicate-host-inventory.yaml
+        assertions:
+          - violations: yes

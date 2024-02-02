@@ -1,0 +1,21 @@
+kind: Suite
+apiVersion: test.gatekeeper.sh/v1alpha1
+metadata:
+  name: replicalimits
+tests:
+  - name: replica-limit
+    template: template.yaml
+    constraint: constraint.yaml
+    cases:
+      - name: allowed-replicas
+        object: tests/allowed-replicas.yaml
+        assertions:
+          - violations: no
+      - name: minimum-failed-replicas
+        object: tests/minimum-failed-replicas.yaml
+        assertions:
+          - violations: yes
+      - name: maximum-failed-replicas
+        object: tests/maximum-failed-replicas.yaml
+        assertions:
+          - violations: yes
