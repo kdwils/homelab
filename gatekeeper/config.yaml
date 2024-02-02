@@ -6,6 +6,9 @@ metadata:
 spec:
   sync:
     syncOnly:
+      - group: "networking.k8s.io"
+        version: "v1"
+        kind: "Ingress"
       - group: "extensions"
         version: "v1beta1"
         kind: "Ingress"
