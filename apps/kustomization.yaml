@@ -5,7 +5,7 @@ resources:
   - argocd-app.yaml
   - argocd-image-updater-app.yaml
   - backstage-app.yaml
-  # - blog-app.yaml
+  - blog-app.yaml
   - cloudflared-app.yaml
   - ingress-controller-app.yaml
   - nats-app.yaml
