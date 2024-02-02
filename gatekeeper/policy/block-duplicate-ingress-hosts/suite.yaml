@@ -8,7 +8,7 @@ tests:
     constraint: constraint.yaml
     cases:
       - name: allowed
-        object: tests/unique-host.yaml
+        object: tests/allowed-host.yaml
         assertions:
           - violations: no
       - name: duplicate
