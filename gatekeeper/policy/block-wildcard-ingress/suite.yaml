@@ -5,21 +5,21 @@ metadata:
 tests:
   - name: block-wildcard-ingress
     template: template.yaml
-    constraint: tests/block-wildcard-ingress/constraint.yaml
+    constraint: constraint.yaml
     cases:
-      - name: example-allowed
-        object: tests/block-wildcard-ingress/example_allowed.yaml
+      - name: allowed-host
+        object: tests/allowed-host.yaml
         assertions:
           - violations: 0
-      - name: blank-host
-        object: tests/block-wildcard-ingress/disallowed/blank_host.yaml
+      - name: empty-host
+        object: tests/empty-host.yaml
         assertions:
           - violations: 1
-      - name: host-omitted
-        object: tests/block-wildcard-ingress/disallowed/host_omitted.yaml
+      - name: missing-host
+        object: tests/missing-host.yaml
         assertions:
           - violations: 1
       - name: wildcard-host
-        object: tests/block-wildcard-ingress/disallowed/wildcard_host.yaml
+        object: tests/wildcard-host.yaml
         assertions:
           - violations: 1
