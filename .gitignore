@@ -2,3 +2,4 @@ secret-template.yaml
 cloudflared/config.yaml
 sealedsecrets/tls.*
 values.yaml
+.DS_Store
