@@ -11,7 +11,7 @@ metadata:
         [
           {
             "groups": ["networking.k8s.io"],
-            "versions": ["v1beta1", "v1"],
+            "versions": ["v1"],
             "kinds": ["Ingress"]
           }
         ]
