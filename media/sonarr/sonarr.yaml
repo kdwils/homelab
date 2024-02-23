@@ -71,27 +71,3 @@ spec:
         - name: media-ssd
           persistentVolumeClaim:
             claimName: media-ssd
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    kubernetes.io/ingress.class: nginx
-  labels:
-    app.kubernetes.io/name: sonarr
-  name: sonarr-ingress
-  namespace: media
-spec:
-  rules:
-    - host: sonarr.int.kyledev.co
-      http:
-        paths:
-          - backend:
-              serviceName: sonarr
-              servicePort: http
-            path: /
-  tls:
-    - hosts:
-        - sonarr.int.kyledev.co
-      secretName: sonarr-kyle-dev-tls
