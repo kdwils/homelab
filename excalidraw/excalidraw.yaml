@@ -35,7 +35,7 @@ spec:
           volumeMounts:
             - mountPath: /excalidraw
               name: excalidraw
-              subPath: /excalidraw
+              subPath: excalidraw
 ---
 apiVersion: v1
 kind: Service
