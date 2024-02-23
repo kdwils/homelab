@@ -3,8 +3,9 @@ kind: Kustomization
 resources:
   - argocd.yaml
   - ingress.yaml
+  - configmap.yaml
 
 images:
   - name: argocd
     newName: quay.io/argoproj/argocd
-    newTag: v2.9.6
+    newTag: v2.10.1
