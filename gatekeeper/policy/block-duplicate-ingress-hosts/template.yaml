@@ -10,11 +10,6 @@ metadata:
       "[
         [
           {
-            "groups": ["extensions"],
-            "versions": ["v1beta1"],
-            "kinds": ["Ingress"]
-          },
-          {
             "groups": ["networking.k8s.io"],
             "versions": ["v1beta1", "v1"],
             "kinds": ["Ingress"]

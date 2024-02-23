@@ -7,5 +7,5 @@ metadata:
 spec:
   match:
     kinds:
-      - apiGroups: ["extensions", "networking.k8s.io"]
+      - apiGroups: ["networking.k8s.io"]
         kinds: ["Ingress"]
