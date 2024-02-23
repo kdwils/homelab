@@ -17,6 +17,10 @@ spec:
       labels:
         app: excalidraw
     spec:
+      volumes:
+        - name: excalidraw
+          persistentVolumeClaim:
+            claimName: excalidraw
       containers:
         - name: excalidraw
           imagePullPolicy: Always
@@ -28,6 +32,10 @@ spec:
           ports:
             - containerPort: 80
               name: http
+          volumeMounts:
+            - mountPath: /excalidraw
+              name: excalidraw
+              subPath: /excalidraw
 ---
 apiVersion: v1
 kind: Service
@@ -68,3 +76,15 @@ spec:
     - hosts:
         - draw.int.kyledev.co
       secretName: wildcard-kyledev-tls-prod
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: excalidraw
+  namespace: excalidraw
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
