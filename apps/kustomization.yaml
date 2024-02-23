@@ -19,7 +19,7 @@ resources:
   - gatekeeper-app.yaml
   # - code-server-app.yaml
   - excalidraw-app.yaml
-  # - tailscale-app.yaml
+  - tailscale-app.yaml
   # - prometheus-app.yaml
   # - grafana-app.yaml
   # - monitoring-stack.yaml
