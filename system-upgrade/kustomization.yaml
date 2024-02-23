@@ -6,4 +6,4 @@ resources:
 images:
   - name: system-upgrade-controller
     newName: rancher/system-upgrade-controller
-    newTag: v0.13.2
+    newTag: v0.13.1
