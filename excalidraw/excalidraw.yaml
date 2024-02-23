@@ -76,15 +76,3 @@ spec:
     - hosts:
         - draw.int.kyledev.co
       secretName: wildcard-kyledev-tls-prod
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: excalidraw
-  namespace: excalidraw
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 2Gi
