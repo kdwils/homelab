@@ -4,6 +4,7 @@ resources:
   - argocd.yaml
   - ingress.yaml
   - configmap.yaml
+  - namespace.yaml
 
 images:
   - name: argocd
