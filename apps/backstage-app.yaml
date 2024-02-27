@@ -7,6 +7,8 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: backstage=ghcr.io/kdwils/backstage
     argocd-image-updater.argoproj.io/backstage.platforms: linux/arm64,linux/amd64
     argocd-image-updater.argoproj.io/backstage.update-strategy: latest
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: backstage
