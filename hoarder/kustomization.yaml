@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - hoarder.yaml
   - namespace.yaml
+  - ingress.yaml
   - sealedsecret.yaml
 
 images:
