@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  labels:
+    app: hoarder-ingress
+  name: hoarder
+  namespace: hoarder
+spec:
+  rules:
+    - host: hoarder.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: hoarder-web
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - hoarder.int.kyledev.co
+      secretName: hoarder-kyledev-tls-prod
