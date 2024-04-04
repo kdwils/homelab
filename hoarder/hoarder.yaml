@@ -118,7 +118,7 @@ spec:
       containers:
         - name: chrome
           image: chrome
-          command:
+          args:
             [
               "--no-sandbox",
               "--disable-gpu",
