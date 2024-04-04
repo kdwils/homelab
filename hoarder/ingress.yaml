@@ -15,7 +15,7 @@ spec:
         paths:
           - backend:
               service:
-                name: hoarder-web
+                name: web
                 port:
                   number: 3000
             path: /
