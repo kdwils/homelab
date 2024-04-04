@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - hoarder.yaml
+  - namespace.yaml
+  - sealedsecret.yaml
+
+images:
+  - name: redis
+    newName: redis
+    newTag: 7.2-alpine
+  - name: chrome
+    newName: gcr.io/zenika-hub/alpine-chrome
+    newTag: "123"
+  - name: meilisearch
+    newName: getmeili/meilisearch
+    newTag: v1.6
+  - name: hoarder-workers
+    newName: ghcr.io/mohamedbassem/hoarder-workers
+    newTag: release
+  - name: hoarder-web
+    newName: ghcr.io/mohamedbassem/hoarder-web
+    newTag: release

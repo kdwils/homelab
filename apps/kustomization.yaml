@@ -17,9 +17,6 @@ resources:
   - cert-manager-app.yaml
   - sealed-secret-app.yaml
   - gatekeeper-app.yaml
-  # - code-server-app.yaml
   - excalidraw-app.yaml
+  - hoarder-app.yaml
   # - tailscale-app.yaml
-  # - prometheus-app.yaml
-  # - grafana-app.yaml
-  # - monitoring-stack.yaml
