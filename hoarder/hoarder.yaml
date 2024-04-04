@@ -238,6 +238,7 @@ metadata:
   namespace: hoarder
 data:
   REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
   MEILI_ADDR: "http://meilisearch:7700"
   DATA_DIR: "/data"
   BROWSER_WEB_URL: "http://chrome:9222"
