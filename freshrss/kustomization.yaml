@@ -1,0 +1,12 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - freshrss.yaml
+  - namespace.yaml
+  - ingress.yaml
+
+images:
+  - name: freshrss
+    newName: freshrss/freshrss
+    newTag: 1.23.1

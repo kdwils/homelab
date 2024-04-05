@@ -20,4 +20,4 @@ resources:
   - excalidraw-app.yaml
   - hoarder-app.yaml
   - mealie-app.yaml
-  # - tailscale-app.yaml
+  - freshrss-app.yaml
