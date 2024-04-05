@@ -11,7 +11,7 @@ resources:
   # - nats-app.yaml
   # - media-app.yaml
   - metallb-app.yaml
-  # - pihole-app.yaml
+  - pihole-app.yaml
   - system-upgrade-app.yaml
   - longhorn-app.yaml
   - cert-manager-app.yaml
