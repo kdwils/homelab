@@ -6,9 +6,6 @@ resources:
   - ingress.yaml
 
 images:
-  - name: mealie-api
-    newName: ghcr.io/mealie-recipes
-    newTag: v1.4.0
-  - name: mealie-frontend
+  - name: mealie
     newName: ghcr.io/mealie-recipes
     newTag: v1.4.0

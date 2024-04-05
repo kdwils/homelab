@@ -1,10 +1,64 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie
+spec:
+  selector:
+    app: mealie
+  ports:
+    - protocol: TCP
+      port: 9925
+      targetPort: 9000
 ---
-# Source: mealie/templates/common.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mealie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mealie
+  template:
+    metadata:
+      labels:
+        app: mealie
+    spec:
+      containers:
+        - name: mealie
+          image: mealie
+          ports:
+            - containerPort: 9000
+          resources:
+            limits:
+              memory: "1000Mi"
+          volumeMounts:
+            - name: mealie-data
+              mountPath: /app/data
+          env:
+            - name: ALLOW_SIGNUP
+              value: "false"
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/New_York
+            - name: MAX_WORKERS
+              value: "3"
+            - name: WEB_CONCURRENCY
+              value: "1"
+            - name: BASE_URL
+              value: "https://mealie.kyledev.co"
+      volumes:
+        - name: api-data
+          persistentVolumeClaim:
+            claimName: mealie-data
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: mealie-api-data
+  name: mealie-data
   namespace: mealie
   labels:
     app.kubernetes.io/instance: mealie
@@ -15,116 +69,3 @@ spec:
   resources:
     requests:
       storage: "10Gi"
----
-# Source: mealie/templates/common.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: mealie
-  namespace: mealie
-  labels:
-    app.kubernetes.io/instance: mealie
-    app.kubernetes.io/name: mealie
-spec:
-  type: ClusterIP
-  ports:
-    - port: 9000
-      targetPort: api
-      protocol: TCP
-      name: api
-    - port: 3000
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    app.kubernetes.io/name: mealie
-    app.kubernetes.io/instance: mealie
----
-# Source: mealie/templates/common.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mealie
-  namespace: mealie
-  labels:
-    app.kubernetes.io/instance: mealie
-    app.kubernetes.io/name: mealie
-spec:
-  revisionHistoryLimit: 3
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: mealie
-      app.kubernetes.io/instance: mealie
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: mealie
-        app.kubernetes.io/instance: mealie
-    spec:
-      serviceAccountName: default
-      automountServiceAccountToken: true
-      dnsPolicy: ClusterFirst
-      enableServiceLinks: true
-      containers:
-        - name: mealie
-          image: mealie-frontend
-          imagePullPolicy: IfNotPresent
-          env:
-            - name: API_URL
-              value: http://localhost:9000
-            - name: TZ
-              value: UTC
-          ports:
-            - name: api
-              containerPort: 9000
-              protocol: TCP
-            - name: http
-              containerPort: 3000
-              protocol: TCP
-          volumeMounts:
-            - name: api-data
-              mountPath: /app/data/
-          livenessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 0
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          readinessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 0
-            failureThreshold: 3
-            timeoutSeconds: 1
-            periodSeconds: 10
-          startupProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 0
-            failureThreshold: 30
-            timeoutSeconds: 1
-            periodSeconds: 5
-        - env:
-            - name: API_PORT
-              value: "9000"
-            - name: TZ
-              value: America/New_York
-            - name: ALLOW_SIGNUP
-              value: "false"
-          image: mealie-api
-          imagePullPolicy: IfNotPresent
-          name: mealie-api
-          ports:
-            - containerPort: 9000
-              name: api
-          volumeMounts:
-            - mountPath: /app/data/
-              name: api-data
-      volumes:
-        - name: api-data
-          persistentVolumeClaim:
-            claimName: mealie-api-data

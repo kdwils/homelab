@@ -17,7 +17,7 @@ spec:
               service:
                 name: mealie
                 port:
-                  number: 3000
+                  number: 9925
             path: /
             pathType: Prefix
   tls:
