@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  labels:
+    app: mealie-ingress
+  name: mealie
+  namespace: mealie
+spec:
+  rules:
+    - host: mealie.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: mealie
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - mealie.int.kyledev.co
+      secretName: mealie-kyledev-tls-prod
