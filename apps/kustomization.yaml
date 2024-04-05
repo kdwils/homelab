@@ -18,6 +18,6 @@ resources:
   - sealed-secret-app.yaml
   - gatekeeper-app.yaml
   - excalidraw-app.yaml
-  # - hoarder-app.yaml
-  # - mealie-app.yaml
+  - hoarder-app.yaml
+  - mealie-app.yaml
   # - tailscale-app.yaml
