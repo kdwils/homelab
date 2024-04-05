@@ -113,6 +113,8 @@ spec:
               value: "9000"
             - name: TZ
               value: America/New_York
+            - name: ALLOW_SIGNUP
+              value: false
           image: mealie-api
           imagePullPolicy: IfNotPresent
           name: mealie-api
