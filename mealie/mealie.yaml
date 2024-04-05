@@ -53,7 +53,7 @@ spec:
             - name: BASE_URL
               value: "https://mealie.kyledev.co"
       volumes:
-        - name: api-data
+        - name: mealie-data
           persistentVolumeClaim:
             claimName: mealie-data
 ---
