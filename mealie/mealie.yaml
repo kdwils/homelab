@@ -45,36 +45,118 @@ spec:
             - name: PGID
               value: "1000"
             - name: TZ
-              value: America/New_York
+              value: "America/New_York"
             - name: MAX_WORKERS
               value: "3"
             - name: WEB_CONCURRENCY
               value: "3"
             - name: BASE_URL
               value: "https://mealie.kyledev.co"
-            - name: DEFAULT_GROUP
-              value: meals
-            - name: DEFAULT_EMAIL
+            - name: DB_ENGINE
+              value: "postgres"
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: email
-                  key: email
-      volumes:
-        - name: mealie-data
-          persistentVolumeClaim:
-            claimName: mealie-data
+                  name: mealie
+                  key: database_username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie
+                  key: database_password
+            - name: POSTGRES_SERVER
+              value: "postgres"
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: mealie
+                  key: database_name
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mealie
+                  key: database_port
+          dependsOn:
+            - condition:
+                serviceHealthy:
+                  name: postgres
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: mealie
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: mealie
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: mealie-pgdata
+              mountPath: /var/lib/postgresql/data
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mealie
+                  key: database_username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mealie
+                  key: database_password
+      healthCheck:
+        exec:
+          command:
+            - pg_isready
+        initialDelaySeconds: 30
+        periodSeconds: 30
+        timeoutSeconds: 20
+        failureThreshold: 3
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: mealie-data
   namespace: mealie
-  labels:
-    app.kubernetes.io/instance: mealie
-    app.kubernetes.io/name: mealie
 spec:
   accessModes:
-    - "ReadWriteMany"
+    - ReadWriteOnce
   resources:
     requests:
-      storage: "10Gi"
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mealie-pgdata
+  namespace: mealie
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
