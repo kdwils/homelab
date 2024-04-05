@@ -120,7 +120,7 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - name: mealie-pgdata
-              mountPath: /var/lib/postgresql/data
+              mountPath: /var/lib/postgresql/mealie
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -132,6 +132,8 @@ spec:
                 secretKeyRef:
                   name: mealie
                   key: database_password
+            - name: PGDATA
+              value: /var/lib/postgresql/mealie
       healthCheck:
         exec:
           command:
