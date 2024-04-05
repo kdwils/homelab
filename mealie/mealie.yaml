@@ -17,7 +17,7 @@ metadata:
   name: mealie
   namespace: mealie
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: mealie
@@ -49,7 +49,7 @@ spec:
             - name: MAX_WORKERS
               value: "3"
             - name: WEB_CONCURRENCY
-              value: "1"
+              value: "3"
             - name: BASE_URL
               value: "https://mealie.kyledev.co"
             - name: DEFAULT_GROUP
