@@ -7,7 +7,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: mealie-system
+    namespace: mealie
     server: "https://kubernetes.default.svc"
   source:
     path: mealie
