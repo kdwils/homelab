@@ -17,7 +17,7 @@ metadata:
   name: mealie
   namespace: mealie
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mealie
@@ -155,7 +155,7 @@ metadata:
   namespace: mealie
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
