@@ -54,6 +54,11 @@ spec:
               value: "https://mealie.kyledev.co"
             - name: DEFAULT_GROUP
               value: meals
+            - name: DEFAULT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: email
+                  key: email
       volumes:
         - name: mealie-data
           persistentVolumeClaim:
