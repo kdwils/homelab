@@ -52,6 +52,8 @@ spec:
               value: "1"
             - name: BASE_URL
               value: "https://mealie.kyledev.co"
+            - name: DEFAULT_GROUP
+              value: meals
       volumes:
         - name: mealie-data
           persistentVolumeClaim:
