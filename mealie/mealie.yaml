@@ -80,6 +80,10 @@ spec:
             - condition:
                 serviceHealthy:
                   name: postgres
+      volumes:
+        - name: mealie-data
+          persistentVolumeClaim:
+            claimName: mealie-data
 ---
 apiVersion: v1
 kind: Service
@@ -136,6 +140,10 @@ spec:
         periodSeconds: 30
         timeoutSeconds: 20
         failureThreshold: 3
+      volumes:
+        - name: mealie-pgdata
+          persistentVolumeClaim:
+            claimName: mealie-pgdata
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
