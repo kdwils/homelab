@@ -15,7 +15,7 @@ spec:
         paths:
           - backend:
               service:
-                name: feeds
+                name: freshrss
                 port:
                   number: 80
             path: /
@@ -23,4 +23,4 @@ spec:
   tls:
     - hosts:
         - rss.int.kyledev.co
-      secretName: feeds-kyledev-tls-prod
+      secretName: freshrss-kyledev-tls-prod
