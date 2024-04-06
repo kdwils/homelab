@@ -28,6 +28,7 @@ spec:
       containers:
         - name: freshrss
           image: freshrss
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           volumeMounts:
