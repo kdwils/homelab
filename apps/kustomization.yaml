@@ -18,4 +18,3 @@ resources:
   - hoarder-app.yaml
   - mealie-app.yaml
   - rss-app.yaml
-  - metabase-app.yaml
