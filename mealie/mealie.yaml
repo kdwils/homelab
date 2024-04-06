@@ -135,10 +135,10 @@ spec:
             exec:
               command:
                 - pg_isready
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          timeoutSeconds: 20
-          failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 20
+            failureThreshold: 3
       volumes:
         - name: mealie-pgdata
           persistentVolumeClaim:
