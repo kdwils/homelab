@@ -116,8 +116,8 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - name: mealie-pgdata
-              mountPath: /var/lib/postgresql/mealie
-              subPath: mealie
+              mountPath: /var/lib/postgresql/data
+              subPath: data
           env:
             - name: POSTGRES_USER
               valueFrom:
