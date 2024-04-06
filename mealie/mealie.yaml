@@ -134,9 +134,11 @@ spec:
           readinessProbe:
             exec:
               command:
-                - pg_isready
-                - -U
-                - postgres
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "$POSTGRES_USER"
             initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 20
@@ -144,9 +146,11 @@ spec:
           livenessProbe:
             exec:
               command:
-                - pg_isready
-                - -U
-                - postgres
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "$POSTGRES_USER"
             initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 20
