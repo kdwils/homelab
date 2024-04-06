@@ -143,18 +143,6 @@ spec:
             periodSeconds: 30
             timeoutSeconds: 20
             failureThreshold: 3
-          livenessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U "$POSTGRES_USER"
-            initialDelaySeconds: 15
-            periodSeconds: 30
-            timeoutSeconds: 20
-            failureThreshold: 3
       volumes:
         - name: mealie-pgdata
           persistentVolumeClaim:
