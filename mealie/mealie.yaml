@@ -136,9 +136,9 @@ spec:
               command:
                 - pg_isready
                 - -d
-                - $POSTGRES_DB
+                - ${POSTGRES_DB}
                 - -U
-                - $POSTGRES_USER
+                - ${POSTGRES_USER}
             initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 20
@@ -148,9 +148,9 @@ spec:
               command:
                 - pg_isready
                 - -d
-                - $POSTGRES_DB
+                - ${POSTGRES_DB}
                 - -U
-                - $POSTGRES_USER
+                - ${POSTGRES_USER}
             initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 20
