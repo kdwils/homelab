@@ -76,10 +76,6 @@ spec:
                 secretKeyRef:
                   name: mealie
                   key: database_port
-          dependsOn:
-            - condition:
-                serviceHealthy:
-                  name: postgres
       volumes:
         - name: mealie-data
           persistentVolumeClaim:
@@ -135,14 +131,14 @@ spec:
                   key: database_password
             - name: PGDATA
               value: mealie
-      healthCheck:
-        exec:
-          command:
-            - pg_isready
-        initialDelaySeconds: 30
-        periodSeconds: 30
-        timeoutSeconds: 20
-        failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 20
+          failureThreshold: 3
       volumes:
         - name: mealie-pgdata
           persistentVolumeClaim:
