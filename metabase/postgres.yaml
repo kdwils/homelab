@@ -24,6 +24,7 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-data
+              subPath: data
           env:
             - name: POSTGRES_DB
               valueFrom:
