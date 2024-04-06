@@ -62,6 +62,8 @@ spec:
               value: "5432"
             - name: MB_DB_TYPE
               value: postgres
+            - name: MB_DB_HOST
+              value: postgres
           ports:
             - containerPort: 3000
           volumeMounts:
