@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
   labels:
     app: freshrss-ingress
-  name: feeds
+  name: freshrss-ingress
   namespace: freshrss
 spec:
   rules:
