@@ -73,9 +73,9 @@ spec:
             httpGet:
               path: /api/health
               port: 3000
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 10
-            failureThreshold: 3
+            failureThreshold: 10
             successThreshold: 1
           livenessProbe:
             httpGet:
