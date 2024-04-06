@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss-deployment
+  namespace: freshrss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: freshrss
+  template:
+    metadata:
+      labels:
+        app: freshrss
+    spec:
+      containers:
+        - name: freshrss
+          image: freshrss
+          ports:
+            - containerPort: 80
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/New_York"
+          volumeMounts:
+            - name: freshrss-config
+              mountPath: /config
+            - name: freshrss-data
+              mountPath: /data
+      volumes:
+        - name: freshrss-config
+          persistentVolumeClaim:
+            claimName: freshrss-config-pvc
+        - name: freshrss-data
+          persistentVolumeClaim:
+            claimName: freshrss-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: freshrss
+  namespace: freshrss
+spec:
+  selector:
+    app: freshrss
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: freshrss-config-pvc
+  namespace: freshrss
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: freshrss-data-pvc
+  namespace: freshrss
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
