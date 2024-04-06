@@ -22,5 +22,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - feeds.int.kyledev.co
+        - rss.int.kyledev.co
       secretName: feeds-kyledev-tls-prod
