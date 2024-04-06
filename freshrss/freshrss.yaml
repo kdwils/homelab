@@ -34,10 +34,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/www/FreshRSS/data
-              subPath: data
             - name: extensions
               mountPath: /var/www/FreshRSS/extensions
-              subPath: extensions
           env:
             - name: TZ
               value: "America/New_York"
