@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: freshrss-deployment
-  namespace: freshrss
+  namespace: rss
 spec:
   replicas: 1
   selector:
@@ -42,7 +42,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: freshrss
-  namespace: freshrss
+  namespace: rss
 spec:
   selector:
     app: freshrss
@@ -56,7 +56,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: freshrss-config-pvc
-  namespace: freshrss
+  namespace: rss
 spec:
   accessModes:
     - ReadWriteOnce
@@ -68,7 +68,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: freshrss-data-pvc
-  namespace: freshrss
+  namespace: rss
 spec:
   accessModes:
     - ReadWriteOnce
