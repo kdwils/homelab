@@ -134,8 +134,24 @@ spec:
           readinessProbe:
             exec:
               command:
-                - "pg_isready -d $POSTGRES_DB -U $POSTGRES_USER"
-            initialDelaySeconds: 30
+                - "pg_isready"
+                - "-d"
+                - $POSTGRES_DB
+                - -U
+                - $POSTGRES_USER"
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 20
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-d"
+                - $POSTGRES_DB
+                - -U
+                - $POSTGRES_USER"
+            initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 20
             failureThreshold: 3
