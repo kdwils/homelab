@@ -136,7 +136,7 @@ spec:
               command:
                 - pg_isready
                 - -U
-                - ${POSTGRES_USER}
+                - postgres
             initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 20
@@ -146,7 +146,7 @@ spec:
               command:
                 - pg_isready
                 - -U
-                - ${POSTGRES_USER}
+                - postgres
             initialDelaySeconds: 15
             periodSeconds: 30
             timeoutSeconds: 20
