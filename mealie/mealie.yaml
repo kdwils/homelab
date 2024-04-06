@@ -134,7 +134,7 @@ spec:
           readinessProbe:
             exec:
               command:
-                - pg_isready
+                - "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"
             initialDelaySeconds: 30
             periodSeconds: 30
             timeoutSeconds: 20
