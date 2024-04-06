@@ -135,8 +135,6 @@ spec:
             exec:
               command:
                 - pg_isready
-                - -d
-                - ${POSTGRES_DB}
                 - -U
                 - ${POSTGRES_USER}
             initialDelaySeconds: 15
@@ -147,8 +145,6 @@ spec:
             exec:
               command:
                 - pg_isready
-                - -d
-                - ${POSTGRES_DB}
                 - -U
                 - ${POSTGRES_USER}
             initialDelaySeconds: 15
