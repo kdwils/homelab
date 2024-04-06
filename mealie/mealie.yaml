@@ -117,7 +117,7 @@ spec:
           volumeMounts:
             - name: mealie-pgdata
               mountPath: /var/lib/postgresql/data
-              subPath: data
+              subPath: /var/lib/postgresql/data
           env:
             - name: POSTGRES_USER
               valueFrom:
