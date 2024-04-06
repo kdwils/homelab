@@ -42,17 +42,20 @@ spec:
           image: metabase
           env:
             - name: MB_DB_DBNAME
-              secretKeyRef:
-                name: database
-                key: database_name
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database_name
             - name: MB_DB_PASS
-              secretKeyRef:
-                name: database
-                key: database_password
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database_password
             - name: MB_DB_USER
-              secretKeyRef:
-                name: database
-                key: database_username
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database_username
             - name: MB_DB_PORT
               value: "5432"
             - name: MB_DB_TYPE

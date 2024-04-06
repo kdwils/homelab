@@ -26,17 +26,20 @@ spec:
               name: postgres-data
           env:
             - name: POSTGRES_DB
-              secretKeyRef:
-                name: database
-                key: database_name
-            - name: POSTGRES_USER
-              secretKeyRef:
-                name: database
-                key: database_password
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database_name
             - name: POSTGRES_PASSWORD
-              secretKeyRef:
-                name: database
-                key: database_username
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database_password
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: database_username
           readinessProbe:
             tcpSocket:
               port: 5432
