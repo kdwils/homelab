@@ -129,8 +129,6 @@ spec:
                 secretKeyRef:
                   name: mealie
                   key: database_password
-            - name: PGDATA
-              value: mealie
           readinessProbe:
             exec:
               command:
