@@ -349,6 +349,7 @@ spec:
   ipFamilies:
     - IPv4
   ipFamilyPolicy: SingleStack
+  externalTrafficPolicy: Cluster
   ports:
     - appProtocol: http
       name: http
