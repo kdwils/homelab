@@ -13,6 +13,8 @@ patches:
       - op: replace
         path: /spec/type
         value: LoadBalancer
+      - op: remove
+        path: /spec/ports/0/nodePort
   - target:
       kind: Deployment
       name: longhorn-ui
