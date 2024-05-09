@@ -1,0 +1,32 @@
+kind: ConfigMap
+apiVersion: v1
+data:
+  accounts.image-updater: apiKey
+  accounts.backstage: login, apiKey
+  accounts.reader: login
+  statusbadge.enabled: "true"
+  statusbadge.url: https://argocd.kyledev.co/
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-cm
+---
+kind: ConfigMap
+apiVersion: v1
+data:
+  policy.csv: |
+    p, role:syncer, applications, get, */*, allow
+    p, role:syncer, applications, sync, */*, allow
+    p, role:syncer, projects, get, *, allow
+    p, role:syncer, repositories, get, *, allow
+    p, role:image-updater, applications, get, */*, allow
+    p, role:image-updater, applications, update, */*, allow
+    g, image-updater, role:image-updater
+    g, backstage, role:syncer
+  policy.default: role:syncer
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-rbac-cm
