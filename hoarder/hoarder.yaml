@@ -23,7 +23,7 @@ spec:
     matchLabels:
       app: hoarder
       tier: web
-  replicas: 0
+  replicas: 1
   template:
     metadata:
       labels:
@@ -75,7 +75,7 @@ spec:
     matchLabels:
       app: hoarder
       tier: redis
-  replicas: 0
+  replicas: 1
   template:
     metadata:
       labels:
@@ -161,7 +161,7 @@ spec:
     matchLabels:
       app: hoarder
       tier: meilisearch
-  replicas: 0
+  replicas: 1
   template:
     metadata:
       labels:
@@ -204,7 +204,7 @@ spec:
     matchLabels:
       app: hoarder
       tier: workers
-  replicas: 0
+  replicas: 1
   template:
     metadata:
       labels:

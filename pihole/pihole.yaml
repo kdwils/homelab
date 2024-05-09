@@ -100,7 +100,7 @@ metadata:
     app: pihole
   name: homelab-pihole
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: pihole
