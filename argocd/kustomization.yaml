@@ -3,10 +3,7 @@ kind: Kustomization
 resources:
   - argocd.yaml
   - ingress.yaml
-  - configmap.yaml
   - namespace.yaml
 
-images:
-  - name: argocd
-    newName: quay.io/argoproj/argocd
-    newTag: v2.10.1
+patches:
+  - cm-patch.yaml
