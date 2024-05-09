@@ -23,7 +23,7 @@ spec:
     matchLabels:
       app: hoarder
       tier: web
-  replicas: 1
+  replicas: 0
   template:
     metadata:
       labels:
