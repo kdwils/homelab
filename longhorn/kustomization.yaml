@@ -13,3 +13,11 @@ patches:
       - op: replace
         path: /spec/type
         value: LoadBalancer
+  - target:
+      kind: Deployment
+      name: longhorn-ui
+      namespace: longhorn-system
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
