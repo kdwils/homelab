@@ -3,3 +3,13 @@ kind: Kustomization
 resources:
   - longhorn.yaml
   - ingress.yaml
+
+patches:
+  - target:
+      kind: Service
+      name: longhorn-frontend
+      namespace: longhorn-system
+    patch: |-
+      - op: replace
+        path: /spec/type
+        value: LoadBalancer
