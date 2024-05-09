@@ -17,7 +17,7 @@ metadata:
   name: mealie
   namespace: mealie
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: mealie
@@ -52,101 +52,10 @@ spec:
               value: "3"
             - name: BASE_URL
               value: "https://mealie.kyledev.co"
-            # - name: DB_ENGINE
-            #   value: "postgres"
-            # - name: POSTGRES_USER
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: mealie
-            #       key: database_username
-            # - name: POSTGRES_PASSWORD
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: mealie
-            #       key: database_password
-            # - name: POSTGRES_SERVER
-            #   value: "postgres"
-            # - name: POSTGRES_DB
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: mealie
-            #       key: database_name
-            # - name: POSTGRES_PORT
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: mealie
-            #       key: database_port
       volumes:
         - name: mealie-data
           persistentVolumeClaim:
             claimName: mealie-data
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: postgres
-#   namespace: mealie
-# spec:
-#   selector:
-#     app: postgres
-#   ports:
-#     - protocol: TCP
-#       port: 5432
-#       targetPort: 5432
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: postgres
-#   namespace: mealie
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: postgres
-#   template:
-#     metadata:
-#       labels:
-#         app: postgres
-#     spec:
-#       containers:
-#         - name: postgres
-#           image: postgres
-#           ports:
-#             - containerPort: 5432
-#           volumeMounts:
-#             - name: mealie-pgdata
-#               mountPath: /var/lib/postgresql
-#               subPath: postgres
-#           env:
-#             - name: PGDATA
-#               value: postgres
-#             - name: POSTGRES_USER
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: mealie
-#                   key: database_username
-#             - name: POSTGRES_PASSWORD
-#               valueFrom:
-#                 secretKeyRef:
-#                   name: mealie
-#                   key: database_password
-#           readinessProbe:
-#             exec:
-#               command:
-#                 - /bin/sh
-#                 - -c
-#                 - -e
-#                 - |
-#                   exec pg_isready -U "$POSTGRES_USER"
-#             initialDelaySeconds: 15
-#             periodSeconds: 30
-#             timeoutSeconds: 20
-#             failureThreshold: 3
-#       volumes:
-#         - name: mealie-pgdata
-#           persistentVolumeClaim:
-#             claimName: mealie-pgdata
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -159,15 +68,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
----
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: mealie-pgdata
-#   namespace: mealie
-# spec:
-#   accessModes:
-#     - ReadWriteMany
-#   resources:
-#     requests:
-#       storage: 30Gi

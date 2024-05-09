@@ -71,7 +71,7 @@ metadata:
     app.kubernetes.io/name: rsshub
     app.kubernetes.io/instance: rsshub
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: rsshub
@@ -127,7 +127,7 @@ metadata:
     app.kubernetes.io/name: rsshub-puppeteer
     app.kubernetes.io/instance: rsshub
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/name: rsshub-puppeteer

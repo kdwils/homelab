@@ -4,7 +4,7 @@ metadata:
   name: freshrss-deployment
   namespace: rss
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: freshrss
