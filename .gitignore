@@ -5,3 +5,4 @@ values.yaml
 .DS_Store
 */secrets/*
 secret.yaml
+test.yaml
