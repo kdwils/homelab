@@ -30,3 +30,13 @@ metadata:
     app.kubernetes.io/name: argocd-rbac-cm
     app.kubernetes.io/part-of: argocd
   name: argocd-rbac-cm
+---
+kind: ConfigMap
+apiVersion: v1
+data:
+  server.insecure: "true"
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-cmd-params-cm
+  name: argocd-notifications-cm
+  namespace: argocd
