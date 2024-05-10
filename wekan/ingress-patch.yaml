@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  labels:
+    app: wekan-ingress
+  name: wekan
+  namespace: wekan
+spec:
+  rules:
+    - host: wekan.int.kyledev.co
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: wekan
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - wekan.int.kyledev.co
+      secretName: wekan-kyledev-tls-prod

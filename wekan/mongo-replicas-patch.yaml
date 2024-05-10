@@ -1,0 +1,6 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wekan-mongodb
+spec:
+  replicas: 1
