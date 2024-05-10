@@ -264,6 +264,7 @@ data:
   02-custom.conf: |
     addn-hosts=/etc/addn-hosts
     address=/int.kyledev.co/192.168.1.230
+    address=/int.kyledev.co/100.125.204.107
   05-pihole-custom-cname.conf: ""
   addn-hosts: ""
 kind: ConfigMap
