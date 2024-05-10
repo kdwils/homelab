@@ -39,4 +39,3 @@ metadata:
   labels:
     app.kubernetes.io/name: argocd-cmd-params-cm
   name: argocd-notifications-cm
-  namespace: argocd
