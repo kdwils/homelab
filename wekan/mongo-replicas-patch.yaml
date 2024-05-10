@@ -2,6 +2,5 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: wekan-mongodb
-  namespace: wekan
 spec:
   replicas: 1
