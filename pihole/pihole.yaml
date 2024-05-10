@@ -19,6 +19,25 @@ spec:
     release: homelab
   type: LoadBalancer
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pihole
+  name: homelab-pihole-dns-tcp-tailscale
+spec:
+  loadBalancerClass: tailscale
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns
+      port: 53
+      protocol: TCP
+      targetPort: dns
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
