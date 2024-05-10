@@ -16,7 +16,6 @@ spec:
   sources: []
   project: default
   syncPolicy:
-    preserveResourcesOnDeletion: false
     automated:
       prune: true
       selfHeal: true
