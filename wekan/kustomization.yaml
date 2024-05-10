@@ -3,14 +3,16 @@ kind: Kustomization
 resources:
   - wekan.yaml
   - namespace.yaml
+  - ingress.yaml
 
 patches:
-  - path: ingress-patch.yaml
+  - path: arbiter-statefulset-patch.yaml
     target:
-      kind: Ingress
-      name: wekan
+      kind: StatefulSet
+      name: wekan-mongodb-arbiter
+      namespace: wekan
 
-  - path: statefulset-patch.yaml
+  - path: mongodb-statefulset-patch.yaml
     target:
       kind: StatefulSet
       name: wekan-mongodb

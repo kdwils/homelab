@@ -289,7 +289,7 @@ spec:
               containerPort: 8080
           env:
             - name: ROOT_URL
-              value: "https://wekan.local"
+              value: "https://wekan.int.kyledev.co"
             - name: MONGO_URL
               value: "mongodb://wekan-mongodb-0.wekan-mongodb-headless:27017,wekan-mongodb-1.wekan-mongodb-headless:27017,wekan-mongodb-2.wekan-mongodb-headless:27017/wekan?replicaSet=rs0"
           envFrom:
@@ -320,26 +320,6 @@ spec:
       - name: shared-data-volume
         persistentVolumeClaim:
           claimName: wekan-shared-data
----
-# Source: wekan/templates/hpa.yaml
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: wekan
-  labels:
-    app: wekan
-    chart: wekan-7.45.0
-    component: wekan
-    heritage: Helm
-    release: wekan
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: wekan
-  maxReplicas: 16
-  minReplicas: 1
-  targetCPUUtilizationPercentage: 80
 ---
 # Source: wekan/charts/mongodb/templates/arbiter/statefulset.yaml
 apiVersion: apps/v1
@@ -604,30 +584,6 @@ spec:
         resources:
           requests:
             storage: "8Gi"
----
-# Source: wekan/templates/ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: wekan
-  labels:
-    app: wekan
-    chart: wekan-7.45.0
-    component: wekan
-    heritage: Helm
-    release: wekan
-spec:
-  rules:
-    - host: wekan.local
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: wekan
-                port:
-                  number: 8080
 ---
 # Source: wekan/templates/tests/test-http.yaml
 apiVersion: v1
