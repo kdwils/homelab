@@ -6,4 +6,12 @@ resources:
 
 patches:
   - path: ingress-patch.yaml
-  - path: mongo-replicas-patch.yaml
+    target:
+      kind: Ingress
+      name: wekan
+
+  - path: statefulset-patch.yaml
+    target:
+      kind: StatefulSet
+      name: wekan-mongodb
+      namespace: wekan
