@@ -18,3 +18,4 @@ resources:
   - hoarder-app.yaml
   - mealie-app.yaml
   - rss-app.yaml
+  - tailscale-app.yaml
