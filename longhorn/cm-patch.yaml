@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: longhorn-storageclass
-data:
-  storageclass.yaml: |-
-    {{- $yaml := .Values.storageclass.yaml | parseYaml }}
-    {{- $yaml.parameters.numberOfReplicas = "1" | toYaml | nindent 4 }}
-    {{ toYaml $yaml | nindent 2 }}

@@ -23,10 +23,3 @@ patches:
       - op: replace
         path: /spec/replicas
         value: 1
-  - path: cm-patch.yaml
-    target:
-      kind: ConfigMap
-      name: longhorn-storageclass
-      namespace: longhorn-system
-      version: v1
-      group: core
