@@ -6,4 +6,4 @@ resources:
   - namespace.yaml
 
 patches:
-  - cm-patch.yaml
+  - path: cm-patch.yaml
