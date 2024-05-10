@@ -24,6 +24,29 @@ kind: Service
 metadata:
   labels:
     app: pihole
+  name: homelab-pihole-web-tailscale
+spec:
+  externalTrafficPolicy: Cluster
+  loadBalancerClass: tailscale
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pihole
   name: homelab-pihole-dns-udp-tailscale
 spec:
   loadBalancerClass: tailscale
