@@ -24,6 +24,25 @@ kind: Service
 metadata:
   labels:
     app: pihole
+  name: homelab-pihole-dns-udp-tailscale
+spec:
+  loadBalancerClass: tailscale
+  externalTrafficPolicy: Cluster
+  ports:
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: dns-udp
+  selector:
+    app: pihole
+    release: homelab
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pihole
   name: homelab-pihole-dns-tcp-tailscale
 spec:
   loadBalancerClass: tailscale
@@ -78,9 +97,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  # annotations:
-  #   tailscale.com/expose: "true"
-  #   tailscale.com/hostname: pihole
   labels:
     app: pihole
   name: homelab-pihole-web
