@@ -30,7 +30,7 @@ spec:
             - name: KC_DB
               value: "mysql"
             - name: KC_DB_URL
-              value: "jdbc:mysql://mysql:3306/keycloak?useSSL=false"
+              value: "jdbc:mysql://mysql:3306/keycloak?useSSL=true&allowPublicKeyRetrieval=true"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
