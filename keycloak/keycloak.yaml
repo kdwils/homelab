@@ -27,22 +27,19 @@ spec:
                   name: keycloak-secret
                   key: keycloak-password
             - name: KC_DB
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-db
+              value: "mysql"
             - name: KC_DB_URL
-              value: "jdbc:postgresql://postgres:5432/keycloak"
+              value: "jdbc:mysql://mysql:3306/keycloak?useSSL=false"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-user
+                  name: mysql-secret
+                  key: mysql-user
             - name: KC_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
-                  key: postgres-password
+                  name: mysql-secret
+                  key: mysql-password
             - name: KC_HOSTNAME
               value: "keycloak.int.kyledev.co"
             - name: KC_HTTPS_CERTIFICATE_FILE

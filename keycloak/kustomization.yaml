@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
   - keycloak.yaml
   - keycloak-sealed-secret.yaml
-  - postgres.yaml
-  - postgres-sealed-secret.yaml
+  - mysql.yaml
+  - mysql-sealed-secret.yaml
   - namespace.yaml
 
 images:
