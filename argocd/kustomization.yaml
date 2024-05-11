@@ -8,3 +8,6 @@ resources:
 
 patches:
   - path: cm-patch.yaml
+
+components:
+  - https://github.com/argoproj-labs/argocd-extensions/manifests
