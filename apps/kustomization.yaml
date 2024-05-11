@@ -19,4 +19,4 @@ resources:
   - mealie-app.yaml
   - rss-app.yaml
   - tailscale-app.yaml
-  - wekan-app.yaml
+  # - wekan-app.yaml
