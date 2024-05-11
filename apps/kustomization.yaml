@@ -14,9 +14,9 @@ resources:
   - cert-manager-app.yaml
   - sealed-secret-app.yaml
   - gatekeeper-app.yaml
-  - excalidraw-app.yaml
+  # - excalidraw-app.yaml
   - hoarder-app.yaml
   - mealie-app.yaml
   - rss-app.yaml
   - tailscale-app.yaml
-  # - wekan-app.yaml
+  - wekan-app.yaml
