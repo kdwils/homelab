@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - keycloak.yaml
+  - keycloak-sealed-secret.yaml
+  - postgres.yaml
+  - postgres-sealed-secret.yaml
+  - namespace.yaml
+
+images:
+  - name: keycloak
+    newName: quay.io/keycloak/keycloak
+    newTag: 24.0.4

@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: authentik
+  name: keycloak
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: authentik
+    namespace: keycloak
     server: "https://kubernetes.default.svc"
   source:
-    path: authentik
+    path: keycloak
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
