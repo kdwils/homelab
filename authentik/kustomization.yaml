@@ -5,3 +5,4 @@ resources:
   - authentik.yaml
   - sealed-secret.yaml
   - namespace.yaml
+  - ingress.yaml
