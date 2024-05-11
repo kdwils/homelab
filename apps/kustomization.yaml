@@ -20,3 +20,4 @@ resources:
   - rss-app.yaml
   - tailscale-app.yaml
   - wekan-app.yaml
+  - authentik-app.yaml
