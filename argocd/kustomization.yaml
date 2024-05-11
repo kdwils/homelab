@@ -4,6 +4,7 @@ resources:
   - argocd.yaml
   - ingress.yaml
   - namespace.yaml
+  - rollout-extension.yaml
 
 patches:
   - path: cm-patch.yaml
