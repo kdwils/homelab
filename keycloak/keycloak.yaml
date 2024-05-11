@@ -15,6 +15,7 @@ spec:
       containers:
         - name: keycloak
           image: keycloak
+          args: [start]
           env:
             - name: KEYCLOAK_USER
               valueFrom:
