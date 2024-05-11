@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: wekan
+  name: authentik
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: wekan
+    namespace: authentik
     server: "https://kubernetes.default.svc"
   source:
-    path: wekan
+    path: authentik
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
