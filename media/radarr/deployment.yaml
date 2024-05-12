@@ -18,11 +18,12 @@ spec:
         release: radarr
     spec:
       volumes:
+        - name: radarr
+          persistentVolumeClaim:
+            claimName: radarr
         - name: media
           persistentVolumeClaim:
             claimName: media
-      nodeSelector:
-        kubernetes.io/arch: "amd64"
       containers:
         - name: radarr
           image: radarr
@@ -38,7 +39,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /config
-              name: media
+              name: radarr
               subPath: configs/radarr
             - mountPath: /downloads/transmission
               name: media
@@ -46,3 +47,15 @@ spec:
             - mountPath: /movies
               name: media
               subPath: movies
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: radarr
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi

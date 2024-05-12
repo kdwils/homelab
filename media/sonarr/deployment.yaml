@@ -18,11 +18,12 @@ spec:
         release: sonarr
     spec:
       volumes:
+        - name: sonarr
+          persistentVolumeClaim:
+            claimName: sonarr
         - name: media
           persistentVolumeClaim:
             claimName: media
-      nodeSelector:
-        kubernetes.io/arch: "amd64"
       containers:
         - name: sonarr
           image: sonarr
@@ -38,7 +39,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /config
-              name: media
+              name: sonarr
               subPath: configs/sonarr
             - mountPath: /downloads/transmission
               name: media
@@ -46,3 +47,16 @@ spec:
             - mountPath: /tv
               name: media
               subPath: tv
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
