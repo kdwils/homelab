@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bazarr
+  name: media
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,7 +10,7 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/bazarr
+    path: media
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
@@ -19,113 +19,113 @@ spec:
     automated:
       prune: true
       selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: jackett
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: media
-    server: "https://kubernetes.default.svc"
-  source:
-    path: media/jackett
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
-  sources: []
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: plex
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: media
-    server: "https://kubernetes.default.svc"
-  source:
-    path: media/plex
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
-  sources: []
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: radarr
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: media
-    server: "https://kubernetes.default.svc"
-  source:
-    path: media/radarr
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
-  sources: []
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: sonarr
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: media
-    server: "https://kubernetes.default.svc"
-  source:
-    path: media/sonarr
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
-  sources: []
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: transmission
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: media
-    server: "https://kubernetes.default.svc"
-  source:
-    path: media/transmission
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
-  sources: []
-  project: default
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: jackett
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   destination:
+#     namespace: media
+#     server: "https://kubernetes.default.svc"
+#   source:
+#     path: media/jackett
+#     repoURL: "https://github.com/kdwils/homelab"
+#     targetRevision: HEAD
+#   sources: []
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: jellyfin
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   destination:
+#     namespace: media
+#     server: "https://kubernetes.default.svc"
+#   source:
+#     path: media/jellyfin
+#     repoURL: "https://github.com/kdwils/homelab"
+#     targetRevision: HEAD
+#   sources: []
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: radarr
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   destination:
+#     namespace: media
+#     server: "https://kubernetes.default.svc"
+#   source:
+#     path: media/radarr
+#     repoURL: "https://github.com/kdwils/homelab"
+#     targetRevision: HEAD
+#   sources: []
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: sonarr
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   destination:
+#     namespace: media
+#     server: "https://kubernetes.default.svc"
+#   source:
+#     path: media/sonarr
+#     repoURL: "https://github.com/kdwils/homelab"
+#     targetRevision: HEAD
+#   sources: []
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+# ---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: transmission
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   destination:
+#     namespace: media
+#     server: "https://kubernetes.default.svc"
+#   source:
+#     path: media/transmission
+#     repoURL: "https://github.com/kdwils/homelab"
+#     targetRevision: HEAD
+#   sources: []
+#   project: default
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
