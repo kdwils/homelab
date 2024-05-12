@@ -21,4 +21,4 @@ resources:
   - tailscale-app.yaml
   # - wekan-app.yaml
   # - keycloak-app.yaml
-  # - media-app.yaml
+  - media-app.yaml
