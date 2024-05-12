@@ -21,6 +21,9 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: media
+        - name: transmission
+          persistentVolumeClaim:
+            claimName: transmission
         # - hostPath:
         #     path: /dev/net/tun
         #   name: dev-tun
@@ -74,7 +77,7 @@ spec:
                 - NET_ADMIN
           volumeMounts:
             - mountPath: /data
-              name: media
+              name: transmission
               subPath: configs/transmission-data
             - mountPath: /downloads/transmission
               name: media
@@ -82,3 +85,15 @@ spec:
             # - mountPath: /dev/net/tun
             #   name: dev-tun
           resources: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
