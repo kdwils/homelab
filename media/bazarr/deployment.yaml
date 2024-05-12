@@ -19,14 +19,12 @@ spec:
         app.kubernetes.io/instance: bazarr
     spec:
       volumes:
-        - name: media-ssd
+        - name: media
           persistentVolumeClaim:
-            claimName: "media-ssd"
-      nodeSelector:
-        kubernetes.io/arch: "amd64"
+            claimName: "media"
       containers:
         - name: bazarr
-          image: "lscr.io/linuxserver/bazarr:latest"
+          image: bazarr
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
@@ -41,13 +39,13 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /config
-              name: media-ssd
+              name: media
               subPath: configs/bazarr
             - mountPath: /movies
-              name: media-ssd
+              name: media
               subPath: movies
             - mountPath: /tv
-              name: media-ssd
+              name: media
               subPath: tv
           livenessProbe:
             tcpSocket:

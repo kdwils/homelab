@@ -18,9 +18,9 @@ spec:
         release: transmission
     spec:
       volumes:
-        - name: media-ssd
+        - name: media
           persistentVolumeClaim:
-            claimName: media-ssd
+            claimName: media
         # - hostPath:
         #     path: /dev/net/tun
         #   name: dev-tun
@@ -33,7 +33,7 @@ spec:
         kubernetes.io/arch: "amd64"
       containers:
         - name: transmission
-          image: "haugene/transmission-openvpn:5.0.2"
+          image: transmission
           imagePullPolicy: IfNotPresent
           env:
             - name: OPENVPN_PROVIDER
@@ -74,10 +74,10 @@ spec:
                 - NET_ADMIN
           volumeMounts:
             - mountPath: /data
-              name: media-ssd
+              name: media
               subPath: configs/transmission-data
             - mountPath: /downloads/transmission
-              name: media-ssd
+              name: media
               subPath: downloads/transmission
             # - mountPath: /dev/net/tun
             #   name: dev-tun

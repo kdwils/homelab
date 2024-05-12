@@ -5,3 +5,8 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+
+images:
+  - name: bazarr
+    newName: linuxserver/bazarr
+    newTag: 1.4.2
