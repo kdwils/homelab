@@ -7,6 +7,6 @@ resources:
   - ingress.yaml
 
 images:
-  - name: bazarr
+  - name: jackett
     newName: linuxserver/jackett
     newTag: 0.21.2586
