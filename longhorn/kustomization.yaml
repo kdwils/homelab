@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - longhorn.yaml
   - ingress.yaml
-  - longhorn-spdk.yaml
+  # - longhorn-spdk.yaml
 
 patches:
   - target:
