@@ -19,9 +19,9 @@ spec:
         release: jackett
     spec:
       volumes:
-        - name: media-ssd
+        - name: media
           persistentVolumeClaim:
-            claimName: media-ssd
+            claimName: media
         - hostPath:
             path: /dev/net/tun
           name: dev-tun
@@ -32,7 +32,7 @@ spec:
         kubernetes.io/arch: "amd64"
       containers:
         - name: jackett
-          image: "linuxserver/jackett:latest"
+          image: jackett
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
@@ -45,10 +45,10 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /config
-              name: media-ssd
+              name: media
               subPath: configs/jackett
             - mountPath: /downloads
-              name: media-ssd
+              name: media
               subPath: downloads/jackett
             - mountPath: /config/openvpn/
               name: jackett-secret

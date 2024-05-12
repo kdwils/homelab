@@ -57,17 +57,17 @@ spec:
               memory: 128Mi
           volumeMounts:
             - mountPath: /config
-              name: media-ssd
+              name: media
               subPath: configs/sonarr
             - mountPath: /downloads/transmission
-              name: media-ssd
+              name: media
               subPath: downloads/transmission
             - mountPath: /tv
-              name: media-ssd
+              name: media
               subPath: tv
       nodeSelector:
         kubernetes.io/arch: amd64
       volumes:
-        - name: media-ssd
+        - name: media
           persistentVolumeClaim:
-            claimName: media-ssd
+            claimName: media

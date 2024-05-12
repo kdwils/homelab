@@ -18,14 +18,14 @@ spec:
         release: sonarr
     spec:
       volumes:
-        - name: media-ssd
+        - name: media
           persistentVolumeClaim:
-            claimName: media-ssd
+            claimName: media
       nodeSelector:
         kubernetes.io/arch: "amd64"
       containers:
         - name: sonarr
-          image: "linuxserver/sonarr:latest"
+          image: sonarr
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
@@ -38,18 +38,11 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /config
-              name: media-ssd
+              name: media
               subPath: configs/sonarr
             - mountPath: /downloads/transmission
-              name: media-ssd
+              name: media
               subPath: downloads/transmission
             - mountPath: /tv
-              name: media-ssd
+              name: media
               subPath: tv
-          resources:
-            limits:
-              cpu: "0.5"
-              memory: 256Mi
-            requests:
-              cpu: "0.1"
-              memory: 128Mi

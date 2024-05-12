@@ -6,3 +6,8 @@ resources:
   - service.yaml
   - ingress.yaml
   - sealedsecret.yaml
+
+images:
+  - name: transmission
+    newName: haugene/transmission-openvpn
+    newTag: 5.0.2

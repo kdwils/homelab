@@ -5,3 +5,8 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+
+images:
+  - name: bazarr
+    newName: linuxserver/jackett
+    newTag: 0.21.2586

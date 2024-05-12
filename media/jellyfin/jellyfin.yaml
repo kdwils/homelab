@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: "amd64"
+      containers:
+        - name: jellyfin
+          image: jellyfin
+          ports:
+            - containerPort: 8096
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: media
+              mountPath: /media/movies
+              subPath: movies
+            - name: media
+              mountPath: /media/tv
+              subPath: tv
+            - name: dev-dri
+              mountPath: /dev/dri
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: dev-dri
+          hostPath:
+            path: /dev/dri
+            type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8096
+      targetPort: 8096
+  selector:
+    app: jellyfin

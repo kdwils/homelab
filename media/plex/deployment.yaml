@@ -49,17 +49,17 @@ spec:
             - name: TZ
               value: "America/New_York"
           volumeMounts:
-            - name: media-ssd
+            - name: media
               mountPath: /movies
               subPath: movies
-            - name: media-ssd
+            - name: media
               mountPath: /tv
               subPath: tv
             - mountPath: /config
-              name: media-ssd
+              name: media
               subPath: configs/plex
           resources: {}
       volumes:
-        - name: media-ssd
+        - name: media
           persistentVolumeClaim:
-            claimName: "media-ssd"
+            claimName: "media"

@@ -5,6 +5,9 @@ resources:
   - jackett/
   - sonarr/
   - radarr/
-  - plex/
+  - jellyfin/
   - transmission/
   - bazarr/
+  - pvc.yaml
+  - sealedsecret.yaml
+  - namespace.yaml
