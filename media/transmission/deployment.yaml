@@ -32,8 +32,6 @@ spec:
         nameservers:
           - 8.8.8.8
       securityContext: {}
-      nodeSelector:
-        kubernetes.io/arch: "amd64"
       containers:
         - name: transmission
           image: transmission

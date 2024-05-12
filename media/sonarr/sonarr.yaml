@@ -65,8 +65,6 @@ spec:
             - mountPath: /tv
               name: media
               subPath: tv
-      nodeSelector:
-        kubernetes.io/arch: amd64
       volumes:
         - name: media
           persistentVolumeClaim:
