@@ -45,7 +45,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: plex
+  name: jellyfin
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -54,7 +54,7 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/plex
+    path: media/jellyfin
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
