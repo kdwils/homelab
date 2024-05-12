@@ -5,6 +5,7 @@ resources:
   - deployment.yaml
   - jellyfin.yaml
   - ingress.yaml
+  - pvc.yaml
   - namespace.yaml
 
 images:

@@ -8,6 +8,3 @@ resources:
   - jellyfin/
   - transmission/
   - bazarr/
-  - pvc.yaml
-  - sealedsecret.yaml
-  - namespace.yaml
