@@ -30,8 +30,8 @@ spec:
               subPath: tv
             - name: dev-dri
               mountPath: /dev/dri
-            # - name: config
-            #   mountPath: /config
+            - name: jellyfin
+              mountPath: /config
       volumes:
         - name: media
           persistentVolumeClaim:
@@ -40,9 +40,9 @@ spec:
           hostPath:
             path: /dev/dri
             type: Directory
-        # - name: config
-        #   persistentVolumeClaim:
-        #     claimName: config  # Assuming a PVC named 'config' is available
+        - name: jellyfin
+          persistentVolumeClaim:
+            claimName: jellyfin
 ---
 apiVersion: v1
 kind: Service
