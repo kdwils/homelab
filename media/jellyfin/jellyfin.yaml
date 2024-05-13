@@ -30,6 +30,8 @@ spec:
               subPath: tv
             - name: dev-dri
               mountPath: /dev/dri
+            # - name: config
+            #   mountPath: /config
       volumes:
         - name: media
           persistentVolumeClaim:
@@ -38,6 +40,9 @@ spec:
           hostPath:
             path: /dev/dri
             type: Directory
+        # - name: config
+        #   persistentVolumeClaim:
+        #     claimName: config  # Assuming a PVC named 'config' is available
 ---
 apiVersion: v1
 kind: Service
