@@ -4,7 +4,6 @@ resources:
   - argocd.yaml
   - ingress.yaml
   - namespace.yaml
-  - sealedsecret.yaml
 
 namespace: argocd
 
