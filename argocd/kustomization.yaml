@@ -4,10 +4,25 @@ resources:
   - argocd.yaml
   - ingress.yaml
   - namespace.yaml
-  - rollout-extension.yaml
+
+namespace: argocd
 
 patches:
-  - path: cm-patch.yaml
-
-components:
-  - https://github.com/argoproj-labs/argocd-extensions/manifests
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: argocd-cm
+    path: argocd-cm-patch.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: argocd-rbac-cm
+    path: argocd-rbac-cm-patch.yaml
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: argocd-cmd-params-cm
+    path: argocd-cmd-params-cm-patch.yaml
