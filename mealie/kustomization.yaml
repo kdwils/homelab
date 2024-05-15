@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - mealie.yaml
   - namespace.yaml
-  - sealedsecret.yaml
   - ingress.yaml
 
 images:
