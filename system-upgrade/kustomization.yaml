@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - system-upgrade.yaml
   - plans.yaml
+  - crd.yaml
