@@ -4,6 +4,8 @@ resources:
   - argocd.yaml
   - ingress.yaml
   - namespace.yaml
+  - rollouts.yaml
+  - rollout-extension.yaml
 
 namespace: argocd
 
