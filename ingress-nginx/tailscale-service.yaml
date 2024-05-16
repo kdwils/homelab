@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: ingress-nginx-controller-tailscale
   namespace: ingress-nginx
+  annotations:
+    tailscale.com/hostname: "homelab-ingress"
 spec:
   loadBalancerClass: tailscale
   externalTrafficPolicy: Cluster
