@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
   - gatekeeper.yaml
   - sync.yaml
-  - policy/block-wildcard-ingress-hosts
-  - policy/block-duplicate-ingress-hosts
+  # - policy/block-wildcard-ingress-hosts
+  # - policy/block-duplicate-ingress-hosts
 
 images:
   - name: gatekeeper
