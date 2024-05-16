@@ -27,5 +27,5 @@ patches:
       name: argocd-cmd-params-cm
     path: argocd-cmd-params-cm-patch.yaml
 
-components:
-  - https://github.com/argoproj-labs/argocd-extensions/manifests
+# components:
+#   - https://github.com/argoproj-labs/argocd-extensions/manifests
