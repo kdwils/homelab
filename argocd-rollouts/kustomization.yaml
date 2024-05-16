@@ -4,6 +4,7 @@ resources:
   - namespace.yaml
   - rollouts.yaml
   - rollout-extension.yaml
+  - crds.yaml
 
 components:
   - https://github.com/argoproj-labs/argocd-extensions/manifests
