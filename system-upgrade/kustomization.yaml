@@ -2,8 +2,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - system-upgrade.yaml
-
-images:
-  - name: system-upgrade-controller
-    newName: rancher/system-upgrade-controller
-    newTag: v0.13.4
+  - plans.yaml
