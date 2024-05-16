@@ -4,8 +4,6 @@ resources:
   - argocd.yaml
   - ingress.yaml
   - namespace.yaml
-  - rollouts.yaml
-  - rollout-extension.yaml
 
 patches:
   - target:
@@ -26,6 +24,3 @@ patches:
       kind: ConfigMap
       name: argocd-cmd-params-cm
     path: argocd-cmd-params-cm-patch.yaml
-
-components:
-  - https://github.com/argoproj-labs/argocd-extensions/manifests
