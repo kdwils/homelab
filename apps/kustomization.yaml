@@ -10,15 +10,13 @@ resources:
   # - metallb-app.yaml
   # # - pihole-app.yaml
   # - system-upgrade-app.yaml
-  # - longhorn-app.yaml
-  # - cert-manager-app.yaml
-  # - sealed-secret-app.yaml
+  - longhorn-app.yaml
+  - cert-manager-app.yaml
+  - sealed-secret-app.yaml
   # - gatekeeper-app.yaml
-  # # - excalidraw-app.yaml
   # # - hoarder-app.yaml
   # - mealie-app.yaml
   # - rss-app.yaml
-  # - tailscale-app.yaml
-  # # - wekan-app.yaml
+  - tailscale-app.yaml
   # # - keycloak-app.yaml
   # # - media-app.yaml
