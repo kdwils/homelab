@@ -4,7 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
   - argocd-app.yaml
   - argocd-image-updater-app.yaml
-  - argocd-rollouts-app.yaml
+  # - argocd-rollouts-app.yaml
   - blog-app.yaml
   - cloudflared-app.yaml
   - ingress-controller-app.yaml
