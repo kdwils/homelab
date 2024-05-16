@@ -7,8 +7,6 @@ resources:
   - rollouts.yaml
   - rollout-extension.yaml
 
-namespace: argocd
-
 patches:
   - target:
       group: ""
