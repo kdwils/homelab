@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-rollouts
-  namespace: argocd-rollouts
+  name: argo-rollouts
+  namespace: argo-rollouts
   finalizers:
-    - resources-finalizer.argocd-rollouts.argoproj.io
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd-rollouts
+    namespace: argo-rollouts
     server: "https://kubernetes.default.svc"
   source:
-    path: argocd-rollouts
+    path: argo-rollouts
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
