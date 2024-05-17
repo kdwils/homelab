@@ -19,5 +19,5 @@ resources:
   - mealie-app.yaml
   - rss-app.yaml
   - tailscale-app.yaml
-  # # - keycloak-app.yaml
+  - keycloak-app.yaml
   # # - media-app.yaml
