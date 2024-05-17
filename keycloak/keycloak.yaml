@@ -3,22 +3,6 @@ kind: Namespace
 metadata:
   name: keycloak
 ---
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  name: keycloak-secret
-  namespace: keycloak
-spec:
-  encryptedData:
-    keycloak-password: <encrypted-password>
-    keycloak-user: <encrypted-user>
-    truststore-password: <encrypted-password>
-  template:
-    metadata:
-      name: keycloak-secret
-      namespace: keycloak
-    type: Opaque
----
 apiVersion: k8s.keycloak.org/v2alpha1
 kind: Keycloak
 metadata:
