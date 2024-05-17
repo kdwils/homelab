@@ -2,14 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - operator.yaml
+  - keycloak.yaml
   - crds.yaml
   - keycloak-sealedsecret.yaml
   - mysql.yaml
   - mysql-sealedsecret.yaml
   - namespace.yaml
   - ingress.yaml
-
-images:
-  - name: keycloak
-    newName: quay.io/keycloak/keycloak
-    newTag: 24.0.4

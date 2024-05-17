@@ -1,91 +1,54 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Namespace
 metadata:
   name: keycloak
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: keycloak-secret
+  namespace: keycloak
 spec:
-  selector:
-    matchLabels:
-      app: keycloak
-  replicas: 1
+  encryptedData:
+    keycloak-password: <encrypted-password>
+    keycloak-user: <encrypted-user>
+    truststore-password: <encrypted-password>
   template:
     metadata:
-      labels:
-        app: keycloak
-    spec:
-      containers:
-        - name: keycloak
-          image: keycloak
-          args: [start, --verbose]
-          env:
-            - name: KEYCLOAK_USER
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secret
-                  key: keycloak-user
-            - name: KEYCLOAK_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secret
-                  key: keycloak-password
-            - name: KC_DB
-              value: "mysql"
-            - name: KC_DB_URL
-              value: "jdbc:mysql://mysql:3306/keycloak?useSSL=true&allowPublicKeyRetrieval=true"
-            - name: KC_DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: mysql-user
-            - name: KC_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: mysql-password
-            - name: KC_HOSTNAME
-              value: "keycloak.int.kyledev.co"
-            - name: KC_HTTPS_CERTIFICATE_FILE
-              value: "/etc/x509/https/tls.crt"
-            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
-              value: "/etc/x509/https/tls.key"
-            - name: KC_HTTPS_TRUSTSTORE_FILE
-              value: "/etc/x509/ca/truststore.jks"
-            - name: KC_HTTPS_TRUSTSTORE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: keycloak-secret
-                  key: truststore-password
-          ports:
-            - containerPort: 8443
-          readinessProbe:
-            httpGet:
-              path: /auth/realms/master
-              port: 8443
-              scheme: HTTPS
-          livenessProbe:
-            httpGet:
-              path: /auth/
-              port: 8443
-              scheme: HTTPS
-          volumeMounts:
-            - name: cert-volume
-              mountPath: "/etc/x509/https"
-              readOnly: true
-      volumes:
-        - name: cert-volume
-          secret:
-            secretName: keycloak-tls
+      name: keycloak-secret
+      namespace: keycloak
+    type: Opaque
 ---
-apiVersion: v1
-kind: Service
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
 metadata:
   name: keycloak
+  namespace: keycloak
 spec:
-  type: LoadBalancer
-  loadBalancerClass: tailscale
-  ports:
-    - port: 8443
-      targetPort: 8443
-  selector:
-    app: keycloak
+  instances: 1
+  db:
+    vendor: mysql
+    host: mysql
+    port: 3306
+    usernameSecret:
+      name: mysql-secret
+      key: mysql-user
+    passwordSecret:
+      name: mysql-secret
+      key: mysql-password
+  http:
+    tlsSecret: keycloak-tls
+  hostname:
+    hostname: keycloak.int.kyledev.co
+  podDisruptionBudget:
+    minAvailable: 1
+  externalAccess:
+    enabled: true
+    host: keycloak.int.kyledev.co
+    tls:
+      secretName: keycloak-tls
+  additionalOptions:
+    - name: proxy
+      value: edge
+    - name: cache
+      value: local
