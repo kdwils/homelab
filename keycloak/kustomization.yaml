@@ -2,9 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - keycloak.yaml
-  - keycloak-sealed-secret.yaml
+  - keycloak-sealedsecret.yaml
   - mysql.yaml
-  - mysql-sealed-secret.yaml
+  - mysql-sealedsecret.yaml
   - namespace.yaml
   - ingress.yaml
 
