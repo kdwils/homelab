@@ -42,3 +42,11 @@ spec:
         secretKeyRef:
           key: truststore-password
           name: keycloak-secret
+  additionalVolumes:
+    - name: cert-volume
+      secret:
+        secretName: keycloak-tls
+  additionalVolumeMounts:
+    - mountPath: /etc/x509/https
+      name: cert-volume
+      readOnly: true
