@@ -20,6 +20,17 @@ spec:
           securityContext:
             runAsUser: 1000
             allowPrivilegeEscalation: false
+        - name: extension-rollouts
+          image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.1
+          env:
+            - name: EXTENSION_URL
+              value: https://github.com/argoproj-labs/rollout-extension/archive/refs/tags/v0.3.5.tar.gz
+          volumeMounts:
+            - name: extensions
+              mountPath: /tmp/extensions/
+          securityContext:
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
       containers:
         - name: argocd-server
           volumeMounts:
@@ -28,3 +39,6 @@ spec:
       volumes:
         - name: extensions
           emptyDir: {}
+
+
+https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.5/extension.tar
