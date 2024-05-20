@@ -19,34 +19,6 @@ spec:
     tlsSecret: keycloak-tls
   hostname:
     hostname: keycloak.int.kyledev.co
-  podDisruptionBudget:
-    minAvailable: 1
-  externalAccess:
-    enabled: true
-    host: keycloak.int.kyledev.co
-    tls:
-      secretName: keycloak-tls
   additionalOptions:
-    - name: proxy
-      value: edge
     - name: cache
       value: local
-    - name: https-certificate-file
-      value: /etc/x509/https/tls.crt
-    - name: https-certificate-key-file
-      value: /etc/x509/https/tls.key
-    - name: https-truststore-file
-      value: /etc/x509/ca/truststore.jks
-    - name: https-truststore-password
-      valueFrom:
-        secretKeyRef:
-          key: truststore-password
-          name: keycloak-secret
-  additionalVolumes:
-    - name: cert-volume
-      secret:
-        secretName: keycloak-tls
-  additionalVolumeMounts:
-    - mountPath: /etc/x509/https
-      name: cert-volume
-      readOnly: true
