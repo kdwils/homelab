@@ -26,6 +26,9 @@ patches:
       kind: ConfigMap
       name: argocd-cmd-params-cm
     path: argocd-cmd-params-cm-patch.yaml
-
-# components:
-#   - https://github.com/argoproj-labs/argocd-extensions/manifests
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: argocd-server
+    path: argocd-server-extensions-patch.yaml
