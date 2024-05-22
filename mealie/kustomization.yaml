@@ -8,7 +8,7 @@ resources:
 images:
   - name: mealie
     newName: ghcr.io/mealie-recipes/mealie
-    newTag: v1.4.0
+    newTag: v1.6.0
   - name: postgres
     newName: postgres
     newTag: "15"
