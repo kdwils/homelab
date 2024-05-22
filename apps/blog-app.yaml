@@ -23,3 +23,11 @@ spec:
     automated:
       prune: true
       selfHeal: true
+  ignoreDifferences:
+  - group: networking.istio.io
+    kind: VirtualService
+    name: blog
+    namespace: blog
+    jsonPointers:
+    - /spec/http/0/route
+    - /spec/http/1/route
