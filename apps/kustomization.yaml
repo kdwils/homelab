@@ -5,7 +5,6 @@ resources:
   - argocd-app.yaml
   - argocd-image-updater-app.yaml
   - argo-rollouts-app.yaml
-  - blog-app.yaml
   - cloudflared-app.yaml
   - ingress-controller-app.yaml
   - metallb-app.yaml
