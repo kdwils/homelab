@@ -19,3 +19,4 @@ resources:
   - tailscale-app.yaml
   - istio-app.yaml
   - go-hello.yaml
+  - kargo.yaml

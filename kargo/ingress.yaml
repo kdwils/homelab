@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kargo-api
+  namespace: kargo
+  labels:
+    helm.sh/chart: kargo-0.6.0
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "kargo.int.kyledev.co"
+      http:
+        paths:
+          - pathType: ImplementationSpecific
+            path: /
+            backend:
+              service:
+                name: kargo-api
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - "kargo.int.kyledev.co"
+      secretName: kargo-api-ingress-cert
