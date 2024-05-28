@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: go-hello
+  namespace: argocd
+spec:
+  destination:
+    namespace: go-hello
+    server: "https://kubernetes.default.svc"
+  source:
+    path: deploy
+    repoURL: "https://github.com/kdwils/go-hello"
+    targetRevision: HEAD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+  ignoreDifferences:
+    - group: networking.istio.io
+      kind: VirtualService
+      name: blog
+      namespace: blog
+      jsonPointers:
+        - /spec

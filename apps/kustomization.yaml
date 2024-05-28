@@ -18,3 +18,4 @@ resources:
   - rss-app.yaml
   - tailscale-app.yaml
   - istio-app.yaml
+  - go-hello.yaml
