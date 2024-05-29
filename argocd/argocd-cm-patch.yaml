@@ -6,6 +6,7 @@ data:
   accounts.reader: login
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
+  application.namespaces: "*"
 metadata:
   labels:
     app.kubernetes.io/name: argocd-cm
