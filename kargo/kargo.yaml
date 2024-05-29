@@ -112,7 +112,7 @@ metadata:
     app.kubernetes.io/component: api
 data:
   KARGO_NAMESPACE: kargo
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: "DEBUG"
   PERMISSIVE_CORS_POLICY_ENABLED: "false"
   ADMIN_ACCOUNT_ENABLED: "true"
   ADMIN_ACCOUNT_TOKEN_ISSUER: http://kargo.int.kyledev.co
