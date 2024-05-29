@@ -135,7 +135,7 @@ metadata:
     app.kubernetes.io/component: controller
 data:
   LOG_LEVEL: "INFO"
-  GLOBAL_CREDENTIALS_NAMESPACES: ""
+  GLOBAL_CREDENTIALS_NAMESPACES: "kargo"
   GITCLIENT_NAME: "Kargo Render"
   GITCLIENT_EMAIL: "kargo-render@akuity.io"
   GITCLIENT_SIGNING_KEY_TYPE: "gpg"
