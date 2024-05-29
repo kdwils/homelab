@@ -136,8 +136,8 @@ metadata:
 data:
   LOG_LEVEL: "DEBUG"
   GLOBAL_CREDENTIALS_NAMESPACES: "kargo"
-  GITCLIENT_NAME: "Kargo Render"
-  GITCLIENT_EMAIL: "kargo-render@akuity.io"
+  GITCLIENT_NAME: "Kyle Wilson"
+  GITCLIENT_EMAIL: "wilson15701@gmail.com"
   GITCLIENT_SIGNING_KEY_TYPE: "gpg"
   ARGOCD_INTEGRATION_ENABLED: "true"
   ARGOCD_NAMESPACE: argocd
