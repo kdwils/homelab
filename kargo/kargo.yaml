@@ -134,7 +134,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 data:
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: "DEBUG"
   GLOBAL_CREDENTIALS_NAMESPACES: "kargo"
   GITCLIENT_NAME: "Kargo Render"
   GITCLIENT_EMAIL: "kargo-render@akuity.io"
@@ -159,7 +159,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: garbage-collector
 data:
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: "DEBUG"
   NUM_WORKERS: "3"
   MAX_RETAINED_PROMOTIONS: "20"
   MIN_PROMOTION_DELETION_AGE: "336h"
@@ -181,7 +181,7 @@ metadata:
     app.kubernetes.io/component: management-controller
 data:
   KARGO_NAMESPACE: kargo
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: "DEBUG"
 ---
 # Source: kargo/templates/webhooks-server/configmap.yaml
 apiVersion: v1
@@ -198,7 +198,7 @@ metadata:
     app.kubernetes.io/component: webhooks-server
 data:
   KARGO_NAMESPACE: kargo
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: "DEBUG"
   CONTROLPLANE_USER_REGEX: ^system:serviceaccount:kargo:(kargo-api|kargo-controller|kargo-garbage-collector|kargo-management-controller)$
 ---
 # Source: kargo/templates/crds.yaml

@@ -5,5 +5,5 @@ resources:
   - namespace.yaml
   - sealedsecret.yaml
   - ingress.yaml
-  # - kargo.yaml
+  - kargo.yaml
   - registry-sealedsecret.yaml
