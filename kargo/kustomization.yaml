@@ -6,4 +6,4 @@ resources:
   - sealedsecret.yaml
   - ingress.yaml
   - kargo.yaml
-  - registry-sealedsecret.yaml
+  - git-sealedsecret.yaml
