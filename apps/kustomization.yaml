@@ -18,7 +18,5 @@ resources:
   - rss-app.yaml
   - tailscale-app.yaml
   - istio-app.yaml
-  - go-hello.yaml
+  # - go-hello.yaml
   - kargo.yaml
-
-100.102.102.38:/mnt/user/homelab /mnt/homelab nfs defaults,nofail 0 0 
