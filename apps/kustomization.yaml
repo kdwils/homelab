@@ -15,7 +15,7 @@ resources:
   - gatekeeper-app.yaml
   # - hoarder-app.yaml
   # - mealie-app.yaml
-  - rss-app.yaml
+  # - rss-app.yaml
   - tailscale-app.yaml
   - istio-app.yaml
   # - go-hello.yaml
