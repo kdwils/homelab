@@ -56,7 +56,7 @@ spec:
             - name: NORDVPN_CATEGORY
               value: P2P
             - name: LOCAL_NETWORK
-              value: 192.168.1.0/24
+              value: 192.168.0.0/24
             - name: TRANSMISSION_PEER_PORT
               value: "47444"
             - name: TRANSMISSION_DOWNLOAD_DIR

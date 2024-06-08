@@ -4,19 +4,19 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
   - argocd-app.yaml
   - argocd-image-updater-app.yaml
-  - argo-rollouts-app.yaml
-  - cloudflared-app.yaml
-  - ingress-controller-app.yaml
-  - metallb-app.yaml
-  - system-upgrade-app.yaml
-  - longhorn-app.yaml
-  - cert-manager-app.yaml
-  - sealed-secret-app.yaml
-  - gatekeeper-app.yaml
-  - hoarder-app.yaml
-  - mealie-app.yaml
-  - rss-app.yaml
-  - tailscale-app.yaml
-  - istio-app.yaml
-  - go-hello.yaml
-  - kargo.yaml
+  # - argo-rollouts-app.yaml
+  # - cloudflared-app.yaml
+  # - ingress-controller-app.yaml
+  # - metallb-app.yaml
+  # - system-upgrade-app.yaml
+  # - longhorn-app.yaml
+  # - cert-manager-app.yaml
+  # - sealed-secret-app.yaml
+  # - gatekeeper-app.yaml
+  # - hoarder-app.yaml
+  # - mealie-app.yaml
+  # - rss-app.yaml
+  # - tailscale-app.yaml
+  # - istio-app.yaml
+  # - go-hello.yaml
+  # - kargo.yaml
