@@ -9,3 +9,4 @@ resources:
   - transmission/
   - bazarr/
   - pvc.yaml
+  - namespace.yaml
