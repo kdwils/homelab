@@ -20,5 +20,5 @@ resources:
   - istio-app.yaml
   # - go-hello.yaml
   - kargo-app.yaml
-  - media-app.yaml
+  # - media-app.yaml
   - nfs-provisioner.yaml
