@@ -10,4 +10,4 @@ resources:
 images:
   - name: transmission
     newName: haugene/transmission-openvpn
-    newTag: 5.0.2
+    newTag: 5.3.1
