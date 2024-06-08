@@ -23,10 +23,10 @@ spec:
             privileged: true
           volumeMounts:
             - name: media
-              mountPath: /media/movies
+              mountPath: /movies
               subPath: movies
             - name: media
-              mountPath: /media/tv
+              mountPath: /tv
               subPath: tv
             - name: dev-dri
               mountPath: /dev/dri
