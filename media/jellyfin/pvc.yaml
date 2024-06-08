@@ -11,23 +11,6 @@ spec:
       storage: 10Ti
 ---
 apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: media
-  labels:
-    pv: media
-spec:
-  capacity:
-    storage: 10Ti
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 100.102.102.38
-    path: /mnt/usr/homelab
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: nfs-client
----
-apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: jellyfin
@@ -37,4 +20,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 8Gi
+      storage: 8Gia
