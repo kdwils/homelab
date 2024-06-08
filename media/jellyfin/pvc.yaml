@@ -26,3 +26,15 @@ spec:
     path: /mnt/usr/homelab
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs-client
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
