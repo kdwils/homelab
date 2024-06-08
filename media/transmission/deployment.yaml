@@ -1,8 +1,3 @@
-This is coming from transmission k8s:
-Couldn't get '/data/incomplete/Spider-Man.Into.the.Spider-Verse.2018.COMPLETE.UHD.BLURAY-TERMiNAL/BDMV/STREAM/00100.m2ts.part': No space left on device (28)
-
-here is the setup below.. the media volume is a 30tb mount that for sure has disk space (it hasn't been written to yet)
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
