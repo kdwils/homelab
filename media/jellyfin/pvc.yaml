@@ -21,5 +21,8 @@ spec:
     storage: 10Ti
   accessModes:
     - ReadWriteMany
+  nfs:
+    server: 100.102.102.38
+    path: /mnt/usr/homelab
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs-client
