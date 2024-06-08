@@ -68,7 +68,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-subdir-external-provisioner
-    namespace: default
+    namespace: nfs-provisioner
 roleRef:
   kind: ClusterRole
   name: nfs-subdir-external-provisioner-runner
@@ -102,7 +102,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-subdir-external-provisioner
-    namespace: default
+    namespace: nfs-provisioner
 roleRef:
   kind: Role
   name: leader-locking-nfs-subdir-external-provisioner
