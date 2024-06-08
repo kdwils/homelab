@@ -9,9 +9,6 @@ spec:
   resources:
     requests:
       storage: 10Ti
-  selector:
-    matchLabels:
-      pv: media
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -22,11 +19,7 @@ metadata:
 spec:
   capacity:
     storage: 10Ti
-  volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: longhorn-static
-  nfs:
-    path: /mnt/user/homelab
-    server: 100.102.102.38
+  storageClassName: nfs-client

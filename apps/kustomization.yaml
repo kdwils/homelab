@@ -21,3 +21,4 @@ resources:
   # - go-hello.yaml
   - kargo-app.yaml
   - media-app.yaml
+  - nfs-provisioner.yaml
