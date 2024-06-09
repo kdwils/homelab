@@ -11,7 +11,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     path: apps/authentik
-    repoURL: "https://github.com/kdwils/authentik"
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: apps
