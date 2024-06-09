@@ -8,4 +8,4 @@ resources:
   - kargo.yaml
   - mealie.yaml
   - rss.yaml
-  - authentik.yaml
+  # - authentik.yaml
