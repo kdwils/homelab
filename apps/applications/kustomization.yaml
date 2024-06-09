@@ -5,7 +5,7 @@ resources:
   - excalidraw.yaml
   - gatekeeper.yaml
   # - hoarder.yaml
-  # - kargo.yaml
+  - kargo.yaml
   - mealie.yaml
   - rss.yaml
   - authentik.yaml
