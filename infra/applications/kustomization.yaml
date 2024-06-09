@@ -1,0 +1,14 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - argocd.yaml
+  - cloudflared.yaml
+  - ingress-nginx.yaml
+  - metallb.yaml
+  - longhorn.yaml
+  - cert-manager.yaml
+  - sealed-secrets.yaml
+  - tailscale.yaml
+  - nfs-provisioner.yaml
+  - system-upgrade.yaml

@@ -14,7 +14,7 @@ spec:
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
-  project: infra/default
+  project: infra
   syncPolicy:
     automated:
       prune: true

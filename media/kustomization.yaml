@@ -2,9 +2,4 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
-  - applications/bazarr.yaml
-  - applications/jackett.yaml
-  - applications/jellyfin.yaml
-  - applications/radarr.yaml
-  - applications/sonarr.yaml
-  - applications/transmission.yaml
+  - applications/

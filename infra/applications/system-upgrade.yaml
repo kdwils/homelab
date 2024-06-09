@@ -10,11 +10,11 @@ spec:
     namespace: system-upgrade
     server: "https://kubernetes.default.svc"
   source:
-    path: system-upgrade
+    path: infra/system-upgrade
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
-  project: default
+  project: infra
   syncPolicy:
     automated:
       prune: true

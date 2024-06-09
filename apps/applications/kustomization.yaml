@@ -1,0 +1,11 @@
+resources:
+  - argo-rollouts.yaml
+  - argocd-image-updater.yaml
+  # - backstage.yaml
+  - blog.yaml
+  - excalidraw.yaml
+  - gatekeeper.yaml
+  - hoarder.yaml
+  - kargo.yaml
+  - mealie.yaml
+  - rss.yaml

@@ -2,13 +2,4 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
-  - applications/argo-rollouts.yaml
-  - applications/argocd-image-updater.yaml
-  # - applications/backstage.yaml
-  - applications/blog.yaml
-  - applications/excalidraw.yaml
-  - applications/gatekeeper.yaml
-  - applications/hoarder.yaml
-  - applications/kargo.yaml
-  - applications/mealie.yaml
-  - applications/rss.yaml
+  - applications/

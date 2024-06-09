@@ -4,15 +4,19 @@ metadata:
   name: infra
   namespace: argocd
 spec:
+  # Whitelist all cluster-scoped resources
   clusterResourceWhitelist:
-    - group: ""
-      kind: Namespace
+    - group: "*"
+      kind: "*"
+  # Define deployment destinations
   destinations:
     - name: "*"
       namespace: "*"
       server: "*"
+  # Whitelist all namespaced resources
   namespaceResourceWhitelist:
     - group: "*"
       kind: "*"
+  # Specify source repositories
   sourceRepos:
     - https://github.com/kdwils/homelab.git
