@@ -1,0 +1,31 @@
+authentik:
+  error_reporting:
+    enabled: false
+  secret_key: "Rn+KGgQrYGRrsaDeNyXIWQLIpV/JPW2DpSSHWtQAMlgpP2mCA/1a4NHnKB8s3Dvha2j7qbVu+BTFTbq0"
+  postgresql:
+    host: authentik-postgresql
+    username: "authentik"
+    password: "Rn+KGgQrYGRrsaDeNyXIWQLIpV/JPW2DpSSHWtQAMlgpP2mCA/1a4NHnKB8s3Dvha2j7qbVu+BTFTbq0"
+  redis:
+    host: authentik-redis-master
+  email:
+    host: "smtp.google.com"
+    port: 587
+    username: "kyle.wilson@kyledev.co"
+    password: "faggwckbmvtyuncb"
+    use_tls: true
+    timeout: 30
+    from: "authentik <kyle.wilson@kyledev.co>"
+
+server:
+  ingress:
+    enabled: true
+
+postgresql:
+  auth:
+    username: "authentik"
+    password: "Rn+KGgQrYGRrsaDeNyXIWQLIpV/JPW2DpSSHWtQAMlgpP2mCA/1a4NHnKB8s3Dvha2j7qbVu+BTFTbq0"
+  enabled: true
+
+redis:
+  enabled: true

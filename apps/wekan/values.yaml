@@ -1,0 +1,16 @@
+mongodb-replicaset:
+  enabled: true
+  replicas: 1
+  replicaSetName: rs0
+  securityContext:
+    runAsUser: 1000
+    fsGroup: 1000
+    runAsNonRoot: true
+
+ingress:
+  enabled: false
+
+root_url: https://wekan.int.kyledev.co
+
+autoscaling:
+  enabled: false

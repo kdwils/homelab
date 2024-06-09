@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  destinations:
+    - name: "*"
+      namespace: "*"
+      server: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  sourceRepos:
+    - https://github.com/kdwils/homelab.git
+    - https://github.com/kdwils/blog-deploy.git
