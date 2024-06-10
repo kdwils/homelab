@@ -17,7 +17,7 @@ spec:
               service:
                 name: obsidian
                 port:
-                  number: 88080
+                  name: http
             path: /
             pathType: Prefix
   tls:

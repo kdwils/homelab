@@ -37,6 +37,7 @@ spec:
               value: "America/New_York"
           ports:
             - containerPort: 8080
+              name: http
           volumeMounts:
             - mountPath: /config
               name: config
