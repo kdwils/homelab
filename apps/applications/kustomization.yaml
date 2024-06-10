@@ -9,3 +9,4 @@ resources:
   - mealie.yaml
   - rss.yaml
   - authentik.yaml
+  - obsidian.yaml

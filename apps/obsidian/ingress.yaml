@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  labels:
+    app: obsidian-ingress
+  name: obsidian
+  namespace: obsidian
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: obsidian.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: obsidian
+                port:
+                  number: 88080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - obsidian.int.kyledev.co
+      secretName: obsidian-kyledev-tls-prod
