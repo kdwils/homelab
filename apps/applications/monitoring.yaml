@@ -8,8 +8,8 @@ spec:
     namespace: monitoring
     server: "https://kubernetes.default.svc"
   source:
-    path: deploy
-    repoURL: "https://github.com/kdwils/monitoring"
+    path: apps/monitoring
+    repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
   project: apps
