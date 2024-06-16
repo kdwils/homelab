@@ -2182,8 +2182,9 @@ metadata:
     app.kubernetes.io/version: "11.0.0"
     app.kubernetes.io/managed-by: Helm
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: nginx
   rules:
     - host: "grafana.int.kyledev.co"
       http:
@@ -2195,6 +2196,10 @@ spec:
                 name: monitoring-grafana
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - alertmanager.int.kyledev.co
+      secretName: alertmanager-kyledev-tls-prod
 ---
 # Source: kube-prometheus-stack/templates/alertmanager/ingress.yaml
 apiVersion: networking.k8s.io/v1
@@ -2229,7 +2234,7 @@ spec:
   tls:
     - hosts:
         - alertmanager.int.kyledev.co
-      secretName: monitoring-kyledev-tls-prod
+      secretName: alertmanager-kyledev-tls-prod
 ---
 # Source: kube-prometheus-stack/templates/prometheus/ingress.yaml
 apiVersion: networking.k8s.io/v1
@@ -2264,7 +2269,7 @@ spec:
   tls:
     - hosts:
         - prometheus.int.kyledev.co
-      secretName: monitoring-kyledev-tls-prod
+      secretName: prometheus-kyledev-tls-prod
 ---
 # Source: kube-prometheus-stack/templates/prometheus/ingressThanosSidecar.yaml
 apiVersion: networking.k8s.io/v1
@@ -2299,7 +2304,7 @@ spec:
   tls:
     - hosts:
         - thanos.int.kyledev.co
-      secretName: monitoring-kyledev-tls-prod
+      secretName: thanos-kyledev-tls-prod
 ---
 # Source: kube-prometheus-stack/templates/alertmanager/alertmanager.yaml
 apiVersion: monitoring.coreos.com/v1
