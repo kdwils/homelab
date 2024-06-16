@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    server: "https://kubernetes.default.svc"
+  source:
+    path: deploy
+    repoURL: "https://github.com/kdwils/monitoring"
+    targetRevision: HEAD
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
