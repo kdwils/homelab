@@ -1,0 +1,30 @@
+---
+# Source: sonarqube/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sonarqube-sonarqube
+  labels:
+    app: sonarqube
+    chart: sonarqube-10.5.1_2816
+    release: sonarqube
+    heritage: Helm
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: sonarqube.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: sonarqube-sonarqube
+                port:
+                  number: 9000
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - "sonarqube.int.kyledev.co"
+      secretName: sonarqube-ingress-cert
