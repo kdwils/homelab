@@ -95,8 +95,8 @@ metadata:
     heritage: Helm
 data:
   prometheus-ce-config.yaml: |-
-        rules:
-        - pattern: .*
+    rules:
+    - pattern: .*
 ---
 # Source: sonarqube/templates/prometheus-config.yaml
 apiVersion: v1
@@ -110,8 +110,8 @@ metadata:
     heritage: Helm
 data:
   prometheus-config.yaml: |-
-        rules:
-        - pattern: .*
+    rules:
+    - pattern: .*
 ---
 # Source: sonarqube/templates/pvc.yaml
 kind: PersistentVolumeClaim
@@ -206,7 +206,6 @@ spec:
     app: sonarqube
     release: sonarqube
 ---
-# Source: sonarqube/charts/postgresql/templates/statefulset.yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -217,7 +216,6 @@ metadata:
     app.kubernetes.io/instance: sonarqube
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: primary
-  annotations:
   namespace: sonarqube
 spec:
   serviceName: sonarqube-postgresql-headless
@@ -231,7 +229,6 @@ spec:
       role: primary
   template:
     metadata:
-      name: sonarqube-postgresql
       labels:
         app.kubernetes.io/name: postgresql
         helm.sh/chart: postgresql-10.15.0
@@ -239,13 +236,13 @@ spec:
         app.kubernetes.io/managed-by: Helm
         role: primary
         app.kubernetes.io/component: primary
-    spec:      
+    spec:
       affinity:
         podAffinity:
-          
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
+            - weight: 1
+              podAffinityTerm:
                 labelSelector:
                   matchLabels:
                     app.kubernetes.io/name: postgresql
@@ -254,16 +251,21 @@ spec:
                 namespaces:
                   - "sonarqube"
                 topologyKey: kubernetes.io/hostname
-              weight: 1
         nodeAffinity:
-          
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
       securityContext:
         fsGroup: 1001
       automountServiceAccountToken: false
       containers:
         - name: sonarqube-postgresql
           image: docker.io/bitnami/postgresql:11.14.0-debian-10-r22
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               cpu: 2
@@ -275,7 +277,7 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - ALL
+                - ALL
             runAsNonRoot: true
             runAsUser: 1001
             seccompProfile:
@@ -352,7 +354,7 @@ spec:
               mountPath: /dev/shm
             - name: data
               mountPath: /bitnami/postgresql
-              subPath: 
+              subPath:
       volumes:
         - name: dshm
           emptyDir:
@@ -366,6 +368,7 @@ spec:
         resources:
           requests:
             storage: "30Gi"
+
 ---
 # Source: sonarqube/templates/sonarqube-sts.yaml
 apiVersion: apps/v1
@@ -405,7 +408,7 @@ spec:
         checksum/prometheus-config: 2f5b6cac5dc164c6d9d4b15ceeb7e4d321f36446449037e1a88b0a9a14d2645c
         checksum/prometheus-ce-config: f265cb453a4f725a603faffc2591e5efdb3389ac384f54a325e2cceb5ed2d285
     spec:
-      automountServiceAccountToken: false      
+      automountServiceAccountToken: false
       securityContext:
         fsGroup: 0
       initContainers:
@@ -416,27 +419,26 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - ALL
+                - ALL
             runAsGroup: 0
             runAsNonRoot: true
             runAsUser: 1000
             seccompProfile:
               type: RuntimeDefault
-          resources:
-            {}
+          resources: {}
           command: ["/bin/bash", "-c"]
-          args: ['set -o pipefail;for i in {1..200};do (echo > /dev/tcp/sonarqube-postgresql/5432) && exit 0; sleep 2;done; exit 1']
+          args:
+            [
+              "set -o pipefail;for i in {1..200};do (echo > /dev/tcp/sonarqube-postgresql/5432) && exit 0; sleep 2;done; exit 1",
+            ]
         - name: init-sysctl
           image: sonarqube:10.5.0-community
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
             runAsUser: 0
-          resources:
-            {}
-          command: ["/bin/bash",
-            "-e",
-            "/tmp/scripts/init_sysctl.sh"]
+          resources: {}
+          command: ["/bin/bash", "-e", "/tmp/scripts/init_sysctl.sh"]
           volumeMounts:
             - name: init-sysctl
               mountPath: /tmp/scripts/
@@ -454,27 +456,29 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - ALL
+                - ALL
             runAsGroup: 0
             runAsNonRoot: true
             runAsUser: 1000
             seccompProfile:
               type: RuntimeDefault
-          resources:
-            {}
-          command: ["/bin/sh","-c"]
-          args: ["curl -s 'https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.17.2/jmx_prometheus_javaagent-0.17.2.jar'  --output /data/jmx_prometheus_javaagent.jar -v"]
+          resources: {}
+          command: ["/bin/sh", "-c"]
+          args:
+            [
+              "curl -s 'https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.17.2/jmx_prometheus_javaagent-0.17.2.jar'  --output /data/jmx_prometheus_javaagent.jar -v",
+            ]
           volumeMounts:
             - mountPath: /data
               name: sonarqube
               subPath: data
           env:
             - name: http_proxy
-              value: 
+              value:
             - name: https_proxy
-              value: 
+              value:
             - name: no_proxy
-              value: 
+              value:
             - name: SONAR_WEB_CONTEXT
               value: /
             - name: SONAR_WEB_JAVAOPTS
@@ -487,20 +491,17 @@ spec:
           securityContext:
             capabilities:
               add:
-              - CHOWN
+                - CHOWN
               drop:
-              - ALL
+                - ALL
             privileged: false
             runAsGroup: 0
             runAsNonRoot: false
             runAsUser: 0
             seccompProfile:
               type: RuntimeDefault
-          resources:
-            {}
-          command: ["sh",
-            "-e",
-            "/tmp/scripts/init_fs.sh"]
+          resources: {}
+          command: ["sh", "-e", "/tmp/scripts/init_fs.sh"]
           volumeMounts:
             - name: init-fs
               mountPath: /tmp/scripts/
@@ -566,10 +567,10 @@ spec:
           livenessProbe:
             exec:
               command:
-              - sh
-              - -c
-              - |
-                wget --no-proxy --quiet -O /dev/null --timeout=1 --header="X-Sonar-Passcode: $SONAR_WEB_SYSTEMPASSCODE" "http://localhost:9000/api/system/liveness"
+                - sh
+                - -c
+                - |
+                  wget --no-proxy --quiet -O /dev/null --timeout=1 --header="X-Sonar-Passcode: $SONAR_WEB_SYSTEMPASSCODE" "http://localhost:9000/api/system/liveness"
             initialDelaySeconds: 60
             periodSeconds: 30
             failureThreshold: 6
@@ -577,16 +578,16 @@ spec:
           readinessProbe:
             exec:
               command:
-              - sh
-              - -c
-              - |
-                #!/bin/bash
-                # A Sonarqube container is considered ready if the status is UP, DB_MIGRATION_NEEDED or DB_MIGRATION_RUNNING
-                # status about migration are added to prevent the node to be kill while sonarqube is upgrading the database.
-                if wget --no-proxy -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"'; then
-                	exit 0
-                fi
-                exit 1
+                - sh
+                - -c
+                - |
+                  #!/bin/bash
+                  # A Sonarqube container is considered ready if the status is UP, DB_MIGRATION_NEEDED or DB_MIGRATION_RUNNING
+                  # status about migration are added to prevent the node to be kill while sonarqube is upgrading the database.
+                  if wget --no-proxy -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"'; then
+                  	exit 0
+                  fi
+                  exit 1
             initialDelaySeconds: 60
             periodSeconds: 30
             failureThreshold: 6
@@ -604,7 +605,7 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - ALL
+                - ALL
             runAsGroup: 0
             runAsNonRoot: true
             runAsUser: 1000
@@ -633,42 +634,41 @@ spec:
               name: prometheus-ce-config
       serviceAccountName: default
       volumes:
-      - name: init-sysctl
-        configMap:
-          name: sonarqube-sonarqube-init-sysctl
-          items:
-            - key: init_sysctl.sh
-              path: init_sysctl.sh
-      - name: init-fs
-        configMap:
-          name: sonarqube-sonarqube-init-fs
-          items:
-            - key: init_fs.sh
-              path: init_fs.sh
-      - name: install-plugins
-        configMap:
-          name: sonarqube-sonarqube-install-plugins
-          items:
-            - key: install_plugins.sh
-              path: install_plugins.sh
-      - name: prometheus-config
-        configMap:
-          name: sonarqube-sonarqube-prometheus-config
-          items:
-            - key: prometheus-config.yaml
-              path: prometheus-config.yaml
-      - name: prometheus-ce-config
-        configMap:
-          name: sonarqube-sonarqube-prometheus-ce-config
-          items:
-            - key: prometheus-ce-config.yaml
-              path: prometheus-ce-config.yaml
-      - name: sonarqube
-        persistentVolumeClaim:
-          claimName: sonarqube-sonarqube
-      - name : tmp-dir
-        emptyDir:
-          {}
+        - name: init-sysctl
+          configMap:
+            name: sonarqube-sonarqube-init-sysctl
+            items:
+              - key: init_sysctl.sh
+                path: init_sysctl.sh
+        - name: init-fs
+          configMap:
+            name: sonarqube-sonarqube-init-fs
+            items:
+              - key: init_fs.sh
+                path: init_fs.sh
+        - name: install-plugins
+          configMap:
+            name: sonarqube-sonarqube-install-plugins
+            items:
+              - key: install_plugins.sh
+                path: install_plugins.sh
+        - name: prometheus-config
+          configMap:
+            name: sonarqube-sonarqube-prometheus-config
+            items:
+              - key: prometheus-config.yaml
+                path: prometheus-config.yaml
+        - name: prometheus-ce-config
+          configMap:
+            name: sonarqube-sonarqube-prometheus-ce-config
+            items:
+              - key: prometheus-ce-config.yaml
+                path: prometheus-ce-config.yaml
+        - name: sonarqube
+          persistentVolumeClaim:
+            claimName: sonarqube-sonarqube
+        - name: tmp-dir
+          emptyDir: {}
 ---
 # Source: sonarqube/templates/prometheus-podmonitor.yaml
 apiVersion: monitoring.coreos.com/v1
@@ -681,26 +681,26 @@ metadata:
 spec:
   namespaceSelector:
     matchNames:
-    - sonarqube
+      - sonarqube
   selector:
     matchLabels:
       app: sonarqube
   podMetricsEndpoints:
-  - port: http
-    path: /api/monitoring/metrics
-    scheme: http
-    interval: 30s
-    bearerTokenSecret:
-      name: sonarqube-sonarqube-monitoring-passcode
-      key: SONAR_WEB_SYSTEMPASSCODE
-  - port: monitoring-ce
-    path: /
-    scheme: http
-    interval: 30s
-  - port: monitoring-web
-    path: /
-    scheme: http
-    interval: 30s
+    - port: http
+      path: /api/monitoring/metrics
+      scheme: http
+      interval: 30s
+      bearerTokenSecret:
+        name: sonarqube-sonarqube-monitoring-passcode
+        key: SONAR_WEB_SYSTEMPASSCODE
+    - port: monitoring-ce
+      path: /
+      scheme: http
+      interval: 30s
+    - port: monitoring-web
+      path: /
+      scheme: http
+      interval: 30s
 ---
 # Source: sonarqube/templates/tests/sonarqube-test.yaml
 apiVersion: v1
@@ -720,15 +720,16 @@ spec:
     - name: sonarqube-ui-test
       image: "sonarqube:10.5.0-community"
       imagePullPolicy: IfNotPresent
-      command: ['wget']
-      args: [
-        '--retry-connrefused',
-        '--waitretry=1',
-        '--timeout=5',
-        '-t',
-        '12',
-        '-qO-',
-        'sonarqube-sonarqube:9000/api/system/status'
+      command: ["wget"]
+      args:
+        [
+          "--retry-connrefused",
+          "--waitretry=1",
+          "--timeout=5",
+          "-t",
+          "12",
+          "-qO-",
+          "sonarqube-sonarqube:9000/api/system/status",
         ]
       resources:
         limits:
