@@ -4474,7 +4474,7 @@ spec:
       serviceAccount: kargo-api
       containers:
         - name: api
-          image: ghcr.io/akuity/kargo:v0.6.0
+          image: kargo
           imagePullPolicy: IfNotPresent
           command: ["/usr/local/bin/kargo", "api"]
           envFrom:
@@ -4540,7 +4540,7 @@ spec:
       serviceAccount: kargo-controller
       containers:
       - name: controller
-        image: ghcr.io/akuity/kargo:v0.6.0
+        image: kargo
         imagePullPolicy: IfNotPresent
         command: ["/usr/local/bin/kargo", "controller"]
         envFrom:
@@ -4585,7 +4585,7 @@ spec:
       serviceAccount: kargo-management-controller
       containers:
       - name: management-controller
-        image: ghcr.io/akuity/kargo:v0.6.0
+        image: kargo
         imagePullPolicy: IfNotPresent
         command: ["/usr/local/bin/kargo", "management-controller"]
         envFrom:
@@ -4633,7 +4633,7 @@ spec:
       serviceAccount: kargo-webhooks-server
       containers:
       - name: webhooks-server
-        image: ghcr.io/akuity/kargo:v0.6.0
+        image: kargo
         imagePullPolicy: IfNotPresent
         command: ["/usr/local/bin/kargo", "webhooks-server"]
         envFrom:
@@ -4690,7 +4690,7 @@ spec:
           serviceAccountName: kargo-garbage-collector
           containers:
           - name: garbage-collector
-            image: ghcr.io/akuity/kargo:v0.6.0
+            image: kargo
             imagePullPolicy: IfNotPresent
             command: ["/usr/local/bin/kargo", "garbage-collector"]
             envFrom:
