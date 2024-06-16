@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: joplin
+  namespace: joplin
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: joplin.int.kyledev.co
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: joplin-server
+                port:
+                  number: 22300
+  tls:
+    - hosts:
+        - joplin.int.kyledev.co
+      secretName: joplin-kyledev-tls-prod
