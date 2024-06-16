@@ -2290,6 +2290,7 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
               service:
                 name: monitoring-kube-prometheus-thanos-discovery
