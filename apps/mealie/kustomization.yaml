@@ -9,6 +9,3 @@ images:
   - name: mealie
     newName: ghcr.io/mealie-recipes/mealie
     newTag: v1.9.0
-  - name: postgres
-    newName: postgres
-    newTag: "15"
