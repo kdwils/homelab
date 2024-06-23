@@ -573,7 +573,7 @@ spec:
                   wget --no-proxy --quiet -O /dev/null --timeout=1 --header="X-Sonar-Passcode: $SONAR_WEB_SYSTEMPASSCODE" "http://localhost:9000/api/system/liveness"
             initialDelaySeconds: 120
             periodSeconds: 30
-            failureThreshold: 6
+            failureThreshold: 15
             timeoutSeconds: 1
           readinessProbe:
             exec:
@@ -590,7 +590,7 @@ spec:
                   exit 1
             initialDelaySeconds: 120
             periodSeconds: 30
-            failureThreshold: 6
+            failureThreshold: 15
             timeoutSeconds: 1
           startupProbe:
             httpGet:

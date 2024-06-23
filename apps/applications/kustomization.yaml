@@ -10,4 +10,5 @@ resources:
   - rss.yaml
   - authentik.yaml
   - monitoring.yaml
-  - sonarqube.yaml
+  # - sonarqube.yaml
+  - wiki.yaml
