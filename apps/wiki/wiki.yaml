@@ -195,7 +195,9 @@ spec:
         release: "wiki"
         heritage: "Helm"
         role: master
-    spec:      
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64      
       securityContext:
         fsGroup: 1001
       initContainers:
