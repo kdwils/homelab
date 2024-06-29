@@ -534,7 +534,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: server
-          image: ghcr.io/goauthentik/server:2024.4.2
+          image: ghcr.io/goauthentik/server:2024.6.0
           imagePullPolicy: IfNotPresent
           args:
             - server
@@ -638,7 +638,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: worker
-          image: ghcr.io/goauthentik/server:2024.4.2
+          image: ghcr.io/goauthentik/server:2024.6.0
           imagePullPolicy: IfNotPresent
           args:
             - worker
