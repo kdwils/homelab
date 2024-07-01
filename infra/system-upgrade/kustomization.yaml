@@ -4,3 +4,6 @@ resources:
   - system-upgrade.yaml
   - plans.yaml
   - crd.yaml
+  - os-update.yaml
+  - clusterrole.yaml
+  - clusterrolebinding.yaml
