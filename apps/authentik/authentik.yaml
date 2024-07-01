@@ -427,7 +427,7 @@ metadata:
     app.kubernetes.io/version: 7.2.3
     helm.sh/chart: redis-18.6.1
   annotations:
-
+    
 spec:
   type: ClusterIP
   clusterIP: None
@@ -473,13 +473,13 @@ metadata:
   name: authentik-server
   namespace: "authentik"
   labels:
-    helm.sh/chart: "authentik-2024.4.2"
+    helm.sh/chart: "authentik-2024.6.0"
     app.kubernetes.io/name: "authentik"
     app.kubernetes.io/instance: "authentik"
     app.kubernetes.io/component: "server"
     app.kubernetes.io/managed-by: "Helm"
     app.kubernetes.io/part-of: "authentik"
-    app.kubernetes.io/version: "2024.4.2"
+    app.kubernetes.io/version: "2024.6.0"
 spec:
   type: ClusterIP
   ports:
@@ -503,13 +503,13 @@ metadata:
   name: authentik-server
   namespace: "authentik"
   labels:
-    helm.sh/chart: "authentik-2024.4.2"
+    helm.sh/chart: "authentik-2024.6.0"
     app.kubernetes.io/name: "authentik"
     app.kubernetes.io/instance: "authentik"
     app.kubernetes.io/component: "server"
     app.kubernetes.io/managed-by: "Helm"
     app.kubernetes.io/part-of: "authentik"
-    app.kubernetes.io/version: "2024.4.2"
+    app.kubernetes.io/version: "2024.6.0"
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -521,20 +521,20 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: "authentik-2024.4.2"
+        helm.sh/chart: "authentik-2024.6.0"
         app.kubernetes.io/name: "authentik"
         app.kubernetes.io/instance: "authentik"
         app.kubernetes.io/component: "server"
         app.kubernetes.io/managed-by: "Helm"
         app.kubernetes.io/part-of: "authentik"
-        app.kubernetes.io/version: "2024.4.2"
+        app.kubernetes.io/version: "2024.6.0"
       annotations:
-        checksum/secret: e35c15bd3b8e0f230ae32bb4d2b6e4a5dcab115f17191d595fb634181c7e542d
+        checksum/secret: 087f49e7ee5951e6b77e7ff353e1a2d8f74d5d7164c3d13dc9db7aecd9d9d1da
     spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: server
-          image: ghcr.io/goauthentik/server:2024.4.2
+          image: ghcr.io/goauthentik/server:2024.6.0
           imagePullPolicy: IfNotPresent
           args:
             - server
@@ -559,6 +559,7 @@ spec:
               containerPort: 9300
               protocol: TCP
           livenessProbe:
+            
             failureThreshold: 3
             httpGet:
               path: /-/health/live/
@@ -568,6 +569,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 1
           readinessProbe:
+            
             failureThreshold: 3
             httpGet:
               path: /-/health/ready/
@@ -577,6 +579,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 1
           startupProbe:
+            
             failureThreshold: 60
             httpGet:
               path: /-/health/live/
@@ -585,7 +588,8 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-          resources: {}
+          resources:
+            {}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -606,13 +610,13 @@ metadata:
   name: authentik-worker
   namespace: "authentik"
   labels:
-    helm.sh/chart: "authentik-2024.4.2"
+    helm.sh/chart: "authentik-2024.6.0"
     app.kubernetes.io/name: "authentik"
     app.kubernetes.io/instance: "authentik"
     app.kubernetes.io/component: "worker"
     app.kubernetes.io/managed-by: "Helm"
     app.kubernetes.io/part-of: "authentik"
-    app.kubernetes.io/version: "2024.4.2"
+    app.kubernetes.io/version: "2024.6.0"
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -624,21 +628,21 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: "authentik-2024.4.2"
+        helm.sh/chart: "authentik-2024.6.0"
         app.kubernetes.io/name: "authentik"
         app.kubernetes.io/instance: "authentik"
         app.kubernetes.io/component: "worker"
         app.kubernetes.io/managed-by: "Helm"
         app.kubernetes.io/part-of: "authentik"
-        app.kubernetes.io/version: "2024.4.2"
+        app.kubernetes.io/version: "2024.6.0"
       annotations:
-        checksum/secret: e35c15bd3b8e0f230ae32bb4d2b6e4a5dcab115f17191d595fb634181c7e542d
+        checksum/secret: 087f49e7ee5951e6b77e7ff353e1a2d8f74d5d7164c3d13dc9db7aecd9d9d1da
     spec:
       serviceAccountName: authentik
       terminationGracePeriodSeconds: 30
       containers:
         - name: worker
-          image: ghcr.io/goauthentik/server:2024.4.2
+          image: ghcr.io/goauthentik/server:2024.6.0
           imagePullPolicy: IfNotPresent
           args:
             - worker
@@ -647,36 +651,40 @@ spec:
             - secretRef:
                 name: authentik
           livenessProbe:
+            
             exec:
               command:
-                - ak
-                - healthcheck
+              - ak
+              - healthcheck
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
           readinessProbe:
+            
             exec:
               command:
-                - ak
-                - healthcheck
+              - ak
+              - healthcheck
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
           startupProbe:
+            
             exec:
               command:
-                - ak
-                - healthcheck
+              - ak
+              - healthcheck
             failureThreshold: 60
             initialDelaySeconds: 30
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-          resources: {}
+          resources:
+            {}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -728,10 +736,10 @@ spec:
         checksum/extended-configuration: f231c584ead90a4176b09eb6d6073240ab2939b8bd09b20013265962083b3208
     spec:
       serviceAccountName: default
-
+      
       affinity:
         podAffinity:
-
+          
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
@@ -743,7 +751,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
-
+          
       securityContext:
         fsGroup: 1001
       hostNetwork: false
@@ -756,7 +764,7 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - ALL
+              - ALL
             runAsGroup: 0
             runAsNonRoot: true
             runAsUser: 1001
@@ -906,13 +914,14 @@ spec:
         checksum/scripts: 43cdf68c28f3abe25ce017a82f74dbf2437d1900fd69df51a55a3edf6193d141
         checksum/secret: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
     spec:
+      
       securityContext:
         fsGroup: 1001
       serviceAccountName: authentik-redis
       automountServiceAccountToken: true
       affinity:
         podAffinity:
-
+          
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
@@ -924,7 +933,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
-
+          
       enableServiceLinks: true
       terminationGracePeriodSeconds: 30
       containers:
@@ -935,7 +944,7 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - ALL
+              - ALL
             runAsGroup: 0
             runAsNonRoot: true
             runAsUser: 1001
