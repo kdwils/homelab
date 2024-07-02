@@ -91,7 +91,6 @@ spec:
   secrets:
     - name: os-update
       path: /host/run/system-upgrade/secrets/os-update
-  version: jammy
   upgrade:
     image: ubuntu
     command: ["chroot", "/host"]
@@ -104,6 +103,7 @@ metadata:
   namespace: system-upgrade
 spec:
   concurrency: 1
+  cordon: true
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane
