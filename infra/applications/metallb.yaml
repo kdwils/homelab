@@ -19,3 +19,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
+  ignoreDifferences:
+    - group: metallb.io
+      kind: BGPPeer
+      name: bgppeers.metallb.io
+      namespace: metallb-system
+      jsonPointers:
+        - /spec/conversion/webhook/clientConfig/caBundle
