@@ -54,13 +54,26 @@ spec:
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane
-        operator: In
-        values:
-          - "true"
-  tolerations:
-    - effect: NoSchedule
-      key: node-role.kubernetes.io/master
-      operator: Exists
+        operator: Exists
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/controlplane
+        operator: Exists
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
+      - effect: NoExecute
+        key: node-role.kubernetes.io/etcd
+        operator: Exists
+      - key: key
+        value: value
+        operator: Equal
+        effect: NoSchedule
   serviceAccountName: system-upgrade
   secrets:
     - name: os-update
