@@ -11,9 +11,10 @@ stringData:
     #!/bin/sh
     set -e
     secrets=$(dirname $0)
-    apt-get --assume-yes update
+    apt-get update
     apt-get --assume-yes install \
-      curl=$(cat $secrets/curl) \
-      libcurl4=$(cat $secrets/curl) \
-      libssl1.1=$(cat $secrets/openssl) \
-      openssl=$(cat $secrets/openssl)
+          curl=$(cat $secrets/curl) \
+          libcurl4=$(cat $secrets/curl) \
+          libssl3=$(cat $secrets/openssl) \
+          openssl=$(cat $secrets/openssl)
+    apt-get -y upgrade
