@@ -46,10 +46,42 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: Exists
+                  - key: "node-role.kubernetes.io/control-plane"
+                    operator: "Exists"
+      serviceAccountName: system-upgrade
+      tolerations:
+        - key: "CriticalAddonsOnly"
+          operator: "Exists"
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/controlplane"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/etcd"
+          operator: "Exists"
+          effect: "NoExecute"
       containers:
-        - env:
+        - name: system-upgrade-controller
+          image: rancher/system-upgrade-controller:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+                - ALL
+          envFrom:
+            - configMapRef:
+                name: default-controller-env
+          env:
             - name: SYSTEM_UPGRADE_CONTROLLER_NAME
               valueFrom:
                 fieldRef:
@@ -58,62 +90,30 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          envFrom:
-            - configMapRef:
-                name: default-controller-env
-          image: rancher/system-upgrade-controller:v0.13.4
-          imagePullPolicy: IfNotPresent
-          name: system-upgrade-controller
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            runAsGroup: 65534
-            runAsNonRoot: true
-            runAsUser: 65534
-            seccompProfile:
-              type: RuntimeDefault
           volumeMounts:
-            - mountPath: /etc/ssl
-              name: etc-ssl
+            - name: etc-ssl
+              mountPath: /etc/ssl
               readOnly: true
-            - mountPath: /etc/pki
-              name: etc-pki
+            - name: etc-pki
+              mountPath: /etc/pki
               readOnly: true
-            - mountPath: /etc/ca-certificates
-              name: etc-ca-certificates
+            - name: etc-ca-certificates
+              mountPath: /etc/ca-certificates
               readOnly: true
-            - mountPath: /tmp
-              name: tmp
-      serviceAccountName: system-upgrade
-      tolerations:
-        - key: CriticalAddonsOnly
-          operator: Exists
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/master
-          operator: Exists
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/controlplane
-          operator: Exists
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
-          operator: Exists
-        - effect: NoExecute
-          key: node-role.kubernetes.io/etcd
-          operator: Exists
+            - name: tmp
+              mountPath: /tmp
       volumes:
-        - hostPath:
+        - name: etc-ssl
+          hostPath:
             path: /etc/ssl
             type: DirectoryOrCreate
-          name: etc-ssl
-        - hostPath:
+        - name: etc-pki
+          hostPath:
             path: /etc/pki
             type: DirectoryOrCreate
-          name: etc-pki
-        - hostPath:
+        - name: etc-ca-certificates
+          hostPath:
             path: /etc/ca-certificates
             type: DirectoryOrCreate
-          name: etc-ca-certificates
-        - emptyDir: {}
-          name: tmp
+        - name: tmp
+          emptyDir: {}
