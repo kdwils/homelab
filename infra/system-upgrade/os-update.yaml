@@ -8,7 +8,5 @@ stringData:
   upgrade.sh: |
     #!/bin/sh
     set -e
-    secrets=$(dirname $0)
-    apt-get update
-    apt-get --assume-yes install curl libcurl4 libssl3 openssl
+    apt-get -y update
     apt-get -y upgrade
