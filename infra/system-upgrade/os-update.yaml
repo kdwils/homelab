@@ -5,15 +5,8 @@ metadata:
   namespace: system-upgrade
 type: Opaque
 stringData:
-  curl: 7.58.0-2ubuntu3.14
-  openssl: 1.1.1-1ubuntu2.1~18.04.13
   upgrade.sh: |
     #!/bin/sh
     set -e
-    secrets=$(dirname $0)
-    apt-get --assume-yes update
-    apt-get --assume-yes install \
-      curl=$(cat $secrets/curl) \
-      libcurl4=$(cat $secrets/curl) \
-      libssl1.1=$(cat $secrets/openssl) \
-      openssl=$(cat $secrets/openssl)
+    apt-get -y update
+    apt-get -y upgrade

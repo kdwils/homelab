@@ -9,17 +9,30 @@ spec:
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane
-        operator: In
-        values:
-          - "true"
-  serviceAccountName: system-upgrade
+        operator: Exists
   tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
     - effect: NoSchedule
       key: node-role.kubernetes.io/master
       operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/controlplane
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
+    - effect: NoExecute
+      key: node-role.kubernetes.io/etcd
+      operator: Exists
+    - key: key
+      value: value
+      operator: Equal
+      effect: NoSchedule
+  serviceAccountName: system-upgrade
   upgrade:
     image: rancher/k3s-upgrade
-  version: v1.29.5+k3s1
+  version: v1.30.2+k3s1
 ---
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
@@ -41,7 +54,7 @@ spec:
   serviceAccountName: system-upgrade
   upgrade:
     image: rancher/k3s-upgrade
-  version: v1.29.5+k3s1
+  version: v1.30.2+k3s1
 ---
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
@@ -54,18 +67,30 @@ spec:
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane
-        operator: In
-        values:
-          - "true"
+        operator: Exists
   tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
     - effect: NoSchedule
       key: node-role.kubernetes.io/master
       operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/controlplane
+      operator: Exists
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+      operator: Exists
+    - effect: NoExecute
+      key: node-role.kubernetes.io/etcd
+      operator: Exists
+    - key: key
+      value: value
+      operator: Equal
+      effect: NoSchedule
   serviceAccountName: system-upgrade
   secrets:
     - name: os-update
       path: /host/run/system-upgrade/secrets/os-update
-  version: jammy
   upgrade:
     image: ubuntu
     command: ["chroot", "/host"]
@@ -78,6 +103,7 @@ metadata:
   namespace: system-upgrade
 spec:
   concurrency: 1
+  cordon: true
   nodeSelector:
     matchExpressions:
       - key: node-role.kubernetes.io/control-plane
