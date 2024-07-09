@@ -9,7 +9,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: system-upgrade
-  namespace: system-upgrade
+  namespace: system-upgradesh
 ---
 apiVersion: v1
 kind: ConfigMap
