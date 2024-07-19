@@ -1,6 +1,6 @@
 # Homelab
 
-![argo badge](https://argocd.kyledev.co/api/badge?name=apps&revision=true)
+[![argo badge](https://argocd.kyledev.co/api/badge?name=apps&revision=true)](https://argocd.kyledev.co/api/badge?project=media&revision=true)
 
 # About
 This repo contains my declarative setup for my home k3s cluster. Applications are synced to the cluster via ArogCD, and the applications live under the `/apps` folder. I also manage ArgoCD itself via this repository after an initial manual deployment.
