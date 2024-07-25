@@ -70,7 +70,7 @@ spec:
             - name: TRANSMISSION_INCOMPLETE_DIR
               value: /downloads/transmission
             - name: TRANSMISSION_HOME
-              value: /config
+              value: /configs
           ports:
             - name: http
               containerPort: 9091
@@ -87,7 +87,7 @@ spec:
               name: media
               subPath: downloads/transmission
             - mountPath: /config
-              name: configs
+              name: transmission
               subPath: config
           resources: {}
 ---
