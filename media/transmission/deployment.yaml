@@ -70,7 +70,7 @@ spec:
             - name: TRANSMISSION_INCOMPLETE_DIR
               value: /downloads/transmission
             - name: TRANSMISSION_HOME
-              value: /configs
+              value: /config
           ports:
             - name: http
               containerPort: 9091
