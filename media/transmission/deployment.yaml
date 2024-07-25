@@ -88,7 +88,7 @@ spec:
               subPath: downloads/transmission
             - mountPath: /config
               name: configs
-              subPath: /config
+              subPath: config
           resources: {}
 ---
 apiVersion: v1
