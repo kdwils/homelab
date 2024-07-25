@@ -26,9 +26,6 @@ spec:
         - name: transmission
           persistentVolumeClaim:
             claimName: transmission
-        - hostPath:
-            path: /dev/net/tun
-          name: dev-tun
       dnsPolicy: None
       dnsConfig:
         nameservers:
@@ -82,6 +79,7 @@ spec:
             capabilities:
               add:
                 - NET_ADMIN
+                - mknod
             privileged: true
           volumeMounts:
             - mountPath: /downloads/transmission
@@ -90,8 +88,6 @@ spec:
             - mountPath: /config/transmission-home
               name: transmission
               subPath: config/transmission-home
-            - mountPath: /dev/net/tun
-              name: dev-tun
           resources: {}
 ---
 apiVersion: v1
