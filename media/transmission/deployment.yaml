@@ -31,9 +31,9 @@ spec:
         nameservers:
           - 8.8.8.8
       securityContext:
-        runAsUser: "1000"
-        runAsGroup: "1000"
-        fsGroup: "1000"
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: transmission
           image: transmission
@@ -64,9 +64,9 @@ spec:
             - name: TRANSMISSION_DOWNLOAD_DIR
               value: /downloads/transmission
             - name: PUID
-              value: "1000"
+              value: 1000
             - name: PGID
-              value: "1000"
+              value: 1000
             - name: TRANSMISSION_INCOMPLETE_DIR
               value: /downloads/transmission
             - name: TRANSMISSION_HOME
