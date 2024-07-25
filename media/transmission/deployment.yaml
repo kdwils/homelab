@@ -37,6 +37,12 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+      initContainers:
+        - name: init-create-net-dir
+          image: busybox
+          command: ['sh', '-c', 'mkdir -p /dev/net && mknod /dev/net/tun c 10 200 && chmod 600 /dev/net/tun']
+          securityContext:
+            privileged: true
       containers:
         - name: transmission
           image: transmission
