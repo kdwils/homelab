@@ -64,9 +64,9 @@ spec:
             - name: TRANSMISSION_DOWNLOAD_DIR
               value: /downloads/transmission
             - name: PUID
-              value: 1000
+              value: "1000"
             - name: PGID
-              value: 1000
+              value: "1000"
             - name: TRANSMISSION_INCOMPLETE_DIR
               value: /downloads/transmission
             - name: TRANSMISSION_HOME
@@ -87,8 +87,8 @@ spec:
               name: media
               subPath: downloads/transmission
             - mountPath: /config
-              subPath: /config
               name: configs
+              subPath: /config
           resources: {}
 ---
 apiVersion: v1
