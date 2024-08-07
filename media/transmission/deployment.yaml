@@ -26,14 +26,10 @@ spec:
         - name: transmission
           persistentVolumeClaim:
             claimName: transmission
-        # - hostPath:
-        #     path: /dev/net/tun
-        #   name: dev-tun
       dnsPolicy: None
       dnsConfig:
         nameservers:
           - 8.8.8.8
-      securityContext: {}
       containers:
         - name: transmission
           image: transmission
@@ -68,7 +64,9 @@ spec:
             - name: PGID
               value: "1000"
             - name: TRANSMISSION_INCOMPLETE_DIR
-              value: /downloads/transmission/incomplete
+              value: /downloads/transmission
+            - name: TRANSMISSION_HOME
+              value: /config/transmission-home
           ports:
             - name: http
               containerPort: 9091
@@ -77,15 +75,14 @@ spec:
             capabilities:
               add:
                 - NET_ADMIN
+            privileged: true
           volumeMounts:
-            - mountPath: /data
-              name: transmission
-              subPath: configs/transmission-data
             - mountPath: /downloads/transmission
               name: media
               subPath: downloads/transmission
-            # - mountPath: /dev/net/tun
-            #   name: dev-tun
+            - mountPath: /config/transmission-home
+              name: transmission
+              subPath: config/transmission-home
           resources: {}
 ---
 apiVersion: v1
