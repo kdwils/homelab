@@ -56,20 +56,24 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: prowlarr-ingress
-  namespace: media
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: prowlarr
+  namespace: media
 spec:
+  ingressClassName: nginx
   rules:
     - host: prowlarr.int.kyledev.co
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
+          - backend:
               service:
                 name: prowlarr
                 port:
                   number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - prowlarr.int.kyledev.co
+      secretName: prowlarr-kyledev-tls-prod
