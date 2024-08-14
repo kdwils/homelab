@@ -1,10 +1,10 @@
 # Homelab
 
-| Project  | Badge  |
-|----------|--------|
-| Apps | ![apps](https://argocd.kyledev.co/api/badge?project=apps&revision=true) |
-| Infra | ![infra](https://argocd.kyledev.co/api/badge?project=infra&revision=true) |
-| Media | ![media](https://argocd.kyledev.co/api/badge?project=media&revision=true) |
+| Project  | Badge  | Description |
+|----------|--------|--------|
+| Apps | ![apps](https://argocd.kyledev.co/api/badge?project=apps&revision=true) | personal projects, open source apps, etc.|
+| Infra | ![infra](https://argocd.kyledev.co/api/badge?project=infra&revision=true) | software critical to the cluster being operational |
+| Media | ![media](https://argocd.kyledev.co/api/badge?project=media&revision=true) | *arr stack for media managemet and viewing |
 
 
 # About
