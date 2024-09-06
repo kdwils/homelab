@@ -6,4 +6,4 @@ resources:
 images:
   - name: pihole
     newName: pihole/pihole
-    newTag: "2024.05.0"
+    newTag: "2024.07.0"
