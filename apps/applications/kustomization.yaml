@@ -9,3 +9,4 @@ resources:
   - rss.yaml
   - authentik.yaml
   - wiki.yaml
+  - kubewall.yaml
