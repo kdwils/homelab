@@ -9,4 +9,4 @@ resources:
 images:
   - name: kubewall
     newName: ghcr.io/kubewall/kubewall
-    newTag: v0.0.4
+    newTag: 0.0.4
