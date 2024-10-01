@@ -148,11 +148,11 @@ spec:
             - name: PROVISIONER_NAME
               value: cluster.local/nfs-subdir-external-provisioner
             - name: NFS_SERVER
-              value: 100.102.102.38
+              value: 192.168.0.170
             - name: NFS_PATH
               value: /mnt/user/homelab
       volumes:
         - name: nfs-subdir-external-provisioner-root
           nfs:
-            server: 100.102.102.38
+            server: 192.168.0.170
             path: /mnt/user/homelab
