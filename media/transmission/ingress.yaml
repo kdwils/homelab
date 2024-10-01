@@ -16,14 +16,6 @@ spec:
                 name: transmission
                 port:
                   name: http
-            path: /transmission/rpc
-            pathType: Prefix
-
-          - backend:
-              service:
-                name: transmission
-                port:
-                  name: http
             path: /
             pathType: Prefix
   tls:
