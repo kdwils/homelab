@@ -5,3 +5,8 @@ resources:
   - service.yaml
   - ingress.yaml
   - sealedsecret.yaml
+
+images:
+  - name: plex
+    newName: linuxserver/plex
+    newTag: 1.41.0
