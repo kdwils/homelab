@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  template:
+    spec:
+      tolerations:
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"

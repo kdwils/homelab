@@ -5,3 +5,9 @@ resources:
   - plans.yaml
   - crd.yaml
   - os-update.yaml
+
+patches:
+  - path: tolerations-patch.yaml
+    target:
+      kind: Deployment
+      name: system-upgrade-controller
