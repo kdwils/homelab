@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: system-upgrade
   labels:
     pod-security.kubernetes.io/enforce: privileged
+  name: system-upgrade
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -11,21 +11,178 @@ metadata:
   name: system-upgrade
   namespace: system-upgrade
 ---
-apiVersion: v1
-kind: ConfigMap
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-  name: default-controller-env
+  name: system-upgrade-controller
   namespace: system-upgrade
+rules:
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - patch
+      - update
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system-upgrade-controller
+rules:
+  - apiGroups:
+      - batch
+    resources:
+      - jobs
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - patch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - update
+  - apiGroups:
+      - upgrade.cattle.io
+    resources:
+      - plans
+      - plans/status
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - patch
+      - update
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system-upgrade-controller-drainer
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods/eviction
+    verbs:
+      - create
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
+      - list
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+      - patch
+  - apiGroups:
+      - apps
+    resources:
+      - statefulsets
+      - daemonsets
+      - replicasets
+    verbs:
+      - get
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: system-upgrade
+  namespace: system-upgrade
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: system-upgrade-controller
+subjects:
+  - kind: ServiceAccount
+    name: system-upgrade
+    namespace: system-upgrade
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system-upgrade
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system-upgrade-controller
+subjects:
+  - kind: ServiceAccount
+    name: system-upgrade
+    namespace: system-upgrade
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system-upgrade-drainer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system-upgrade-controller-drainer
+subjects:
+  - kind: ServiceAccount
+    name: system-upgrade
+    namespace: system-upgrade
+---
+apiVersion: v1
 data:
   SYSTEM_UPGRADE_CONTROLLER_DEBUG: "false"
   SYSTEM_UPGRADE_CONTROLLER_THREADS: "2"
   SYSTEM_UPGRADE_JOB_ACTIVE_DEADLINE_SECONDS: "900"
   SYSTEM_UPGRADE_JOB_BACKOFF_LIMIT: "99"
-  SYSTEM_UPGRADE_JOB_IMAGE_PULL_POLICY: "Always"
-  SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: "rancher/kubectl:v1.25.4"
+  SYSTEM_UPGRADE_JOB_IMAGE_PULL_POLICY: Always
+  SYSTEM_UPGRADE_JOB_KUBECTL_IMAGE: rancher/kubectl:v1.30.3
   SYSTEM_UPGRADE_JOB_PRIVILEGED: "true"
   SYSTEM_UPGRADE_JOB_TTL_SECONDS_AFTER_FINISH: "900"
-  SYSTEM_UPGRADE_PLAN_POLLING_INTERVAL: "15m"
+  SYSTEM_UPGRADE_PLAN_POLLING_INTERVAL: 15m
+kind: ConfigMap
+metadata:
+  name: default-controller-env
+  namespace: system-upgrade
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -39,7 +196,7 @@ spec:
   template:
     metadata:
       labels:
-        upgrade.cattle.io/controller: system-upgrade-controller # necessary to avoid drain
+        upgrade.cattle.io/controller: system-upgrade-controller
     spec:
       affinity:
         nodeAffinity:
@@ -48,6 +205,44 @@ spec:
               - matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: Exists
+      containers:
+        - env:
+            - name: SYSTEM_UPGRADE_CONTROLLER_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['upgrade.cattle.io/controller']
+            - name: SYSTEM_UPGRADE_CONTROLLER_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          envFrom:
+            - configMapRef:
+                name: default-controller-env
+          image: rancher/system-upgrade-controller:v0.14.1
+          imagePullPolicy: IfNotPresent
+          name: system-upgrade-controller
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - mountPath: /etc/ssl
+              name: etc-ssl
+              readOnly: true
+            - mountPath: /etc/pki
+              name: etc-pki
+              readOnly: true
+            - mountPath: /etc/ca-certificates
+              name: etc-ca-certificates
+              readOnly: true
+            - mountPath: /tmp
+              name: tmp
       serviceAccountName: system-upgrade
       tolerations:
         - key: CriticalAddonsOnly
@@ -64,60 +259,18 @@ spec:
         - effect: NoExecute
           key: node-role.kubernetes.io/etcd
           operator: Exists
-        - key: key
-          value: value
-          operator: Equal
-          effect: NoSchedule
-      containers:
-        - name: system-upgrade-controller
-          image: rancher/system-upgrade-controller:v0.13.4
-          imagePullPolicy: IfNotPresent
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 65534
-            runAsGroup: 65534
-            allowPrivilegeEscalation: false
-            seccompProfile:
-              type: RuntimeDefault
-            capabilities:
-              drop:
-                - ALL
-          envFrom:
-            - configMapRef:
-                name: default-controller-env
-          env:
-            - name: SYSTEM_UPGRADE_CONTROLLER_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.labels['upgrade.cattle.io/controller']
-            - name: SYSTEM_UPGRADE_CONTROLLER_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-          volumeMounts:
-            - name: etc-ssl
-              mountPath: /etc/ssl
-              readOnly: true
-            - name: etc-pki
-              mountPath: /etc/pki
-              readOnly: true
-            - name: etc-ca-certificates
-              mountPath: /etc/ca-certificates
-              readOnly: true
-            - name: tmp
-              mountPath: /tmp
       volumes:
-        - name: etc-ssl
-          hostPath:
+        - hostPath:
             path: /etc/ssl
             type: DirectoryOrCreate
-        - name: etc-pki
-          hostPath:
+          name: etc-ssl
+        - hostPath:
             path: /etc/pki
             type: DirectoryOrCreate
-        - name: etc-ca-certificates
-          hostPath:
+          name: etc-pki
+        - hostPath:
             path: /etc/ca-certificates
             type: DirectoryOrCreate
-        - name: tmp
-          emptyDir: {}
+          name: etc-ca-certificates
+        - emptyDir: {}
+          name: tmp
