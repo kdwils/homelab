@@ -3,7 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
   - bazarr.yaml
-  - jellyfin.yaml
   - radarr.yaml
   - sonarr.yaml
   - transmission.yaml
