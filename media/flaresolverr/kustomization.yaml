@@ -2,3 +2,8 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 resources:
   - flaresolverr.yaml
+
+images:
+  - name: flaresolverr
+    newName: ghcr.io/flaresolverr/flaresolverr
+    newTag: v3.3.21
