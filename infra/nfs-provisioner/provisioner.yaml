@@ -20,14 +20,12 @@ metadata:
     app: nfs-subdir-external-provisioner
     release: nfs-subdir-external-provisioner
   name: nfs-client
-  annotations:
 provisioner: cluster.local/nfs-subdir-external-provisioner
 allowVolumeExpansion: true
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 parameters:
   archiveOnDelete: "true"
-
 ---
 # Source: nfs-subdir-external-provisioner/templates/clusterrole.yaml
 kind: ClusterRole
@@ -155,4 +153,4 @@ spec:
         - name: nfs-subdir-external-provisioner-root
           nfs:
             server: 192.168.0.170
-            path: /mnt/user/homelab
+            path: /mnt/user0/homelab
