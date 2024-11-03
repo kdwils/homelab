@@ -37,6 +37,8 @@ spec:
                 secretKeyRef:
                   key: claim
                   name: plex-claim
+            - name: ADVERTISE_IP
+              value: http://192.168.0.240
           volumeMounts:
             - name: media
               mountPath: /movies
