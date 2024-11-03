@@ -353,7 +353,9 @@ spec:
       type: string
     - description: The disk the manager is responsible for
       jsonPath: .spec.diskUUID
-      name: DiskUUID
+      name: Disk
+      
+      
       type: string
     - description: The disk path the manager is using
       jsonPath: .spec.diskPath
