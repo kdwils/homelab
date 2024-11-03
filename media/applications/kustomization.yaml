@@ -9,3 +9,4 @@ resources:
   - plex.yaml
   - prowlarr.yaml
   - flaresolverr.yaml
+  - namespace.yaml
