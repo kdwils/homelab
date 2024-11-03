@@ -153,4 +153,4 @@ spec:
         - name: nfs-subdir-external-provisioner-root
           nfs:
             server: 192.168.0.170
-            path: /mnt/user0/homelab
+            path: /mnt/user/homelab
