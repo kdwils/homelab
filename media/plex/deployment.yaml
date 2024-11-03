@@ -18,6 +18,8 @@ spec:
       hostname: "plex"
       nodeSelector:
         kubernetes.io/arch: "amd64"
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: plex
           image: plex
