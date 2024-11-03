@@ -5,8 +5,10 @@ metadata:
   namespace: media
   labels:
     app: plex
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.0.240
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: pms
       port: 32400
