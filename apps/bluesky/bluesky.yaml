@@ -76,7 +76,7 @@ spec:
             - name: PDS_CRAWLERS
               value: "https://bsky.network"
             - name: LOG_ENABLED
-              value: ""
+              value: "true"
           ports:
             - name: pds-port
               containerPort: 3000
