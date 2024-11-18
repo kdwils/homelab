@@ -84,10 +84,6 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /pds
-          livenessProbe:
-            httpGet:
-              path: /xrpc/_health
-              port: pds-port
           resources:
             limits:
               cpu: 100m
