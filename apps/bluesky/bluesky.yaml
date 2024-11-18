@@ -98,4 +98,4 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: "bluesky-data"
+            claimName: "bluesky"
