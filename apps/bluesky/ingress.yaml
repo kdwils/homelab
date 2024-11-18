@@ -1,24 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: joplin
-  namespace: joplin
+  name: bluesky
+  namespace: bluesky
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
   rules:
-    - host: joplin.int.kyledev.co
+    - host: bluesky.int.kyledev.co
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: joplin-server
+                name: bluesky
                 port:
-                  number: 22300
+                  number: 3000
   tls:
     - hosts:
-        - joplin.int.kyledev.co
-      secretName: joplin-kyledev-tls-prod
+        - bluesky.int.kyledev.co
+      secretName: bluesky-kyledev-tls-prod

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared
+data:
+  config.yaml: |
+    tunnel: 34a29bd3-c367-4439-bc8d-32a6dbfc98ff
+    credentials-file: /etc/cloudflared/creds/homelab.json
+    no-autoupdate: true
+    ingress:
+      - hostname: blog.kyledev.co
+        service: http://blog.blog-prod.svc.cluster.local
+      - hostname: argocd.kyledev.co
+        service: http://argocd-server.argocd.svc.cluster.local
+      - hostname: mealie.kyledev.co
+        service: http://mealie.mealie.svc.cluster.local:9925
+      - hostname: bluesky.kyledev.co
+        service: http://bluesky.bluesky.svc.cluster.local:3000
+      - service: http_status:404

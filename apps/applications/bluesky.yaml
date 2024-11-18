@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kubewall
+  name: bluesky
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: kubewall
+    namespace: bluesky
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/kubewall
+    path: apps/bluesky
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []

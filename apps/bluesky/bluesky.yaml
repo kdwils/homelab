@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluesky
+spec:
+  selector:
+    matchLabels:
+      app: bluesky
+  template:
+    metadata:
+      labels:
+        app: bluesky
+    spec:
+      containers:
+        - name: bluesky
+          imagePullPolicy: IfNotPresent
+          image: bluesky
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3000
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: bluesky
+  name: bluesky
+spec:
+  ports:
+    - name: http
+      port: 3000
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: bluesky
