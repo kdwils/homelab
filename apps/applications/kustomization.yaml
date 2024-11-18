@@ -2,11 +2,9 @@ resources:
   - argo-rollouts.yaml
   - argocd-image-updater.yaml
   - blog.yaml
+  - bluesky.yaml
   - excalidraw.yaml
   - gatekeeper.yaml
-  - kargo.yaml
   - mealie.yaml
   - rss.yaml
-  - authentik.yaml
   - wiki.yaml
-  - kubewall.yaml

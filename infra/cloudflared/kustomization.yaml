@@ -4,8 +4,9 @@ resources:
   - tunnel.yaml
   - sealedsecret.yaml
   - namespace.yaml
+  - configmap.yaml
 
 images:
   - name: cloudflared
     newName: cloudflare/cloudflared
-    newTag: 2024.10.0
+    newTag: 2024.11.0
