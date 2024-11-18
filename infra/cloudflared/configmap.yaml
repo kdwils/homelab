@@ -8,6 +8,7 @@ data:
     credentials-file: /etc/cloudflared/creds/homelab.json
     no-autoupdate: true
     protocol: http2
+    metrics: 127.0.0.1:2000
     ingress:
       - hostname: blog.kyledev.co
         service: http://blog.blog-prod.svc.cluster.local
