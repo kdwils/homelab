@@ -1,39 +1,101 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bluesky
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluesky
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: pds-port
+      protocol: TCP
+      name: pds-port
+  selector:
+    app.kubernetes.io/name: bluesky
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bluesky
 spec:
+  strategy:
+    type: Recreate
+  replicas: 1
   selector:
     matchLabels:
-      app: bluesky
+      app.kubernetes.io/name: bluesky
   template:
     metadata:
       labels:
-        app: bluesky
+        app.kubernetes.io/name: bluesky
     spec:
+      serviceAccountName: bluesky
+      securityContext: {}
       containers:
         - name: bluesky
-          imagePullPolicy: IfNotPresent
+          securityContext: {}
           image: bluesky
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PDS_HOSTNAME
+              value: bluesky.kyledev.co
+            - name: PDS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "bluesky"
+                  key: jwtSecret
+            - name: PDS_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "bluesky"
+                  key: adminPassword
+            - name: PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  name: "bluesky"
+                  key: plcRotationKey
+            - name: PDS_DATA_DIRECTORY
+              value: "/pds"
+            - name: PDS_BLOBSTORE_DISK_LOCATION
+              value: "/pds/blocks"
+            - name: PDS_DID_PLC_URL
+              value: "https://plc.directory"
+            - name: PDS_BSKY_APP_VIEW_URL
+              value: "https://api.bsky.app"
+            - name: PDS_BSKY_APP_VIEW_DID
+              value: "did:web:api.bsky.app"
+            - name: PDS_REPORT_SERVICE_URL
+              value: "https://mod.bsky.app"
+            - name: PDS_REPORT_SERVICE_DID
+              value: "did:plc:ar7c4by46qjdydhdevvrndac"
+            - name: PDS_CRAWLERS
+              value: "https://bsky.network"
+            - name: LOG_ENABLED
+              value: ""
+          ports:
+            - name: pds-port
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /pds
+          livenessProbe:
+            httpGet:
+              path: /xrpc/_health
+              port: pds-port
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
-          ports:
-            - containerPort: 3000
-              name: http
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: bluesky
-  name: bluesky
-spec:
-  ports:
-    - name: http
-      port: 3000
-      protocol: TCP
-      targetPort: http
-  selector:
-    app: bluesky
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: "bluesky-data"
