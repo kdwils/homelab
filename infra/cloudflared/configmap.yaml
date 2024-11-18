@@ -7,6 +7,7 @@ data:
     tunnel: 34a29bd3-c367-4439-bc8d-32a6dbfc98ff
     credentials-file: /etc/cloudflared/creds/homelab.json
     no-autoupdate: true
+    protocol: http2
     ingress:
       - hostname: blog.kyledev.co
         service: http://blog.blog-prod.svc.cluster.local
