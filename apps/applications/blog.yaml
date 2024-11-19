@@ -27,7 +27,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: blog
+  name: blog-prod
   namespace: argocd
   annotations:
     argocd-image-updater.argoproj.io/image-list: blog=ghcr.io/kdwils/blog
