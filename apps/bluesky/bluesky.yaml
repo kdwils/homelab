@@ -63,7 +63,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "bluesky"
-                  key: smtpString
+                  key: smtpServer
+            - name: PDS_EMAIL_FROM_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: "bluesky"
+                  key: smtpFromAddress
             - name: PDS_DATA_DIRECTORY
               value: "/pds"
             - name: PDS_BLOBSTORE_DISK_LOCATION
