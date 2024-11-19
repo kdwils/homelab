@@ -1,6 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: blog-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: argocd
+    server: "https://kubernetes.default.svc"
+  source:
+    path: deploy/dev
+    repoURL: "https://github.com/kdwils/blog"
+    targetRevision: main
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
   name: blog
   namespace: argocd
   finalizers:
@@ -10,9 +32,9 @@ spec:
     namespace: argocd
     server: "https://kubernetes.default.svc"
   source:
-    path: .
-    repoURL: "https://github.com/kdwils/blog-deploy"
-    targetRevision: dev
+    path: deploy/prod
+    repoURL: "https://github.com/kdwils/blog"
+    targetRevision: main
   sources: []
   project: apps
   syncPolicy:
