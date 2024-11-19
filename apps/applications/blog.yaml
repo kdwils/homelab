@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: blog-dev
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: blog=ghcr.io/kdwils/blog
+    argocd-image-updater.argoproj.io/blog.platforms: linux/arm64,linux/amd64
+    argocd-image-updater.argoproj.io/blog.update-strategy: latest
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -25,6 +29,10 @@ kind: Application
 metadata:
   name: blog
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: blog=ghcr.io/kdwils/blog
+    argocd-image-updater.argoproj.io/blog.platforms: linux/arm64,linux/amd64
+    argocd-image-updater.argoproj.io/blog.update-strategy: latest
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
