@@ -11,7 +11,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd
+    namespace: blog
     server: "https://kubernetes.default.svc"
   source:
     path: deploy/dev
@@ -37,7 +37,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd
+    namespace: blog
     server: "https://kubernetes.default.svc"
   source:
     path: deploy/prod
