@@ -59,6 +59,11 @@ spec:
                 secretKeyRef:
                   name: "bluesky"
                   key: plcRotationKey
+            - name: PDS_EMAIL_SMTP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: "bluesky"
+                  key: smtpString
             - name: PDS_DATA_DIRECTORY
               value: "/pds"
             - name: PDS_BLOBSTORE_DISK_LOCATION
