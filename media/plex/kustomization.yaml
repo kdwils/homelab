@@ -9,5 +9,5 @@ resources:
 
 images:
   - name: plex
-    newName: plexinc/pms-docker
-    newTag: 1.41.0.8994-f2c27da23
+    newName: linuxserver/plex
+    newTag: 1.41.2

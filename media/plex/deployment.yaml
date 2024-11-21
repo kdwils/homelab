@@ -17,6 +17,7 @@ spec:
       labels:
         app: plex
     spec:
+      hostname: "plex"
       nodeSelector:
         kubernetes.io/arch: "amd64"
       containers:
@@ -30,6 +31,10 @@ spec:
             - name: https
               containerPort: 32443
           env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
             - name: TZ
               value: "America/New_York"
             - name: PLEX_CLAIM
@@ -37,8 +42,6 @@ spec:
                 secretKeyRef:
                   key: claim
                   name: plex-claim
-            - name: ADVERTISE_IP
-              value: http://192.168.0.240
           volumeMounts:
             - name: media
               mountPath: /movies
