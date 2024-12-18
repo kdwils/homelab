@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  # - sealedsecret.yaml
-  # - invidious.yaml
-  # - ingress.yaml
-  # - sig.yaml
+  - sealedsecret.yaml
+  - invidious.yaml
+  - ingress.yaml
+  - sig.yaml
