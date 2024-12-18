@@ -5,6 +5,7 @@ resources:
   - bluesky.yaml
   - excalidraw.yaml
   - gatekeeper.yaml
+  - invidious.yaml
   - mealie.yaml
   - rss.yaml
   - wiki.yaml
