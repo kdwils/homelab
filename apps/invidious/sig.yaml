@@ -22,27 +22,25 @@ spec:
             - name: RUST_LOG
               value: "info"
           securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
-            readOnlyRootFilesystem: true
-            allowPrivilegeEscalation: false
           ports:
             - containerPort: 12999
-              protocol: TCP
-      restartPolicy: Always
+          resources: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: inv-sig-helper-service
-  labels:
-    app: inv-sig-helper
+  name: inv-sig-helper
 spec:
+  type: ClusterIP
   selector:
     app: inv-sig-helper
   ports:
     - protocol: TCP
       port: 12999
       targetPort: 12999
-  type: ClusterIP
