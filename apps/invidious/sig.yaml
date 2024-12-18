@@ -17,7 +17,6 @@ spec:
       containers:
         - name: inv-sig-helper
           image: quay.io/invidious/inv-sig-helper:latest
-          command: ["--tcp", "0.0.0.0:12999"]
           env:
             - name: RUST_LOG
               value: "info"
