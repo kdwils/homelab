@@ -1,15 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: invidious-ingress
+  name: invidious
   namespace: invidious
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  ingressClassName: nginx
   rules:
-    - host: invidious.example.com # Replace with your domain
+    - host: yt.int.kyledev.co
       http:
         paths:
           - path: /
@@ -21,5 +20,5 @@ spec:
                   number: 3000
   tls:
     - hosts:
-        - invidious.example.com # Replace with your domain
-      secretName: invidious-tls # Replace with the name of your TLS secret
+        - yt.int.kyledev.co
+      secretName: invidious-kyledev-tls-prod
