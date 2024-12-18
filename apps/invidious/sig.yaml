@@ -27,9 +27,6 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            seccompProfile:
-              type: RuntimeDefault
           ports:
             - containerPort: 12999
               protocol: TCP
