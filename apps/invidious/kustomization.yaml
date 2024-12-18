@@ -6,3 +6,4 @@ resources:
   - sealedsecret.yaml
   - invidious.yaml
   - ingress.yaml
+  - sig.yaml

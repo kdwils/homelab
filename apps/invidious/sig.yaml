@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inv-sig-helper
+  labels:
+    app: inv-sig-helper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inv-sig-helper
+  template:
+    metadata:
+      labels:
+        app: inv-sig-helper
+    spec:
+      containers:
+        - name: inv-sig-helper
+          image: quay.io/invidious/inv-sig-helper:latest
+          command: ["--tcp", "0.0.0.0:12999"]
+          env:
+            - name: RUST_LOG
+              value: "info"
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          ports:
+            - containerPort: 12999
+              protocol: TCP
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inv-sig-helper-service
+  labels:
+    app: inv-sig-helper
+spec:
+  selector:
+    app: inv-sig-helper
+  ports:
+    - protocol: TCP
+      port: 12999
+      targetPort: 12999
+  type: ClusterIP
