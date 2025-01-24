@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - github.com/ansible/awx-operator/config/default?ref=2.19.1
   - awx.yaml
+  - namespace.yaml
 
 images:
   - name: quay.io/ansible/awx-operator
