@@ -5,3 +5,7 @@ metadata:
   name: awx
 spec:
   service_type: clusterip
+  postgres_data_volume_init: true
+  postgres_init_container_commands: |
+    chown 26:0 /var/lib/pgsql/data
+    chmod 700 /var/lib/pgsql/data
