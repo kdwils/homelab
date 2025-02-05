@@ -1,0 +1,154 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hoarder
+  name: hoarder
+spec:
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  selector:
+    app: hoarder
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: meilisearch
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hoarder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hoarder
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: hoarder
+    spec:
+      containers:
+        - env:
+            - name: BROWSER_WEB_URL
+              value: http://chrome:9222
+            - name: DATA_DIR
+              value: /data
+            - name: HOARDER_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  key: HOARDER_VERSION
+                  name: 0.22.0
+            - name: MEILI_ADDR
+              value: http://meilisearch:7700
+            - name: MEILI_MASTER_KEY
+              valueFrom:
+                secretRef:
+                  key: key
+                  name: hoarder
+          image: hoarder
+          name: hoarder
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      restartPolicy: Always
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: chrome
+  name: chrome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chrome
+  template:
+    metadata:
+      labels:
+        app: chrome
+    spec:
+      containers:
+        - args:
+            - --no-sandbox
+            - --disable-gpu
+            - --disable-dev-shm-usage
+            - --remote-debugging-address=0.0.0.0
+            - --remote-debugging-port=9222
+            - --hide-scrollbars
+          image: chrome
+          name: chrome
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: meilisearch
+  name: meilisearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: meilisearch
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: meilisearch
+    spec:
+      containers:
+        - env:
+            - name: HOARDER_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  key: HOARDER_VERSION
+                  name: 0.22.0
+            - name: MEILI_MASTER_KEY
+              valueFrom:
+                secretRef:
+                  key: key
+                  name: hoarder
+            - name: MEILI_NO_ANALYTICS
+              value: "true"
+          image: meilisearch
+          name: meilisearch
+          volumeMounts:
+            - mountPath: /meili_data
+              name: meilisearch
+      restartPolicy: Always
+      volumes:
+        - name: meilisearch
+          persistentVolumeClaim:
+            claimName: meilisearch

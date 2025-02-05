@@ -6,6 +6,7 @@ resources:
   - bluesky.yaml
   - excalidraw.yaml
   - gatekeeper.yaml
+  - hoarder.yaml
   - mealie.yaml
   - rss.yaml
   - wiki.yaml
