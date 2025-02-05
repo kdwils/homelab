@@ -51,20 +51,18 @@ spec:
         app: hoarder
     spec:
       containers:
-        - env:
+        - envFrom:
+            - configMapRef:
+                name: hoarder
+          env:
             - name: BROWSER_WEB_URL
               value: http://chrome:9222
             - name: DATA_DIR
               value: /data
-            - name: HOARDER_VERSION
-              value: 0.22.0
             - name: MEILI_ADDR
               value: http://meilisearch:7700
-            - name: MEILI_MASTER_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: key
-                  name: hoarder
+            - name: HOARDER_VERSION
+              value: 0.22.0
           image: hoarder
           name: hoarder
           ports:
@@ -126,16 +124,11 @@ spec:
         app: meilisearch
     spec:
       containers:
-        - env:
-            - name: HOARDER_VERSION
-              value: 0.22.0
-            - name: MEILI_MASTER_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: key
-                  name: hoarder
-            - name: MEILI_NO_ANALYTICS
-              value: "true"
+        - envFrom:
+            - secretRef:
+                name: hoarder
+            - configMapRef:
+                name: hoarder
           image: meilisearch
           name: meilisearch
           volumeMounts:
