@@ -43,35 +43,32 @@ spec:
   selector:
     matchLabels:
       app: hoarder
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: hoarder
     spec:
       containers:
-        - envFrom:
-            - configMapRef:
-                name: hoarder
+        - name: hoarder
+          image: hoarder
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
           env:
+            - name: MEILI_ADDR
+              value: http://meilisearch:7700
             - name: BROWSER_WEB_URL
               value: http://chrome:9222
             - name: DATA_DIR
               value: /data
-            - name: MEILI_ADDR
-              value: http://meilisearch:7700
-            - name: HOARDER_VERSION
-              value: 0.22.0
-          image: hoarder
-          name: hoarder
-          ports:
-            - containerPort: 3000
-              protocol: TCP
           volumeMounts:
             - mountPath: /data
               name: data
-      restartPolicy: Always
+          envFrom:
+            - secretRef:
+                name: hoarder
+            - configMapRef:
+                name: hoarder
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -80,8 +77,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: chrome
   name: chrome
 spec:
   replicas: 1
@@ -94,16 +89,17 @@ spec:
         app: chrome
     spec:
       containers:
-        - args:
+        - name: chrome
+          image: chrome
+          command:
+            - chromium-browser
+            - --headless
             - --no-sandbox
             - --disable-gpu
             - --disable-dev-shm-usage
             - --remote-debugging-address=0.0.0.0
             - --remote-debugging-port=9222
             - --hide-scrollbars
-          image: chrome
-          name: chrome
-      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -121,33 +117,31 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: meilisearch
   name: meilisearch
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: meilisearch
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: meilisearch
     spec:
       containers:
-        - envFrom:
+        - name: meilisearch
+          image: meilisearch
+          env:
+            - name: MEILI_NO_ANALYTICS
+              value: "true"
+          volumeMounts:
+            - mountPath: /meili_data
+              name: meilisearch
+          envFrom:
             - secretRef:
                 name: hoarder
             - configMapRef:
                 name: hoarder
-          image: meilisearch
-          name: meilisearch
-          volumeMounts:
-            - mountPath: /meili_data
-              name: meilisearch
-      restartPolicy: Always
       volumes:
         - name: meilisearch
           persistentVolumeClaim:
