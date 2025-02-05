@@ -57,15 +57,12 @@ spec:
             - name: DATA_DIR
               value: /data
             - name: HOARDER_VERSION
-              valueFrom:
-                configMapKeyRef:
-                  key: HOARDER_VERSION
-                  name: 0.22.0
+              value: 0.22.0
             - name: MEILI_ADDR
               value: http://meilisearch:7700
             - name: MEILI_MASTER_KEY
               valueFrom:
-                secretRef:
+                secretKeyRef:
                   key: key
                   name: hoarder
           image: hoarder
@@ -131,13 +128,10 @@ spec:
       containers:
         - env:
             - name: HOARDER_VERSION
-              valueFrom:
-                configMapKeyRef:
-                  key: HOARDER_VERSION
-                  name: 0.22.0
+              value: 0.22.0
             - name: MEILI_MASTER_KEY
               valueFrom:
-                secretRef:
+                secretKeyRef:
                   key: key
                   name: hoarder
             - name: MEILI_NO_ANALYTICS
