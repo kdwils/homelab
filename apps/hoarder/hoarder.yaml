@@ -105,6 +105,19 @@ spec:
           name: chrome
       restartPolicy: Always
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chrome
+spec:
+  selector:
+    app: chrome
+  ports:
+    - protocol: TCP
+      port: 9222
+      targetPort: 9222
+  type: ClusterIP
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -139,3 +152,15 @@ spec:
         - name: meilisearch
           persistentVolumeClaim:
             claimName: meilisearch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meilisearch
+spec:
+  selector:
+    app: meilisearch
+  ports:
+    - protocol: TCP
+      port: 7700
+      targetPort: 7700
