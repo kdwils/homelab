@@ -73,19 +73,17 @@ spec:
         app.kubernetes.io/instance: trilium
     spec:
       serviceAccountName: trilium-notes
-      podSecurityContext:
-        fsGroup: 1000
+      # podSecurityContext:
+      #   fsGroup: 1000
       containers:
         - name: trilium-notes
           image: trilium
           imagePullPolicy: IfNotPresent
-          securityContext:
-            capabilities:
-              drop:
-                - ALL
-            runAsNonRoot: true
-            runAsUser: 1000
-            allowPrivilegeEscalation: false
+          # securityContext:
+          #   capabilities:
+          #     drop:
+          #       - ALL
+          #   runAsUser: 1000
           env:
             - name: TRILIUM_DATA_DIR
               value: "/srv/trilium-data"
@@ -109,7 +107,6 @@ spec:
         - name: trilium-data
           persistentVolumeClaim:
             claimName: trilium-data
-
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
