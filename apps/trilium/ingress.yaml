@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: trilium.int.kyledev.co
+    - host: notes.int.kyledev.co
       http:
         paths:
           - path: /
@@ -19,5 +19,5 @@ spec:
                   number: 8080
   tls:
     - hosts:
-        - trilium.int.kyledev.co
+        - notes.int.kyledev.co
       secretName: trilium-kyledev-tls-prod
