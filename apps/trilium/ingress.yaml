@@ -14,7 +14,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: trilium
+                name: trilium-service
                 port:
                   number: 8080
   tls:
