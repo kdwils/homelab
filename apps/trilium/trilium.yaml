@@ -73,8 +73,6 @@ spec:
         app.kubernetes.io/instance: trilium
     spec:
       serviceAccountName: trilium-notes
-      podSecurityContext:
-        fsGroup: 0
       containers:
         - name: trilium-notes
           image: trilium
@@ -85,8 +83,6 @@ spec:
             - name: TRILIUM_DATA_DIR
               value: "/srv/trilium-data"
             - name: USER_UID
-              value: "0"
-            - name: USER_GID
               value: "0"
           ports:
             - name: http
