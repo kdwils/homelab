@@ -80,9 +80,6 @@ spec:
           image: trilium
           imagePullPolicy: IfNotPresent
           securityContext:
-            capabilities:
-              drop:
-                - ALL
             runAsUser: 0
           env:
             - name: TRILIUM_DATA_DIR
