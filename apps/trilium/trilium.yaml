@@ -84,6 +84,10 @@ spec:
           env:
             - name: TRILIUM_DATA_DIR
               value: "/srv/trilium-data"
+            - name: USER_UID
+              value: "0"
+            - name: USER_GID
+              value: "0"
           ports:
             - name: http
               containerPort: 8080
