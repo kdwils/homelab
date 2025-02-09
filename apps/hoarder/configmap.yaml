@@ -4,5 +4,4 @@ metadata:
   name: hoarder
 data:
   NEXTAUTH_URL: http://localhost:3000
-  HOARDER_VERSION: release
   MEILI_NO_ANALYTICS: "true"

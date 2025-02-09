@@ -9,4 +9,5 @@ resources:
   - hoarder.yaml
   - mealie.yaml
   - rss.yaml
+  - trilium.yaml
   - wiki.yaml

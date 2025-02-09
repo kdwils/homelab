@@ -1,23 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hoarder
+  name: trilium
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
   rules:
-    - host: hoarder.int.kyledev.co
+    - host: trilium.int.kyledev.co
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: hoarder
+                name: trilium
                 port:
-                  number: 3000
+                  number: 8080
   tls:
     - hosts:
-        - hoarder.int.kyledev.co
-      secretName: hoarder-kyledev-tls-prod
+        - trilium.int.kyledev.co
+      secretName: trilium-kyledev-tls-prod
