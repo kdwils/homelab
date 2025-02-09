@@ -77,13 +77,9 @@ spec:
         - name: trilium-notes
           image: trilium
           imagePullPolicy: IfNotPresent
-          securityContext:
-            runAsUser: 0
           env:
             - name: TRILIUM_DATA_DIR
               value: "/srv/trilium-data"
-            - name: USER_UID
-              value: "0"
           ports:
             - name: http
               containerPort: 8080
