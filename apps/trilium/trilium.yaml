@@ -73,17 +73,26 @@ spec:
         app.kubernetes.io/instance: trilium
     spec:
       serviceAccountName: trilium-notes
-      # podSecurityContext:
-      #   fsGroup: 1000
+      podSecurityContext:
+        fsGroup: 1000
+      initContainers:
+        - name: volume-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /srv/trilium-data"]
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: trilium-data
+              mountPath: "/srv/trilium-data"
       containers:
         - name: trilium-notes
           image: trilium
           imagePullPolicy: IfNotPresent
-          # securityContext:
-          #   capabilities:
-          #     drop:
-          #       - ALL
-          #   runAsUser: 1000
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsUser: 1000
           env:
             - name: TRILIUM_DATA_DIR
               value: "/srv/trilium-data"
