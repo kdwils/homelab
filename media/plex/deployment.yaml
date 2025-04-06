@@ -6,7 +6,7 @@ metadata:
   labels:
     app: plex
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: Recreate
   selector:
@@ -19,6 +19,15 @@ spec:
     spec:
       hostname: "plex"
       affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - plex
+              topologyKey: "kubernetes.io/hostname"
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
