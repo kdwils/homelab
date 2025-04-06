@@ -1,6 +1,33 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: plex-tailscale
+  namespace: media
+  labels:
+    app: plex
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "plex"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+    - name: pms
+      port: 32400
+      protocol: TCP
+      targetPort: pms
+    - name: http
+      port: 80
+      targetPort: pms
+    - name: https
+      port: 443
+      targetPort: 32443
+  selector:
+    app: plex
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: plex
   namespace: media
   labels:
