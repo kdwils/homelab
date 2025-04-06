@@ -27,15 +27,3 @@ spec:
   resources:
     requests:
       storage: 35Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: plex-pvc
-  namespace: media
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 35Gi
