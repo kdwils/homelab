@@ -69,6 +69,9 @@ spec:
             - mountPath: /config
               name: plex
               subPath: configs/plex
+            - mountPath: /plex-pvc
+              name: plex-pvc
+              subPath: configs/plex
           resources: {}
       volumes:
         - name: media
@@ -77,3 +80,6 @@ spec:
         - name: plex
           persistentVolumeClaim:
             claimName: "plex"
+        - name: plex
+          persistentVolumeClaim:
+            claimName: "plex-pvc"
