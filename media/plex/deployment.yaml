@@ -80,6 +80,6 @@ spec:
         - name: plex
           persistentVolumeClaim:
             claimName: "plex"
-        - name: plex
+        - name: plex-pvc
           persistentVolumeClaim:
             claimName: "plex-pvc"
