@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - operator.yaml
   - sealedsecret.yaml
-  - namespace.yaml
