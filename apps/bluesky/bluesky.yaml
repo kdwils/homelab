@@ -34,6 +34,16 @@ spec:
       labels:
         app.kubernetes.io/name: bluesky
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - w1
+                      - w2
       serviceAccountName: bluesky
       securityContext: {}
       containers:
