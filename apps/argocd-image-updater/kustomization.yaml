@@ -8,4 +8,4 @@ resources:
 images:
   - name: image-updater
     newName: quay.io/argoprojlabs/argocd-image-updater
-    newTag: v0.12.2
+    newTag: v0.16.0
