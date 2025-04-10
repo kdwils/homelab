@@ -3,8 +3,8 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/auth-url: "http://tinyauth.tinauth.svc.cluster.local:8080/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "http://tinyauth.tinauth.svc.cluster.local:8080/login"
+    nginx.ingress.kubernetes.io/auth-url: "http://tinyauth.tinyauth.svc.cluster.local:8080/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "http://tinyauth.tinyauth.svc.cluster.local:8080/login"
     ingress.kubernetes.io/secure-backends: "true"
   labels:
     app: longhorn-ingress
