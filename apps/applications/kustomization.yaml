@@ -9,5 +9,6 @@ resources:
   - hoarder.yaml
   - mealie.yaml
   - rss.yaml
+  - tinyauth.yaml
   - trilium.yaml
   - wiki.yaml
