@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/auth-url: "https://tinyauth.int.kyledev.co/login/api/auth/nginx"
+    nginx.ingress.kubernetes.io/auth-url: "http://tinyauth.tinyauth.svc.cluster.local:3000/api/auth/nginx"
     nginx.ingress.kubernetes.io/auth-signin: "https://tinyauth.int.kyledev.co/login"
     nginx.ingress.kubernetes.io/auth-signin-redirect-param: https://longhorn.int.kyledev.co
   labels:
