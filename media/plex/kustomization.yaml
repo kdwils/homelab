@@ -10,4 +10,4 @@ resources:
 images:
   - name: plex
     newName: linuxserver/plex
-    newTag: 1.41.5
+    newTag: 1.41.6
