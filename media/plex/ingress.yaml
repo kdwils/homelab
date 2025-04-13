@@ -8,6 +8,16 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
+    - host: plex.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: plex
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
     - host: plex.int.kyledev.co
       http:
         paths:
