@@ -8,16 +8,6 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: plex.kyledev.co
-      http:
-        paths:
-          - backend:
-              service:
-                name: plex
-                port:
-                  name: http
-            path: /
-            pathType: Prefix
     - host: plex.int.kyledev.co
       http:
         paths:
@@ -32,3 +22,25 @@ spec:
     - hosts:
         - plex.int.kyledev.co
       secretName: plex-kyledev-tls-prod
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+  name: plex-public
+  namespace: media
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: plex.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: plex
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
