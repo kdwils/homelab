@@ -33,5 +33,4 @@ spec:
   tls:
     - hosts:
         - argocd.int.kyledev.co
-        - argocd.kyledev.co
       secretName: argocd-kyledev-tls-prod
