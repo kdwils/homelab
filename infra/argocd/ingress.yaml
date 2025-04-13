@@ -20,7 +20,18 @@ spec:
                 name: argocd-server
                 port:
                   name: http
+    - host: argocd.kyledev.co
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argocd-server
+                port:
+                  name: http
   tls:
     - hosts:
         - argocd.int.kyledev.co
+        - argocd.kyledev.co
       secretName: argocd-kyledev-tls-prod
