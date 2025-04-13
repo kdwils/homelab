@@ -18,6 +18,16 @@ spec:
                   name: http
             path: /
             pathType: Prefix
+    - host: plex.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: plex
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
   tls:
     - hosts:
         - plex.int.kyledev.co
