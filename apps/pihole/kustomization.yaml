@@ -1,9 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - pihole.yaml
-
-images:
-  - name: pihole
-    newName: pihole/pihole
-    newTag: "2024.07.0"

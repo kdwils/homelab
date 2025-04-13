@@ -20,6 +20,16 @@ spec:
                   number: 9925
             path: /
             pathType: Prefix
+    - host: mealie.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: mealie
+                port:
+                  number: 9925
+            path: /
+            pathType: Prefix
   tls:
     - hosts:
         - mealie.int.kyledev.co

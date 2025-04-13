@@ -18,7 +18,18 @@ spec:
                 name: bluesky
                 port:
                   number: 3000
+    - host: bluesky.kyledev.co
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bluesky
+                port:
+                  number: 3000
   tls:
     - hosts:
         - bluesky.int.kyledev.co
+        - bluesky.kyledev.co
       secretName: bluesky-kyledev-tls-prod
