@@ -3,4 +3,11 @@ kind: Kustomization
 resources:
   - ingress-nginx.yaml
   - tailscale-service.yaml
-  - configmap.yaml
+
+patches:
+  - target:
+      group: ""
+      version: v1
+      kind: ConfigMap
+      name: ingress-nginx-controller
+    path: configmap-patch.yaml
