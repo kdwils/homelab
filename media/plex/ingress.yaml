@@ -28,7 +28,8 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-  name: plex-public
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: plex-prod
   namespace: media
 spec:
   ingressClassName: nginx
@@ -36,10 +37,14 @@ spec:
     - host: plex.kyledev.co
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: plex
                 port:
                   name: http
-            path: /
-            pathType: Prefix
+  tls:
+    - hosts:
+        - plex.kyledev.co
+      secretName: plex-tls-secret
