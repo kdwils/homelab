@@ -3,12 +3,14 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
   name: plex
   namespace: media
 spec:
   ingressClassName: nginx
   rules:
-    - host: plex.int.kyledev.co
+    - host: plex.int.my-host.com
       http:
         paths:
           - backend:
@@ -18,7 +20,7 @@ spec:
                   name: http
             path: /
             pathType: Prefix
-    - host: plex.kyledev.co
+    - host: plex.my-host.com
       http:
         paths:
           - backend:
@@ -30,8 +32,8 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - plex.int.kyledev.co
+        - plex.int.my-host.com
       secretName: plex-kyledev-tls-prod
     - hosts:
-        - plex.kyledev.co
+        - plex.my-host.com
       secretName: plex-kyledev-public
