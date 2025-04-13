@@ -13,7 +13,7 @@ data:
       - hostname: blog.kyledev.co
         service: http://blog-prod.blog.svc.cluster.local
       - hostname: argocd.kyledev.co
-        service: http://argocd-server.argocd.svc.cluster.local
+        service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
       - hostname: mealie.kyledev.co
         service: http://mealie.mealie.svc.cluster.local:9925
       - hostname: bluesky.kyledev.co
