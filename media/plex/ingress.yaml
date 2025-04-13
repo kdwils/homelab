@@ -34,6 +34,3 @@ spec:
     - hosts:
         - plex.int.my-host.com
       secretName: plex-kyledev-tls-prod
-    - hosts:
-        - plex.my-host.com
-      secretName: plex-kyledev-public
