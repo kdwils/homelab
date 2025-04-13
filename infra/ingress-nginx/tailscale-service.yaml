@@ -4,7 +4,7 @@ metadata:
   name: ingress-nginx-controller-tailscale
   namespace: ingress-nginx
   annotations:
-    tailscale.com/hostname: "homelab-ingress"
+    tailscale.com/hostname: "ingress-nginx"
     tailscale.com/expose: "true"
 spec:
   loadBalancerClass: tailscale
