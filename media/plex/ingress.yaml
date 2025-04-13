@@ -31,5 +31,7 @@ spec:
   tls:
     - hosts:
         - plex.int.kyledev.co
-        - plex.kyledev.co
       secretName: plex-kyledev-tls-prod
+    - hosts:
+        - plex.kyledev.co
+      secretName: plex-kyledev-public
