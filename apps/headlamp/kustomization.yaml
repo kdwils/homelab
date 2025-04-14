@@ -1,10 +1,6 @@
 kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
-images:
-  - name: headlamp
-    newName: ghcr.io/headlamp-k8s/headlamp
-    newTag: v0.30.0
-
 resources:
   - headlamp.yaml
+  - ingress.yaml
