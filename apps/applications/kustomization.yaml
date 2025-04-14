@@ -6,6 +6,7 @@ resources:
   - crowdsec.yaml
   - excalidraw.yaml
   - gatekeeper.yaml
+  - headlamp.yaml
   - hoarder.yaml
   - mealie.yaml
   - rss.yaml

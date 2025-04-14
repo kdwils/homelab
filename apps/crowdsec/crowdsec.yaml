@@ -851,7 +851,6 @@ spec:
               value: "true"
             - name: INSECURE_SKIP_VERIFY
               value: "false"
-
             - name: CS_LAPI_SECRET
               valueFrom:
                 secretKeyRef:
@@ -873,7 +872,6 @@ spec:
             requests:
               cpu: 500m
               memory: 500Mi
-
           livenessProbe:
             failureThreshold: 3
             periodSeconds: 10
