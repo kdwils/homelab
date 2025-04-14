@@ -11,4 +11,3 @@ resources:
   - rss.yaml
   - tinyauth.yaml
   - trilium.yaml
-  - wiki.yaml
