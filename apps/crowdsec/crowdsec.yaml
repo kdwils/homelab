@@ -708,9 +708,9 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           - name: LAPI_URL
-            value: "http://crowdsec-service.default:8080"
+            value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
           - name: LAPI_HOST
-            value: "crowdsec-service.default"
+            value: "http://crowdsec-service.crowdsec.svc.cluster.local"
           - name: LAPI_PORT
             value: "8080"
       containers:
