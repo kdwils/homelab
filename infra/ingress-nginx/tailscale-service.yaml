@@ -12,11 +12,13 @@ spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
   ports:
-    - name: http
+    - appProtocol: http
+      name: http
       port: 80
       protocol: TCP
       targetPort: http
-    - name: https
+    - appProtocol: https
+      name: https
       port: 443
       protocol: TCP
       targetPort: https
