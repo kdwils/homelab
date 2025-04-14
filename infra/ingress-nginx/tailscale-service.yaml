@@ -4,8 +4,8 @@ metadata:
   name: ingress-nginx-controller-tailscale
   namespace: ingress-nginx
   annotations:
-    tailscale.com/hostname: "homelab-ingress"
-    tailscale.com/expose: "true"
+    tailscale.com/expose: "ingress-nginx"
+    tailscale.com/hostname: "plex"
 spec:
   loadBalancerClass: tailscale
   externalTrafficPolicy: Cluster
