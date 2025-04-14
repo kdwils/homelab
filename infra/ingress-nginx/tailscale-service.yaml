@@ -1,15 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ingress-nginx-tailscale
-  namespace: media
-  labels:
-    app: ingress-nginx
+  name: ingress-nginx-controller-tailscale
+  namespace: ingress-nginx
   annotations:
-    tailscale.com/expose: "true"
     tailscale.com/hostname: "ingress-nginx"
 spec:
-  type: LoadBalancer
   loadBalancerClass: tailscale
   externalTrafficPolicy: Cluster
   ports:
@@ -27,3 +23,4 @@ spec:
     app.kubernetes.io/component: controller
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
+  type: LoadBalancer
