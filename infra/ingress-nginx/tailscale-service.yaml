@@ -5,6 +5,7 @@ metadata:
   namespace: ingress-nginx
   annotations:
     tailscale.com/hostname: "ingress-nginx"
+    tailscale.com/expose: "true"
 spec:
   loadBalancerClass: tailscale
   externalTrafficPolicy: Cluster
