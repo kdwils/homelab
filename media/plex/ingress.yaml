@@ -28,7 +28,6 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: plex-prod
   namespace: media
 spec:
