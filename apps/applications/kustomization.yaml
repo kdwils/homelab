@@ -3,6 +3,7 @@ resources:
   - argocd-image-updater.yaml
   - blog.yaml
   - bluesky.yaml
+  - crowdsec.yaml
   - excalidraw.yaml
   - gatekeeper.yaml
   - hoarder.yaml
