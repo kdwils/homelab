@@ -4,7 +4,7 @@ resources:
   - awx.yaml
   - blog.yaml
   - bluesky.yaml
-  # - crowdsec.yaml
+  - crowdsec.yaml
   - excalidraw.yaml
   - gatekeeper.yaml
   - hoarder.yaml
