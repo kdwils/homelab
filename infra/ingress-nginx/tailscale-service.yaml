@@ -11,6 +11,7 @@ metadata:
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
+  externalTrafficPolicy: Cluster
   ports:
     - appProtocol: http
       name: http
@@ -23,4 +24,6 @@ spec:
       protocol: TCP
       targetPort: https
   selector:
-    app: ingress-nginx
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
