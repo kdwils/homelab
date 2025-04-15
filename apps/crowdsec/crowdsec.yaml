@@ -868,7 +868,6 @@ spec:
               value: "true"
             - name: INSECURE_SKIP_VERIFY
               value: "false"
-
             - name: CS_LAPI_SECRET
               valueFrom:
                 secretKeyRef:
@@ -883,6 +882,15 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: ENROLL_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: crowdsec-lapi-secrets
+                  key: enrollmentKey
+            - name: ENROLL_INSTANCE_NAME
+              value: homelab
+            - name: ENROLL_TAGS
+              value: homelab
           resources:
             limits:
               cpu: 500m
