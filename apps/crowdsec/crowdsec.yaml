@@ -867,7 +867,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: crowdsec-lapi-secrets
-                  key: enrollKey
+                  key: enrollmentKey
           resources:
             limits:
               cpu: 500m
