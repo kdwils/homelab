@@ -1,3 +1,4 @@
+---
 # Source: crowdsec/templates/acquis-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -11,7 +12,7 @@ data:
     force_inotify: true
     poll_without_inotify: false
     labels:
-      type: docker
+      type: containerd
       program: nginx
 ---
 # Source: crowdsec/templates/docker-start-configmap.yaml
@@ -565,22 +566,30 @@ data:
   config.yaml.local: |
     api:
       server:
-        auto_registration: # Activate if not using TLS for authentication
+        auto_registration:
           enabled: true
-          token: "${REGISTRATION_TOKEN}" # /!\ Do not modify this variable (auto-generated and handled by the chart)
-          allowed_ranges: # /!\ Make sure to adapt to the pod IP ranges used by your cluster
+          token: "${REGISTRATION_TOKEN}"
+          allowed_ranges:
             - "127.0.0.1/32"
             - "192.168.0.0/16"
             - "10.0.0.0/8"
             - "172.16.0.0/12"
-    db_config:
-      type:     postgresql
-      user:     crowdsec
-      password: ${DB_PASSWORD}
-      db_name:  crowdsec
-      host:     192.168.0.2
-      port:     5432
-      sslmode:  require
+---
+# Source: crowdsec/templates/agent-persistentVolume.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-agent-config-pvc
+  labels:
+    k8s-app: crowdsec
+    type: agent
+    version: v1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "100Mi"
 ---
 # Source: crowdsec/templates/lapi-persistentVolume.yaml
 apiVersion: v1
@@ -674,7 +683,7 @@ spec:
     metadata:
       annotations:
         checksum/agent-configmap: 1b18474a63d2102a8a8f26a629f5a398529eda8923eca4bab5da21666e3e890c
-        checksum/acquis-configmap: 2ef3f9e96705f1f0f6ceb4ce2a23b5e98dc40c4f03c178d5effae5372474d3fb
+        checksum/acquis-configmap: c701dc5baf19b71762198ddae5463ebb8e68c3c43b710563fa63d65b528cc4a6
       labels:
         k8s-app: crowdsec
         type: agent
@@ -726,18 +735,28 @@ spec:
             [
               "sh",
               "-c",
-              "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && ./docker_start.sh",
+              "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh",
             ]
           env:
             - name: DISABLE_LOCAL_API
-              value: "false"
+              value: "true"
             - name: DISABLE_ONLINE_API
-              value: "false"
+              value: "true"
+
             # agent - lapi authentication, with TLS or password
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: COLLECTIONS
               value: crowdsecurity/nginx
+            - name: ENROLL_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: crowdsec-lapi-secrets
+                  key: enrollmeantKey
+            - name: ENROLL_INSTANCE_NAME
+              value: homelab
+            - name: ENROLL_TAGS
+              value: homelab
           resources:
             limits:
               cpu: 500m
@@ -788,15 +807,14 @@ spec:
           volumeMounts:
             - name: crowdsec-config
               mountPath: /tmp_config
+            - name: crowdsec-agent-config
+              mountPath: /etc/crowdsec_data
 
             - name: acquis-config-volume
-              mountPath: /etc/crowdsec/acquis.yaml
+              mountPath: /etc/crowdsec_data/acquis.yaml
               subPath: acquis.yaml
             - name: varlog
               mountPath: /var/log
-              readOnly: true
-            - name: varlibdockercontainers
-              mountPath: /var/lib/docker/containers
               readOnly: true
       terminationGracePeriodSeconds: 30
       volumes:
@@ -808,10 +826,9 @@ spec:
         - name: varlog
           hostPath:
             path: /var/log
-
-        - name: varlibdockercontainers
-          hostPath:
-            path: /var/lib/docker/containers
+        - name: crowdsec-agent-config
+          persistentVolumeClaim:
+            claimName: crowdsec-agent-config-pvc
 ---
 # Source: crowdsec/templates/lapi-deployment.yaml
 apiVersion: apps/v1
@@ -833,8 +850,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/lapi-secret: fd5dda2b07b3463d9b95d63de17dd5df76aa6e32f55dc40a202431b0b44ff234
-        checksum/lapi-configmap: c2d93ac4bdf0b230ed14f82cfe745860a7be5fb17e1b796c416e477a8d4b7597
+        checksum/lapi-secret: af9983f33e74e9be50898f7fe283aba1eff8f2a9bc1f25768e9e1d9a406c9ff1
+        checksum/lapi-configmap: bd10890e2066fccfaf74deb4bc5118c877f4c7ab1ec28f218c4ee95697f44d3c
       labels:
         k8s-app: crowdsec
         type: lapi
@@ -847,8 +864,11 @@ spec:
           env:
             - name: LOCAL_API_URL
               value: http://localhost:8080
+            - name: DISABLE_AGENT
+              value: "true"
             - name: INSECURE_SKIP_VERIFY
               value: "false"
+
             - name: CS_LAPI_SECRET
               valueFrom:
                 secretKeyRef:
@@ -863,11 +883,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: ENROLL_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: crowdsec-lapi-secrets
-                  key: enrollmentKey
           resources:
             limits:
               cpu: 500m
@@ -875,6 +890,7 @@ spec:
             requests:
               cpu: 500m
               memory: 500Mi
+
           livenessProbe:
             failureThreshold: 3
             periodSeconds: 10
