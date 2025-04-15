@@ -660,6 +660,10 @@ spec:
       targetPort: 8080
       protocol: TCP
       name: lapi
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: dashboard
   selector:
     k8s-app: crowdsec
     type: lapi
@@ -748,11 +752,6 @@ spec:
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: COLLECTIONS
               value: crowdsecurity/nginx
-            - name: ENROLL_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: crowdsec-lapi-secrets
-                  key: enrollmentKey
             - name: ENROLL_INSTANCE_NAME
               value: homelab
             - name: ENROLL_TAGS
@@ -850,22 +849,47 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/lapi-secret: af9983f33e74e9be50898f7fe283aba1eff8f2a9bc1f25768e9e1d9a406c9ff1
+        checksum/lapi-secret: 57d6b9da943652a132785fd194381152e74c2a0746bccc7bf2d25b47ae71637d
         checksum/lapi-configmap: bd10890e2066fccfaf74deb4bc5118c877f4c7ab1ec28f218c4ee95697f44d3c
       labels:
         k8s-app: crowdsec
         type: lapi
         version: v1
     spec:
+      initContainers:
+        - name: fetch-metabase-config
+          image: busybox:1.28
+          imagePullPolicy: IfNotPresent
+          command:
+            [
+              "sh",
+              "-c",
+              'if [ -f /metabase-data/metabase.db/metabase.db.mv.db ]; then echo "Metabase database file already exists, skipping download and unzip"; else wget https://crowdsec-statics-assets.s3-eu-west-1.amazonaws.com/metabase_sqlite.zip && unzip metabase_sqlite.zip -nd /metabase-data/; fi',
+            ]
+          volumeMounts:
+            - name: crowdsec-db
+              mountPath: /metabase-data
+              subPath: dashboard
       containers:
         - name: crowdsec-lapi
           image: "crowdsecurity/crowdsec:v1.6.8"
           imagePullPolicy: IfNotPresent
           env:
+            - name: ENROLL_INSTANCE_NAME
+              value: homelab
+            - name: ENROLL_TAGS
+              value: homelab
+            - name: ENROLL_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: crowdsec-lapi-secrets
+                  key: enrollmentKey
             - name: LOCAL_API_URL
               value: http://localhost:8080
             - name: DISABLE_AGENT
               value: "true"
+            - name: GID
+              value: "1000"
             - name: INSECURE_SKIP_VERIFY
               value: "false"
             - name: CS_LAPI_SECRET
@@ -882,15 +906,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: ENROLL_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: crowdsec-lapi-secrets
-                  key: enrollmentKey
-            - name: ENROLL_INSTANCE_NAME
-              value: homelab
-            - name: ENROLL_TAGS
-              value: homelab
           resources:
             limits:
               cpu: 500m
@@ -961,6 +976,64 @@ spec:
               mountPath: /etc/crowdsec_data/config.yaml.local
               subPath: config.yaml.local
 
+        - name: dashboard
+          image: "metabase/metabase:v0.46.6.1"
+          imagePullPolicy: IfNotPresent
+          command:
+            [
+              "sh",
+              "-c",
+              "ln -fs /var/lib/crowdsec/data/crowdsec.db /metabase-data/crowdsec.db && /app/run_metabase.sh",
+            ]
+          volumeMounts:
+            - name: crowdsec-db
+              mountPath: /metabase-data
+              subPath: dashboard
+            - name: crowdsec-db
+              mountPath: /var/lib/crowdsec/data
+              subPath: crowdsec
+          env:
+            - name: MB_DB_FILE
+              value: /metabase-data/metabase.db
+            - name: MGID
+              value: "1000"
+
+          ports:
+            - containerPort: 3000
+              name: http
+              protocol: TCP
+
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
       terminationGracePeriodSeconds: 30
       volumes:
         - name: crowdsec-docker-start-script
