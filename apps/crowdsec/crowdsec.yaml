@@ -752,7 +752,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: crowdsec-lapi-secrets
-                  key: enrollmeantKey
+                  key: enrollmentKey
             - name: ENROLL_INSTANCE_NAME
               value: homelab
             - name: ENROLL_TAGS
