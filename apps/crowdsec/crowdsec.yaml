@@ -847,8 +847,6 @@ spec:
           env:
             - name: LOCAL_API_URL
               value: http://localhost:8080
-            - name: DISABLE_AGENT
-              value: "true"
             - name: INSECURE_SKIP_VERIFY
               value: "false"
             - name: CS_LAPI_SECRET
@@ -865,6 +863,11 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: ENROLL_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: crowdsec-lapi-secrets
+                  key: enrollKey
           resources:
             limits:
               cpu: 500m
