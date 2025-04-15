@@ -586,7 +586,7 @@ metadata:
     version: v1
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: "100Mi"
@@ -602,7 +602,7 @@ metadata:
     version: v1
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: "1Gi"
@@ -618,7 +618,7 @@ metadata:
     version: v1
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: "100Mi"
