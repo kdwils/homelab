@@ -8,4 +8,4 @@ resources:
 images:
   - name: freshrss
     newName: linuxserver/freshrss
-    newTag: "1.23.1"
+    newTag: "1.26.1"
