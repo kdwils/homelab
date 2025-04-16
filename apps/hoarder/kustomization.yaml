@@ -9,8 +9,8 @@ resources:
 
 images:
   - name: hoarder
-    newName: ghcr.io/hoarder-app/hoarder
-    newTag: 0.22.0
+    newName: ghcr.io/karakeep-app/krakeep
+    newTag: 0.23.1
   - name: meilisearch
     newName: getmeili/meilisearch
     newTag: v1.11.1
