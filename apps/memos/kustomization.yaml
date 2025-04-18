@@ -8,4 +8,4 @@ resources:
 images:
   - name: memos
     newName: neosmemo/memos
-    newTag: v0.24.2
+    newTag: 0.24.2
