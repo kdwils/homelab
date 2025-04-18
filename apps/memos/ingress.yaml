@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+  labels:
+    app: memos-ingress
+  name: memos
+  namespace: memos
+spec:
+  rules:
+    - host: memos.int.kyledev.co
+      http:
+        paths:
+          - backend:
+              service:
+                name: memos
+                port:
+                  number: 5230
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - memos.int.kyledev.co
+      secretName: memos-kyledev-tls-prod

@@ -9,6 +9,7 @@ resources:
   - headlamp.yaml
   - hoarder.yaml
   - mealie.yaml
+  - memos.yaml
   - rss.yaml
   - tinyauth.yaml
   - trilium.yaml
