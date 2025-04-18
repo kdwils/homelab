@@ -47,6 +47,8 @@ spec:
           env:
             - name: MEMOS_MODE
               value: "prod"
+            - name: MEMOS_PORT
+              value: "5230"
       volumes:
         - name: sqlite-storage
           persistentVolumeClaim:
