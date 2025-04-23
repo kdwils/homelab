@@ -13,3 +13,4 @@ resources:
   - rss.yaml
   - tinyauth.yaml
   - trilium.yaml
+  - trivy.yaml
