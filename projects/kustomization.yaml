@@ -5,4 +5,5 @@ resources:
   - apps.yaml
   - infra.yaml
   - media.yaml
+  - monitoring.yaml
   - parent-app.yaml

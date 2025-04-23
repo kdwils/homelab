@@ -6,3 +6,4 @@ resources:
   - apps/applications/
   - infra/applications/
   - media/applications/
+  - monitoring/applications/

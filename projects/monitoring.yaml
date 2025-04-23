@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  # Whitelist all cluster-scoped resources
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  # Define deployment destinations
+  destinations:
+    - name: "*"
+      namespace: "*"
+      server: "*"
+  # Whitelist all namespaced resources
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  # Specify source repositories
+  sourceRepos:
+    - https://github.com/kdwils/homelab.git
