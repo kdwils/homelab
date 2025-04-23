@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - namespace.yaml
+  - crds.yaml
   - sealedsecret.yaml
   - monitoring.yaml
   - ingress.yaml
