@@ -3032,11 +3032,11 @@ metadata:
     app.kubernetes.io/version: "0.25.0"
     app.kubernetes.io/managed-by: Helm
 data:
-  scanJob.tolerations: "[{\"key\":\"CriticalAddonsOnly\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/controlplane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoExecute\",\"key\":\"node-role.kubernetes.io/etcd\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"key\",\"operator\":\"Equal\",\"value\":\"value\"}]"
-  nodeCollector.tolerations: "[{\"key\":\"CriticalAddonsOnly\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/controlplane\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/control-plane\",\"operator\":\"Exists\"},{\"effect\":\"NoExecute\",\"key\":\"node-role.kubernetes.io/etcd\",\"operator\":\"Exists\"},{\"effect\":\"NoSchedule\",\"key\":\"key\",\"operator\":\"Equal\",\"value\":\"value\"}]"
+  scanJob.affinity: "{\"nodeSelectorTerms\":[{\"matchExpressions\":[{\"key\":\"kubernetes.io/hostname\",\"operator\":\"In\",\"values\":[\"w1\",\"w2\",\"nuc\"]}]}]}"
   nodeCollector.volumes: "[{\"hostPath\":{\"path\":\"/var/lib/etcd\"},\"name\":\"var-lib-etcd\"},{\"hostPath\":{\"path\":\"/var/lib/kubelet\"},\"name\":\"var-lib-kubelet\"},{\"hostPath\":{\"path\":\"/var/lib/kube-scheduler\"},\"name\":\"var-lib-kube-scheduler\"},{\"hostPath\":{\"path\":\"/var/lib/kube-controller-manager\"},\"name\":\"var-lib-kube-controller-manager\"},{\"hostPath\":{\"path\":\"/etc/systemd\"},\"name\":\"etc-systemd\"},{\"hostPath\":{\"path\":\"/lib/systemd\"},\"name\":\"lib-systemd\"},{\"hostPath\":{\"path\":\"/etc/kubernetes\"},\"name\":\"etc-kubernetes\"},{\"hostPath\":{\"path\":\"/etc/cni/net.d/\"},\"name\":\"etc-cni-netd\"}]"
   nodeCollector.volumeMounts: "[{\"mountPath\":\"/var/lib/etcd\",\"name\":\"var-lib-etcd\",\"readOnly\":true},{\"mountPath\":\"/var/lib/kubelet\",\"name\":\"var-lib-kubelet\",\"readOnly\":true},{\"mountPath\":\"/var/lib/kube-scheduler\",\"name\":\"var-lib-kube-scheduler\",\"readOnly\":true},{\"mountPath\":\"/var/lib/kube-controller-manager\",\"name\":\"var-lib-kube-controller-manager\",\"readOnly\":true},{\"mountPath\":\"/etc/systemd\",\"name\":\"etc-systemd\",\"readOnly\":true},{\"mountPath\":\"/lib/systemd/\",\"name\":\"lib-systemd\",\"readOnly\":true},{\"mountPath\":\"/etc/kubernetes\",\"name\":\"etc-kubernetes\",\"readOnly\":true},{\"mountPath\":\"/etc/cni/net.d/\",\"name\":\"etc-cni-netd\",\"readOnly\":true}]"
   scanJob.useGCRServiceAccount: "true"
+  nodeCollector.excludeNodes: "node-role.kubernetes.io/control-plane=true,node-role.kubernetes.io/master=true.node-role.kubernetes.io/etcd=true"
   scanJob.podTemplateContainerSecurityContext: "{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]},\"privileged\":false,\"readOnlyRootFilesystem\":true}"
   scanJob.compressLogs: "true"
   vulnerabilityReports.scanner: "Trivy"
@@ -3065,7 +3065,7 @@ data:
   OPERATOR_LOG_DEV_MODE: "false"
   OPERATOR_SCAN_JOB_TTL: ""
   OPERATOR_SCAN_JOB_TIMEOUT: "5m"
-  OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "10"
+  OPERATOR_CONCURRENT_SCAN_JOBS_LIMIT: "1"
   OPERATOR_CONCURRENT_NODE_COLLECTOR_LIMIT: "1"
   OPERATOR_SCAN_JOB_RETRY_AFTER: "30s"
   OPERATOR_BATCH_DELETE_LIMIT: "10"
