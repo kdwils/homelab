@@ -11,3 +11,9 @@ patches:
       kind: ConfigMap
       name: ingress-nginx-controller
     path: configmap-patch.yaml
+  - target:
+      group: "apps"
+      version: v1
+      kind: Deployment
+      name: ingress-nginx-controller
+    path: deployment-patch.yaml
