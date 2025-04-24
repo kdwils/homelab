@@ -4,7 +4,7 @@ metadata:
   name: ingress-nginx
   namespace: ingress-nginx
   labels:
-    release: prometheus # match the Prometheus instance selector
+    release: prometheus
 spec:
   selector:
     matchLabels:
