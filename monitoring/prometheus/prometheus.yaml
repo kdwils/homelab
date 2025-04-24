@@ -138,7 +138,7 @@ data:
         regex: trivy-operator
       - source_labels: [__meta_kubernetes_namespace]
         action: keep
-        regex: trivy-operator
+        regex: trivy
     - job_name: prometheus
       static_configs:
       - targets:
