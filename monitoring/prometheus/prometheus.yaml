@@ -18,7 +18,7 @@ apiVersion: v1
 kind: ServiceAccount
 automountServiceAccountToken: true
 metadata:
-  labels:    
+  labels:
     helm.sh/chart: kube-state-metrics-5.32.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: metrics
@@ -72,8 +72,7 @@ metadata:
     app.kubernetes.io/part-of: prometheus
   name: prometheus-server
   namespace: monitoring
-  annotations:
-    {}
+  annotations: {}
 ---
 # Source: prometheus/charts/alertmanager/templates/configmap.yaml
 apiVersion: v1
@@ -475,7 +474,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  labels:    
+  labels:
     helm.sh/chart: kube-state-metrics-5.32.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: metrics
@@ -485,146 +484,145 @@ metadata:
     app.kubernetes.io/version: "2.15.0"
   name: prometheus-kube-state-metrics
 rules:
+  - apiGroups: ["certificates.k8s.io"]
+    resources:
+      - certificatesigningrequests
+    verbs: ["list", "watch"]
 
-- apiGroups: ["certificates.k8s.io"]
-  resources:
-  - certificatesigningrequests
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - configmaps
-  verbs: ["list", "watch"]
+  - apiGroups: ["batch"]
+    resources:
+      - cronjobs
+    verbs: ["list", "watch"]
 
-- apiGroups: ["batch"]
-  resources:
-  - cronjobs
-  verbs: ["list", "watch"]
+  - apiGroups: ["extensions", "apps"]
+    resources:
+      - daemonsets
+    verbs: ["list", "watch"]
 
-- apiGroups: ["extensions", "apps"]
-  resources:
-  - daemonsets
-  verbs: ["list", "watch"]
+  - apiGroups: ["extensions", "apps"]
+    resources:
+      - deployments
+    verbs: ["list", "watch"]
 
-- apiGroups: ["extensions", "apps"]
-  resources:
-  - deployments
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - endpoints
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - endpoints
-  verbs: ["list", "watch"]
+  - apiGroups: ["autoscaling"]
+    resources:
+      - horizontalpodautoscalers
+    verbs: ["list", "watch"]
 
-- apiGroups: ["autoscaling"]
-  resources:
-  - horizontalpodautoscalers
-  verbs: ["list", "watch"]
+  - apiGroups: ["extensions", "networking.k8s.io"]
+    resources:
+      - ingresses
+    verbs: ["list", "watch"]
 
-- apiGroups: ["extensions", "networking.k8s.io"]
-  resources:
-  - ingresses
-  verbs: ["list", "watch"]
+  - apiGroups: ["batch"]
+    resources:
+      - jobs
+    verbs: ["list", "watch"]
 
-- apiGroups: ["batch"]
-  resources:
-  - jobs
-  verbs: ["list", "watch"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources:
+      - leases
+    verbs: ["list", "watch"]
 
-- apiGroups: ["coordination.k8s.io"]
-  resources:
-  - leases
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - limitranges
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - limitranges
-  verbs: ["list", "watch"]
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources:
+      - mutatingwebhookconfigurations
+    verbs: ["list", "watch"]
 
-- apiGroups: ["admissionregistration.k8s.io"]
-  resources:
-    - mutatingwebhookconfigurations
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - namespaces
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - namespaces
-  verbs: ["list", "watch"]
+  - apiGroups: ["networking.k8s.io"]
+    resources:
+      - networkpolicies
+    verbs: ["list", "watch"]
 
-- apiGroups: ["networking.k8s.io"]
-  resources:
-  - networkpolicies
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - nodes
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - nodes
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - persistentvolumeclaims
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - persistentvolumeclaims
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - persistentvolumes
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - persistentvolumes
-  verbs: ["list", "watch"]
+  - apiGroups: ["policy"]
+    resources:
+      - poddisruptionbudgets
+    verbs: ["list", "watch"]
 
-- apiGroups: ["policy"]
-  resources:
-    - poddisruptionbudgets
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - pods
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - pods
-  verbs: ["list", "watch"]
+  - apiGroups: ["extensions", "apps"]
+    resources:
+      - replicasets
+    verbs: ["list", "watch"]
 
-- apiGroups: ["extensions", "apps"]
-  resources:
-  - replicasets
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - replicationcontrollers
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - replicationcontrollers
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - resourcequotas
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - resourcequotas
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - secrets
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - secrets
-  verbs: ["list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - services
+    verbs: ["list", "watch"]
 
-- apiGroups: [""]
-  resources:
-  - services
-  verbs: ["list", "watch"]
+  - apiGroups: ["apps"]
+    resources:
+      - statefulsets
+    verbs: ["list", "watch"]
 
-- apiGroups: ["apps"]
-  resources:
-  - statefulsets
-  verbs: ["list", "watch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources:
+      - storageclasses
+    verbs: ["list", "watch"]
 
-- apiGroups: ["storage.k8s.io"]
-  resources:
-    - storageclasses
-  verbs: ["list", "watch"]
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources:
+      - validatingwebhookconfigurations
+    verbs: ["list", "watch"]
 
-- apiGroups: ["admissionregistration.k8s.io"]
-  resources:
-    - validatingwebhookconfigurations
-  verbs: ["list", "watch"]
-
-- apiGroups: ["storage.k8s.io"]
-  resources:
-    - volumeattachments
-  verbs: ["list", "watch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources:
+      - volumeattachments
+    verbs: ["list", "watch"]
 ---
 # Source: prometheus/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -681,7 +679,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  labels:    
+  labels:
     helm.sh/chart: kube-state-metrics-5.32.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: metrics
@@ -695,9 +693,9 @@ roleRef:
   kind: ClusterRole
   name: prometheus-kube-state-metrics
 subjects:
-- kind: ServiceAccount
-  name: prometheus-kube-state-metrics
-  namespace: monitoring
+  - kind: ServiceAccount
+    name: prometheus-kube-state-metrics
+    namespace: monitoring
 ---
 # Source: prometheus/templates/clusterrolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -772,7 +770,7 @@ kind: Service
 metadata:
   name: prometheus-kube-state-metrics
   namespace: monitoring
-  labels:    
+  labels:
     helm.sh/chart: kube-state-metrics-5.32.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: metrics
@@ -781,16 +779,16 @@ metadata:
     app.kubernetes.io/instance: prometheus
     app.kubernetes.io/version: "2.15.0"
   annotations:
-    prometheus.io/scrape: 'true'
+    prometheus.io/scrape: "true"
 spec:
   type: "ClusterIP"
   ports:
-  - name: "http"
-    protocol: TCP
-    port: 8080
-    targetPort: 8080
-  
-  selector:    
+    - name: "http"
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+  selector:
     app.kubernetes.io/name: kube-state-metrics
     app.kubernetes.io/instance: prometheus
 ---
@@ -961,7 +959,7 @@ spec:
           volumeMounts:
             - name: proc
               mountPath: /host/proc
-              readOnly:  true
+              readOnly: true
             - name: sys
               mountPath: /host/sys
               readOnly: true
@@ -976,15 +974,15 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: eks.amazonaws.com/compute-type
-                operator: NotIn
-                values:
-                - fargate
-              - key: type
-                operator: NotIn
-                values:
-                - virtual-kubelet
+              - matchExpressions:
+                  - key: eks.amazonaws.com/compute-type
+                    operator: NotIn
+                    values:
+                      - fargate
+                  - key: type
+                    operator: NotIn
+                    values:
+                      - virtual-kubelet
       nodeSelector:
         kubernetes.io/os: linux
       tolerations:
@@ -1007,7 +1005,7 @@ kind: Deployment
 metadata:
   name: prometheus-kube-state-metrics
   namespace: monitoring
-  labels:    
+  labels:
     helm.sh/chart: kube-state-metrics-5.32.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: metrics
@@ -1017,7 +1015,7 @@ metadata:
     app.kubernetes.io/version: "2.15.0"
 spec:
   selector:
-    matchLabels:      
+    matchLabels:
       app.kubernetes.io/name: kube-state-metrics
       app.kubernetes.io/instance: prometheus
   replicas: 1
@@ -1026,7 +1024,7 @@ spec:
   revisionHistoryLimit: 10
   template:
     metadata:
-      labels:        
+      labels:
         helm.sh/chart: kube-state-metrics-5.32.0
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: metrics
@@ -1047,45 +1045,44 @@ spec:
           type: RuntimeDefault
       dnsPolicy: ClusterFirst
       containers:
-      - name: kube-state-metrics
-        args:
-        - --port=8080
-        - --resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments
-        imagePullPolicy: IfNotPresent
-        image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0
-        ports:
-        - containerPort: 8080
-          name: "http"
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            httpHeaders:
-            path: /livez
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            httpHeaders:
-            path: /readyz
-            port: 8081
-            scheme: HTTP
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        resources:
-          {}
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          readOnlyRootFilesystem: true
+        - name: kube-state-metrics
+          args:
+            - --port=8080
+            - --resources=certificatesigningrequests,configmaps,cronjobs,daemonsets,deployments,endpoints,horizontalpodautoscalers,ingresses,jobs,leases,limitranges,mutatingwebhookconfigurations,namespaces,networkpolicies,nodes,persistentvolumeclaims,persistentvolumes,poddisruptionbudgets,pods,replicasets,replicationcontrollers,resourcequotas,secrets,services,statefulsets,storageclasses,validatingwebhookconfigurations,volumeattachments
+          imagePullPolicy: IfNotPresent
+          image: registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0
+          ports:
+            - containerPort: 8080
+              name: "http"
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              httpHeaders:
+              path: /livez
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              httpHeaders:
+              path: /readyz
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
 ---
 # Source: prometheus/charts/prometheus-pushgateway/templates/deployment.yaml
 apiVersion: apps/v1
@@ -1333,8 +1330,7 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
-            {}
+          resources: {}
           volumeMounts:
             - name: config
               mountPath: /etc/alertmanager
@@ -1345,7 +1341,9 @@ spec:
           configMap:
             name: prometheus-alertmanager
   volumeClaimTemplates:
-    - metadata:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
         name: storage
       spec:
         accessModes:
@@ -1375,7 +1373,6 @@ spec:
     - host: prometheus.int.kyledev.co
       http:
         paths:
-
           - path: /
             pathType: Prefix
             backend:
@@ -1385,5 +1382,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-      - prometheus.int.kyledev.co
+        - prometheus.int.kyledev.co
       secretName: prometheus-kyledev-tls-prod
