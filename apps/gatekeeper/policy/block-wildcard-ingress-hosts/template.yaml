@@ -4,6 +4,7 @@ metadata:
   name: k8sblockwildcardingress
   annotations:
     argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
     metadata.gatekeeper.sh/title: "Block Wildcard Ingress"
     metadata.gatekeeper.sh/version: 1.0.1
     description: >-
