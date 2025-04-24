@@ -5,7 +5,6 @@ resources:
   - bluesky.yaml
   - crowdsec.yaml
   - excalidraw.yaml
-  - gatekeeper.yaml
   - headlamp.yaml
   - hoarder.yaml
   - mealie.yaml
