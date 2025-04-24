@@ -10,14 +10,14 @@ metadata:
     app.kubernetes.io/instance: grafana
     app.kubernetes.io/version: "11.6.0-security-01"
   name: grafana
-  namespace: grafana
+  namespace: monitoring
 ---
 # Source: grafana/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana
-  namespace: grafana
+  namespace: monitoring
   labels:
     helm.sh/chart: grafana-8.13.0
     app.kubernetes.io/name: grafana
@@ -44,7 +44,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: grafana
-  namespace: grafana
+  namespace: monitoring
   labels:
     helm.sh/chart: grafana-8.13.0
     app.kubernetes.io/name: grafana
@@ -84,7 +84,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: grafana
-    namespace: grafana
+    namespace: monitoring
 roleRef:
   kind: ClusterRole
   name: grafana-clusterrole
@@ -95,7 +95,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: grafana
-  namespace: grafana
+  namespace: monitoring
   labels:
     helm.sh/chart: grafana-8.13.0
     app.kubernetes.io/name: grafana
@@ -108,7 +108,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: grafana
-  namespace: grafana
+  namespace: monitoring
   labels:
     helm.sh/chart: grafana-8.13.0
     app.kubernetes.io/name: grafana
@@ -121,14 +121,14 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: grafana
-    namespace: grafana
+    namespace: monitoring
 ---
 # Source: grafana/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: grafana
-  namespace: grafana
+  namespace: monitoring
   labels:
     helm.sh/chart: grafana-8.13.0
     app.kubernetes.io/name: grafana
@@ -150,7 +150,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grafana
-  namespace: grafana
+  namespace: monitoring
   labels:
     helm.sh/chart: grafana-8.13.0
     app.kubernetes.io/name: grafana
@@ -283,7 +283,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: grafana
-  namespace: grafana
+  namespace: monitoring
   labels:
     helm.sh/chart: grafana-8.13.0
     app.kubernetes.io/name: grafana
@@ -319,7 +319,7 @@ metadata:
     app.kubernetes.io/instance: grafana
     app.kubernetes.io/version: "11.6.0-security-01"
   name: grafana-test
-  namespace: grafana
+  namespace: monitoring
   annotations:
     "helm.sh/hook": test
     "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
@@ -329,7 +329,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-test
-  namespace: grafana
+  namespace: monitoring
   annotations:
     "helm.sh/hook": test
     "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
@@ -360,7 +360,7 @@ metadata:
   annotations:
     "helm.sh/hook": test
     "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
-  namespace: grafana
+  namespace: monitoring
 spec:
   serviceAccountName: grafana-test
   containers:
