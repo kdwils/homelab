@@ -13,6 +13,6 @@ spec:
     matchNames:
       - trivy
   endpoints:
-    - port: http
+    - port: metrics
       path: /metrics
       interval: 30s
