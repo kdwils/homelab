@@ -245,12 +245,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-secret
-                  key: admin-user
+                  key: user
             - name: GF_SECURITY_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: grafana-admin-secret
-                  key: admin-password
+                  key: password
             - name: GF_PATHS_DATA
               value: /var/lib/grafana/
             - name: GF_PATHS_LOGS
