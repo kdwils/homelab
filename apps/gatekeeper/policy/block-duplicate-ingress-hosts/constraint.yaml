@@ -2,8 +2,6 @@ apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sUniqueIngressHost
 metadata:
   name: unique-ingress-host
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
 spec:
   match:
     kinds:
