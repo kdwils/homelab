@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ingress-nginx.yaml
   - tailscale-service.yaml
+  - servicemonitor.yaml
 
 patches:
   - target:
