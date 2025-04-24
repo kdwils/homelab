@@ -5,3 +5,4 @@ resources:
   - grafana.yaml
   - namespace.yaml
   - prometheus.yaml
+  - trivy.yaml

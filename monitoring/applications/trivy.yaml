@@ -10,11 +10,11 @@ spec:
     namespace: trivy
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/trivy
+    path: monitoring/trivy
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
-  project: apps
+  project: monitoring
   syncPolicy:
     automated:
       prune: true
