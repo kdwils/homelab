@@ -5,5 +5,5 @@ resources:
   - namespace.yaml
   - crds.yaml
   - sealedsecret.yaml
-  - monitoring.yaml
+  # - monitoring.yaml
   - ingress.yaml
