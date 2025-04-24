@@ -3046,7 +3046,6 @@ data:
   node.collector.imageRef: "ghcr.io/aquasecurity/node-collector:0.3.1"
   policies.bundle.oci.ref: "mirror.gcr.io/aquasec/trivy-checks:1"
   policies.bundle.insecure: "false"
-
   node.collector.nodeSelector: "true"
 ---
 # Source: trivy-operator/templates/configmaps/trivy-operator-config.yaml
@@ -3102,6 +3101,7 @@ data:
   TRIVY_SERVER_HEALTH_CHECK_CACHE_EXPIRATION: "10h"
   OPERATOR_MERGE_RBAC_FINDING_WITH_CONFIG_AUDIT: "false"
   OPERATOR_CLUSTER_COMPLIANCE_ENABLED: "true"
+  OPERATOR_REPORT_TTL: "24h"
 ---
 # Source: trivy-operator/templates/configmaps/trivy.yaml
 apiVersion: v1
