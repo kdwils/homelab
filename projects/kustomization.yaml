@@ -7,4 +7,3 @@ resources:
   - media.yaml
   - monitoring.yaml
   - parent-app.yaml
-  - github.com/kdwils/blog//deploy?ref=main

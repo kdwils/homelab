@@ -10,3 +10,4 @@ resources:
   - rss.yaml
   - tinyauth.yaml
   - trilium.yaml
+  - github.com/kdwils/blog//deploy?ref=main
