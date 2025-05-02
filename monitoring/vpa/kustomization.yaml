@@ -1,2 +1,2 @@
 resources:
-  - https://raw.githubusercontent.com/kubernetes/autoscaler/vpa-release-1.0/vertical-pod-autoscaler/deploy/kustomization.yaml
+  - github.com/kubernetes/autoscaler/vertical-pod-autoscaler/deploy?ref=vpa-release-1.0
