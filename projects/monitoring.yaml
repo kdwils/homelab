@@ -20,4 +20,3 @@ spec:
   # Specify source repositories
   sourceRepos:
     - https://github.com/kdwils/homelab.git
-    - https://github.com/kubernetes/autoscaler.git

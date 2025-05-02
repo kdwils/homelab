@@ -1,18 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vpa
+  name: prometheus
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    server: https://kubernetes.default.svc
     namespace: kube-system
+    server: "https://kubernetes.default.svc"
   source:
-    repoURL: https://github.com/kubernetes/autoscaler
-    path: vertical-pod-autoscaler/deploy
-    targetRevision: vpa-release-1.0
+    path: monitoring/vpa
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: HEAD
+  sources: []
   project: monitoring
   syncPolicy:
     automated:
