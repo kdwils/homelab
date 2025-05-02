@@ -8,7 +8,7 @@ spec:
     kind: Deployment
     name: mealie
   updatePolicy:
-    updateMode: "Auto"
+    updateMode: "Recreate"
   resourcePolicy:
     containerPolicies:
       - containerName: "*"
