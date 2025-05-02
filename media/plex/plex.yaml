@@ -69,14 +69,6 @@ spec:
               subPath: configs/plex
             - mountPath: /run
               name: run-dir
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
       hostname: plex
       volumes:
         - name: media
@@ -85,8 +77,6 @@ spec:
         - name: plex
           persistentVolumeClaim:
             claimName: plex
-        - name: run-dir
-          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
