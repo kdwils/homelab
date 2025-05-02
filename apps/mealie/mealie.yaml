@@ -34,11 +34,6 @@ spec:
         app: mealie
     spec:
       serviceAccountName: mealie
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        runAsNonRoot: true
       containers:
         - name: mealie
           image: mealie
@@ -59,8 +54,6 @@ spec:
           volumeMounts:
             - name: mealie-data
               mountPath: /app/data
-            - name: nltk-data
-              mountPath: /nltk_data
           env:
             - name: ALLOW_SIGNUP
               value: "false"
