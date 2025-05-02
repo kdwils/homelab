@@ -10,9 +10,9 @@ spec:
     namespace: kube-system
     server: "https://kubernetes.default.svc"
   source:
-    path: vertical-pod-autoscaler/deploy
-    repoURL: https://github.com/kubernetes/autoscaler
+    repoURL: https://github.com/kubernetes/autoscaler.git
     targetRevision: vertical-pod-autoscaler-1.3.1
+    path: vertical-pod-autoscaler/deploy
   sources: []
   project: monitoring
   syncPolicy:
