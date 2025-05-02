@@ -1,0 +1,110 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: plex
+  namespace: media
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: plex
+  name: plex
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: plex
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      serviceAccountName: plex
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - w1
+                      - w2
+      containers:
+        - env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: America/New_York
+            - name: PLEX_CLAIM
+              valueFrom:
+                secretKeyRef:
+                  key: claim
+                  name: plex-claim
+          image: plex
+          name: plex
+          ports:
+            - containerPort: 32400
+              name: pms
+            - containerPort: 32400
+              name: http
+            - containerPort: 32443
+              name: https
+          resources: {}
+          volumeMounts:
+            - mountPath: /movies
+              name: media
+              subPath: movies
+            - mountPath: /tv
+              name: media
+              subPath: tv
+            - mountPath: /config
+              name: plex
+              subPath: configs/plex
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+      hostname: plex
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: plex
+          persistentVolumeClaim:
+            claimName: plex
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.0.240
+  labels:
+    app: plex
+  name: plex
+  namespace: media
+spec:
+  ports:
+    - name: pms
+      port: 32400
+      protocol: TCP
+      targetPort: pms
+    - name: http
+      port: 80
+      targetPort: pms
+    - name: https
+      port: 443
+      targetPort: 32443
+  selector:
+    app: plex
+  type: LoadBalancer
