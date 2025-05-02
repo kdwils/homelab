@@ -7,16 +7,12 @@ data:
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
   application.namespaces: "*"
-  resource.customizations: |
-    apiextensions.k8s.io/CustomResourceDefinition:
-      ignoreDifferences: |
-        jsonPointers:
-        - /status
-    admissionregistration.k8s.io/ValidatingWebhookConfiguration:
-      ignoreDifferences: |
-        jsonPointers:
-        - /webhooks/0/clientConfig/caBundle
-        - /webhooks/1/clientConfig/caBundle
+  resource.customizations.ignoreDifferences.all: |
+    managedFieldsManagers:
+      - kube-controller-manager
+    jsonPointers:
+      - /spec/template/spec/containers/0/resources/requests
+      - /spec/template/spec/containers/0/resources/limits
 metadata:
   labels:
     app.kubernetes.io/name: argocd-cm
