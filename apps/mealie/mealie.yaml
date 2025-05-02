@@ -46,15 +46,11 @@ spec:
           image: mealie
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
           ports:
             - containerPort: 9000
-          volumeMounts:
-            - name: mealie-data
-              mountPath: /app/data
           resources:
             limits:
               cpu: 300m
@@ -62,6 +58,9 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+          volumeMounts:
+            - name: mealie-data
+              mountPath: /app/data
           env:
             - name: ALLOW_SIGNUP
               value: "false"
