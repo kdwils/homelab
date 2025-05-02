@@ -35,9 +35,6 @@ spec:
     spec:
       serviceAccountName: mealie
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
         runAsNonRoot: true
       containers:
         - name: mealie
@@ -78,8 +75,6 @@ spec:
         - name: mealie-data
           persistentVolumeClaim:
             claimName: mealie-data
-        - name: nltk-data
-          emptyDir: {}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
