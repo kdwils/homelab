@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vpa
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  source:
+    repoURL: https://github.com/kubernetes/autoscaler
+    path: vertical-pod-autoscaler/deploy
+    targetRevision: vpa-release-1.0
+  project: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

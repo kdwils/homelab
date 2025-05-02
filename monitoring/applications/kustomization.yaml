@@ -7,3 +7,4 @@ resources:
   - grafana.yaml
   - prometheus.yaml
   - trivy.yaml
+  - vpa.yaml
