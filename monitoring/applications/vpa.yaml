@@ -10,9 +10,9 @@ spec:
     namespace: kube-system
     server: "https://kubernetes.default.svc"
   source:
-    path: monitoring/vpa
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    path: vertical-pod-autoscaler/deploy
+    repoURL: https://github.com/kubernetes/autoscaler
+    targetRevision: vertical-pod-autoscaler-1.3.1
   sources: []
   project: monitoring
   syncPolicy:

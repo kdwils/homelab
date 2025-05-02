@@ -1,2 +1,0 @@
-resources:
-  - github.com/kubernetes/autoscaler/vertical-pod-autoscaler/deploy?ref=vertical-pod-autoscaler-1.3.1
