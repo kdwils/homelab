@@ -1,8 +1,28 @@
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: bluesky
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: bluesky
+rules:
+  - apiGroups: [""]
+    resources: []
+    verbs: []
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: bluesky
+subjects:
+  - kind: ServiceAccount
+    name: bluesky
+roleRef:
+  kind: Role
+  name: bluesky
+  apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: v1
 kind: Service
@@ -34,6 +54,11 @@ spec:
       labels:
         app.kubernetes.io/name: bluesky
     spec:
+      serviceAccountName: bluesky
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -44,63 +69,66 @@ spec:
                     values:
                       - w1
                       - w2
-      serviceAccountName: bluesky
-      securityContext: {}
       containers:
         - name: bluesky
-          securityContext: {}
           image: bluesky
           imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: pds-port
+              containerPort: 3000
+              protocol: TCP
           env:
             - name: PDS_HOSTNAME
               value: bluesky.kyledev.co
             - name: PDS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: "bluesky"
+                  name: bluesky
                   key: jwtSecret
             - name: PDS_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "bluesky"
+                  name: bluesky
                   key: adminPassword
             - name: PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX
               valueFrom:
                 secretKeyRef:
-                  name: "bluesky"
+                  name: bluesky
                   key: plcRotationKey
             - name: PDS_EMAIL_SMTP_URL
               valueFrom:
                 secretKeyRef:
-                  name: "bluesky"
+                  name: bluesky
                   key: smtpServer
             - name: PDS_EMAIL_FROM_ADDRESS
               valueFrom:
                 secretKeyRef:
-                  name: "bluesky"
+                  name: bluesky
                   key: smtpFromAddress
             - name: PDS_DATA_DIRECTORY
-              value: "/pds"
+              value: /pds
             - name: PDS_BLOBSTORE_DISK_LOCATION
-              value: "/pds/blocks"
+              value: /pds/blocks
             - name: PDS_DID_PLC_URL
-              value: "https://plc.directory"
+              value: https://plc.directory
             - name: PDS_BSKY_APP_VIEW_URL
-              value: "https://api.bsky.app"
+              value: https://api.bsky.app
             - name: PDS_BSKY_APP_VIEW_DID
-              value: "did:web:api.bsky.app"
+              value: did:web:api.bsky.app
             - name: PDS_REPORT_SERVICE_URL
-              value: "https://mod.bsky.app"
+              value: https://mod.bsky.app
             - name: PDS_REPORT_SERVICE_DID
-              value: "did:plc:ar7c4by46qjdydhdevvrndac"
+              value: did:plc:ar7c4by46qjdydhdevvrndac
             - name: PDS_CRAWLERS
-              value: "https://bsky.network"
+              value: https://bsky.network
             - name: LOG_ENABLED
               value: "true"
-          ports:
-            - name: pds-port
-              containerPort: 3000
-              protocol: TCP
           volumeMounts:
             - name: data
               mountPath: /pds
@@ -114,4 +142,4 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: "bluesky"
+            claimName: bluesky
