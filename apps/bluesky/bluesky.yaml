@@ -111,6 +111,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /pds
+          resources: {}
       volumes:
         - name: data
           persistentVolumeClaim:
