@@ -6,6 +6,7 @@ resources:
   - ingress.yaml
   - pvc.yaml
   - sealedsecret.yaml
+  - vpa.yaml
 
 images:
   - name: bluesky
