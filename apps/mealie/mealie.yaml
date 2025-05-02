@@ -39,8 +39,6 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         runAsNonRoot: true
-        seccompProfile:
-          type: RuntimeDefault
       containers:
         - name: mealie
           image: mealie
