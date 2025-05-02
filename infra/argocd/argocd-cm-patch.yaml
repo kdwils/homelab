@@ -9,18 +9,18 @@ data:
   application.namespaces: "*"
   resource.customizations: |
     apiextensions.k8s.io/CustomResourceDefinition:
-      ignoreDifferences: |
-        jsonPointers:
-        - /status
+      ignoreDifferences:
+        - jsonPointers:
+            - /status
     admissionregistration.k8s.io/ValidatingWebhookConfiguration:
-      ignoreDifferences: |
-        jsonPointers:
-        - /webhooks/0/clientConfig/caBundle
-        - /webhooks/1/clientConfig/caBundle
+      ignoreDifferences:
+        - jsonPointers:
+            - /webhooks/0/clientConfig/caBundle
+            - /webhooks/1/clientConfig/caBundle
     apps/v1/Deployment:
-      ignoreDifferences: |
-        jsonPointers:
-        - spec.template.spec.containers[*].resources
+      ignoreDifferences:
+        - jsonPointers:
+            - /spec/template/spec/containers[*].resources
 metadata:
   labels:
     app.kubernetes.io/name: argocd-cm
