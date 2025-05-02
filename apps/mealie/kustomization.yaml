@@ -4,7 +4,6 @@ resources:
   - mealie.yaml
   - namespace.yaml
   - ingress.yaml
-  - vpa.yaml
 
 images:
   - name: mealie
