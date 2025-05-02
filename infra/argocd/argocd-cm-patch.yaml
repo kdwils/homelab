@@ -19,7 +19,8 @@ data:
         - /webhooks/1/clientConfig/caBundle
     apps/v1/Deployment:
       ignoreDifferences: |
-        spec.template.spec.containers[*].resources
+        jsonPointers:
+        - spec.template.spec.containers[*].resources
 metadata:
   labels:
     app.kubernetes.io/name: argocd-cm
