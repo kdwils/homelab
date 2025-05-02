@@ -67,8 +67,6 @@ spec:
             - mountPath: /config
               name: plex
               subPath: configs/plex
-            - mountPath: /run
-              name: run-dir
       hostname: plex
       volumes:
         - name: media
