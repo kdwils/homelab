@@ -2,15 +2,17 @@ kind: ConfigMap
 apiVersion: v1
 data:
   policy.csv: |
-    p, role:syncer, applications, get, */*, allow
-    p, role:syncer, applications, sync, */*, allow  
-    p, role:syncer, projects, get, *, allow
-    p, role:syncer, repositories, get, *, allow
     p, role:image-updater, applications, get, */*, allow
     p, role:image-updater, applications, update, */*, allow
     g, image-updater, role:image-updater
-    g, backstage, role:syncer
-  policy.default: role:syncer
+    p, role:readonly, applications, get, *, allow
+    p, role:readonly, clusters, get, *, allow
+    p, role:readonly, projects, get, *, allow
+    p, role:readonly, repositories, get, *, allow
+    p, role:readonly, accounts, get, *, allow
+    p, role:readonly, gpgkeys, get, *, allow
+    g, readonly-user, role:readonly
+  policy.default: role:readonly
 metadata:
   labels:
     app.kubernetes.io/name: argocd-rbac-cm

@@ -3,7 +3,7 @@ apiVersion: v1
 data:
   accounts.image-updater: apiKey
   accounts.backstage: login, apiKey
-  accounts.reader: login
+  accounts.read-only: login, apiKey
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
   application.namespaces: "*"
