@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - prometheus.yaml
   - ingress.yaml
+  - sealedsecret.yaml
