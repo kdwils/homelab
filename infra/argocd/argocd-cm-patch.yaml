@@ -10,7 +10,6 @@ data:
         issuer: https://pocketid.kyledev.co
         clientID: $oidc.pocketid.clientID
         clientSecret: $oidc.pocketid.clientSecret
-        redirectURI: https://argocd.kyledev.co/api/dex/callback
         scopes:
           - openid
           - profile
