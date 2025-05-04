@@ -4,7 +4,6 @@ resources:
   - ingress.yaml
   - namespace.yaml
   - https://raw.githubusercontent.com/argoproj/argo-cd/v2.14.11/manifests/install.yaml
-  - sealedsecret.yaml
 
 namespace: argocd
 
