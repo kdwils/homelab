@@ -1,19 +1,15 @@
 kind: ConfigMap
 apiVersion: v1
 data:
-  dex.config: |
-    connectors:
-      - type: oidc
-        id: oidc
-        name: pocketid
-        config:
-          issuer: https://pocketid.kyledev.co
-          clientID: $POCKETID_CLIENT_ID
-          clientSecret: $POCKETID_CLIENT_SECRET
-          scopes:
-          - profile
-          - email
-          - groups
+  oidc.config: |
+    name: Okta
+    issuer: https://pocketid.kyledev.co
+    clientID: $POCKETID_CLIENT_ID
+    clientSecret: $POCKETID_CLIENT_SECRET
+    requestedScopes: ["openid", "profile", "email", "groups"]
+    requestedIDTokenClaims:
+      groups:
+        essential: true
   accounts.image-updater: apiKey
   accounts.backstage: login, apiKey
   accounts.readonly-user: login, apiKey
