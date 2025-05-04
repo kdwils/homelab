@@ -20,6 +20,9 @@ spec:
           image: freshrss
           ports:
             - containerPort: 80
+          envFrom:
+            - secretRef:
+                name: freshrss-oidc
           env:
             - name: PUID
               value: "1000"
