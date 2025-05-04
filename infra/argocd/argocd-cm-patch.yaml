@@ -1,15 +1,21 @@
 kind: ConfigMap
 apiVersion: v1
 data:
-  oidc.config: |
-    name: pocketid
-    issuer: https://pocketid.kyledev.co
-    clientID: $oidc.pocketid.clientID
-    clientSecret: $oidc.pocketid.clientSecret
-    requestedScopes: ["openid", "profile", "email", "groups"]
-    requestedIDTokenClaims:
-      groups:
-        essential: true
+  dex.config: |
+    connectors:
+    - type: oidc
+      id: pocketid
+      name: PocketID
+      config:
+        issuer: https://pocketid.kyledev.co
+        clientID: $oidc.pocketid.clientID
+        clientSecret: $oidc.pocketid.clientSecret
+        redirectURI: https://argocd.kyledev.co/api/dex/callback
+        scopes:
+          - openid
+          - profile
+          - email
+          - groups
   accounts.image-updater: apiKey
   accounts.backstage: login, apiKey
   accounts.readonly-user: login, apiKey
