@@ -2,11 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
-  - pocketid.yaml
-  - ingress.yaml
-  - pvc.yaml
-  - sealedsecret.yaml
-  - vpa.yaml
+  # - pocketid.yaml
+  # - ingress.yaml
+  # - pvc.yaml
+  # - sealedsecret.yaml
+  # - vpa.yaml
 
 images:
   - name: pocketid
