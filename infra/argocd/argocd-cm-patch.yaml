@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 data:
   oidc.config: |
-    name: Okta
+    name: pocketid
     issuer: https://pocketid.kyledev.co
     clientID: $POCKETID_CLIENT_ID
     clientSecret: $POCKETID_CLIENT_SECRET
