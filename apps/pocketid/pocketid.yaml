@@ -9,7 +9,7 @@ metadata:
   name: pocketid-config
   namespace: pocketid
 data:
-  PUBLIC_APP_URL: "https://pocketid.int.kyledev.co"
+  PUBLIC_APP_URL: "https://pocketid.kyledev.co"
   TRUST_PROXY: "true"
   PUID: "1000"
   PGID: "1000"
