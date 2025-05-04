@@ -32,9 +32,9 @@ spec:
               value: "America/New_York"
           volumeMounts:
             - name: freshrss-config
-              mountPath: /config
+              mountPath: /var/www/FreshRSS/config.custom.php
             - name: freshrss-data
-              mountPath: /data
+              mountPath: /var/www/FreshRSS/data
       volumes:
         - name: freshrss-config
           persistentVolumeClaim:
