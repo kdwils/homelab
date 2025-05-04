@@ -9,5 +9,5 @@ resources:
 
 images:
   - name: freshrss
-    newName: linuxserver/freshrss
-    newTag: "1.26.1"
+    newName: freshrss/freshrss
+    newTag: "1.26.2"
