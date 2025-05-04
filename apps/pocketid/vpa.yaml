@@ -1,0 +1,15 @@
+apiVersion: "autoscaling.k8s.io/v1"
+kind: VerticalPodAutoscaler
+metadata:
+  name: pocketid
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: pocketid
+  updatePolicy:
+    updateMode: "Recreate"
+  resourcePolicy:
+    containerPolicies:
+      - containerName: "*"
+        controlledResources: ["cpu", "memory"]

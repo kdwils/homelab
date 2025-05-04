@@ -7,6 +7,7 @@ resources:
   - hoarder.yaml
   - mealie.yaml
   - memos.yaml
+  - pocketid.yaml
   - rss.yaml
   - tinyauth.yaml
   - trilium.yaml
