@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pocketid
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pocketid-config
+  namespace: pocketid
+data:
+  PUBLIC_APP_URL: "https://pocketid.kyledev.co"
+  TRUST_PROXY: "true"
+  PUID: "1000"
+  PGID: "1000"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocketid
+  namespace: pocketid
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pocketid
+  template:
+    metadata:
+      labels:
+        app: pocketid
+    spec:
+      serviceAccountName: pocketid
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: pocketid
+          image: pocketid
+          ports:
+            - containerPort: 80
+              name: http
+          securityContext:
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          envFrom:
+            - configMapRef:
+                name: pocketid-config
+            - secretRef:
+                name: pocketid
+          volumeMounts:
+            - name: data
+              mountPath: /app/backend/data
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 90
+            timeoutSeconds: 5
+            failureThreshold: 2
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pocketid-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pocketid
+  namespace: pocketid
+spec:
+  selector:
+    app: pocketid
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+      name: http
