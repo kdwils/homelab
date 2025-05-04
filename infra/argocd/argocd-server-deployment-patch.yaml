@@ -35,10 +35,6 @@ spec:
             allowPrivilegeEscalation: false
       containers:
         - name: argocd-server
-          envFrom:
-            - secretRef:
-                name: argocd-oidc
-
           volumeMounts:
             - name: extensions
               mountPath: /tmp/extensions/

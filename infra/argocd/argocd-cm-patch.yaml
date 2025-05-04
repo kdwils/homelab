@@ -4,8 +4,8 @@ data:
   oidc.config: |
     name: pocketid
     issuer: https://pocketid.kyledev.co
-    clientID: $POCKETID_CLIENT_ID
-    clientSecret: $POCKETID_CLIENT_SECRET
+    clientID: $oidc.pocketid.clientID
+    clientSecret: $oidc.pocketid.clientSecret
     requestedScopes: ["openid", "profile", "email", "groups"]
     requestedIDTokenClaims:
       groups:
