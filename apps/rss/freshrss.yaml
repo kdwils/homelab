@@ -24,6 +24,8 @@ spec:
             - secretRef:
                 name: freshrss-oidc
           env:
+            - name: OIDC_ENABLED
+              value: "0"
             - name: PUID
               value: "1000"
             - name: PGID
