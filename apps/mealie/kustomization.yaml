@@ -4,6 +4,8 @@ resources:
   - mealie.yaml
   - namespace.yaml
   - ingress.yaml
+  - configmap.yaml
+  - sealedsecret.yaml
 
 images:
   - name: mealie

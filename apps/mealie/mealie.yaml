@@ -61,6 +61,11 @@ spec:
               mountPath: /app/data
             - name: nltk-data
               mountPath: /nltk_data
+          envFrom:
+            - configMapRef:
+                name: mealie-oidc
+            - secretRef:
+                name: mealie
           env:
             - name: ALLOW_SIGNUP
               value: "false"

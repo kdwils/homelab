@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mealie-oidc
+data:
+  OIDC_AUTH_ENABLED: "true"
+  OIDC_PROVIDER_NAME: pocket-id
+  OIDC_USER_GROUP: "mealie_users"
+  OIDC_ADMIN_GROUP: "mealie_admins"
+  OIDC_CONFIGURATION_URL: "https://pocketid.kyledev.co/.well-known/openid-configuration"
