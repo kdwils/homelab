@@ -65,7 +65,7 @@ spec:
             - configMapRef:
                 name: mealie-oidc
             - secretRef:
-                name: mealie
+                name: mealie-oidc
           env:
             - name: ALLOW_SIGNUP
               value: "false"
