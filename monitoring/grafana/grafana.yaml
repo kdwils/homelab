@@ -37,7 +37,17 @@ data:
     plugins = /var/lib/grafana/plugins
     provisioning = /etc/grafana/provisioning
     [server]
+    root_url = https://grafana.int.kyledev.co
     domain = grafana.int.kyledev.co
+    [auth.generic_oauth]
+    enabled = false
+    name = PocketID
+    allow_sign_up = true
+    auth_url = https://pocketid.kyledev.co/authorize
+    token_url = https://pocketid.kyledev.co/api/oidc/token
+    api_url = https://pocketid.kyledev.co/api/oidc/userinfo
+    use_pkce = false
+    scopes = openid profile email groups
 ---
 # Source: grafana/templates/pvc.yaml
 apiVersion: v1
