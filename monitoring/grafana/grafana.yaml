@@ -41,6 +41,7 @@ data:
     domain = grafana.int.kyledev.co
     [auth.generic_oauth]
     name = PocketID
+    client_id = 6cb5d46d-f511-41fb-bb60-1b7b50086766
     allow_sign_up = true
     auth_url = https://pocketid.kyledev.co/authorize
     token_url = https://pocketid.kyledev.co/api/oidc/token
@@ -262,8 +263,11 @@ spec:
                 secretKeyRef:
                   name: grafana-admin-secret
                   key: password
-            - name: GF_AUTH_GENERIC_OAUTH_ENABLED
-              value: "false"
+            - name: GF_AUTH_GENERIC_OAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-generic-oauth
+                  key: client-secret
             - name: GF_PATHS_DATA
               value: /var/lib/grafana/
             - name: GF_PATHS_LOGS
