@@ -38,8 +38,6 @@ data:
     provisioning = /etc/grafana/provisioning
     [server]
     domain = grafana.int.kyledev.co
-    [auth.generic_oauth]
-    enabled = false
 ---
 # Source: grafana/templates/pvc.yaml
 apiVersion: v1
