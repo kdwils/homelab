@@ -33,8 +33,8 @@ spec:
             - name: TZ
               value: "America/New_York"
           volumeMounts:
-            - name: freshrss-config
-              mountPath: /var/www/FreshRSS/config.custom.php
+            - name: freshrss-user-config
+              mountPath: /var/www/FreshRSS/config-user.custom.php
             - name: freshrss-data
               mountPath: /var/www/FreshRSS/data
       volumes:

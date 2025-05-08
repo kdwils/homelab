@@ -251,6 +251,8 @@ spec:
                 secretKeyRef:
                   name: grafana-admin-secret
                   key: password
+            - name: GF_AUTH_GENERIC_OAUTH_ENABLED
+              value: "false"
             - name: GF_PATHS_DATA
               value: /var/lib/grafana/
             - name: GF_PATHS_LOGS
