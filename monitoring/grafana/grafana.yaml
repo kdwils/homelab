@@ -47,8 +47,7 @@ data:
     token_url = https://pocketid.kyledev.co/api/oidc/token
     api_url = https://pocketid.kyledev.co/api/oidc/userinfo
     scopes = openid profile email groups
-    role_attribute_path = contains(groups[*], 'grafana_admins') && 'Admin' || contains(groups[*], 'grafana_users') && 'Viewer
-    org_mapping = grafana_users:Viewer, grafana_admins:Admin
+    role_attribute_path = contains(groups[*], 'grafana_admins') && 'Admin' || contains(groups[*], 'grafana_users') && 'Viewer'
     allow_assign_grafana_admin = true
 ---
 # Source: grafana/templates/pvc.yaml
