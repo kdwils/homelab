@@ -36,9 +36,6 @@ spec:
             - name: freshrss-data
               mountPath: /var/www/FreshRSS/data
       volumes:
-        - name: freshrss-config
-          persistentVolumeClaim:
-            claimName: freshrss-config-pvc
         - name: freshrss-data
           persistentVolumeClaim:
             claimName: freshrss-data-pvc
@@ -56,18 +53,6 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: freshrss-config-pvc
-  namespace: rss
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
