@@ -40,3 +40,22 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+---
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: https-upgrade
+  namespace: envoy-gateway-system
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "*.int.kyledev.co"
+    - "*.kyledev.co"
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
