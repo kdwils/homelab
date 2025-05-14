@@ -6,3 +6,5 @@ metadata:
   annotations:
     tailscale.com/expose: "true"
     tailscale.com/hostname: "envoy-gateway"
+spec:
+  type: LoadBalancer
