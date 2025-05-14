@@ -70,17 +70,7 @@ spec:
       kind: Gateway
       name: homelab
       namespace: envoy-gateway-system
-      sectionName: kyledev-https
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
-      namespace: envoy-gateway-system
       sectionName: kyledev-int-http
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
-      namespace: envoy-gateway-system
-      sectionName: kyledev-int-https
   rules:
     - filters:
         - type: RequestRedirect
