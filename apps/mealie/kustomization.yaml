@@ -6,6 +6,7 @@ resources:
   - ingress.yaml
   - config.yaml
   - sealedsecret.yaml
+  - httproute.yaml
 
 images:
   - name: mealie

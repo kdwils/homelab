@@ -10,16 +10,6 @@ metadata:
   namespace: mealie
 spec:
   rules:
-    - host: mealie.int.kyledev.co
-      http:
-        paths:
-          - backend:
-              service:
-                name: mealie
-                port:
-                  number: 9925
-            path: /
-            pathType: Prefix
     - host: mealie.kyledev.co
       http:
         paths:
@@ -30,7 +20,3 @@ spec:
                   number: 9925
             path: /
             pathType: Prefix
-  tls:
-    - hosts:
-        - mealie.int.kyledev.co
-      secretName: mealie-kyledev-tls-prod
