@@ -33,16 +33,6 @@ spec:
           - name: kyledev-tls
             kind: Secret
             group: ""
-    - name: kyledev-int-https
-      protocol: HTTPS
-      port: 443
-      hostname: "*.int.kyledev.co"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Terminate
-        certificateRefs:
           - name: kyledev-int-tls
             kind: Secret
             group: ""
