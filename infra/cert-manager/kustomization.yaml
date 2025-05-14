@@ -5,4 +5,3 @@ resources:
   - issuers.yaml
   - podmonitor.yaml
   - sealedsecret.yaml
-  - deployment-patch.yaml
