@@ -61,11 +61,11 @@ metadata:
   namespace: envoy-gateway-system
 spec:
   parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
-      namespace: envoy-gateway-system
-      sectionName: kyledev-http
+    # - group: gateway.networking.k8s.io
+    #   kind: Gateway
+    #   name: homelab
+    #   namespace: envoy-gateway-system
+    #   sectionName: kyledev-http
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: homelab
