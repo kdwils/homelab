@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - memos.yaml
   - namespace.yaml
-  - ingress.yaml
+  - httproute.yaml
 
 images:
   - name: memos

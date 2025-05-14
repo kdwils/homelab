@@ -33,3 +33,10 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.kyledev.co"
+      allowedRoutes:
+        namespaces:
+          from: All

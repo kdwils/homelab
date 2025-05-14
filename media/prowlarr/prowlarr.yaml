@@ -52,28 +52,3 @@ spec:
   resources:
     requests:
       storage: 10Gi
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  name: prowlarr
-  namespace: media
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: prowlarr.int.kyledev.co
-      http:
-        paths:
-          - backend:
-              service:
-                name: prowlarr
-                port:
-                  number: 80
-            path: /
-            pathType: Prefix
-  tls:
-    - hosts:
-        - prowlarr.int.kyledev.co
-      secretName: prowlarr-kyledev-tls-prod

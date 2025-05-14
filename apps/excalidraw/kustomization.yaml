@@ -8,3 +8,4 @@ images:
 
 resources:
   - excalidraw.yaml
+  - httproute.yaml

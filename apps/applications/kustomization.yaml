@@ -9,6 +9,5 @@ resources:
   - memos.yaml
   - pocketid.yaml
   - rss.yaml
-  - tinyauth.yaml
   - trilium.yaml
   - github.com/kdwils/blog//deploy/apps?ref=dev
