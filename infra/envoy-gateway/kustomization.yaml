@@ -3,4 +3,4 @@ resources:
   - gatewayclass.yaml
 
 patchesStrategicMerge:
-  - envoy-service-patch.yaml
+  - gateway-service-patch.yaml
