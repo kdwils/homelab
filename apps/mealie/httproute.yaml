@@ -14,7 +14,3 @@ spec:
     - backendRefs:
         - name: mealie
           port: 9925
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
