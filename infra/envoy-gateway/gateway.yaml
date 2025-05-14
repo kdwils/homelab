@@ -26,11 +26,6 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            statusCode: 301
     - name: kyledev-int-http
       protocol: HTTP
       port: 80
