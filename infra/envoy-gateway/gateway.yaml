@@ -50,9 +50,7 @@ spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
-  hostnames:
-    - "*.int.kyledev.co"
-    - "*.kyledev.co"
+      sectionName: kyledev-int-http
   rules:
     - filters:
         - type: RequestRedirect
