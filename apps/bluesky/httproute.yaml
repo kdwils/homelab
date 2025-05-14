@@ -4,14 +4,16 @@ metadata:
   name: bluesky
   namespace: bluesky
 spec:
+  hostnames:
+    - bluesky.kyledev.co
+    - bluesky.int.kyledev.co
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
       sectionName: kyledev-http
-  hostnames:
-    - "bluesky.int.kyledev.co"
-    - "bluesky.kyledev.co"
-  rules:
-    - backendRefs:
-        - name: bluesky
-          port: 3000
+    - name: homelab
+      namespace: envoy-gateway-system
+      sectionName: kyledev-int-http
+    - name: homelab
+      namespace: envoy-gateway-system
+      sectionName: kyledev-int-https
