@@ -53,6 +53,8 @@ spec:
       name: homelab
       namespace: envoy-gateway-system
       sectionName: kyledev-int-http
+  hostnames:
+    - "*.int.kyledev.co"
   rules:
     - filters:
         - type: RequestRedirect
