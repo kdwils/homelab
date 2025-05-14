@@ -10,3 +10,14 @@ spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
+      sectionName: kyledev-http
+    - name: homelab
+      namespace: envoy-gateway-system
+      sectionName: kyledev-int-http
+    - name: homelab
+      namespace: envoy-gateway-system
+      sectionName: kyledev-int-https
+  rules:
+    - backendRefs:
+        - name: bluesky
+          port: 3000
