@@ -17,7 +17,8 @@ spec:
         - image: cloudflared
           args:
             - tunnel
-            - --loglevel debug
+            - --loglevel
+            - debug
             - --config
             - /etc/cloudflared/config/config.yaml
             - run
