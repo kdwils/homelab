@@ -46,27 +46,10 @@ spec:
           - name: kyledev-int-tls
             kind: Secret
             group: ""
-
----
-kind: HTTPRoute
-apiVersion: gateway.networking.k8s.io/v1beta1
-metadata:
-  name: https-upgrade-int
-  namespace: envoy-gateway-system
-spec:
-  parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
-      namespace: envoy-gateway-system
-      sectionName: kyledev-int-http
-  rules:
-    - filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            statusCode: 301
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
+    - name: kyledev-int-http
+      protocol: HTTP
+      port: 80
+      hostname: "*.int.kyledev.co"
+      allowedRoutes:
+        namespaces:
+          from: All
