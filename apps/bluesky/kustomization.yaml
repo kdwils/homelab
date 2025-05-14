@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - bluesky.yaml
-  - ingress.yaml
+  - httproute.yaml
   - pvc.yaml
   - sealedsecret.yaml
   - vpa.yaml
