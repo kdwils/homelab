@@ -48,7 +48,9 @@ metadata:
   namespace: envoy-gateway-system
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
       sectionName: kyledev-int-http
   rules:
@@ -57,3 +59,7 @@ spec:
           requestRedirect:
             scheme: https
             statusCode: 301
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
