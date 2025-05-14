@@ -66,11 +66,6 @@ spec:
       name: homelab
       namespace: envoy-gateway-system
       sectionName: kyledev-int-http
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
-      namespace: envoy-gateway-system
-      sectionName: kyledev-http
   rules:
     - filters:
         - type: RequestRedirect
