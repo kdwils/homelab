@@ -1,8 +1,0 @@
-apiVersion: tailscale.com/v1alpha1
-kind: Connector
-metadata:
-  name: envoy-gateway
-spec:
-  serviceRef:
-    namespace: envoy-gateway-system
-    name: envoy-gateway

@@ -1,4 +1,6 @@
 resources:
   - https://github.com/envoyproxy/gateway/releases/download/v1.3.3/install.yaml
   - gatewayclass.yaml
-  - connector.yaml
+
+patchesStrategicMerge:
+  - envoy-gateway-patch.yaml
