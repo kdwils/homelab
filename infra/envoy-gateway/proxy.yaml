@@ -10,5 +10,4 @@ spec:
         annotations:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "envoy-gateway"
-        spec:
-          loadBalancerClass: "tailscale"
+        loadBalancerClass: "tailscale"
