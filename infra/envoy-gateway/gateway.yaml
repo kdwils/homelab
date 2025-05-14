@@ -20,19 +20,19 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: kyledev-https
-      protocol: HTTPS
-      port: 443
-      hostname: "*.kyledev.co"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: kyledev-tls
-            kind: Secret
-            group: ""
+    # - name: kyledev-https
+    #   protocol: HTTPS
+    #   port: 443
+    #   hostname: "*.kyledev.co"
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: All
+    #   tls:
+    #     mode: Terminate
+    #     certificateRefs:
+    #       - name: kyledev-tls
+    #         kind: Secret
+    #         group: ""
     - name: kyledev-int-https
       protocol: HTTPS
       port: 443
@@ -66,29 +66,6 @@ spec:
       name: homelab
       namespace: envoy-gateway-system
       sectionName: kyledev-int-http
-  rules:
-    - filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            statusCode: 301
-      matches:
-        - path:
-            type: PathPrefix
-            value: /
----
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: HTTPRoute
-metadata:
-  name: https-upgrade-kyledev
-  namespace: envoy-gateway-system
-spec:
-  parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
-      namespace: envoy-gateway-system
-      sectionName: kyledev-http
   rules:
     - filters:
         - type: RequestRedirect
