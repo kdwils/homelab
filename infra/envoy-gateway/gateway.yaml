@@ -16,14 +16,14 @@ spec:
     - name: kyledev-http
       protocol: HTTP
       port: 80
-      hostname: "*.kyledev.co"
+      hostname: "bluesky.kyledev.co"
       allowedRoutes:
         namespaces:
           from: All
     - name: kyledev-https
       protocol: HTTPS
       port: 443
-      hostname: "*.kyledev.co"
+      hostname: "bluesky.kyledev.co"
       allowedRoutes:
         namespaces:
           from: All
