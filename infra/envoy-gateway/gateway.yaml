@@ -6,7 +6,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
-  gatewayClassName: homelab-gateway-class
+  gatewayClassName: envoy-gateway-class
   listeners:
     - name: https
       protocol: HTTPS
