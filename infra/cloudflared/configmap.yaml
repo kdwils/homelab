@@ -15,7 +15,7 @@ data:
       - hostname: argocd.kyledev.co
         service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
       - hostname: mealie.kyledev.co
-        service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
+        service: http://homelab-ingress.envoy-gateway-system.svc.cluster.local:80
       - hostname: bluesky.kyledev.co
         service: http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80
       - hostname: pocketid.kyledev.co
