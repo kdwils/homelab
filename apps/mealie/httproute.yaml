@@ -7,6 +7,10 @@ spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
+      sectionName: kyledev-int-https
+    - name: homelab
+      namespace: envoy-gateway-system
+      sectionName: kyledev-https
   hostnames:
     - "mealie.int.kyledev.co"
     - "mealie.kyledev.co"
