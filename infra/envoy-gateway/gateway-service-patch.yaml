@@ -8,3 +8,4 @@ metadata:
     tailscale.com/hostname: "envoy-gateway"
 spec:
   type: LoadBalancer
+  loadBalancerClass: tailscale
