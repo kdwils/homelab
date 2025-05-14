@@ -40,6 +40,13 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: kyledev-https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.kyledev.co"
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 kind: HTTPRoute
 apiVersion: gateway.networking.k8s.io/v1beta1
