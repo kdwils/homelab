@@ -1,16 +1,15 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: mealie
-  namespace: mealie
+  name: prowlarr
+  namespace: prowlarr
 spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - "mealie.int.kyledev.co"
-    - "mealie.kyledev.co"
+    - "prowlarr.int.kyledev.co"
   rules:
     - backendRefs:
-        - name: mealie
-          port: 9925
+        - name: prowlarr
+          port: 80

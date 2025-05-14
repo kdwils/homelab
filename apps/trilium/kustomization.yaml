@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - trilium.yaml
   - namespace.yaml
-  - ingress.yaml
+  - httproute.yaml
 
 images:
   - name: trilium

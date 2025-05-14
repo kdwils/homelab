@@ -294,37 +294,6 @@ spec:
           persistentVolumeClaim:
             claimName: grafana
 ---
-# Source: grafana/templates/ingress.yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: grafana
-  namespace: monitoring
-  labels:
-    helm.sh/chart: grafana-8.13.0
-    app.kubernetes.io/name: grafana
-    app.kubernetes.io/instance: grafana
-    app.kubernetes.io/version: "11.6.0-security-01"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - grafana.int.kyledev.co
-      secretName: grafana-kyledev-tls-prod
-  rules:
-    - host: "grafana.int.kyledev.co"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: grafana
-                port:
-                  number: 80
----
 # Source: grafana/templates/tests/test-serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount

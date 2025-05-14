@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - grafana.yaml
+  - httproute.yaml
   - sealedsecret.yaml

@@ -3,7 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
   - freshrss.yaml
-  - ingress.yaml
+  - httproute.yaml
   - namespace.yaml
   - sealedsecret.yaml
 

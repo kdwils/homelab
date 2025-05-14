@@ -1,16 +1,16 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: mealie
-  namespace: mealie
+  name: freshrss
+  namespace: freshrss
 spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - "mealie.int.kyledev.co"
-    - "mealie.kyledev.co"
+    - "rss.int.kyledev.co"
+    - "freshrss.int.kyledev.co"
   rules:
     - backendRefs:
-        - name: mealie
-          port: 9925
+        - name: freshrss
+          port: 80

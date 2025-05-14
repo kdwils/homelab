@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - configmap.yaml
-  - ingress.yaml
+  - httproute.yaml
   - hoarder.yaml
   - sealedsecret.yaml
 

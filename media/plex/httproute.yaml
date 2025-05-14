@@ -1,16 +1,16 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: mealie
-  namespace: mealie
+  name: plex
+  namespace: plex
 spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - "mealie.int.kyledev.co"
-    - "mealie.kyledev.co"
+    - plex.int.kyledev.co
+    - plex.kyledev.co
   rules:
     - backendRefs:
-        - name: mealie
-          port: 9925
+        - name: plex
+          port: 32400
