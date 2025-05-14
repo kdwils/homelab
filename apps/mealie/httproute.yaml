@@ -10,10 +10,6 @@ spec:
   hostnames:
     - "mealie.gateway.int.kyledev.co"
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
+    - backendRefs:
         - name: mealie
           port: 9925
