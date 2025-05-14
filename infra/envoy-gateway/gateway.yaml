@@ -17,3 +17,4 @@ spec:
         certificateRefs:
           - name: kyledev-int-tls
             kind: Secret
+            group: ""
