@@ -1,8 +1,8 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: trillium
-  namespace: trillium
+  name: trilium
+  namespace: trilium
 spec:
   parentRefs:
     - name: homelab
