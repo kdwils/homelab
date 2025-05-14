@@ -1,0 +1,14 @@
+apiVersion: config.gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: tailscale-proxy
+spec:
+  provider:
+    type: "Kubernetes"
+    kubernetes:
+      envoyService:
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: "envoy-gateway"
+        spec:
+          loadBalancerClass: "tailscale"
