@@ -12,6 +12,6 @@ spec:
     matchNames:
       - envoy-gateway-system
   endpoints:
-    - port: admin
-      path: /stats/prometheus
+    - port: metrics
+      path: /metrics
       interval: 30s
