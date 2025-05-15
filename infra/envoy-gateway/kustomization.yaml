@@ -3,3 +3,4 @@ resources:
   - gatewayclass.yaml
   - gateway.yaml
   - proxy.yaml
+  - metrics.yaml
