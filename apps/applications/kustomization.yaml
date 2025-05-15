@@ -6,8 +6,8 @@ resources:
   - headlamp.yaml
   - hoarder.yaml
   - mealie.yaml
-  - memos.yaml
+  # - memos.yaml
   - pocketid.yaml
   - rss.yaml
-  - trilium.yaml
+  # - trilium.yaml
   - github.com/kdwils/blog//deploy/apps?ref=dev
