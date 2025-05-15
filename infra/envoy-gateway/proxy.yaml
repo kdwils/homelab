@@ -9,6 +9,6 @@ spec:
       envoyService:
         annotations:
           tailscale.com/expose: "true"
-          tailscale.com/hostname: "envoy-gateway"
+          tailscale.com/hostname: "homelab-gateway"
         loadBalancerClass: "tailscale"
         name: homelab-gateway
