@@ -5,7 +5,7 @@ resources:
   - argocd.yaml
   - cloudflared.yaml
   - envoy-gateway.yaml
-  - ingress-nginx.yaml
+  # - ingress-nginx.yaml
   - metallb.yaml
   - longhorn.yaml
   - cert-manager.yaml
