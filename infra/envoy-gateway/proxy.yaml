@@ -11,4 +11,4 @@ spec:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "envoy-gateway"
         loadBalancerClass: "tailscale"
-        name: homelab-ingress
+        name: homelab-gateway
