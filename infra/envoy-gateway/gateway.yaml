@@ -13,13 +13,6 @@ spec:
       kind: EnvoyProxy
       name: tailscale-proxy
   listeners:
-    - name: kyledev-http
-      protocol: HTTP
-      port: 80
-      hostname: "*.kyledev.co"
-      allowedRoutes:
-        namespaces:
-          from: All
     - name: kyledev-https
       protocol: HTTPS
       port: 443
@@ -46,3 +39,10 @@ spec:
           - name: kyledev-int-tls
             kind: Secret
             group: ""
+    - name: kyledev-http
+      protocol: HTTP
+      port: 80
+      hostname: "*.kyledev.co"
+      allowedRoutes:
+        namespaces:
+          from: All
