@@ -23,7 +23,7 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-          - name: kyledev-wildcard-tls
+          - name: kyledev-tls
             kind: Secret
             group: ""
     # - name: kyledev-int-https
