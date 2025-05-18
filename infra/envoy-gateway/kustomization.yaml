@@ -4,3 +4,4 @@ resources:
   - gateway.yaml
   - proxy.yaml
   - servicemonitor.yaml
+  - certificate.yaml

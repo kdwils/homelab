@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kyledev-wildcard-tls
+  namespace: envoy-gateway-system
+spec:
+  secretName: kyledev-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: "*.kyledev.co"
+  dnsNames:
+    - "*.kyledev.co"
+    - "*.int.kyledev.co"
