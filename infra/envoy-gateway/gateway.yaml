@@ -3,8 +3,6 @@ kind: Gateway
 metadata:
   name: homelab
   namespace: envoy-gateway-system
-  # annotations:
-  #   cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: envoy-gateway-class
   infrastructure:
