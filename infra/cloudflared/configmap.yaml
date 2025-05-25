@@ -20,4 +20,6 @@ data:
         service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
       - hostname: pocketid.kyledev.co
         service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
+      - hostname: overseerr.kyledev.co
+        service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
       - service: http_status:404
