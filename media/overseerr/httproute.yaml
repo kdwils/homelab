@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: prowlarr
+  namespace: media
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "overseerr.int.kyledev.co"
+    - "overseerr.kyledev.co"
+  rules:
+    - backendRefs:
+        - name: overseerr
+          port: 80

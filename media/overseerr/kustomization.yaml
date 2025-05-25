@@ -1,0 +1,10 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+resources:
+  - overseerr.yaml
+  - httproute.yaml
+
+images:
+  - name: overseerr
+    newName: sctx/overseerr
+    newTag: v1.34.0
