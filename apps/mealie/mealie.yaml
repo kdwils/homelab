@@ -42,7 +42,6 @@ spec:
       containers:
         - name: mealie
           image: mealie
-          args: ["--proxy-headers", "--forwarded-allow-ips", "*"]
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -68,6 +67,8 @@ spec:
             - secretRef:
                 name: mealie-oidc
           env:
+            - name: FORWARDED_ALLOW_IPS
+              value: "*"
             - name: ALLOW_SIGNUP
               value: "false"
             - name: PUID
