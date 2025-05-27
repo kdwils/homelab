@@ -12,16 +12,26 @@ data:
     ingress:
       - hostname: blog.kyledev.co
         service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: blog.kyledev.co
       - hostname: argocd.kyledev.co
-        service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: argocd.kyledev.co
       - hostname: mealie.kyledev.co
         service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
         originRequest:
           originServerName: mealie.kyledev.co
       - hostname: bluesky.kyledev.co
-        service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: bluesky.kyledev.co
       - hostname: pocketid.kyledev.co
-        service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: pocketid.kyledev.co
       - hostname: overseerr.kyledev.co
-        service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: overseerr.kyledev.co
       - service: http_status:404
