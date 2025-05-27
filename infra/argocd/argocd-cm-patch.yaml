@@ -9,7 +9,7 @@ data:
       name: PocketID
       config:
         issuer: 'https://pocketid.kyledev.co'
-        clientID: $oidc.pocketid.clientID
+        clientID: c74b6adc-c7b2-499a-848b-f2b154dba114
         clientSecret: $oidc.pocketid.clientSecret
         scopes:
           - openid
