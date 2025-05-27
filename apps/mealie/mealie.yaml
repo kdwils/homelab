@@ -42,7 +42,7 @@ spec:
       containers:
         - name: mealie
           image: mealie
-          args:
+          command:
             [
               "uvicorn",
               "mealie.app:app",
