@@ -41,7 +41,6 @@ spec:
             - containerPort: 1411
               name: http
           securityContext:
-            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
