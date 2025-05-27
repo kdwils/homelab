@@ -42,16 +42,7 @@ spec:
       containers:
         - name: mealie
           image: mealie
-          command:
-            [
-              "uvicorn",
-              "mealie.app:app",
-              "--host",
-              "0.0.0.0",
-              "--port",
-              "9000",
-              "--proxy-headers",
-            ]
+          args: ["--proxy-headers", "--forwarded-allow-ips", "*"]
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
