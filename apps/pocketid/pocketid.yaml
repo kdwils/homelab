@@ -40,11 +40,11 @@ spec:
           ports:
             - containerPort: 1411
               name: http
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
+          # securityContext:
+          #   allowPrivilegeEscalation: false
+          #   capabilities:
+          #     drop:
+          #       - ALL
           envFrom:
             - configMapRef:
                 name: pocketid-config
