@@ -34,15 +34,6 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
-      initContainers:
-        - name: fix-perms
-          image: busybox
-          command: ["sh", "-c", "chown -R 1000:1000 /app/backend/data"]
-          volumeMounts:
-            - name: data
-              mountPath: /app/backend/data
-          securityContext:
-            runAsUser: 0
       containers:
         - name: pocketid
           image: pocketid
