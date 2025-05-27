@@ -12,8 +12,6 @@ data:
     ingress:
       - hostname: blog.kyledev.co
         service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
-        originRequest:
-          originServerName: mealie.kyledev.co
       - hostname: argocd.kyledev.co
         service: http://homelab-gateway.envoy-gateway-system.svc.cluster.local:80
       - hostname: mealie.kyledev.co
