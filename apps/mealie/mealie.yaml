@@ -42,7 +42,6 @@ spec:
       containers:
         - name: mealie
           image: mealie
-          args: ["--forwarded-allow-ips=100.79.90.18"]
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -68,6 +67,8 @@ spec:
             - secretRef:
                 name: mealie-oidc
           env:
+            - name: GUNICORN_CMD_ARGS
+              value: "--forwarded-allow-ips=*"
             - name: ALLOW_SIGNUP
               value: "false"
             - name: PUID
