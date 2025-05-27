@@ -42,6 +42,12 @@ spec:
       containers:
         - name: mealie
           image: mealie
+          command:
+            - uvicorn mealie.main:app
+            - --host 0.0.0.0
+            - --port 9000
+            - --proxy-headers
+            - --forwarded-allow-ips="*"
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -67,8 +73,6 @@ spec:
             - secretRef:
                 name: mealie-oidc
           env:
-            - name: FORWARDED_ALLOW_IPS
-              value: "*"
             - name: ALLOW_SIGNUP
               value: "false"
             - name: PUID
