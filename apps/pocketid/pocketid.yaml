@@ -30,10 +30,10 @@ spec:
         app: pocketid
     spec:
       serviceAccountName: pocketid
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        fsGroup: 1000
+      # securityContext:
+      #   runAsNonRoot: true
+      #   runAsUser: 1000
+      #   fsGroup: 1000
       containers:
         - name: pocketid
           image: pocketid
