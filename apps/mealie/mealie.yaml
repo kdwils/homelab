@@ -34,19 +34,19 @@ spec:
         app: mealie
     spec:
       serviceAccountName: mealie
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        runAsNonRoot: true
+      # securityContext:
+      #   runAsUser: 1000
+      #   runAsGroup: 1000
+      #   fsGroup: 1000
+        # runAsNonRoot: true
       containers:
         - name: mealie
           image: mealie
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
+          # securityContext:
+          #   allowPrivilegeEscalation: false
+          #   capabilities:
+          #     drop:
+          #       - ALL
           ports:
             - containerPort: 9000
           resources:
@@ -59,8 +59,8 @@ spec:
           volumeMounts:
             - name: mealie-data
               mountPath: /app/data
-            - name: nltk-data
-              mountPath: /nltk_data
+            # - name: nltk-data
+            #   mountPath: /nltk_data
           envFrom:
             - configMapRef:
                 name: mealie-oidc
@@ -85,8 +85,8 @@ spec:
         - name: mealie-data
           persistentVolumeClaim:
             claimName: mealie-data
-        - name: nltk-data
-          emptyDir: {}
+        # - name: nltk-data
+        #   emptyDir: {}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
