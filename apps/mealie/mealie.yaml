@@ -67,8 +67,8 @@ spec:
             - secretRef:
                 name: mealie-oidc
           env:
-            - name: GUNICORN_CMD_ARGS
-              value: "--forwarded-allow-ips=*"
+            - name: FORWARDED_ALLOW_IPS
+              value: "*"
             - name: ALLOW_SIGNUP
               value: "false"
             - name: PUID
