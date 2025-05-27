@@ -42,6 +42,7 @@ spec:
       containers:
         - name: mealie
           image: mealie
+          args: ["--forwarded-allow-ips=100.79.90.18"]
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
