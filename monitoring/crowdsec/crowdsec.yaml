@@ -722,9 +722,9 @@ spec:
             - name: LOCAL_API_URL
               value: "http://crowdsec-service:8080"
             - name: PARSERS
-              value: crowdsecurity/cri-logs crowdsecurity/k8s-audit
+              value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
             - name: COLLECTIONS
-              value: crowdsecurity/base-http-scenarios crowdsecurity/k8s-audit
+              value: "crowdsecurity/base-http-scenarios crowdsecurity/k8s-audit"
             - name: DISABLE_AGENT
               value: "false"
             - name: DISABLE_ONLINE_API
