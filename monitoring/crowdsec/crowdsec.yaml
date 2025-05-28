@@ -6,20 +6,12 @@ metadata:
   name: acquis-configmap
 data:
   acquis.yaml: |-
-    filenames:
-      - /var/log/secure
+    ---
     labels:
       type: syslog
-    ---
-    filenames:
-      - /var/log/messages
-    labels:
-      type: syslog
-    ---
-    filenames:
-    - /var/log/caddy/access.log
-    labels:
-      type: caddy
+    listen_addr: 127.0.0.1
+    listen_port: 4242
+    source: syslog
 ---
 # Source: crowdsec/templates/docker-start-configmap.yaml
 apiVersion: v1
@@ -572,14 +564,22 @@ data:
   config.yaml.local: |
     api:
       server:
-        auto_registration:
+        auto_registration: # Activate if not using TLS for authentication
           enabled: true
-          token: "${REGISTRATION_TOKEN}"
-          allowed_ranges:
+          token: "${REGISTRATION_TOKEN}" # /!\ Do not modify this variable (auto-generated and handled by the chart)
+          allowed_ranges: # /!\ Make sure to adapt to the pod IP ranges used by your cluster
             - "127.0.0.1/32"
             - "192.168.0.0/16"
             - "10.0.0.0/8"
             - "172.16.0.0/12"
+    # db_config:
+    #   type:     postgresql
+    #   user:     crowdsec
+    #   password: ${DB_PASSWORD}
+    #   db_name:  crowdsec
+    #   host:     192.168.0.2
+    #   port:     5432
+    #   sslmode:  require
 ---
 # Source: crowdsec/templates/agent-persistentVolume.yaml
 apiVersion: v1
@@ -608,7 +608,7 @@ metadata:
     version: v1
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: "1Gi"
@@ -624,7 +624,7 @@ metadata:
     version: v1
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: "100Mi"
@@ -657,10 +657,11 @@ metadata:
     app: crowdsec-service
   annotations:
     tailscale.com/expose: "true"
-    tailscale.com/hostname: "crowdsec"
+    tailscale.com/hostname: crowdsec
 spec:
   type: LoadBalancer
   loadBalancerClass: tailscale
+  externalTrafficPolicy: "Cluster"
   ports:
     - port: 6060
       targetPort: 6060
@@ -670,10 +671,6 @@ spec:
       targetPort: 8080
       protocol: TCP
       name: lapi
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-      name: dashboard
   selector:
     k8s-app: crowdsec
     type: lapi
@@ -696,8 +693,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/agent-configmap: 1b18474a63d2102a8a8f26a629f5a398529eda8923eca4bab5da21666e3e890c
-        checksum/acquis-configmap: c701dc5baf19b71762198ddae5463ebb8e68c3c43b710563fa63d65b528cc4a6
+        checksum/agent-configmap: 524e841fd2661b639b1cc3aee213e22b04572ed44b8d8c81289d7e16b76bab8c
+        checksum/acquis-configmap: 680145cad122e58eaad5d9aa96581ffc35a6d7d83f55a62b9286f054d16754fa
       labels:
         k8s-app: crowdsec
         type: agent
@@ -736,9 +733,9 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: LAPI_URL
-              value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
+              value: "http://crowdsec-service:8080"
             - name: LAPI_HOST
-              value: "crowdsec-service.crowdsec.svc.cluster.local"
+              value: "crowdsec-service"
             - name: LAPI_PORT
               value: "8080"
       containers:
@@ -753,17 +750,13 @@ spec:
             ]
           env:
             - name: DISABLE_LOCAL_API
-              value: "true"
+              value: "false"
             - name: DISABLE_ONLINE_API
               value: "false"
+
+            # agent - lapi authentication, with TLS or password
             - name: LOCAL_API_URL
-              value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
-            - name: PARSERS
-              value: crowdsecurity/caddy-logs
-            - name: ENROLL_INSTANCE_NAME
-              value: homelab
-            - name: ENROLL_TAGS
-              value: homelab
+              value: "http://crowdsec-service:8080"
           resources:
             limits:
               cpu: 500m
@@ -823,6 +816,7 @@ spec:
             - name: varlog
               mountPath: /var/log
               readOnly: true
+
       terminationGracePeriodSeconds: 30
       volumes:
         - name: acquis-config-volume
@@ -857,8 +851,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/lapi-secret: 57d6b9da943652a132785fd194381152e74c2a0746bccc7bf2d25b47ae71637d
-        checksum/lapi-configmap: bd10890e2066fccfaf74deb4bc5118c877f4c7ab1ec28f218c4ee95697f44d3c
+        checksum/lapi-secret: a388f648ae1a6172d1db98a5473acdd5fe746f64bb80dcb54726c112c4b86fa4
+        checksum/lapi-configmap: c2d93ac4bdf0b230ed14f82cfe745860a7be5fb17e1b796c416e477a8d4b7597
       labels:
         k8s-app: crowdsec
         type: lapi
@@ -869,23 +863,13 @@ spec:
           image: "crowdsecurity/crowdsec:v1.6.8"
           imagePullPolicy: IfNotPresent
           env:
-            - name: ENROLL_INSTANCE_NAME
-              value: homelab
-            - name: ENROLL_TAGS
-              value: homelab
-            - name: ENROLL_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: crowdsec-lapi-secrets
-                  key: enrollmentKey
             - name: LOCAL_API_URL
               value: http://localhost:8080
             - name: DISABLE_AGENT
               value: "true"
-            - name: GID
-              value: "1000"
             - name: INSECURE_SKIP_VERIFY
               value: "false"
+
             - name: CS_LAPI_SECRET
               valueFrom:
                 secretKeyRef:
@@ -991,6 +975,51 @@ spec:
 # Source: crowdsec/templates/agent-configmap.yaml
 ---
 
+---
+# Source: crowdsec/templates/agent-podMonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: crowdsec-agent
+  namespace: crowdsec
+spec:
+  selector:
+    matchLabels:
+      k8s-app: crowdsec
+      type: agent
+  namespaceSelector:
+    matchNames: [crowdsec]
+  attachMetadata:
+    node: true
+  podMetricsEndpoints:
+    - port: metrics
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: machine
+---
+# Source: crowdsec/templates/agent-serviceMonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: crowdsec-agent-service
+  namespace: crowdsec
+spec:
+  selector:
+    matchLabels:
+      app: crowdsec-agent-service
+  namespaceSelector:
+    matchNames: [crowdsec]
+  attachMetadata:
+    node: true
+  endpoints:
+    - port: metrics
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: machine
 ---
 # Source: crowdsec/templates/tests/test_agent_up.yaml
 apiVersion: v1
