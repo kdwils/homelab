@@ -15,11 +15,6 @@ data:
       - /var/log/messages
     labels:
       type: syslog
-    ---
-    filenames:
-    - /var/log/caddy/access.log
-    labels:
-      type: caddy
 ---
 # Source: crowdsec/templates/docker-start-configmap.yaml
 apiVersion: v1
@@ -758,8 +753,6 @@ spec:
               value: "false"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
-            - name: PARSERS
-              value: crowdsecurity/caddy-logs
             - name: ENROLL_INSTANCE_NAME
               value: homelab
             - name: ENROLL_TAGS
@@ -816,7 +809,6 @@ spec:
               mountPath: /tmp_config
             - name: crowdsec-agent-config
               mountPath: /etc/crowdsec_data
-
             - name: acquis-config-volume
               mountPath: /etc/crowdsec_data/acquis.yaml
               subPath: acquis.yaml
