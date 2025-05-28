@@ -793,8 +793,8 @@ spec:
             privileged: false
 
           volumeMounts:
-            - name: crowdsec-config
-              mountPath: /etc/crowdsec
+            # - name: crowdsec-config
+            #   mountPath: /etc/crowdsec
             - name: crowdsec-data
               mountPath: /etc/crowdsec_data
             - name: varlog
@@ -808,9 +808,9 @@ spec:
         - name: acquis-config-volume
           configMap:
             name: acquis-configmap
-        - name: crowdsec-config
-          configMap:
-            name: crowdsec-configmap
+        # - name: crowdsec-config
+        #   configMap:
+        #     name: crowdsec-configmap
         - name: crowdsec-data
           hostPath:
             path: /var/lib/crowdsec-agent-data
