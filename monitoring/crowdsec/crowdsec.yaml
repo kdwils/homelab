@@ -14,6 +14,21 @@ spec:
     requests:
       storage: "100Mi"
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-agent-config-pvc
+  labels:
+    k8s-app: crowdsec
+    type: agent
+    version: v1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: "100Mi"
+---
 # Source: crowdsec/templates/acquis-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -30,6 +45,7 @@ data:
       - /var/log/messages
     labels:
       type: syslog
+
 ---
 # Source: crowdsec/templates/docker-start-configmap.yaml
 apiVersion: v1
@@ -812,9 +828,8 @@ spec:
           hostPath:
             path: /var/log
         - name: crowdsec-agent-config
-          hostPath:
-            path: /var/lib/crowdsec-agent-data
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: crowdsec-agent-config-pvc
 ---
 # Source: crowdsec/templates/lapi-deployment.yaml
 apiVersion: apps/v1
