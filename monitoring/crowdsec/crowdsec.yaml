@@ -726,7 +726,7 @@ spec:
             - name: USERNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name
+                  fieldPath: spec.nodeName
             - name: LAPI_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: LAPI_HOST
@@ -747,7 +747,7 @@ spec:
             - name: DISABLE_LOCAL_API
               value: "true"
             - name: DISABLE_ONLINE_API
-              value: "false"
+              value: "true"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: ENROLL_INSTANCE_NAME
@@ -864,6 +864,7 @@ spec:
                 secretKeyRef:
                   name: crowdsec-lapi-secrets
                   key: enrollmentKey
+            - name: ENROLL_INSTANCE_NAME
             - name: LOCAL_API_URL
               value: http://localhost:8080
             - name: DISABLE_AGENT
