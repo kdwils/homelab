@@ -649,8 +649,12 @@ metadata:
   name: crowdsec-service
   labels:
     app: crowdsec-service
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "crowdsec"
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerClass: tailscale
   ports:
     - port: 6060
       targetPort: 6060
