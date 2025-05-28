@@ -718,15 +718,13 @@ spec:
             - name: DISABLE_LOCAL_API
               value: "true"
             - name: DISABLE_ONLINE_API
-              value: "true"
-
-            # agent - lapi authentication, with TLS or password
+              value: "false"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service:8080"
-            - name: SCENARIOS
-              value: scenario/name otherScenario/name
             - name: PARSERS
               value: crowdsecurity/cri-logs crowdsecurity/k8s-audit
+            - name: COLLECTIONS
+              value: crowdsecurity/base-http-scenarios crowdsecurity/k8s-audit
             - name: DISABLE_AGENT
               value: "false"
             - name: DISABLE_ONLINE_API
