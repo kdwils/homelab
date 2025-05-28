@@ -720,6 +720,10 @@ spec:
               value: "crowdsec-service.crowdsec.svc.cluster.local"
             - name: LAPI_PORT
               value: "8080"
+            - name: "COLLECTIONS"
+              value: "crowdsecurity/base-http-scenarios"
+            - name: PARSERS
+              value: "crowdsecurity/cri-logs"
       containers:
         - name: crowdsec-agent
           image: "crowdsecurity/crowdsec:v1.6.8"
