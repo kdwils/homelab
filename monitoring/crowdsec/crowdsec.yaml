@@ -728,7 +728,7 @@ spec:
             - name: USERNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name
+                  fieldPath: spec.nodeName
             - name: LAPI_URL
               value: "http://crowdsec-service:8080"
             - name: LAPI_HOST
@@ -816,7 +816,6 @@ spec:
             - name: varlog
               mountPath: /var/log
               readOnly: true
-
       terminationGracePeriodSeconds: 30
       volumes:
         - name: acquis-config-volume
