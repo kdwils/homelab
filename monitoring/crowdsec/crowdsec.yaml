@@ -6,14 +6,20 @@ metadata:
   name: acquis-configmap
 data:
   acquis.yaml: |-
+    filenames:
+      - /var/log/secure
+    labels:
+      type: syslog
     ---
     filenames:
-      - /var/log/containers/ingress-nginx-controller-*_ingress-nginx_*.log
-    force_inotify: true
-    poll_without_inotify: false
+      - /var/log/messages
     labels:
-      type: containerd
-      program: nginx
+      type: syslog
+    ---
+    filenames:
+    - /var/log/caddy/access.log
+    labels:
+      type: caddy
 ---
 # Source: crowdsec/templates/docker-start-configmap.yaml
 apiVersion: v1
