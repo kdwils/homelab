@@ -757,6 +757,8 @@ spec:
               value: homelab
             - name: ENROLL_TAGS
               value: homelab
+            - name: LOG_LEVEL
+              value: "debug"
           resources:
             limits:
               cpu: 500m
