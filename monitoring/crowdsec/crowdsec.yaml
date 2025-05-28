@@ -806,6 +806,7 @@ spec:
             path: /var/lib/crowdsec-agent-data # unique per node
             type: DirectoryOrCreate
 ---
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: crowdsec-agent
