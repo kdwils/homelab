@@ -753,7 +753,7 @@ spec:
             ]
           env:
             - name: DISABLE_LOCAL_API
-              value: "true"
+              value: "false"
             - name: DISABLE_ONLINE_API
               value: "false"
             - name: LOCAL_API_URL
@@ -1029,3 +1029,48 @@ spec:
         - |
           curl -XGET http://crowdsec-service:8080/health
   restartPolicy: Never
+---
+# Source: crowdsec/templates/agent-podMonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: crowdsec-agent
+  namespace: crowdsec
+spec:
+  selector:
+    matchLabels:
+      k8s-app: crowdsec
+      type: agent
+  namespaceSelector:
+    matchNames: [crowdsec]
+  attachMetadata:
+    node: true
+  podMetricsEndpoints:
+    - port: metrics
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: machine
+---
+# Source: crowdsec/templates/agent-serviceMonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: crowdsec-agent-service
+  namespace: crowdsec
+spec:
+  selector:
+    matchLabels:
+      app: crowdsec-agent-service
+  namespaceSelector:
+    matchNames: [crowdsec]
+  attachMetadata:
+    node: true
+  endpoints:
+    - port: metrics
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: machine
