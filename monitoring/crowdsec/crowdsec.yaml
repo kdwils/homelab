@@ -759,7 +759,7 @@ spec:
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: PARSERS
-              value: crowdsecurity/caddy
+              value: crowdsecurity/caddy-logs
             - name: ENROLL_INSTANCE_NAME
               value: homelab
             - name: ENROLL_TAGS
