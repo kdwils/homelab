@@ -755,7 +755,7 @@ spec:
             - name: DISABLE_LOCAL_API
               value: "true"
             - name: DISABLE_ONLINE_API
-              value: "true"
+              value: "false"
 
             # agent - lapi authentication, with TLS or password
             - name: LOCAL_API_URL
