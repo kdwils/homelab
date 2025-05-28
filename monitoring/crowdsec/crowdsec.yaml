@@ -1011,13 +1011,36 @@ kind: PodMonitor
 metadata:
   name: crowdsec-agent
   namespace: crowdsec
+spec:
+  selector:
+    matchLabels:
+      k8s-app: crowdsec
+      type: agent
+  namespaceSelector:
+    matchNames: [crowdsec]
+  attachMetadata:
+    node: true
+  podMetricsEndpoints:
+    - port: metrics
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: machine
+---
+# Source: crowdsec/templates/lapi-podMonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: crowdsec-lapi
+  namespace: crowdsec
   labels:
     release: prometheus
 spec:
   selector:
     matchLabels:
       k8s-app: crowdsec
-      type: agent
+      type: lapi
   namespaceSelector:
     matchNames: [crowdsec]
   attachMetadata:
@@ -1042,6 +1065,30 @@ spec:
   selector:
     matchLabels:
       app: crowdsec-agent-service
+  namespaceSelector:
+    matchNames: [crowdsec]
+  attachMetadata:
+    node: true
+  endpoints:
+    - port: metrics
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: machine
+---
+# Source: crowdsec/templates/lapi-serviceMonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: crowdsec-service
+  namespace: crowdsec
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: crowdsec-service
   namespaceSelector:
     matchNames: [crowdsec]
   attachMetadata:
