@@ -735,7 +735,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: LAPI_URL
+            - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: LAPI_HOST
               value: "crowdsec-service.crowdsec.svc.cluster.local"
@@ -758,7 +758,7 @@ spec:
               value: "true"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
-            - name: COLLECTIONS
+            - name: PARSERS
               value: crowdsecurity/caddy
             - name: ENROLL_INSTANCE_NAME
               value: homelab
