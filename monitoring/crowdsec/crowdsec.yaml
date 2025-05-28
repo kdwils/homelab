@@ -721,9 +721,9 @@ spec:
             - name: LAPI_PORT
               value: "8080"
             - name: "COLLECTIONS"
-              value: "crowdsecurity/base-http-scenarios"
+              value: "crowdsecurity/base-http-scenarios crowdsecurity/k8s-audit"
             - name: PARSERS
-              value: "crowdsecurity/cri-logs"
+              value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
       containers:
         - name: crowdsec-agent
           image: "crowdsecurity/crowdsec:v1.6.8"
