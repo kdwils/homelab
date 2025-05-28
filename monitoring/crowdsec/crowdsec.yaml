@@ -741,7 +741,7 @@ spec:
             [
               "sh",
               "-c",
-              "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh",
+              "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec /etc/crowdsec && ./docker_start.sh",
             ]
           env:
             - name: DISABLE_LOCAL_API
@@ -800,9 +800,9 @@ spec:
             - name: crowdsec-config
               mountPath: /tmp_config
             - name: crowdsec-agent-config
-              mountPath: /etc/crowdsec_data
+              mountPath: /etc/crowdsec
             - name: acquis-config-volume
-              mountPath: /etc/crowdsec_data/acquis.yaml
+              mountPath: /etc/crowdsec/acquis.yaml
               subPath: acquis.yaml
             - name: varlog
               mountPath: /var/log
@@ -933,7 +933,7 @@ spec:
             [
               "sh",
               "-c",
-              "cp -nR /staging/etc/crowdsec/* /etc/crowdsec_data/ && ln -s /etc/crowdsec_data /etc/crowdsec && bash /docker_start.sh",
+              "cp -nR /staging/etc/crowdsec/* /etc/crowdsec/ && ln -s /etc/crowdsec /etc/crowdsec && bash /docker_start.sh",
             ]
 
           volumeMounts:
@@ -945,10 +945,10 @@ spec:
               mountPath: /var/lib/crowdsec/data
               subPath: crowdsec
             - name: crowdsec-config
-              mountPath: /etc/crowdsec_data
+              mountPath: /etc/crowdsec
 
             - name: crowdsec-config-local-volume
-              mountPath: /etc/crowdsec_data/config.yaml.local
+              mountPath: /etc/crowdsec/config.yaml.local
               subPath: config.yaml.local
 
       terminationGracePeriodSeconds: 30
