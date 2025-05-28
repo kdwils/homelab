@@ -755,13 +755,11 @@ spec:
             - name: DISABLE_LOCAL_API
               value: "true"
             - name: DISABLE_ONLINE_API
-              value: "false"
-
-            # agent - lapi authentication, with TLS or password
+              value: "true"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: COLLECTIONS
-              value: crowdsecurity/nginx
+              value: crowdsecurity/caddy
             - name: ENROLL_INSTANCE_NAME
               value: homelab
             - name: ENROLL_TAGS
