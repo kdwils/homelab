@@ -4,3 +4,4 @@ resources:
   - crowdsec.yaml
   - sealedsecret.yaml
   - namespace.yaml
+  - httproute.yaml
