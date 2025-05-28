@@ -730,6 +730,8 @@ spec:
               "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh",
             ]
           env:
+            - name: LOG_LEVEL
+              value: "debug"
             - name: DISABLE_LOCAL_API
               value: "true"
             - name: DISABLE_ONLINE_API
