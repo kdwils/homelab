@@ -745,9 +745,9 @@ spec:
             ]
           env:
             - name: DISABLE_LOCAL_API
-              value: "true"
+              value: "false"
             - name: DISABLE_ONLINE_API
-              value: "true"
+              value: "false"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: ENROLL_INSTANCE_NAME
