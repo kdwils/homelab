@@ -753,7 +753,7 @@ spec:
             ]
           env:
             - name: DISABLE_LOCAL_API
-              value: "false"
+              value: "true"
             - name: DISABLE_ONLINE_API
               value: "false"
             - name: LOCAL_API_URL
