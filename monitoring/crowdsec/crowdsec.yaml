@@ -728,7 +728,7 @@ spec:
             - name: USERNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: spec.nodeName
+                  fieldPath: metadata.name
             - name: LAPI_URL
               value: "http://crowdsec-service:8080"
             - name: LAPI_HOST
