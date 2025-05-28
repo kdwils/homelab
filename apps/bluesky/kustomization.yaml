@@ -11,4 +11,4 @@ resources:
 images:
   - name: bluesky
     newName: ghcr.io/bluesky-social/pds
-    newTag: "0.4.107"
+    newTag: "0.4.138"
