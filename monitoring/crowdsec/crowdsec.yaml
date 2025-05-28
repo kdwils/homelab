@@ -745,17 +745,15 @@ spec:
             ]
           env:
             - name: DISABLE_LOCAL_API
-              value: "true"
+              value: "false"
             - name: DISABLE_ONLINE_API
-              value: "true"
+              value: "false"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: ENROLL_INSTANCE_NAME
               value: homelab
             - name: ENROLL_TAGS
               value: homelab
-            - name: LOG_LEVEL
-              value: "debug"
           resources:
             limits:
               cpu: 500m
@@ -886,7 +884,7 @@ spec:
             - name: CUSTOM_HOSTNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name
+                  fieldPath: spec.nodeName
           resources:
             limits:
               cpu: 500m
