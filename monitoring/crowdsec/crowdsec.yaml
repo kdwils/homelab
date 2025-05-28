@@ -735,7 +735,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            - name: LOCAL_API_URL
+            - name: LAPI_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: LAPI_HOST
               value: "crowdsec-service.crowdsec.svc.cluster.local"
@@ -755,7 +755,7 @@ spec:
             - name: DISABLE_LOCAL_API
               value: "true"
             - name: DISABLE_ONLINE_API
-              value: "true"
+              value: "false"
             - name: LOCAL_API_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: PARSERS

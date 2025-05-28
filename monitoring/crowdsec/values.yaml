@@ -1,0 +1,10 @@
+container_runtime: containerd
+agent:
+lapi:
+  env:
+    - name: ENROLL_KEY
+      value: "<enroll-key>"
+    - name: ENROLL_INSTANCE_NAME
+      value: "my-k8s-cluster"
+    - name: ENROLL_TAGS
+      value: "k8s linux test"
