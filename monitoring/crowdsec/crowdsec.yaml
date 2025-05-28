@@ -714,6 +714,9 @@ spec:
             requests:
               cpu: 1m
               memory: 10Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
           volumeMounts:
             - name: crowdsec-config
               mountPath: /tmp_config
@@ -726,7 +729,7 @@ spec:
             - name: USERNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: spec.nodeName
+                  fieldPath: metadata.name
             - name: LAPI_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: LAPI_HOST
@@ -741,7 +744,7 @@ spec:
             [
               "sh",
               "-c",
-              "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec /etc/crowdsec && ./docker_start.sh",
+              "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh",
             ]
           env:
             - name: DISABLE_LOCAL_API
@@ -796,13 +799,18 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 5
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+
           volumeMounts:
             - name: crowdsec-config
               mountPath: /tmp_config
             - name: crowdsec-agent-config
-              mountPath: /etc/crowdsec
+              mountPath: /etc/crowdsec_data
             - name: acquis-config-volume
-              mountPath: /etc/crowdsec/acquis.yaml
+              mountPath: /etc/crowdsec_data/acquis.yaml
               subPath: acquis.yaml
             - name: varlog
               mountPath: /var/log
@@ -862,7 +870,6 @@ spec:
                 secretKeyRef:
                   name: crowdsec-lapi-secrets
                   key: enrollmentKey
-            - name: ENROLL_INSTANCE_NAME
             - name: LOCAL_API_URL
               value: http://localhost:8080
             - name: DISABLE_AGENT
@@ -884,7 +891,7 @@ spec:
             - name: CUSTOM_HOSTNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: spec.nodeName
+                  fieldPath: metadata.name
           resources:
             limits:
               cpu: 500m
@@ -921,6 +928,10 @@ spec:
               port: lapi
               scheme: HTTP
 
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+
           ports:
             - name: lapi
               containerPort: 8080
@@ -933,7 +944,7 @@ spec:
             [
               "sh",
               "-c",
-              "cp -nR /staging/etc/crowdsec/* /etc/crowdsec/ && ln -s /etc/crowdsec /etc/crowdsec && bash /docker_start.sh",
+              "cp -nR /staging/etc/crowdsec/* /etc/crowdsec_data/ && ln -s /etc/crowdsec_data /etc/crowdsec && bash /docker_start.sh",
             ]
 
           volumeMounts:
@@ -945,10 +956,10 @@ spec:
               mountPath: /var/lib/crowdsec/data
               subPath: crowdsec
             - name: crowdsec-config
-              mountPath: /etc/crowdsec
+              mountPath: /etc/crowdsec_data
 
             - name: crowdsec-config-local-volume
-              mountPath: /etc/crowdsec/config.yaml.local
+              mountPath: /etc/crowdsec_data/config.yaml.local
               subPath: config.yaml.local
 
       terminationGracePeriodSeconds: 30
