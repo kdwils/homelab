@@ -723,7 +723,7 @@ spec:
             - name: "COLLECTIONS"
               value: "crowdsecurity/base-http-scenarios, crowdsecurity/k8s-audit"
             - name: PARSERS
-              value: "crowdsecurity/cri-logs,crowdsecurity/k8s-audit"
+              value: "crowdsecurity/cri-logs, crowdsecurity/k8s-audit"
       containers:
         - name: crowdsec-agent
           image: "crowdsecurity/crowdsec:v1.6.8"
@@ -1011,6 +1011,8 @@ kind: PodMonitor
 metadata:
   name: crowdsec-agent
   namespace: crowdsec
+  labels:
+    release: prometheus
 spec:
   selector:
     matchLabels:
@@ -1034,6 +1036,8 @@ kind: ServiceMonitor
 metadata:
   name: crowdsec-agent-service
   namespace: crowdsec
+  labels:
+    release: prometheus
 spec:
   selector:
     matchLabels:
