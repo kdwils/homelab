@@ -806,6 +806,7 @@ spec:
             path: /var/lib/crowdsec-agent-data # unique per node
             type: DirectoryOrCreate
 ---
+# Source: crowdsec/templates/agent-daemonSet.yaml
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -822,8 +823,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/agent-configmap: 1b18474a63d2102a8a8f26a629f5a398529eda8923eca4bab5da21666e3e890c
-        checksum/acquis-configmap: c701dc5baf19b71762198ddae5463ebb8e68c3c43b710563fa63d65b528cc4a6
+        checksum/agent-configmap: 524e841fd2661b639b1cc3aee213e22b04572ed44b8d8c81289d7e16b76bab8c
+        checksum/acquis-configmap: 680145cad122e58eaad5d9aa96581ffc35a6d7d83f55a62b9286f054d16754fa
       labels:
         k8s-app: crowdsec
         type: agent
@@ -862,15 +863,11 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: LAPI_URL
-              value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
+              value: "http://crowdsec-service:8080"
             - name: LAPI_HOST
-              value: "crowdsec-service.crowdsec.svc.cluster.local"
+              value: "crowdsec-service"
             - name: LAPI_PORT
               value: "8080"
-            - name: "COLLECTIONS"
-              value: "crowdsecurity/base-http-scenarios, crowdsecurity/k8s-audit"
-            - name: PARSERS
-              value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
       containers:
         - name: crowdsec-agent
           image: "crowdsecurity/crowdsec:v1.6.8"
@@ -885,13 +882,19 @@ spec:
             - name: DISABLE_LOCAL_API
               value: "true"
             - name: DISABLE_ONLINE_API
-              value: "false"
+              value: "true"
+
+            # agent - lapi authentication, with TLS or password
             - name: LOCAL_API_URL
-              value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
-            - name: ENROLL_INSTANCE_NAME
-              value: homelab
-            - name: ENROLL_TAGS
-              value: homelab
+              value: "http://crowdsec-service:8080"
+            - name: SCENARIOS
+              value: scenario/name otherScenario/name
+            - name: PARSERS
+              value: crowdsecurity/cri-logs crowdsecurity/k8s-audit
+            - name: DISABLE_AGENT
+              value: "false"
+            - name: DISABLE_ONLINE_API
+              value: "false"
           resources:
             limits:
               cpu: 500m
@@ -941,15 +944,16 @@ spec:
 
           volumeMounts:
             - name: crowdsec-config
-              mountPath: /etc/crowdsec
-            - name: crowdsec-data
+              mountPath: /tmp_config
+            - name: crowdsec-agent-config
               mountPath: /etc/crowdsec_data
-            - name: varlog
-              mountPath: /var/log
-              readOnly: true
             - name: acquis-config-volume
               mountPath: /etc/crowdsec_data/acquis.yaml
               subPath: acquis.yaml
+            - name: varlog
+              mountPath: /var/log
+              readOnly: true
+
       terminationGracePeriodSeconds: 30
       volumes:
         - name: acquis-config-volume
@@ -957,14 +961,13 @@ spec:
             name: acquis-configmap
         - name: crowdsec-config
           emptyDir: {}
-        - name: crowdsec-data
-          hostPath:
-            path: /var/lib/crowdsec-agent-data
-            type: DirectoryOrCreate
         - name: varlog
           hostPath:
             path: /var/log
-            type: Directory
+        - name: crowdsec-agent-config
+          hostPath:
+            path: /var/lib/crowdsec-agent-data
+            type: DirectoryOrCreate
 ---
 # Source: crowdsec/templates/lapi-deployment.yaml
 apiVersion: apps/v1
