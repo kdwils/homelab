@@ -713,7 +713,7 @@ spec:
             - name: USERNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: spec.nodeName
+                  fieldPath: metadata.name
             - name: LAPI_URL
               value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: LAPI_HOST
@@ -874,7 +874,7 @@ spec:
             - name: CUSTOM_HOSTNAME
               valueFrom:
                 fieldRef:
-                  fieldPath: spec.nodeName
+                  fieldPath: metadata.name
           resources:
             limits:
               cpu: 500m
