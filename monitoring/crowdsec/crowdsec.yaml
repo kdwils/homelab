@@ -576,21 +576,21 @@ data:
             - "10.0.0.0/8"
             - "172.16.0.0/12"
 ---
-# Source: crowdsec/templates/agent-persistentVolume.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: crowdsec-agent-config-pvc
-  labels:
-    k8s-app: crowdsec
-    type: agent
-    version: v1
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: "100Mi"
+# # Source: crowdsec/templates/agent-persistentVolume.yaml
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: crowdsec-agent-config-pvc
+#   labels:
+#     k8s-app: crowdsec
+#     type: agent
+#     version: v1
+# spec:
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: "100Mi"
 ---
 # Source: crowdsec/templates/lapi-persistentVolume.yaml
 apiVersion: v1
@@ -807,8 +807,6 @@ spec:
           volumeMounts:
             - name: crowdsec-config
               mountPath: /tmp_config
-            - name: crowdsec-agent-config
-              mountPath: /etc/crowdsec_data
             - name: acquis-config-volume
               mountPath: /etc/crowdsec_data/acquis.yaml
               subPath: acquis.yaml
@@ -825,9 +823,9 @@ spec:
         - name: varlog
           hostPath:
             path: /var/log
-        - name: crowdsec-agent-config
-          persistentVolumeClaim:
-            claimName: crowdsec-agent-config-pvc
+        # - name: crowdsec-agent-config
+        #   persistentVolumeClaim:
+        #     claimName: crowdsec-agent-config-pvc
 ---
 # Source: crowdsec/templates/lapi-deployment.yaml
 apiVersion: apps/v1
