@@ -1,31 +1,49 @@
----
 apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: SecurityPolicy
+kind: EnvoyPatchPolicy
 metadata:
-  name: envoy-bouncer-policy
+  name: bouncer-cluster
+  namespace: envoy-gateway-system
 spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
     name: homelab
-  extAuth:
-    grpc:
-      backendRefs:
-        - group: ""
-          kind: Service
-          name: envoy-bouncer
-          port: 8080
-          namespace: envoy-gateway-system
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: BackendTrafficPolicy
-metadata:
-  name: envoy-bouncer-backend
-spec:
-  targetRef:
-    group: ""
-    kind: Service
-    name: envoy-bouncer
-  grpc:
-    - name: ext-authz
-      responseTimeout: 5s
+  patches:
+    - type: MERGE
+      match:
+        context: LISTENER
+      value:
+        filter_chains:
+          - filters:
+              - name: envoy.filters.http.ext_authz
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+                  transport_api_version: V3
+                  grpc_service:
+                    envoy_grpc:
+                      cluster_name: envoy-bouncer
+                      authority: envoy-bouncer.envoy-gateway-system.svc.cluster.local
+                    timeout: 0.25s
+    - type: MERGE
+      match:
+        context: GATEWAY
+      value:
+        static_resources:
+          clusters:
+            - name: envoy-bouncer
+              connect_timeout: 0.25s
+              type: STRICT_DNS
+              typed_extension_protocol_options:
+                envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+                  "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+                  explicit_http_config:
+                    http2_protocol_options: {}
+              load_assignment:
+                cluster_name: envoy-bouncer
+                endpoints:
+                  - lb_endpoints:
+                      - endpoint:
+                          address:
+                            socket_address:
+                              address: envoy-bouncer.envoy-gateway-system.svc.cluster.local
+                              port_value: 8080
