@@ -4,3 +4,8 @@ resources:
   - bouncer.yaml
   - sealedsecret.yaml
   - configmap.yaml
+
+images:
+  - name: envoy-bouncer
+    newTag: sha-266d92fe1da9634fe7aaa50948e2889deb3cd574
+    newName: ghcr.io/kdwils/envoy-gateway-bouncer
