@@ -41,6 +41,7 @@ spec:
           image: envoy-bouncer
           imagePullPolicy: IfNotPresent
           args:
+            - serve
             - --config=config.yaml
           ports:
             - name: http
