@@ -71,15 +71,20 @@ spec:
     kind: Gateway
     name: homelab
   extAuth:
-    extensionRef:
+    backend:
       name: envoy-bouncer
+      port: 8080
       namespace: envoy-gateway-system
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: ExtensionService
+kind: BackendTrafficPolicy
 metadata:
-  name: envoy-bouncer-extension
+  name: envoy-bouncer-backend
 spec:
-  services:
-    - name: envoy-bouncer
-      port: 8080
+  targetRef:
+    group: ""
+    kind: Service
+    name: envoy-bouncer
+  http:
+    - name: ext-authz
+      responseTimeout: 5s
