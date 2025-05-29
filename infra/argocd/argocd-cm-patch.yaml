@@ -18,6 +18,7 @@ data:
           - groups
         getUserInfo: true
         userNameKey: preferred_username
+        overrideClaimMapping: true
         claimMapping:
           username: preferred_username
           email: email
