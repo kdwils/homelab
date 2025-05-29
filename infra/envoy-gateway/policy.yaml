@@ -2,7 +2,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
 metadata:
   name: envoy-bouncer-policy
-  namespace: your-namespace
+  namespace: envoy-gateway-system
 spec:
   targetRef:
     group: gateway.networking.k8s.io
