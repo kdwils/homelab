@@ -9,7 +9,7 @@ spec:
     kind: Gateway
     name: homelab
   extAuth:
-    http:
+    grpc:
       backendRefs:
         - group: ""
           kind: Service
