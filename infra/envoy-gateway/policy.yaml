@@ -1,0 +1,31 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: envoy-bouncer-policy
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: homelab
+  extAuth:
+    http:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: envoy-bouncer
+          port: 8080
+          namespace: envoy-gateway-system
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: envoy-bouncer-backend
+spec:
+  targetRef:
+    group: ""
+    kind: Service
+    name: envoy-bouncer
+  http:
+    - name: ext-authz
+      responseTimeout: 5s

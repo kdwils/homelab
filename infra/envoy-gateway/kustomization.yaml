@@ -5,3 +5,4 @@ resources:
   - proxy.yaml
   - servicemonitor.yaml
   - certificate.yaml
+  - policy.yaml
