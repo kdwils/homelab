@@ -14,14 +14,3 @@ spec:
         - name: envoy-bouncer
           port: 8080
           namespace: envoy-gateway-system
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: BackendTrafficPolicy
-metadata:
-  name: envoy-bouncer-backend
-  namespace: envoy-gateway-system
-spec:
-  targetRef:
-    group: ""
-    kind: Service
-    name: envoy-bouncer
