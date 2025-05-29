@@ -16,9 +16,11 @@ data:
           - profile
           - email
           - groups
-        usernameAttr: preferred_username
-        emailAttr: email
-        groupsAttr: groups
+        userNameKey: preferred_username
+        claimMapping:
+          groups: groups
+          email: email
+          name: name
         admin.enabled: 'true'
   accounts.image-updater: apiKey
   accounts.backstage: login, apiKey
