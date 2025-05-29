@@ -14,7 +14,7 @@ spec:
       name: envoy-gateway-system/homelab/http
       operation:
         op: add
-        path: "/default_filter_chain/filters/0/typed_config/http_filters/-"
+        path: "/filter_chains/0/filters/0/typed_config/http_filters/0"
         value:
           name: envoy.filters.http.ext_authz
           typed_config:
@@ -28,7 +28,7 @@ spec:
       name: ext-authz-cluster
       operation:
         op: add
-        path: ""
+        path: "/clusters/-"
         value:
           name: ext-authz-cluster
           type: STRICT_DNS
