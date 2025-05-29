@@ -16,9 +16,10 @@ data:
           - profile
           - email
           - groups
+        getUserInfo: true
         userNameKey: preferred_username
         claimMapping:
-          preferred_username: preferred_username
+          username: preferred_username
           email: email
           name: name
         admin.enabled: 'true'
