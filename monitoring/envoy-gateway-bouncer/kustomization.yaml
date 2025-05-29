@@ -4,6 +4,7 @@ resources:
   - bouncer.yaml
   - sealedsecret.yaml
   - configmap.yaml
+  - sealedsecret.yaml
 
 images:
   - name: envoy-bouncer
