@@ -67,6 +67,8 @@ spec:
             - secretRef:
                 name: mealie-oidc
           env:
+            - name: OIDC_CLIENT_ID
+            
             - name: ALLOW_SIGNUP
               value: "false"
             - name: PUID

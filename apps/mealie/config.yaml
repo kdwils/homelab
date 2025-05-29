@@ -8,3 +8,4 @@ data:
   OIDC_USER_GROUP: "mealie_users"
   OIDC_ADMIN_GROUP: "mealie_admins"
   OIDC_CONFIGURATION_URL: "https://pocketid.kyledev.co/.well-known/openid-configuration"
+  OIDC_CLIENT_ID: 35601ff9-a4a9-429c-82a0-177daa210efa
