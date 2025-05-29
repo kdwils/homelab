@@ -6,6 +6,7 @@ data:
   config.yaml: |
     server:
       port: 8080
+      logLevel: debug
 
     bouncer:
       apiURL: http://crowdsec-service.crowdsec.svc.cluster.local:8080
