@@ -8,7 +8,7 @@ data:
       port: 8080
 
     bouncer:
-      apiURL: http://crowdsec:8080
+      apiURL: http://crowdsec-service.crowdsec.svc.cluster.local:8080
       trustedProxies:
         - 10.43.0.0/16
         - 10.42.0.0/16
