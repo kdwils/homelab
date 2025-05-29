@@ -32,18 +32,26 @@ spec:
         app.kubernetes.io/name: envoy-bouncer
     spec:
       serviceAccountName: envoy-bouncer
+      volumes:
+        - name: bouncer-config
+          configMap:
+            name: envoy-bouncer-config
       containers:
         - name: envoy-bouncer
           image: envoy-bouncer
           imagePullPolicy: IfNotPresent
+          args:
+            - --config=config.yaml
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
+          volumeMounts:
+            - name: bouncer-config
+              mountPath: /app/config.yaml
+              subPath: config.yaml
           envFrom:
             - secretRef:
-                name: envoy-bouncer
-            - configMapRef:
                 name: envoy-bouncer
           resources:
             limits:

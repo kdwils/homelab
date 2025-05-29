@@ -1,7 +1,17 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: envoy-bouncer
+  name: envoy-bouncer-config
 data:
-  ENVOY_BOUNCER_BOUNCER_APIURL: http://crowdsec-service.crowdsec.svc.cluster.local:8080
-  ENVOY_BOUNCER_LOGLEVEL: "-4"
+  config.yaml: |
+    server:
+      port: 8080
+
+    bouncer:
+      apiURL: http://crowdsec:8080
+      trustedProxies:
+        - 10.43.0.0/16
+        - 10.42.0.0/16
+    cache:
+      ttl: 5m
+      maxSize: 1000
