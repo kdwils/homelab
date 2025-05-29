@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: envoy-bouncer
 data:
-  ENVOY_BOUNCER_BOUNCER_APIURL: http://envoy-bouncer:8080
+  ENVOY_BOUNCER_BOUNCER_APIURL: http://crowdsec-service.crowdsec.svc.cluster.local:8080
