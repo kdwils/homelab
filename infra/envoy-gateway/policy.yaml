@@ -14,7 +14,7 @@ spec:
       name: envoy-gateway-system/homelab/http
       operation:
         op: add
-        path: "/default_filter_chain/filters/0/typed_config/http_filters/0"
+        path: "/default_filter_chain/filters/0/typed_config/http_filters/-"
         value:
           name: envoy.filters.http.ext_authz
           typed_config:
