@@ -18,7 +18,7 @@ data:
           - groups
         userNameKey: preferred_username
         claimMapping:
-          groups: groups
+          preferred_username: preferred_username
           email: email
           name: name
         admin.enabled: 'true'
