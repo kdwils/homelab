@@ -7,41 +7,33 @@ spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
-    name: homelab
-  patches:
-    - applyTo: HTTP_FILTER
-      match:
-        context: GATEWAY
-        listener:
-          portNumber: 80
-        name: envoy.filters.network.http_connection_manager
-      patch:
-        operation: INSERT_BEFORE
-        value:
-          name: envoy.filters.http.ext_authz
-          typed_config:
-            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
-            grpc_service:
-              envoy_grpc:
-                cluster_name: ext-authz-cluster
-              timeout: 0.5s
-            transport_api_version: V3
-    - applyTo: CLUSTER
-      match:
-        context: GATEWAY
-      patch:
-        operation: ADD
-        value:
-          name: ext-authz-cluster
-          type: STRICT_DNS
-          connect_timeout: 0.5s
-          http2_protocol_options: {}
-          load_assignment:
-            cluster_name: ext-authz-cluster
-            endpoints:
-              - lb_endpoints:
-                  - endpoint:
-                      address:
-                        socket_address:
-                          address: envoy-bouncer
-                          port_value: 8080
+    name: your-gateway-name
+  type: JSONPatch
+  patch:
+    - op: add
+      path: /httpFilters/0
+      value:
+        name: envoy.filters.http.ext_authz
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+          grpc_service:
+            envoy_grpc:
+              cluster_name: ext-authz-cluster
+            timeout: 0.5s
+          transport_api_version: V3
+    - op: add
+      path: /clusters/-
+      value:
+        name: ext-authz-cluster
+        type: STRICT_DNS
+        connect_timeout: 0.5s
+        http2_protocol_options: {}
+        load_assignment:
+          cluster_name: ext-authz-cluster
+          endpoints:
+            - lb_endpoints:
+                - endpoint:
+                    address:
+                      socket_address:
+                        address: envoy-bouncer
+                        port_value: 8080
