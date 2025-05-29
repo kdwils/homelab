@@ -1,39 +1,47 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
 metadata:
-  name: envoy-bouncer-policy
+  name: envoy-bouncer-patch-policy
   namespace: envoy-gateway-system
 spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
     name: your-gateway-name
+    namespace: envoy-gateway-system
   type: JSONPatch
-  patch:
-    - op: add
-      path: /httpFilters/0
-      value:
-        name: envoy.filters.http.ext_authz
-        typed_config:
-          "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
-          grpc_service:
-            envoy_grpc:
-              cluster_name: ext-authz-cluster
-            timeout: 0.5s
-          transport_api_version: V3
-    - op: add
-      path: /clusters/-
-      value:
-        name: ext-authz-cluster
-        type: STRICT_DNS
-        connect_timeout: 0.5s
-        http2_protocol_options: {}
-        load_assignment:
-          cluster_name: ext-authz-cluster
-          endpoints:
-            - lb_endpoints:
-                - endpoint:
-                    address:
-                      socket_address:
-                        address: envoy-bouncer
-                        port_value: 8080
+  jsonPatches:
+    - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
+      name: envoy-gateway-system/your-gateway-name/http
+      operation:
+        op: add
+        path: "/default_filter_chain/filters/0/typed_config/http_filters/0"
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            transport_api_version: V3
+            grpc_service:
+              envoy_grpc:
+                cluster_name: ext-authz-cluster
+              timeout: 0.5s
+    - type: "type.googleapis.com/envoy.config.cluster.v3.Cluster"
+      name: ext-authz-cluster
+      operation:
+        op: add
+        path: ""
+        value:
+          name: ext-authz-cluster
+          type: STRICT_DNS
+          connect_timeout: 0.5s
+          http2_protocol_options: {}
+          lb_policy: ROUND_ROBIN
+          load_assignment:
+            cluster_name: ext-authz-cluster
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: envoy-bouncer.envoy-gateway-system.svc.cluster.local
+                          port_value: 8080
