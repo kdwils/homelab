@@ -1,44 +1,47 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyPatchPolicy
 metadata:
-  name: bouncer-cluster
-  namespace: envoy-gateway-system
+  name: envoy-bouncer-policy
+  namespace: your-namespace
 spec:
   targetRef:
     group: gateway.networking.k8s.io
     kind: Gateway
     name: homelab
-  type: MERGE
-  jsonPatches:
-    - type: ADD
-      path: "/filterChains/0/filters/-"
-      value:
-        name: envoy.filters.http.ext_authz
-        typed_config:
-          "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
-          transport_api_version: V3
-          grpc_service:
-            envoy_grpc:
-              cluster_name: envoy-bouncer
-              authority: envoy-bouncer.envoy-gateway-system.svc.cluster.local
-            timeout: 0.25s
-    - type: ADD
-      path: "/staticResources/clusters/-"
-      value:
-        name: envoy-bouncer
-        connect_timeout: 0.25s
-        type: STRICT_DNS
-        typed_extension_protocol_options:
-          envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
-            "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
-            explicit_http_config:
-              http2_protocol_options: {}
-        load_assignment:
-          cluster_name: envoy-bouncer
-          endpoints:
-            - lb_endpoints:
-                - endpoint:
-                    address:
-                      socket_address:
-                        address: envoy-bouncer.envoy-gateway-system.svc.cluster.local
-                        port_value: 8080
+  patches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          portNumber: 80
+        name: envoy.filters.network.http_connection_manager
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.ext_authz
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
+            grpc_service:
+              envoy_grpc:
+                cluster_name: ext-authz-cluster
+              timeout: 0.5s
+            transport_api_version: V3
+    - applyTo: CLUSTER
+      match:
+        context: GATEWAY
+      patch:
+        operation: ADD
+        value:
+          name: ext-authz-cluster
+          type: STRICT_DNS
+          connect_timeout: 0.5s
+          http2_protocol_options: {}
+          load_assignment:
+            cluster_name: ext-authz-cluster
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: envoy-bouncer
+                          port_value: 8080
