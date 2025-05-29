@@ -14,7 +14,7 @@ spec:
       name: envoy-gateway-system/homelab/http
       operation:
         op: add
-        path: "/filter_chains/0/filters/0/typed_config/http_filters/0"
+        path: "/filter_chains/0/filters/0/typed_config/http_filters/-"
         value:
           name: envoy.filters.http.ext_authz
           typed_config:
@@ -23,7 +23,11 @@ spec:
             grpc_service:
               envoy_grpc:
                 cluster_name: ext-authz-cluster
+                authority: envoy-bouncer.envoy-gateway-system.svc.cluster.local
               timeout: 0.5s
+            failure_mode_allow: false
+            status_on_error:
+              code: Forbidden
     - type: "type.googleapis.com/envoy.config.cluster.v3.Cluster"
       name: ext-authz-cluster
       operation:
@@ -33,7 +37,11 @@ spec:
           name: ext-authz-cluster
           type: STRICT_DNS
           connect_timeout: 0.5s
-          http2_protocol_options: {}
+          typed_extension_protocol_options:
+            envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+              "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+              explicit_http_config:
+                http2_protocol_options: {}
           lb_policy: ROUND_ROBIN
           load_assignment:
             cluster_name: ext-authz-cluster
