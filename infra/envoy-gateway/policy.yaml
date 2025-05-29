@@ -26,6 +26,6 @@ spec:
     group: ""
     kind: Service
     name: envoy-bouncer
-  http:
+  grpc:
     - name: ext-authz
       responseTimeout: 5s
