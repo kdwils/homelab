@@ -6,7 +6,7 @@ data:
     connectors:
     - type: oidc
       id: pocketid
-      name: PocketID
+      name: pocketid
       config:
         issuer: 'https://pocketid.kyledev.co'
         clientID: 820a4e71-34a2-4454-a1cb-bf9360aa25fa
