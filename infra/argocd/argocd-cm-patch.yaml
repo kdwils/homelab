@@ -16,7 +16,9 @@ data:
           - profile
           - email
           - groups
-        groupsKey: groups
+        usernameAttr: preferred_username
+        emailAttr: email
+        groupsAttr: groups
         admin.enabled: 'true'
   accounts.image-updater: apiKey
   accounts.backstage: login, apiKey
