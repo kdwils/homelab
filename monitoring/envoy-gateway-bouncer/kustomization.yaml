@@ -7,5 +7,5 @@ resources:
 
 images:
   - name: envoy-bouncer
-    newTag: sha-266d92fe1da9634fe7aaa50948e2889deb3cd574
+    newTag: sha-9262672ec57202678b2b3f12c05cb02111ec47aa
     newName: ghcr.io/kdwils/envoy-gateway-bouncer
