@@ -16,6 +16,7 @@ data:
           - profile
           - email
           - groups
+        groupsKey: groups
   accounts.image-updater: apiKey
   accounts.backstage: login, apiKey
   accounts.readonly-user: login, apiKey
