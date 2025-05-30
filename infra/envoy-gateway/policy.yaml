@@ -11,6 +11,8 @@ spec:
   extAuth:
     grpc:
       backendRefs:
-        - name: envoy-bouncer
+        - group: ""
+          kind: Service
+          name: envoy-bouncer
           port: 8080
           namespace: envoy-gateway-system
