@@ -4,7 +4,7 @@ resources:
   - bouncer.yaml
   - sealedsecret.yaml
   - configmap.yaml
-  - vpa.yaml
+  # - vpa.yaml
 
 images:
   - name: envoy-bouncer
