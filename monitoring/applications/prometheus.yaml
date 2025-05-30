@@ -16,8 +16,5 @@ spec:
   sources: []
   project: monitoring
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - ServerSideApply=true
