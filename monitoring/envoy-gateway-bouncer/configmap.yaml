@@ -13,6 +13,8 @@ data:
       trustedProxies:
         - 10.43.0.0/16
         - 10.42.0.0/16
+      metrics: true
+
     cache:
       ttl: 5m
-      maxSize: 1000
+      maxSize: 10000
