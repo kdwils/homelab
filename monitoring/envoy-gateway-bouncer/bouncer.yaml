@@ -22,7 +22,7 @@ kind: Deployment
 metadata:
   name: envoy-bouncer
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
