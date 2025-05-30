@@ -5,11 +5,19 @@ metadata:
   namespace: monitoring
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
   hostnames:
     - "prometheus.int.kyledev.co"
   rules:
     - backendRefs:
-        - name: prometheus-kube-prometheus-prometheus
+        - group: ""
+          kind: Service
+          name: prometheus-kube-prometheus-prometheus
           port: 9090
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
