@@ -8,7 +8,7 @@ spec:
     kind: Deployment
     name: envoy-bouncer
   updatePolicy:
-    updateMode: "Auto"
+    updateMode: "InPlaceOrRecreate"
   resourcePolicy:
     containerPolicies:
       - containerName: "*"
