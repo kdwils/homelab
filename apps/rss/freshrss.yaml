@@ -24,6 +24,8 @@ spec:
             - secretRef:
                 name: freshrss-oidc
           env:
+            - name: CRON_MIN
+              value: "13,43"
             - name: OIDC_ENABLED
               value: "1"
             - name: PUID
