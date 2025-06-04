@@ -13,6 +13,9 @@ data:
   TRUST_PROXY: "true"
   PUID: "1000"
   PGID: "1000"
+  DATA_DIR: "/app/data"
+  UPLOAD_DIR: "/app/data/uploads"
+  KEYS_DIR: "/app/data/keys"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -45,7 +48,7 @@ spec:
                 name: pocketid
           volumeMounts:
             - name: data
-              mountPath: /app/backend/data
+              mountPath: /app/data
           readinessProbe:
             httpGet:
               path: /health
