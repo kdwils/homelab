@@ -31,3 +31,31 @@ spec:
     xForwardedFor:
       trustedCIDRs:
         - 10.42.0.0/16
+        - 10.43.0.0/16
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyPatchPolicy
+metadata:
+  name: access-log-policy
+  namespace: envoy-gateway-system
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: homelab
+  type: JSONPatch
+  jsonPatches:
+    - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
+      name: envoy-gateway-system/homelab/http
+      operation:
+        op: replace
+        path: "/access_log/0/typed_config/json_format"
+        value:
+          timestamp: "%START_TIME%"
+          real_ip: "%REQ(X-ENVOY-EXTERNAL-ADDRESS)%" # Shows the processed client IP
+          xff_chain: "%REQ(X-FORWARDED-FOR)%" # Shows full XFF chain for debugging
+          method: "%REQ(:METHOD)%"
+          path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
+          authority: "%REQ(:AUTHORITY)%"
+          status: "%RESPONSE_CODE%"
+          upstream: "%UPSTREAM_CLUSTER%"
