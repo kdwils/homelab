@@ -17,50 +17,17 @@
 #           port: 8080
 #           namespace: envoy-gateway-system
 ---
-# apiVersion: gateway.envoyproxy.io/v1alpha1
-# kind: ClientTrafficPolicy
-# metadata:
-#   name: ip-detection
-#   namespace: envoy-gateway-system
-# spec:
-#   targetRefs:
-#     - group: gateway.networking.k8s.io
-#       kind: Gateway
-#       name: homelab
-#   clientIPDetection:
-#     xForwardedFor:
-#       trustedCIDRs:
-#         - 10.42.0.0/16
----
 apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: EnvoyPatchPolicy
+kind: ClientTrafficPolicy
 metadata:
-  name: access-log-policy
+  name: ip-detection
   namespace: envoy-gateway-system
 spec:
-  type: JSONPatch
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: homelab
-  jsonPatches:
-    - type: "type.googleapis.com/envoy.config.listener.v3.Listener"
-      name: envoy-gateway-system/homelab/http
-      operation:
-        op: add
-        path: "/listener_filters/-"
-        value:
-          name: http_inspector
-          typed_config:
-            "@type": type.googleapis.com/envoy.extensions.filters.listener.original_src.v3.Config
-            xff_num_trusted_hops: 1
-            original_src_ip_detection_extensions:
-              - name: envoy.extensions.ip_detection.xff
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.ip_detection.xff.v3.XffConfig
-                  xff_num_trusted_hops: 1
-                  trusted_client_cidrs:
-                    - address_prefix: "10.42.0.0"
-                      prefix_len: 16
-                    - address_prefix: "10.43.0.0"
-                      prefix_len: 16
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
+  clientIPDetection:
+    xForwardedFor:
+      trustedCIDRs:
+        - 10.42.0.0/16
