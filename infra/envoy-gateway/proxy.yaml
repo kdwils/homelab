@@ -12,3 +12,7 @@ spec:
           tailscale.com/hostname: "homelab-gateway"
         loadBalancerClass: "tailscale"
         name: homelab-gateway
+  config:
+    defaultHttpListener:
+      xffNumTrustedHops: 1
+      useRemoteAddress: true
