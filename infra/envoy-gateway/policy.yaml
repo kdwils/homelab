@@ -17,17 +17,17 @@
 #           port: 8080
 #           namespace: envoy-gateway-system
 ---
-# apiVersion: gateway.envoyproxy.io/v1alpha1
-# kind: ClientTrafficPolicy
-# metadata:
-#   name: ip-detection
-#   namespace: envoy-gateway-system
-# spec:
-#   targetRefs:
-#     - group: gateway.networking.k8s.io
-#       kind: Gateway
-#       name: homelab
-#   clientIPDetection:
-#     xForwardedFor:
-#       trustedCIDRs:
-#         - 10.42.0.0/16
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: ip-detection
+  namespace: envoy-gateway-system
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
+  clientIPDetection:
+    xForwardedFor:
+      trustedCIDRs:
+        - 10.42.0.0/16
