@@ -53,7 +53,7 @@ spec:
           name: http_inspector
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.filters.listener.original_src.v3.Config
-            xff_num_trusted_hops: 2
+            xff_num_trusted_hops: 1
             original_src_ip_detection_extensions:
               - name: envoy.extensions.ip_detection.xff
                 typed_config:
