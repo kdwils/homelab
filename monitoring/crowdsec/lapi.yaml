@@ -16,24 +16,6 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: acquis-configmap
-data:
-  acquis.yaml: |-
-    filenames:
-      - /var/log/secure
-    labels:
-      type: syslog
-    ---
-    filenames:
-      - /var/log/messages
-    labels:
-      type: syslog
-
----
-# Source: crowdsec/templates/docker-start-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
   name: crowdsec-docker-start-script-configmap
   labels:
     k8s-app: crowdsec
