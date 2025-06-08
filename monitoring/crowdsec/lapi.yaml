@@ -21,7 +21,6 @@ metadata:
     k8s-app: crowdsec
     type: docker-start-script
     version: v1
-
 data:
   docker_start.sh: |-
     #!/bin/bash
