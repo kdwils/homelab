@@ -1,5 +1,5 @@
 resources:
-  - https://github.com/envoyproxy/gateway/releases/download/v1.3.3/install.yaml
+  - https://github.com/envoyproxy/gateway/releases/download/v1.4.1/install.yaml
   - gatewayclass.yaml
   - gateway.yaml
   - proxy.yaml
