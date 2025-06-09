@@ -1,3 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hoarder
+data:
+  NEXTAUTH_URL: https://hoarder.int.kyledev.co
+  MEILI_NO_ANALYTICS: "true"
+  DISABLE_SIGNUPS: "false"
+  OAUTH_CLIENT_ID: "ce4a06a1-944f-4f1c-92f5-1e5c4a1daa02"
+  OAUTH_WELLKNOWN_URL: https://pocketid.kyledev.co/.well-known/openid-configuration
+  OAUTH_PROVIDER_NAME: pocketid
+  OAUTH_ALLOW_DANGEROUS_EMAIL_ACCOUNT_LINKING: "true"
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -16,17 +30,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: data
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 500Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: meilisearch
 spec:
   accessModes:
     - ReadWriteOnce
@@ -100,61 +103,3 @@ spec:
             - --remote-debugging-address=0.0.0.0
             - --remote-debugging-port=9222
             - --hide-scrollbars
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: chrome
-spec:
-  selector:
-    app: chrome
-  ports:
-    - protocol: TCP
-      port: 9222
-      targetPort: 9222
-  type: ClusterIP
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: meilisearch
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: meilisearch
-  template:
-    metadata:
-      labels:
-        app: meilisearch
-    spec:
-      containers:
-        - name: meilisearch
-          image: meilisearch
-          env:
-            - name: MEILI_NO_ANALYTICS
-              value: "true"
-          volumeMounts:
-            - mountPath: /meili_data
-              name: meilisearch
-          envFrom:
-            - secretRef:
-                name: hoarder
-            - configMapRef:
-                name: hoarder
-      volumes:
-        - name: meilisearch
-          persistentVolumeClaim:
-            claimName: meilisearch
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: meilisearch
-spec:
-  selector:
-    app: meilisearch
-  ports:
-    - protocol: TCP
-      port: 7700
-      targetPort: 7700
