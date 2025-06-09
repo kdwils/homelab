@@ -3,9 +3,9 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - httproute.yaml
-  - hoarder.yaml
+  # - hoarder.yaml
   - sealedsecret.yaml
-  - meilisearch.yaml
+  # - meilisearch.yaml
 
 images:
   - name: hoarder
