@@ -10,10 +10,10 @@ resources:
 images:
   - name: hoarder
     newName: ghcr.io/karakeep-app/karakeep
-    newTag: 0.23.1
+    newTag: 0.25.0
   - name: meilisearch
     newName: getmeili/meilisearch
-    newTag: v1.11.1
+    newTag: v1.13.3
   - name: chrome
     newName: gcr.io/zenika-hub/alpine-chrome
     newTag: "123"

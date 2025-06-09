@@ -5,3 +5,7 @@ metadata:
 data:
   NEXTAUTH_URL: http://localhost:3000
   MEILI_NO_ANALYTICS: "true"
+  DISABLE_SIGNUPS: "false"
+  OAUTH_CLIENT_ID: "ce4a06a1-944f-4f1c-92f5-1e5c4a1daa02"
+  OAUTH_WELLKNOWN_URL: https://pocketid.kyledev.co/.well-known/openid-configuration
+  OAUTH_PROVIDER_NAME: pocketid
