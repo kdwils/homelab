@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: hoarder
 data:
+  NEXTAUTH_URL: https://hoarder.int.kyledev.co
   MEILI_NO_ANALYTICS: "true"
   DISABLE_SIGNUPS: "false"
   OAUTH_CLIENT_ID: "ce4a06a1-944f-4f1c-92f5-1e5c4a1daa02"
