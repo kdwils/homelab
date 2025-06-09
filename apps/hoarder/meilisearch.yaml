@@ -50,8 +50,6 @@ spec:
             - mountPath: /meili_data
               name: meilisearch
           envFrom:
-            - secretRef:
-                name: meilisearch
             - configMapRef:
                 name: meilisearch
       volumes:
