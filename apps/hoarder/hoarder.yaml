@@ -11,6 +11,9 @@ data:
   OAUTH_WELLKNOWN_URL: https://pocketid.kyledev.co/.well-known/openid-configuration
   OAUTH_PROVIDER_NAME: pocketid
   OAUTH_ALLOW_DANGEROUS_EMAIL_ACCOUNT_LINKING: "true"
+  MEILI_ADDR: http://meilisearch:7700
+  BROWSER_WEB_URL: http://chrome:9222
+  DATA_DIR: /data
 ---
 apiVersion: v1
 kind: Service
@@ -57,13 +60,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
-          env:
-            - name: MEILI_ADDR
-              value: http://meilisearch:7700
-            - name: BROWSER_WEB_URL
-              value: http://chrome:9222
-            - name: DATA_DIR
-              value: /data
           volumeMounts:
             - mountPath: /data
               name: data
