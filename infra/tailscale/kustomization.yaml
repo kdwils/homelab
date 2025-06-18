@@ -3,3 +3,9 @@ kind: Kustomization
 resources:
   - operator.yaml
   - sealedsecret.yaml
+  - tsflow.yaml
+
+images:
+  - name: tsflow
+    newName: ghcr.io/rajsinghtech/tsflow
+    newTag: v0.1.0
