@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - operator.yaml
   - sealedsecret.yaml
-  - tsflow.yaml
 
 images:
   - name: tsflow
