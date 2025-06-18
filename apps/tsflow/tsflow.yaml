@@ -26,10 +26,7 @@ spec:
                   name: tsflow
                   key: TAILSCALE_API_KEY
             - name: TAILSCALE_TAILNET
-              valueFrom:
-                secretKeyRef:
-                  name: tsflow
-                  key: TAILSCALE_TAILNET
+              value: tail18ac2
             - name: ENVIRONMENT
               value: "production"
 ---
