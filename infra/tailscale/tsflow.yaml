@@ -32,7 +32,6 @@ spec:
                   key: TAILSCALE_TAILNET
             - name: ENVIRONMENT
               value: "production"
-          restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
