@@ -65,6 +65,8 @@ spec:
           envFrom:
             - secretRef:
                 name: hoarder
+            - secretRef:
+                name: meilisearch
             - configMapRef:
                 name: hoarder
       volumes:
