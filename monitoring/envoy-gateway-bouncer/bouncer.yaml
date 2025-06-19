@@ -1,12 +1,27 @@
+---
+# Source: envoy-proxy-bouncer/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: envoy-bouncer
+  name: homelab-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.0.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
 ---
+# Source: envoy-proxy-bouncer/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: envoy-bouncer
+  name: homelab-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.0.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
   ports:
@@ -15,36 +30,39 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: envoy-bouncer
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: homelab
 ---
+# Source: envoy-proxy-bouncer/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: envoy-bouncer
+  name: homelab-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.0.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
-  strategy:
-    type: RollingUpdate
   selector:
     matchLabels:
-      app.kubernetes.io/name: envoy-bouncer
+      app.kubernetes.io/name: envoy-proxy-bouncer
+      app.kubernetes.io/instance: homelab
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: envoy-bouncer
+        helm.sh/chart: envoy-proxy-bouncer-0.0.1
+        app.kubernetes.io/name: envoy-proxy-bouncer
+        app.kubernetes.io/instance: homelab
+        app.kubernetes.io/version: "0.0.1"
+        app.kubernetes.io/managed-by: Helm
     spec:
-      serviceAccountName: envoy-bouncer
-      volumes:
-        - name: bouncer-config
-          configMap:
-            name: envoy-bouncer-config
+      serviceAccountName: homelab-envoy-proxy-bouncer
+      securityContext: {}
       containers:
-        - name: envoy-bouncer
-          image: envoy-bouncer
-          imagePullPolicy: IfNotPresent
-          args:
-            - serve
-            - --config=config.yaml
+        - name: envoy-proxy-bouncer
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -53,21 +71,45 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
+          image: "envoy-bouncer"
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
-          volumeMounts:
-            - name: bouncer-config
-              mountPath: /app/config.yaml
-              subPath: config.yaml
-          envFrom:
-            - secretRef:
-                name: envoy-bouncer
+          env:
+            - name: ENVOY_BOUNCER_BOUNCER_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: envoy-bouncer
+                  key: apiKey
+            - name: ENVOY_BOUNCER_BOUNCER_APIURL
+              value: http://crowdsec-service.crowdsec.svc.clusterl.local:8080
+            - name: ENVOY_BOUNCER_SERVER_PORT
+              value: "8080"
+            - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
+              value: info
           resources:
             limits:
               cpu: 100m
               memory: 128Mi
-            requests:
-              cpu: 100m
-              memory: 128Mi
+---
+# Source: envoy-proxy-bouncer/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: homelab-envoy-proxy-bouncer
+  namespace: envoy-gateway-system
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: homelab
+  extAuth:
+    grpc:
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: homelab-envoy-proxy-bouncer
+          port: 8080
+          namespace: envoy-gateway-system

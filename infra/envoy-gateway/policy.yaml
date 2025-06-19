@@ -1,23 +1,4 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: SecurityPolicy
-metadata:
-  name: envoy-bouncer-policy
-  namespace: envoy-gateway-system
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: homelab
-  extAuth:
-    grpc:
-      backendRefs:
-        - group: ""
-          kind: Service
-          name: envoy-bouncer
-          port: 8080
-          namespace: envoy-gateway-system
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: ClientTrafficPolicy
 metadata:
   name: ip-detection
