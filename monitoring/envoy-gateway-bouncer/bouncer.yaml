@@ -26,9 +26,9 @@ spec:
   type: ClusterIP
   ports:
     - port: 8080
-      targetPort: http
+      targetPort: grpc
       protocol: TCP
-      name: http
+      name: grpc
   selector:
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
@@ -74,7 +74,7 @@ spec:
           image: "envoy-bouncer"
           imagePullPolicy: IfNotPresent
           ports:
-            - name: http
+            - name: grpc
               containerPort: 8080
               protocol: TCP
           env:
@@ -84,7 +84,7 @@ spec:
                   name: envoy-bouncer
                   key: apiKey
             - name: ENVOY_BOUNCER_BOUNCER_APIURL
-              value: http://crowdsec-service.crowdsec.svc.clusterl.local:8080
+              value: grpc://crowdsec-service.crowdsec.svc.clusterl.local:8080
             - name: ENVOY_BOUNCER_SERVER_PORT
               value: "8080"
             - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
