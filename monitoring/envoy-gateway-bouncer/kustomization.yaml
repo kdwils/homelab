@@ -1,11 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - bouncer.yaml
+  - bouncer.yaml
   - sealedsecret.yaml
-  # - configmap.yaml
-
-images:
-  - name: envoy-bouncer
-    newTag: sha-37f20b55526f222cef8aed0d57651df58240a098
-    newName: ghcr.io/kdwils/envoy-proxy-bouncer
