@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - bouncer.yaml
+  # - bouncer.yaml
   - sealedsecret.yaml
-  - configmap.yaml
+  # - configmap.yaml
 
 images:
   - name: envoy-bouncer
