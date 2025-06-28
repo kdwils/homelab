@@ -1,6 +1,7 @@
 resources:
   - argo-rollouts.yaml
   - argocd-image-updater.yaml
+  - blog.yaml
   - bluesky.yaml
   - excalidraw.yaml
   - headlamp.yaml
