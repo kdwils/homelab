@@ -15,16 +15,16 @@ spec:
   steps:
     - uses: git-clone
       config:
-        repoURL: ${{ vars.repoURL }}
+        repoURL: ${{ vars.gitRepo }}
         checkout:
-          - commit: ${{ commitFrom(vars.repoURL, warehouse("base")).ID }}
+          - branch: ${{ vars.baseBranch}}
             path: ./src
 
-          - uses: kustomize-set-image
-            as: set-image
-            config:
-              path: ./src/${{ vars.kustomizePath }}
-              image: ${{ vars.imageName }}=${{ vars.imageRepo }}:${{ components.blog.version }}
+    - uses: kustomize-set-image
+      as: set-image
+      config:
+        path: ./src/${{ vars.kustomizePath }}
+        image: ${{ vars.imageName }}=${{ vars.imageRepo }}:${{ components.blog.version }}
 
     - uses: git-commit
       as: commit
