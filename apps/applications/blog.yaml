@@ -46,8 +46,6 @@ spec:
   sources: []
   project: apps
   syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
