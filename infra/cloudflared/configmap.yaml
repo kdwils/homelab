@@ -26,6 +26,10 @@ data:
         service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
         originRequest:
           originServerName: bluesky.kyledev.co
+      - hostname: passwords.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: passwords.kyledev.co
       - hostname: pocketid.kyledev.co
         service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
         originRequest:
