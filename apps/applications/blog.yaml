@@ -53,7 +53,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: blog-parent
+  name: blog-kargo
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -62,7 +62,7 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: deploy/parent
+    path: deploy/kargo
     repoURL: "https://github.com/kdwils/blog"
     targetRevision: dev
   sources: []
