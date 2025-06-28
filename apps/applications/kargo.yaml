@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kargo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: kube-system
+    server: "https://kubernetes.default.svc"
+  source:
+    path: apps/kargo
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: HEAD
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
