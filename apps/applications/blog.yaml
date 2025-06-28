@@ -97,3 +97,17 @@ spec:
         name: blog
       sources:
         direct: true
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: blog-dev
+  labels:
+    kargo.akuity.io/project: "true"
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: blog
+  labels:
+    kargo.akuity.io/project: "true"
