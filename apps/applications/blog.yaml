@@ -70,7 +70,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
-  name: blog-config
+  name: blog
   namespace: blog
 spec:
   promotionPolicies:
