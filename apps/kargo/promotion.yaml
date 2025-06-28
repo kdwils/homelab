@@ -14,17 +14,17 @@ spec:
 
   steps:
     - uses: git-clone
-      as: checkout
       config:
         repoURL: ${{ vars.repoURL }}
-        branch: ${{ vars.baseBranch }}
-        subPath: ${{ vars.kustomizePath }}
+        checkout:
+          - commit: ${{ commitFrom(vars.repoURL, warehouse("base")).ID }}
+            path: ./src
 
-    - uses: kustomize-set-image
-      as: set-image
-      config:
-        path: ${{ vars.kustomizePath }}
-        image: ${{ vars.imageName }}=${{ vars.imageRepo }}:${{ components.blog.version }}
+          - uses: kustomize-set-image
+            as: set-image
+            config:
+              path: ./src/${{ vars.kustomizePath }}
+              image: ${{ vars.imageName }}=${{ vars.imageRepo }}:${{ components.blog.version }}
 
     - uses: git-commit
       as: commit
@@ -32,7 +32,7 @@ spec:
         repoURL: ${{ vars.repoURL }}
         branch: ${{ vars.targetBranch }}
         paths:
-          - ${{ vars.kustomizePath }}/kustomization.yaml
+          - ./src/${{ vars.kustomizePath }}/kustomization.yaml
         message: "Promote blog image to tag ${{ components.blog.version }}"
 
     - uses: git-push
