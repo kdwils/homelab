@@ -30,7 +30,7 @@ spec:
         branch: ${{ vars.targetBranch }}
         paths:
           - ./src/${{ vars.kustomizePath }}/kustomization.yaml
-        message: "Promote blog image to tag ${{ components.blog.version }}"
+        message: "Promote blog image to tag"
     - uses: git-push
       as: push
       config:
