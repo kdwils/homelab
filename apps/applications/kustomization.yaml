@@ -11,4 +11,3 @@ resources:
   - pocketid.yaml
   - vaultwarden.yaml
   - rss.yaml
-  - github.com/kdwils/blog//deploy/apps?ref=dev
