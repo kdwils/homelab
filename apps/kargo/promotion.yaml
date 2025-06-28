@@ -46,11 +46,3 @@ spec:
       config:
         repoURL: ${{ vars.repoURL }}
         branch: ${{ vars.targetBranch }}
-
-    - uses: git-open-pr
-      as: open-pr
-      config:
-        repoURL: ${{ vars.repoURL }}
-        sourceBranch: ${{ vars.targetBranch }}
-        targetBranch: ${{ vars.baseBranch }}
-        createTargetBranch: false
