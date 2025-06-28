@@ -73,3 +73,44 @@ metadata:
   name: blog
   labels:
     kargo.akuity.io/project: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        stages:
+          - dev
+  promotionMechanisms:
+    argoCDAppUpdates:
+      - appName: blog-prod
+        sourceUpdates:
+          - repoURL: https://github.com/kdwils/blog.git
+            git:
+              branch: prod
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        direct: true
+  promotionMechanisms:
+    argoCDAppUpdates:
+      - appName: blog-dev
+        sourceUpdates:
+          - repoURL: https://github.com/kdwils/blog.git
+            git:
+              branch: dev
