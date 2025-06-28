@@ -68,3 +68,9 @@ spec:
     - git:
         repoURL: https://github.com/kdwils/blog.git
         branch: main
+---
+kind: Namespace
+metadata:
+  name: blog
+  labels:
+    kargo.akuity.io/project: "true"
