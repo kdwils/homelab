@@ -13,18 +13,12 @@ spec:
     - name: kustomizePath
 
   steps:
-    - uses: git-checkout
+    - uses: git-clone
       as: checkout
       config:
         repoURL: ${{ vars.repoURL }}
         branch: ${{ vars.baseBranch }}
         subPath: ${{ vars.kustomizePath }}
-
-    - uses: git-branch
-      as: create-promotion-branch
-      config:
-        sourceBranch: ${{ vars.baseBranch }}
-        branch: ${{ vars.targetBranch }}
 
     - uses: kustomize-set-image
       as: set-image
