@@ -80,6 +80,25 @@ spec:
       sources:
         stages:
           - dev
+  promotionTemplate:
+    spec:
+      vars:
+        - name: repoURL
+          value: https://github.com/kdwils/blog.git
+        - name: imageName
+          value: blog
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
+        - name: baseBranch
+          value: dev
+        - name: targetBranch
+          value: prod
+        - name: kustomizePath
+          value: deploy/overlays/prod
+      steps:
+        - task:
+            name: kustomize-image-promote
+            kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
