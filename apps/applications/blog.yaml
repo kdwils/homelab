@@ -46,30 +46,25 @@ spec:
   sources: []
   project: apps
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: blog-kargo
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: blog
-    server: "https://kubernetes.default.svc"
-  source:
-    path: deploy/kargo
-    repoURL: "https://github.com/kdwils/blog"
-    targetRevision: dev
-  sources: []
-  project: apps
-  syncPolicy:
     syncOptions:
       - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: blog
+  namespace: blog
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: blog
+  namespace: blog
+spec:
+  subscriptions:
+    - git:
+        repoURL: https://github.com/kdwils/blog.git
+        branch: main
