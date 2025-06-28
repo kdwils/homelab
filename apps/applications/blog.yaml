@@ -113,13 +113,13 @@ spec:
         - task:
             name: kustomize-image-promote
             kind: ClusterPromotionTask
-            config:
-              repoURL: ${{ vars.repoURL }}
-              imageName: ${{ vars.imageName }}
-              imageRepo: ${{ vars.imageRepo }}
-              baseBranch: ${{ vars.baseBranch }}
-              targetBranch: ${{ vars.targetBranch }}
-              kustomizePath: ${{ vars.kustomizePath }}
+          config:
+            repoURL: ${{ vars.repoURL }}
+            imageName: ${{ vars.imageName }}
+            imageRepo: ${{ vars.imageRepo }}
+            baseBranch: ${{ vars.baseBranch }}
+            targetBranch: ${{ vars.targetBranch }}
+            kustomizePath: ${{ vars.kustomizePath }}
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
