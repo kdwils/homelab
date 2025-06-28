@@ -34,7 +34,7 @@ data:
   SMTP_AUTH_MECHANISM: "Plain"
   SMTP_FROM: "wilson15701@gmail.com"
   SMTP_FROM_NAME: "wilson15701@gmail.com"
-  SMTP_DEBUG: "false"
+  SMTP_DEBUG: "true"
   SMTP_ACCEPT_INVALID_HOSTNAMES: "false"
   SMTP_ACCEPT_INVALID_CERTS: "false"
   DATA_FOLDER: "/data"
