@@ -63,9 +63,9 @@ metadata:
   namespace: blog
 spec:
   subscriptions:
-    - git:
-        repoURL: https://github.com/kdwils/blog.git
-        branch: main
+    - image:
+        repoURL: ghcr.io/kdwils/blog
+        semverConstraint: ^1.0.0
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
