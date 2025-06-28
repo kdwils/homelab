@@ -70,6 +70,7 @@ spec:
         branch: main
 ---
 kind: Namespace
+apiVersion: v1
 metadata:
   name: blog
   labels:
