@@ -1,0 +1,13 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+  - namespace.yaml
+  - vaultwarden.yaml
+  - httproute.yaml
+  - sealedsecret.yaml
+
+images:
+  - name: vaultwarden
+    newName: vaultwarden/server
+    newTag: "1.34.1-alpine"
