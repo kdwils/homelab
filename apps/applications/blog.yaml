@@ -11,7 +11,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: blog
+    namespace: blog-dev
     server: "https://kubernetes.default.svc"
   source:
     path: deploy/dev
@@ -67,13 +67,6 @@ spec:
         repoURL: https://github.com/kdwils/blog.git
         branch: main
 ---
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: blog
-  labels:
-    kargo.akuity.io/project: "true"
----
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
@@ -87,19 +80,12 @@ spec:
       sources:
         stages:
           - dev
-  promotionMechanisms:
-    argoCDAppUpdates:
-      - appName: blog-prod
-        sourceUpdates:
-          - repoURL: https://github.com/kdwils/blog.git
-            git:
-              branch: prod
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: dev
-  namespace: blog
+  namespace: blog-dev
 spec:
   requestedFreight:
     - origin:
@@ -107,10 +93,3 @@ spec:
         name: blog
       sources:
         direct: true
-  promotionMechanisms:
-    argoCDAppUpdates:
-      - appName: blog-dev
-        sourceUpdates:
-          - repoURL: https://github.com/kdwils/blog.git
-            git:
-              branch: dev

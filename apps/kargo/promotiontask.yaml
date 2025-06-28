@@ -1,0 +1,20 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: PromotionTask
+metadata:
+  name: kustomize-promotion
+  namespace: kargo
+spec:
+  vars:
+    - name: repoURL
+    - name: sourceBranch
+    - name: targetBranch
+  steps:
+    - uses: git-clone-branch
+      as: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - commit: ${{ commitFrom(vars.gitRepo).ID }}
+          - branch: stage/${{ ctx.stage }}
+            create: true
+            path: ./out
