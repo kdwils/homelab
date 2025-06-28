@@ -54,13 +54,13 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
   name: blog
-  namespace: kargo
+  namespace: blog
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: blog
-  namespace: kargo
+  namespace: blog
 spec:
   subscriptions:
     - git:
@@ -71,7 +71,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: prod
-  namespace: kargo
+  namespace: blog
 spec:
   requestedFreight:
     - origin:
@@ -85,7 +85,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: dev
-  namespace: kargo
+  namespace: blog
 spec:
   requestedFreight:
     - origin:
