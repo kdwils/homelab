@@ -50,7 +50,6 @@ spec:
       prune: true
       selfHeal: true
 ---
----
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
@@ -67,3 +66,8 @@ spec:
     - git:
         repoURL: https://github.com/kdwils/blog.git
         branch: main
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: blog
