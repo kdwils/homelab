@@ -4,6 +4,7 @@ resources:
   - kargo.yaml
   - httproute.yaml
   - sealedsecret.yaml
+  - promotion.yaml
 
 images:
   - name: kargo

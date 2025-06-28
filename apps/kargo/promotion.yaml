@@ -1,0 +1,56 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: kustomize-image-promote
+  namespace: kargo
+spec:
+  vars:
+    - name: repoURL
+    - name: imageName
+    - name: imageRepo
+    - name: baseBranch
+    - name: targetBranch
+    - name: kustomizePath
+
+  steps:
+    - uses: git-checkout
+      as: checkout
+      config:
+        repoURL: ${{ vars.repoURL }}
+        branch: ${{ vars.baseBranch }}
+        subPath: ${{ vars.kustomizePath }}
+
+    - uses: git-branch
+      as: create-promotion-branch
+      config:
+        sourceBranch: ${{ vars.baseBranch }}
+        branch: ${{ vars.targetBranch }}
+
+    - uses: kustomize-set-image
+      as: set-image
+      config:
+        path: ${{ vars.kustomizePath }}
+        image: ${{ vars.imageName }}=${{ vars.imageRepo }}:${{ components.blog.version }}
+
+    - uses: git-commit
+      as: commit
+      config:
+        repoURL: ${{ vars.repoURL }}
+        branch: ${{ vars.targetBranch }}
+        paths:
+          - ${{ vars.kustomizePath }}/kustomization.yaml
+        message: "Promote blog image to tag ${{ components.blog.version }}"
+
+    - uses: git-push
+      as: push
+      config:
+        repoURL: ${{ vars.repoURL }}
+        branch: ${{ vars.targetBranch }}
+
+    - uses: git-open-pr
+      as: open-pr
+      config:
+        repoURL: ${{ vars.repoURL }}
+        sourceBranch: ${{ vars.targetBranch }}
+        targetBranch: ${{ vars.baseBranch }}
+        createTargetBranch: false
