@@ -11,5 +11,5 @@ spec:
     - "kargo.int.kyledev.co"
   rules:
     - backendRefs:
-        - name: kargo
+        - name: kargo-api
           port: 80
