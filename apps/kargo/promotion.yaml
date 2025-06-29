@@ -10,7 +10,7 @@ spec:
   steps:
     - uses: git-clone
       config:
-        gitRepo: ${{ vars.gitRepo }}
+        repoURL: ${{ vars.gitRepo }}
         checkout:
           - branch: ${{ ctx.stage }}
             path: ./src
