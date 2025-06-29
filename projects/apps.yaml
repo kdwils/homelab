@@ -19,4 +19,4 @@ spec:
       kind: "*"
   sourceRepos:
     - https://github.com/kdwils/homelab.git
-    - https://github.com/kdwils/blog.git
+    - https://github.com/kdwils/blog-deploy.git
