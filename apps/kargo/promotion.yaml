@@ -5,27 +5,26 @@ metadata:
   namespace: kargo
 spec:
   vars:
-    - name: repoURL
+    - name: gitRepo
     - name: imageRepo
     - name: baseBranch
     - name: targetBranch
-    - name: overlayPath
   steps:
     - uses: git-clone
       config:
-        repoURL: ${{ vars.repoURL }}
+        gitRepo: ${{ vars.gitRepo }}
         checkout:
-          - branch: ${{ vars.baseBranch}}
+          - branch: ${{ ctx.stage }}
             path: ./src
     - uses: kustomize-set-image
       config:
-        path: ./src/${{ vars.overlayPath }}
+        path: ./src/env/${{ ctx.stage }}
         images:
           - image: ${{ vars.imageRepo }}
             tag: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: kustomize-build
       config:
-        path: ./src/${{ vars.overlayPath }}
+        path: ./src/env/${{ ctx.stage }}
         outPath: ./src/manifests/${{ ctx.stage }}/manifest.yaml
     - uses: git-commit
       config:

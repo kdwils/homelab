@@ -15,7 +15,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     path: deploy/overlays/dev
-    repoURL: "https://github.com/kdwils/blog"
+    gitRepo: "https://github.com/kdwils/blog"
     targetRevision: dev
   sources: []
   project: apps
@@ -41,7 +41,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     path: deploy/overlays/prod
-    repoURL: "https://github.com/kdwils/blog"
+    gitRepo: "https://github.com/kdwils/blog"
     targetRevision: prod
   sources: []
   project: apps
@@ -64,7 +64,7 @@ metadata:
 spec:
   subscriptions:
     - image:
-        repoURL: ghcr.io/kdwils/blog
+        gitRepo: ghcr.io/kdwils/blog
         semverConstraint: ^1.0.0
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -97,26 +97,17 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: repoURL
+        - name: gitRepo
           value: https://github.com/kdwils/blog.git
         - name: imageRepo
           value: ghcr.io/kdwils/blog
-        - name: baseBranch
-          value: dev
-        - name: targetBranch
-          value: prod
-        - name: overlayPath
-          value: deploy/overlays/prod
       steps:
         - task:
             name: kustomize-image-promote
             kind: ClusterPromotionTask
           config:
-            repoURL: ${{ vars.repoURL }}
+            gitRepo: ${{ vars.gitRepo }}
             imageRepo: ${{ vars.imageRepo }}
-            baseBranch: ${{ vars.baseBranch }}
-            targetBranch: ${{ vars.targetBranch }}
-            overlayPath: ${{ vars.overlayPath }}
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -133,26 +124,18 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: repoURL
+        - name: gitRepo
           value: https://github.com/kdwils/blog.git
         - name: imageRepo
           value: ghcr.io/kdwils/blog
-        - name: baseBranch
-          value: dev
-        - name: targetBranch
-          value: prod
-        - name: overlayPath
-          value: deploy/overlays/dev
+
       steps:
         - task:
             name: kustomize-image-promote
             kind: ClusterPromotionTask
           config:
-            repoURL: ${{ vars.repoURL }}
+            gitRepo: ${{ vars.gitRepo }}
             imageRepo: ${{ vars.imageRepo }}
-            baseBranch: ${{ vars.baseBranch }}
-            targetBranch: ${{ vars.targetBranch }}
-            overlayPath: ${{ vars.overlayPath }}
 ---
 kind: Namespace
 apiVersion: v1
