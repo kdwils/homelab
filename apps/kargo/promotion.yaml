@@ -7,8 +7,6 @@ spec:
   vars:
     - name: gitRepo
     - name: imageRepo
-    - name: baseBranch
-    - name: targetBranch
   steps:
     - uses: git-clone
       config:
