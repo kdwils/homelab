@@ -5,9 +5,7 @@ metadata:
   namespace: kargo
 spec:
   vars:
-    - name: componentName
     - name: repoURL
-    - name: imageName
     - name: imageRepo
     - name: baseBranch
     - name: targetBranch
@@ -20,18 +18,15 @@ spec:
           - branch: ${{ vars.baseBranch}}
             path: ./src
     - uses: kustomize-set-image
-      as: set-image
       config:
         path: ./src/${{ vars.kustomizePath }}
         images:
           - image: ${{ vars.imageRepo }}
             tag: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-commit
-      as: commit
       config:
         path: ./src/${{ vars.kustomizePath }}
         message: "Promote blog image to tag"
     - uses: git-push
-      as: push
       config:
         path: ./src/${{ vars.kustomizePath }}

@@ -99,8 +99,6 @@ spec:
       vars:
         - name: repoURL
           value: https://github.com/kdwils/blog.git
-        - name: imageName
-          value: blog
         - name: imageRepo
           value: ghcr.io/kdwils/blog
         - name: baseBranch
@@ -115,7 +113,6 @@ spec:
             kind: ClusterPromotionTask
           config:
             repoURL: ${{ vars.repoURL }}
-            imageName: ${{ vars.imageName }}
             imageRepo: ${{ vars.imageRepo }}
             baseBranch: ${{ vars.baseBranch }}
             targetBranch: ${{ vars.targetBranch }}
@@ -136,12 +133,8 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: componentName
-          value: blog
         - name: repoURL
           value: https://github.com/kdwils/blog.git
-        - name: imageName
-          value: blog
         - name: imageRepo
           value: ghcr.io/kdwils/blog
         - name: baseBranch
@@ -155,9 +148,7 @@ spec:
             name: kustomize-image-promote
             kind: ClusterPromotionTask
           config:
-            componentName: ${{ vars.componentName }}
             repoURL: ${{ vars.repoURL }}
-            imageName: ${{ vars.imageName }}
             imageRepo: ${{ vars.imageRepo }}
             baseBranch: ${{ vars.baseBranch }}
             targetBranch: ${{ vars.targetBranch }}
