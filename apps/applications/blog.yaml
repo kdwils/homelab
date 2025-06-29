@@ -3,10 +3,6 @@ kind: Application
 metadata:
   name: blog-dev
   namespace: argocd
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: blog=ghcr.io/kdwils/blog
-    argocd-image-updater.argoproj.io/blog.platforms: linux/arm64,linux/amd64
-    argocd-image-updater.argoproj.io/blog.update-strategy: newest-build
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -29,10 +25,6 @@ kind: Application
 metadata:
   name: blog-prod
   namespace: argocd
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: blog=ghcr.io/kdwils/blog:live
-    argocd-image-updater.argoproj.io/blog.platforms: linux/arm64,linux/amd64
-    argocd-image-updater.argoproj.io/blog.update-strategy: digest
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -50,103 +42,24 @@ spec:
       prune: true
       selfHeal: true
 ---
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Project
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 metadata:
-  name: blog
-  namespace: blog
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Warehouse
-metadata:
-  name: blog
-  namespace: blog
+  name: blog-kargo
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
-  subscriptions:
-    - image:
-        gitRepo: ghcr.io/kdwils/blog
-        semverConstraint: ^1.0.0
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: ProjectConfig
-metadata:
-  name: blog
-  namespace: blog
-spec:
-  promotionPolicies:
-    - stageSelector:
-        name: dev
-      autoPromotionEnabled: true
-    - stageSelector:
-        name: prod
-      autoPromotionEnabled: false
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: prod
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        stages:
-          - dev
-  promotionTemplate:
-    spec:
-      vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog.git
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-      steps:
-        - task:
-            name: kustomize-image-promote
-            kind: ClusterPromotionTask
-          config:
-            gitRepo: ${{ vars.gitRepo }}
-            imageRepo: ${{ vars.imageRepo }}
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: dev
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        direct: true
-  promotionTemplate:
-    spec:
-      vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog.git
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-
-      steps:
-        - task:
-            name: kustomize-image-promote
-            kind: ClusterPromotionTask
-          config:
-            gitRepo: ${{ vars.gitRepo }}
-            imageRepo: ${{ vars.imageRepo }}
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: blog-dev
-  labels:
-    kargo.akuity.io/project: "true"
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: blog
-  labels:
-    kargo.akuity.io/project: "true"
+  destination:
+    namespace: kargo
+    server: "https://kubernetes.default.svc"
+  source:
+    path: kargo
+    repoURL: "https://github.com/kdwils/blog-deloy"
+    targetRevision: dev
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
