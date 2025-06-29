@@ -11,7 +11,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     path: env/dev
-    repoURL: "https://github.com/kdwils/blog-deloy"
+    repoURL: "https://github.com/kdwils/blog-deploy"
     targetRevision: dev
   sources: []
   project: apps
@@ -33,7 +33,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     path: env/prod
-    repoURL: "https://github.com/kdwils/blog-deloy"
+    repoURL: "https://github.com/kdwils/blog-deploy"
     targetRevision: dev
   sources: []
   project: apps
@@ -55,7 +55,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     path: kargo
-    repoURL: "https://github.com/kdwils/blog-deloy"
+    repoURL: "https://github.com/kdwils/blog-deploy"
     targetRevision: dev
   sources: []
   project: apps
