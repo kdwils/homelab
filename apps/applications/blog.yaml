@@ -14,8 +14,8 @@ spec:
     namespace: blog-dev
     server: "https://kubernetes.default.svc"
   source:
-    path: deploy/overlays/dev
-    gitRepo: "https://github.com/kdwils/blog"
+    path: env/dev
+    repoURL: "https://github.com/kdwils/blog-deloy"
     targetRevision: dev
   sources: []
   project: apps
@@ -40,9 +40,9 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: deploy/overlays/prod
-    gitRepo: "https://github.com/kdwils/blog"
-    targetRevision: prod
+    path: env/prod
+    repoURL: "https://github.com/kdwils/blog-deloy"
+    targetRevision: dev
   sources: []
   project: apps
   syncPolicy:
