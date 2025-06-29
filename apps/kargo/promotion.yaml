@@ -29,13 +29,10 @@ spec:
     - uses: git-commit
       as: commit
       config:
-        repoURL: ${{ vars.repoURL }}
         branch: ${{ vars.targetBranch }}
-        paths:
-          - ./src/${{ vars.kustomizePath }}/kustomization.yaml
+        path: ./src/${{ vars.kustomizePath }}/kustomization.yaml
         message: "Promote blog image to tag"
     - uses: git-push
       as: push
       config:
-        repoURL: ${{ vars.repoURL }}
-        branch: ${{ vars.targetBranch }}
+        path: ./src/${{ vars.kustomizePath }}/kustomization.yaml
