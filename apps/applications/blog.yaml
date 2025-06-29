@@ -149,7 +149,7 @@ spec:
         - name: targetBranch
           value: prod
         - name: kustomizePath
-          value: deploy/overlays/prod
+          value: deploy/overlays/dev
       steps:
         - task:
             name: kustomize-image-promote
