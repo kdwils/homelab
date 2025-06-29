@@ -9,7 +9,7 @@ spec:
     - name: imageRepo
     - name: baseBranch
     - name: targetBranch
-    - name: kustomizePath
+    - name: overlayPath
   steps:
     - uses: git-clone
       config:
@@ -19,14 +19,18 @@ spec:
             path: ./src
     - uses: kustomize-set-image
       config:
-        path: ./src/${{ vars.kustomizePath }}
+        path: ./src/${{ vars.overlayPath }}
         images:
           - image: ${{ vars.imageRepo }}
             tag: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: kustomize-build
+      config:
+        path: ./src/${{ vars.overlayPath }}
+        outPath: ./src/manifests/${{ ctx.stage }}/manifest.yaml
     - uses: git-commit
       config:
-        path: ./src/${{ vars.kustomizePath }}
-        message: "Promote blog image to tag"
+        path: ./src
+        message: "Promote blog deployment to ${{ ctx.stage }}"
     - uses: git-push
       config:
-        path: ./src/${{ vars.kustomizePath }}
+        path: ./src

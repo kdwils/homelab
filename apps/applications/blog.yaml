@@ -105,7 +105,7 @@ spec:
           value: dev
         - name: targetBranch
           value: prod
-        - name: kustomizePath
+        - name: overlayPath
           value: deploy/overlays/prod
       steps:
         - task:
@@ -116,7 +116,7 @@ spec:
             imageRepo: ${{ vars.imageRepo }}
             baseBranch: ${{ vars.baseBranch }}
             targetBranch: ${{ vars.targetBranch }}
-            kustomizePath: ${{ vars.kustomizePath }}
+            overlayPath: ${{ vars.overlayPath }}
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -141,7 +141,7 @@ spec:
           value: dev
         - name: targetBranch
           value: prod
-        - name: kustomizePath
+        - name: overlayPath
           value: deploy/overlays/dev
       steps:
         - task:
@@ -152,7 +152,7 @@ spec:
             imageRepo: ${{ vars.imageRepo }}
             baseBranch: ${{ vars.baseBranch }}
             targetBranch: ${{ vars.targetBranch }}
-            kustomizePath: ${{ vars.kustomizePath }}
+            overlayPath: ${{ vars.overlayPath }}
 ---
 kind: Namespace
 apiVersion: v1
