@@ -29,7 +29,6 @@ spec:
     - uses: git-commit
       as: commit
       config:
-        branch: ${{ vars.targetBranch }}
         path: ./src/${{ vars.kustomizePath }}/kustomization.yaml
         message: "Promote blog image to tag"
     - uses: git-push
