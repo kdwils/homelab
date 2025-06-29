@@ -23,7 +23,6 @@ spec:
       as: set-image
       config:
         path: ./src/${{ vars.kustomizePath }}
-        image: ${{ vars.imageName }}=${{ vars.imageRepo }}:${{ components[vars.componentName].version}}
     - uses: git-commit
       as: commit
       config:
