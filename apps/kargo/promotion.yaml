@@ -23,6 +23,9 @@ spec:
       as: set-image
       config:
         path: ./src/${{ vars.kustomizePath }}
+        images:
+          - image: ${{ vars.imageRepo }}
+            tag: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-commit
       as: commit
       config:
