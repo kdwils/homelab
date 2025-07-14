@@ -1,6 +1,5 @@
 kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
-namespace: headlamp
 resources:
   - headlamp.yaml
   - httproute.yaml
