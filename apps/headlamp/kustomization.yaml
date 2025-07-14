@@ -1,6 +1,13 @@
 kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
+
 resources:
   - headlamp.yaml
   - httproute.yaml
   - sealedsecret.yaml
+
+patches:
+  - path: env-patch.yaml
+    target:
+      kind: Deployment
+      name: headlamp
