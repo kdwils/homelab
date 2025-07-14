@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: headlamp
+spec:
+  template:
+    spec:
+      containers:
+        - name: headlamp
+          envFrom:
+            - secretRef:
+                name: headlamp-oidc
