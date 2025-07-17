@@ -114,4 +114,4 @@ spec:
           kind: Service
           name: homelab-envoy-proxy-bouncer
           port: 8080
-          namespace: default
+          namespace: envoy-gateway-system
