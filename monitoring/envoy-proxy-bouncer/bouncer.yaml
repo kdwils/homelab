@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.0.1
+    helm.sh/chart: envoy-proxy-bouncer-0.0.2
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.0.1"
+    app.kubernetes.io/version: "v0.0.2"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: envoy-proxy-bouncer/templates/service.yaml
@@ -17,10 +17,10 @@ kind: Service
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.0.1
+    helm.sh/chart: envoy-proxy-bouncer-0.0.2
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.0.1"
+    app.kubernetes.io/version: "v0.0.2"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -39,10 +39,10 @@ kind: Deployment
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.0.1
+    helm.sh/chart: envoy-proxy-bouncer-0.0.2
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.0.1"
+    app.kubernetes.io/version: "v0.0.2"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -53,10 +53,10 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: envoy-proxy-bouncer-0.0.1
+        helm.sh/chart: envoy-proxy-bouncer-0.0.2
         app.kubernetes.io/name: envoy-proxy-bouncer
         app.kubernetes.io/instance: homelab
-        app.kubernetes.io/version: "v0.0.1"
+        app.kubernetes.io/version: "v0.0.2"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
@@ -71,7 +71,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.0.1"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.0.2"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -114,4 +114,4 @@ spec:
           kind: Service
           name: homelab-envoy-proxy-bouncer
           port: 8080
-          namespace: envoy-gateway-system
+          namespace: default
