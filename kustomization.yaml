@@ -2,8 +2,8 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
-  - projects/
-  - apps/applications/
-  - infra/applications/
-  - media/applications/
-  - monitoring/applications/
+- projects/
+- apps/applications/
+- infra/applications/
+- media/applications/
+- monitoring/applications/

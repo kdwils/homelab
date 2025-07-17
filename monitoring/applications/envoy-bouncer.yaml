@@ -10,7 +10,7 @@ spec:
     namespace: envoy-gateway-system
     server: "https://kubernetes.default.svc"
   source:
-    path: monitoring/envoy-gateway-bouncer
+    path: monitoring/envoy-proxy-bouncer
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: HEAD
   sources: []
