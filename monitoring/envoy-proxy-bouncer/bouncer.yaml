@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.0.2
+    helm.sh/chart: envoy-proxy-bouncer-0.0.3
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.0.2"
+    app.kubernetes.io/version: "v0.0.3"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: envoy-proxy-bouncer/templates/service.yaml
@@ -17,10 +17,10 @@ kind: Service
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.0.2
+    helm.sh/chart: envoy-proxy-bouncer-0.0.3
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.0.2"
+    app.kubernetes.io/version: "v0.0.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -39,10 +39,10 @@ kind: Deployment
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.0.2
+    helm.sh/chart: envoy-proxy-bouncer-0.0.3
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.0.2"
+    app.kubernetes.io/version: "v0.0.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -53,10 +53,10 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: envoy-proxy-bouncer-0.0.2
+        helm.sh/chart: envoy-proxy-bouncer-0.0.3
         app.kubernetes.io/name: envoy-proxy-bouncer
         app.kubernetes.io/instance: homelab
-        app.kubernetes.io/version: "v0.0.2"
+        app.kubernetes.io/version: "v0.0.3"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
@@ -71,7 +71,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.0.2"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.0.3"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -87,6 +87,8 @@ spec:
               value: http://crowdsec-service.crowdsec.svc.cluster.local:8080
             - name: ENVOY_BOUNCER_BOUNCER_TRUSTEDPROXIES
               value: 10.43.0.0/16,10.42.0.0/16
+            - name: ENVOY_BOUNCER_BOUNCER_METRICS
+              value: "true"
             - name: ENVOY_BOUNCER_SERVER_PORT
               value: "8080"
             - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
