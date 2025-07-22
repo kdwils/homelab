@@ -92,6 +92,8 @@ spec:
                   key: smtpFromAddress
             - name: PDS_DATA_DIRECTORY
               value: /pds
+            - name: PDS_BLOBSTORE_DISK_LOCATION
+              value: /pds/blocks
             - name: LOG_ENABLED
               value: "true"
           volumeMounts:
