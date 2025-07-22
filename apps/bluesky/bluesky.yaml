@@ -34,10 +34,10 @@ spec:
         app.kubernetes.io/name: bluesky
     spec:
       serviceAccountName: bluesky
-      # securityContext:
-      #   runAsNonRoot: true
-      #   runAsUser: 1000
-      #   fsGroup: 2000
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -52,12 +52,12 @@ spec:
         - name: bluesky
           image: bluesky
           imagePullPolicy: IfNotPresent
-          # securityContext:
-          #   allowPrivilegeEscalation: false
-          #   readOnlyRootFilesystem: true
-          #   capabilities:
-          #     drop:
-          #       - ALL
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
           ports:
             - name: pds-port
               containerPort: 3000
@@ -94,6 +94,14 @@ spec:
               value: /pds
             - name: PDS_BLOBSTORE_DISK_LOCATION
               value: /pds/blocks
+            - name: PDS_DID_PLC_URL
+              value: https://plc.directory
+            - name: PDS_BSKY_APP_VIEW_URL
+              value: https://api.bsky.app
+            - name: PDS_BSKY_APP_VIEW_DID
+              value: did:web:api.bsky.app
+            - name: PDS_CRAWLERS
+              value: https://bsky.network
             - name: LOG_ENABLED
               value: "true"
           volumeMounts:
