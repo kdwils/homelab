@@ -94,8 +94,6 @@ spec:
               value: /pds
             - name: PDS_BLOBSTORE_DISK_LOCATION
               value: /pds/blocks
-            - name: PDS_DID_PLC_URL
-              value: https://plc.directory
             - name: PDS_BSKY_APP_VIEW_URL
               value: https://api.bsky.app
             - name: PDS_BSKY_APP_VIEW_DID

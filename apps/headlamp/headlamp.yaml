@@ -29,7 +29,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: headlamp
-    namespace: kube-system
+    namespace: default
 ---
 # Source: headlamp/templates/service.yaml
 apiVersion: v1
@@ -89,8 +89,9 @@ spec:
             runAsGroup: 101
             runAsNonRoot: true
             runAsUser: 100
-          image: "ghcr.io/headlamp-k8s/headlamp:v0.33.0"
+          image: "ghcr.io/headlamp-k8s/headlamp:v0.28.0"
           imagePullPolicy: IfNotPresent
+          env:
           args:
             - "-in-cluster"
             - "-plugins-dir=/headlamp/plugins"
