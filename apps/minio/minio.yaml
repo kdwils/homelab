@@ -143,7 +143,7 @@ spec:
     - "ReadWriteOnce"
   resources:
     requests:
-      storage: "8Gi"
+      storage: "20Gi"
 ---
 # Source: minio/templates/console/service.yaml
 apiVersion: v1
