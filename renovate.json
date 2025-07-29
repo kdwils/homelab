@@ -1,0 +1,145 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        ":semanticCommitTypeAll(chore)",
+        ":enablePreCommit"
+    ],
+    "platform": "github",
+    "repositories": [
+        "kdwils/homelab"
+    ],
+    "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
+    "prTitle": "chore(deps): update {{depName}} to {{newVersion}}",
+    "prBodyTemplate": "This PR updates {{depName}} from `{{currentVersion}}` to `{{newVersion}}`.\n\n{{{changelogs}}}\n\n{{{controls}}}",
+    "timezone": "America/New_York",
+    "schedule": [
+        "before 6am on monday"
+    ],
+    "prConcurrentLimit": 5,
+    "prHourlyLimit": 2,
+    "separateMajorMinor": true,
+    "separateMultipleMajor": true,
+    "separateMinorPatch": false,
+    "rangeStrategy": "pin",
+    "semanticCommits": "enabled",
+    "dependencyDashboard": true,
+    "dependencyDashboardTitle": "🤖 Dependency Dashboard",
+    "reviewersFromCodeOwners": true,
+    "assignAutomerge": false,
+    "platformAutomerge": false,
+    "rebaseWhen": "conflicted",
+    "ignoreTests": true,
+    "labels": [
+        "dependencies",
+        "renovate"
+    ],
+    "packageRules": [
+        {
+            "description": "Group all patch updates together",
+            "groupName": "patch updates",
+            "matchUpdateTypes": [
+                "patch"
+            ],
+            "schedule": [
+                "before 6am on monday"
+            ]
+        },
+        {
+            "description": "Group all minor updates together",
+            "groupName": "minor updates",
+            "matchUpdateTypes": [
+                "minor"
+            ],
+            "schedule": [
+                "before 6am on monday"
+            ]
+        },
+        {
+            "description": "Separate major updates and require manual approval",
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "dependencyDashboardApproval": true,
+            "labels": [
+                "dependencies",
+                "renovate",
+                "major-update"
+            ],
+            "prPriority": 10
+        },
+        {
+            "description": "Auto-merge patch and minor updates for stable images",
+            "matchUpdateTypes": [
+                "patch",
+                "minor"
+            ],
+            "matchPackageNames": [
+                "ghcr.io/mealie-recipes/mealie",
+                "neosmemo/memos",
+                "freshrss/freshrss",
+                "vaultwarden/server"
+            ],
+            "automerge": false,
+            "labels": [
+                "dependencies",
+                "renovate",
+                "auto-candidate"
+            ]
+        },
+        {
+            "description": "Pin versions for security-critical applications",
+            "matchPackageNames": [
+                "vaultwarden/server",
+                "ghcr.io/pocket-id/pocket-id"
+            ],
+            "rangeStrategy": "pin",
+            "separateMajorMinor": true,
+            "dependencyDashboardApproval": true
+        },
+        {
+            "description": "Ignore latest tags as they're not semantic",
+            "matchPackageNames": [
+                "excalidraw/excalidraw"
+            ],
+            "matchCurrentVersion": "latest",
+            "enabled": false
+        }
+    ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "description": "Update container images in Kustomize files",
+            "fileMatch": [
+                "(^|/)kustomization\\.ya?ml$"
+            ],
+            "matchStrings": [
+                "- name: (?<depName>.*?)\\s+newName: (?<packageName>.*?)\\s+newTag: (?<currentValue>.*?)(?:\\s|$)"
+            ],
+            "datasourceTemplate": "docker",
+            "registryUrlTemplate": "https://{{#if (containsString packageName 'ghcr.io')}}ghcr.io{{else if (containsString packageName 'gcr.io')}}gcr.io{{else}}docker.io{{/if}}"
+        },
+        {
+            "customType": "regex",
+            "description": "Update hardcoded container images in YAML manifests",
+            "fileMatch": [
+                "\\.ya?ml$"
+            ],
+            "matchStrings": [
+                "image: [\"']?(?<packageName>[^:]+):(?<currentValue>[^\"'\\s]+)[\"']?"
+            ],
+            "datasourceTemplate": "docker"
+        }
+    ],
+    "docker": {
+        "enabled": true,
+        "pinDigests": false
+    },
+    "vulnerabilityAlerts": {
+        "enabled": true,
+        "labels": [
+            "security",
+            "renovate"
+        ]
+    }
+}
