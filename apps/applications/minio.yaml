@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: minio
+    server: "https://kubernetes.default.svc"
+  source:
+    path: apps/minio
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: HEAD
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

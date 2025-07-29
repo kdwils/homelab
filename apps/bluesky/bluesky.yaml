@@ -94,16 +94,10 @@ spec:
               value: /pds
             - name: PDS_BLOBSTORE_DISK_LOCATION
               value: /pds/blocks
-            - name: PDS_DID_PLC_URL
-              value: https://plc.directory
             - name: PDS_BSKY_APP_VIEW_URL
               value: https://api.bsky.app
             - name: PDS_BSKY_APP_VIEW_DID
               value: did:web:api.bsky.app
-            - name: PDS_REPORT_SERVICE_URL
-              value: https://mod.bsky.app
-            - name: PDS_REPORT_SERVICE_DID
-              value: did:plc:ar7c4by46qjdydhdevvrndac
             - name: PDS_CRAWLERS
               value: https://bsky.network
             - name: LOG_ENABLED
