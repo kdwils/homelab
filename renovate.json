@@ -5,10 +5,6 @@
         ":semanticCommitTypeAll(chore)",
         ":enablePreCommit"
     ],
-    "platform": "github",
-    "repositories": [
-        "kdwils/homelab"
-    ],
     "gitAuthor": "Renovate Bot <bot@renovateapp.com>",
     "prTitle": "chore(deps): update {{depName}} to {{newVersion}}",
     "prBodyTemplate": "This PR updates {{depName}} from `{{currentVersion}}` to `{{newVersion}}`.\n\n{{{changelogs}}}\n\n{{{controls}}}",
@@ -104,6 +100,15 @@
             ],
             "matchCurrentVersion": "latest",
             "enabled": false
+        },
+        {
+            "description": "Ignore non-semantic versions and test images",
+            "matchPackageNames": [
+                "**/test",
+                "**/debug",
+                "**/latest"
+            ],
+            "enabled": false
         }
     ],
     "customManagers": [
@@ -116,8 +121,7 @@
             "matchStrings": [
                 "- name: (?<depName>.*?)\\s+newName: (?<packageName>.*?)\\s+newTag: (?<currentValue>.*?)(?:\\s|$)"
             ],
-            "datasourceTemplate": "docker",
-            "registryUrlTemplate": "https://{{#if (containsString packageName 'ghcr.io')}}ghcr.io{{else if (containsString packageName 'gcr.io')}}gcr.io{{else}}docker.io{{/if}}"
+            "datasourceTemplate": "docker"
         },
         {
             "customType": "regex",
@@ -126,7 +130,7 @@
                 "\\.ya?ml$"
             ],
             "matchStrings": [
-                "image: [\"']?(?<packageName>[^:]+):(?<currentValue>[^\"'\\s]+)[\"']?"
+                "image:\\s*[\"']?(?<packageName>[^:\"'\\s]+):(?<currentValue>[^\"'\\s]+)[\"']?"
             ],
             "datasourceTemplate": "docker"
         }
@@ -135,6 +139,16 @@
         "enabled": true,
         "pinDigests": false
     },
+    "hostRules": [
+        {
+            "matchHost": "docker.io",
+            "timeout": 30000
+        },
+        {
+            "matchHost": "ghcr.io",
+            "timeout": 30000
+        }
+    ],
     "vulnerabilityAlerts": {
         "enabled": true,
         "labels": [
