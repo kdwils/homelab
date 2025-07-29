@@ -129,6 +129,10 @@
             "fileMatch": [
                 "\\.ya?ml$"
             ],
+            "excludeFiles": [
+                "**/kustomization.yaml",
+                "**/kustomization.yml"
+            ],
             "matchStrings": [
                 "image:\\s*[\"']?(?<packageName>[^:\"'\\s]+):(?<currentValue>[^\"'\\s]+)[\"']?"
             ],
