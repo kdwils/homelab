@@ -122,17 +122,6 @@
                 "- name: (?<depName>.*?)\\s+newName: (?<packageName>.*?)\\s+newTag: (?<currentValue>.*?)(?:\\s|$)"
             ],
             "datasourceTemplate": "docker"
-        },
-        {
-            "customType": "regex",
-            "description": "Update hardcoded container images in YAML manifests",
-            "fileMatch": [
-                "^(?!.*kustomization\\.ya?ml$).*\\.ya?ml$"
-            ],
-            "matchStrings": [
-                "image:\\s*[\"']?(?<packageName>[^:\"'\\s]+):(?<currentValue>[^\"'\\s]+)[\"']?"
-            ],
-            "datasourceTemplate": "docker"
         }
     ],
     "docker": {
