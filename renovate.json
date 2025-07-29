@@ -127,7 +127,7 @@
             "customType": "regex",
             "description": "Update hardcoded container images in YAML manifests",
             "fileMatch": [
-                "(^|/)(?!kustomization\\.ya?ml$).*\\.ya?ml$"
+                "^(?!.*kustomization\\.ya?ml$).*\\.ya?ml$"
             ],
             "matchStrings": [
                 "image:\\s*[\"']?(?<packageName>[^:\"'\\s]+):(?<currentValue>[^\"'\\s]+)[\"']?"
