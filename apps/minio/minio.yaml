@@ -214,14 +214,15 @@ metadata:
     app.kubernetes.io/component: minio
     app.kubernetes.io/part-of: minio
 spec:
+  replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/instance: minio
       app.kubernetes.io/name: minio
       app.kubernetes.io/component: minio
       app.kubernetes.io/part-of: minio
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
