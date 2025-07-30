@@ -6,7 +6,6 @@ metadata:
 data:
   acquis.yaml: |-
     ---
-
     appsec_config: crowdsecurity/crs-vpatch
     labels:
       type: appsec
@@ -24,8 +23,8 @@ data:
     name: crowdsecurity/crs-vpatch
     default_remediation: ban
     #log_level: debug
-    outofband_rules:
-      - crowdsecurity/crs
+    # outofband_rules:
+    #   - crowdsecurity/crs
     inband_rules:
       - crowdsecurity/base-config 
       - crowdsecurity/vpatch-*
