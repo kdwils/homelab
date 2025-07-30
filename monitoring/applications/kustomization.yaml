@@ -7,5 +7,5 @@ resources:
   - crowdsec.yaml
   - grafana.yaml
   - prometheus.yaml
-  - trivy.yaml
+  # - trivy.yaml
   - vpa.yaml
