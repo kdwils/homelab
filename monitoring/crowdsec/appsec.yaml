@@ -6,12 +6,22 @@ metadata:
 data:
   acquis.yaml: |-
     ---
-    appsec_config: crowdsecurity/appsec-default
+    appsec_config: crowdsecurity/crs-vpatch
     labels:
       type: appsec
     listen_addr: 0.0.0.0:7422
     path: /
     source: appsec
+---
+# Source: crowdsec/templates/appsec-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "crowdsec-appsec-configs"
+data:
+  appsec-config.yaml: |
+    name: crowdsecurity/default-deny
+    default_remediation: ban
 ---
 # Source: crowdsec/templates/appsec-service.yaml
 apiVersion: v1
@@ -176,6 +186,9 @@ spec:
             - name: appsec-acquis-config-volume
               mountPath: /etc/crowdsec/acquis.yaml
               subPath: acquis.yaml
+            - name: crowdsec-appsec-configs-appsec-config
+              mountPath: /etc/crowdsec/appsec-configs/appsec-config.yaml
+              subPath: appsec-config.yaml
       terminationGracePeriodSeconds: 30
       volumes:
         - name: appsec-acquis-config-volume
@@ -183,6 +196,12 @@ spec:
             name: appsec-acquis-config
         - name: crowdsec-config
           emptyDir: {}
+        - name: crowdsec-appsec-configs-appsec-config
+          configMap:
+            name: "crowdsec-appsec-configs"
+            items:
+              - key: appsec-config.yaml
+                path: appsec-config.yaml
       priorityClassName:
 ---
 # Source: crowdsec/templates/tests/test_appsec_up.yaml
