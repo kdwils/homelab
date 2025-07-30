@@ -112,11 +112,9 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: LAPI_URL
-              value: "http://crowdsec-service.default:8080"
-            - name: SSL_CERT_FILE
-              value: /etc/ssl/crowdsec-appsec-client/ca.crt
+              value: "http://crowdsec-service:8080"
             - name: LAPI_HOST
-              value: "crowdsec-service.default"
+              value: "crowdsec-service"
             - name: LAPI_PORT
               value: "8080"
       containers:
