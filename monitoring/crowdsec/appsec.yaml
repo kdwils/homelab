@@ -192,9 +192,9 @@ spec:
             - name: appsec-acquis-config-volume
               mountPath: /etc/crowdsec/acquis.yaml
               subPath: acquis.yaml
-            - name: crowdsec-appsec-configs-mycustom-appsec-config
-              mountPath: /etc/crowdsec/appsec-configs/mycustom-appsec-config.yaml
-              subPath: mycustom-appsec-config.yaml
+            # - name: crowdsec-appsec-configs-mycustom-appsec-config
+            #   mountPath: /etc/crowdsec/appsec-configs/mycustom-appsec-config.yaml
+            #   subPath: mycustom-appsec-config.yaml
       terminationGracePeriodSeconds: 30
       volumes:
         - name: appsec-acquis-config-volume
