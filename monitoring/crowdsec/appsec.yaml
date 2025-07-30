@@ -80,7 +80,7 @@ spec:
     spec:
       initContainers:
         - name: wait-for-lapi-and-register
-          image: "crowdsecurity/crowdsec:v1.6.4"
+          image: "crowdsecurity/crowdsec:v1.6.11"
           imagePullPolicy: IfNotPresent
           command:
             [
@@ -118,7 +118,7 @@ spec:
               value: "8080"
       containers:
         - name: crowdsec-appsec
-          image: "crowdsecurity/crowdsec:v1.6.4"
+          image: "crowdsecurity/crowdsec:v1.6.11"
           imagePullPolicy: IfNotPresent
           command:
             [
