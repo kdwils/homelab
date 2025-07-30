@@ -641,7 +641,7 @@ spec:
     spec:
       containers:
         - name: crowdsec-lapi
-          image: "crowdsecurity/crowdsec:v1.6.8"
+          image: "crowdsecurity/crowdsec:v1.6.11"
           imagePullPolicy: IfNotPresent
           env:
             - name: ENROLL_INSTANCE_NAME
