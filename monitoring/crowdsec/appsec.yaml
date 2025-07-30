@@ -127,12 +127,21 @@ spec:
               "cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && ./docker_start.sh",
             ]
           env:
-            - name: DISABLE_LOCAL_API
-              value: "true"
-            - name: DISABLE_ONLINE_API
-              value: "true"
-            - name: LOCAL_API_URL
-              value: "http://crowdsec-service.default:8080"
+            - name: REGISTRATION_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: crowdsec-lapi-secrets
+                  key: registrationToken
+            - name: USERNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: LAPI_URL
+              value: "http://crowdsec-service:8080"
+            - name: LAPI_HOST
+              value: "crowdsec-service"
+            - name: LAPI_PORT
+              value: "8080"
           resources:
             limits:
               cpu: 500m
