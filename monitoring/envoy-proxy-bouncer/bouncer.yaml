@@ -71,7 +71,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.0.3"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-dc6c06d52486319c49d04679b27af4b79578b8b2"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -92,7 +92,7 @@ spec:
             - name: ENVOY_BOUNCER_SERVER_PORT
               value: "8080"
             - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
-              value: info
+              value: debug
           resources:
             limits:
               cpu: 100m
