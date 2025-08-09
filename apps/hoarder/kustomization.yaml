@@ -13,7 +13,7 @@ images:
     newTag: 0.26.0
   - name: meilisearch
     newName: getmeili/meilisearch
-    newTag: v1.16.0
+    newTag: v1.13.3
   - name: chrome
     newName: gcr.io/zenika-hub/alpine-chrome
     newTag: "123"
