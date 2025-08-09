@@ -9,4 +9,4 @@ resources:
 images:
   - name: cloudflared
     newName: cloudflare/cloudflared
-    newTag: 2025.7.0
+    newTag: 2025.8.0
