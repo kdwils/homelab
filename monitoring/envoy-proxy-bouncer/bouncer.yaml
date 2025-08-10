@@ -82,12 +82,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: envoy-bouncer
-                  key: lapiApiKey
+                  key: apiKey
             - name: ENVOY_BOUNCER_WAF_APIKEY
               valueFrom:
                 secretKeyRef:
                   name: envoy-bouncer
-                  key: appsecApiKey
+                  key: apiKey
             - name: ENVOY_BOUNCER_WAF_APPSECURL
               value: http://crowdsec-appsec-service.crowdsec.svc.cluster.local:7422
             - name: ENVOY_BOUNCER_WAF_ENABLED
