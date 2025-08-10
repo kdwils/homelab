@@ -48,11 +48,11 @@ spec:
     - port: 443
       targetPort: 7422
       protocol: TCP
-      name: appsec
+      name: appsec-https
     - port: 80
       targetPort: 7422
       protocol: TCP
-      name: appsec
+      name: appsec-http
   selector:
     k8s-app: crowdsec
     type: appsec
