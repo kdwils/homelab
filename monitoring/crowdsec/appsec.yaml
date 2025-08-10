@@ -45,6 +45,14 @@ spec:
       targetPort: 7422
       protocol: TCP
       name: appsec
+    - port: 443
+      targetPort: 7422
+      protocol: TCP
+      name: appsec
+    - port: 80
+      targetPort: 7422
+      protocol: TCP
+      name: appsec
   selector:
     k8s-app: crowdsec
     type: appsec
