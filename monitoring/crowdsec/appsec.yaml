@@ -26,10 +26,6 @@ data:
     - crowdsecurity/base-config 
     - crowdsecurity/vpatch-*
     - crowdsecurity/generic-*
-    outofband_rules:
-    - crowdsecurity/experimental-*
-    - crowdsecurity/appsec-generic-test
-
 ---
 # Source: crowdsec/templates/appsec-service.yaml
 apiVersion: v1
