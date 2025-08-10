@@ -22,6 +22,11 @@ data:
   appsec-config.yaml: |
     name: crowdsecurity/default-deny
     default_remediation: ban
+    source: appsec
+    labels:
+      type: appsec
+    inband_rules:
+      - crowdsecurity/test-rule
 ---
 # Source: crowdsec/templates/appsec-service.yaml
 apiVersion: v1
