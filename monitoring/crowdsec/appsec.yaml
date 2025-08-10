@@ -148,6 +148,8 @@ spec:
               value: "crowdsec-service"
             - name: LAPI_PORT
               value: "8080"
+            - name: DISABLE_LOCAL_API
+              value: "true"
           resources:
             limits:
               cpu: 500m
