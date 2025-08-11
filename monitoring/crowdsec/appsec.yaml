@@ -115,7 +115,7 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           volumeMounts:
-            - name: crowdsec-config
+            - name: crowdsec-creds
               mountPath: /tmp_config
           env:
             - name: REGISTRATION_TOKEN
