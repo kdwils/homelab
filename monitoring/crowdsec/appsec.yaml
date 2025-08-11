@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-appsec-config-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: "100Mi"
+---
 # Source: crowdsec/templates/appsec-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -68,9 +79,9 @@ metadata:
     type: appsec
     version: v1
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       k8s-app: crowdsec
@@ -203,6 +214,8 @@ spec:
             - name: crowdsec-appsec-configs-appsec-config
               mountPath: /etc/crowdsec/appsec-configs/appsec-config.yaml
               subPath: appsec-config.yaml
+            - name: crowdsec-config
+              mountPath: /etc/crowdsec_data
       terminationGracePeriodSeconds: 30
       volumes:
         - name: appsec-acquis-config-volume
@@ -216,6 +229,9 @@ spec:
             items:
               - key: appsec-config.yaml
                 path: appsec-config.yaml
+        - name: crowdsec-config
+          persistentVolumeClaim:
+            claimName: crowdsec-appsec-config-pvc
       priorityClassName:
 ---
 # Source: crowdsec/templates/tests/test_appsec_up.yaml
