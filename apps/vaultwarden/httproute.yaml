@@ -9,6 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "passwords.kyledev.co"
+    - "passwords.int.kyledev.co"
   rules:
     - backendRefs:
         - name: vaultwarden
