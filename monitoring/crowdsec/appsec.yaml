@@ -79,9 +79,9 @@ metadata:
     type: appsec
     version: v1
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
-    type: Recreate
+    type: RollingUpdate
   selector:
     matchLabels:
       k8s-app: crowdsec
@@ -206,8 +206,6 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
           volumeMounts:
-            - name: crowdsec-config
-              mountPath: /tmp_config
             - name: appsec-acquis-config-volume
               mountPath: /etc/crowdsec/acquis.yaml
               subPath: acquis.yaml
