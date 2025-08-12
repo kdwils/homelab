@@ -3,3 +3,8 @@ kind: Kustomization
 resources:
   - bouncer.yaml
   - sealedsecret.yaml
+
+images:
+  - name: envoy-proxy-bouncer
+    newName: ghcr.io/kdwils/envoy-proxy-bouncer
+    newTag: sha-62774c96b4450b88c7c11ca1746a53d169e3df1b
