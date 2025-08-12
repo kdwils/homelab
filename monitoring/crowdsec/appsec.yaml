@@ -9,6 +9,17 @@ spec:
     requests:
       storage: "100Mi"
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-collections
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: "100Mi"
+---
 # Source: crowdsec/templates/appsec-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -240,7 +251,7 @@ spec:
             claimName: crowdsec-appsec-config-pvc
         - name: crowdsec-collections
           persistentVolumeClaim:
-            claimName: crowdsec-appsec-config-pvc
+            claimName: crowdsec-collections
       priorityClassName:
 ---
 # Source: crowdsec/templates/tests/test_appsec_up.yaml
