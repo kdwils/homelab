@@ -12,7 +12,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: crowdsec-collections
+  name: crowdsec-data
 spec:
   accessModes:
     - ReadWriteMany
@@ -44,6 +44,10 @@ data:
   appsec-config.yaml: |
     name: crowdsecurity/appsec-default
     default_remediation: ban
+    inband_rules:
+    - crowdsecurity/base-config
+    - crowdsecurity/vpatch-*
+    - crowdsecurity/generic-*
 ---
 # Source: crowdsec/templates/appsec-service.yaml
 apiVersion: v1
@@ -227,8 +231,8 @@ spec:
               subPath: appsec-config.yaml
             - name: crowdsec-config
               mountPath: /etc/crowdsec_data
-            - name: crowdsec-collections
-              mountPath: /etc/crowdsec/collections
+            - name: crowdsec-data
+              mountPath: /etc/crowdsec
       terminationGracePeriodSeconds: 30
       volumes:
         - name: appsec-acquis-config-volume
@@ -245,9 +249,9 @@ spec:
         - name: crowdsec-config
           persistentVolumeClaim:
             claimName: crowdsec-appsec-config-pvc
-        - name: crowdsec-collections
+        - name: crowdsec-data
           persistentVolumeClaim:
-            claimName: crowdsec-collections
+            claimName: crowdsec-data
       priorityClassName:
 ---
 # Source: crowdsec/templates/tests/test_appsec_up.yaml
