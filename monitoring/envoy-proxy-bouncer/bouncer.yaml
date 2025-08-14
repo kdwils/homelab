@@ -84,7 +84,7 @@ spec:
                   name: "envoy-bouncer"
                   key: "apiKey"
             - name: ENVOY_BOUNCER_BOUNCER_LAPIURL
-              value: "http://crowdsec-service:8080"
+              value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
             - name: ENVOY_BOUNCER_BOUNCER_ENABLED
               value: "true"
             - name: ENVOY_BOUNCER_BOUNCER_METRICS
