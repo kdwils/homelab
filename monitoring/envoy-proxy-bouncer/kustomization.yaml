@@ -3,8 +3,3 @@ kind: Kustomization
 resources:
   - bouncer.yaml
   - sealedsecret.yaml
-
-images:
-  - name: envoy-proxy-bouncer
-    newName: ghcr.io/kdwils/envoy-proxy-bouncer
-    newTag: v0.1.0
