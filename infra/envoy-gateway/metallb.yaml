@@ -13,7 +13,6 @@ spec:
   loadBalancerIP: 192.168.0.249
   ports:
     - name: https-443
-      nodePort: 30534
       port: 443
       protocol: TCP
       targetPort: 10443
