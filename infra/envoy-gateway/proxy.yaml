@@ -10,7 +10,6 @@ spec:
         annotations:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "homelab-gateway"
-          metallb.io/loadBalancerIPs: 192.168.0.249
         loadBalancerClass: "tailscale"
         name: homelab-gateway
   telemetry:

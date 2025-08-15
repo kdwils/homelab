@@ -6,3 +6,4 @@ resources:
   - servicemonitor.yaml
   - certificate.yaml
   - policy.yaml
+  - metallb.yaml

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: proxy
+    app.kubernetes.io/managed-by: envoy-gateway
+    app.kubernetes.io/name: envoy
+    gateway.envoyproxy.io/owning-gateway-name: homelab
+    gateway.envoyproxy.io/owning-gateway-namespace: envoy-gateway-system
+  name: homelab-gateway-metallb
+  namespace: envoy-gateway-system
+spec:
+  loadBalancerIP: 192.168.0.249
+  ports:
+    - name: https-443
+      nodePort: 30534
+      port: 443
+      protocol: TCP
+      targetPort: 10443
+    - name: http-80
+      nodePort: 30168
+      port: 80
+      protocol: TCP
+      targetPort: 10080
+  selector:
+    app.kubernetes.io/component: proxy
+    app.kubernetes.io/managed-by: envoy-gateway
+    app.kubernetes.io/name: envoy
+    gateway.envoyproxy.io/owning-gateway-name: homelab
+    gateway.envoyproxy.io/owning-gateway-namespace: envoy-gateway-system
+  type: LoadBalancer
