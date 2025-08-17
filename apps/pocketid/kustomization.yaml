@@ -7,6 +7,7 @@ resources:
   - pvc.yaml
   - sealedsecret.yaml
   - rbac.yaml
+  - auth-config.yaml
 
 images:
   - name: pocketid
