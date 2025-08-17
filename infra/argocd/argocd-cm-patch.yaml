@@ -23,6 +23,7 @@ data:
           username: preferred_username
           email: email
           name: name
+          groups: groups
         admin.enabled: 'true'
   accounts.image-updater: apiKey
   accounts.backstage: login, apiKey
