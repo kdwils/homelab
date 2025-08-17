@@ -5,6 +5,7 @@ resources:
   - headlamp.yaml
   - httproute.yaml
   - sealedsecret.yaml
+  - rbac.yaml
 
 patches:
   - path: env-patch.yaml
