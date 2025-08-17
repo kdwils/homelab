@@ -6,6 +6,7 @@ resources:
   - httproute.yaml
   - pvc.yaml
   - sealedsecret.yaml
+  - rbac.yaml
 
 images:
   - name: pocketid
