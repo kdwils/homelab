@@ -255,6 +255,9 @@ spec:
         - name: crowdsec-data
           persistentVolumeClaim:
             claimName: crowdsec-data
+        - name: crowdsec-collection-files
+          persistentVolumeClaim:
+            claimName: crowdsec-data
       priorityClassName:
 ---
 # Source: crowdsec/templates/tests/test_appsec_up.yaml
