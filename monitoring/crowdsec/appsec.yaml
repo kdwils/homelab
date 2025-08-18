@@ -48,6 +48,7 @@ data:
     - crowdsecurity/base-config
     - crowdsecurity/vpatch-*
     - crowdsecurity/generic-*
+    - crowdsecurity/crs
 ---
 # Source: crowdsec/templates/appsec-service.yaml
 apiVersion: v1
