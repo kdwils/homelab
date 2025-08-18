@@ -234,8 +234,9 @@ spec:
               mountPath: /etc/crowdsec_data
             - name: crowdsec-data
               mountPath: /etc/crowdsec
-            - name: crowdsec-collection-files
+            - name: crowdsec-data
               mountPath: /var/lib/crowdsec
+              subPath: collections
       terminationGracePeriodSeconds: 30
       volumes:
         - name: appsec-acquis-config-volume
@@ -253,9 +254,6 @@ spec:
           persistentVolumeClaim:
             claimName: crowdsec-appsec-config-pvc
         - name: crowdsec-data
-          persistentVolumeClaim:
-            claimName: crowdsec-data
-        - name: crowdsec-collection-files
           persistentVolumeClaim:
             claimName: crowdsec-data
       priorityClassName:
