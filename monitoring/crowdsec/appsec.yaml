@@ -52,6 +52,7 @@ data:
 
     outofband_rules:
     - crowdsecurity/experimental-*
+    - crowdsecurity/crs
 ---
 # Source: crowdsec/templates/appsec-service.yaml
 apiVersion: v1
