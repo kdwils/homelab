@@ -34,7 +34,7 @@ spec:
   source:
     path: env/prod
     repoURL: "https://github.com/kdwils/blog-deploy"
-    targetRevision: dev
+    targetRevision: prod
   sources: []
   project: apps
   syncPolicy:
