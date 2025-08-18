@@ -147,7 +147,7 @@ data:
   ADMIN_ACCOUNT_TOKEN_ISSUER: http://kargo.int.kyledev.co
   ADMIN_ACCOUNT_TOKEN_AUDIENCE: "kargo.int.kyledev.co"
   ADMIN_ACCOUNT_TOKEN_TTL: "24h"
-  OIDC_ENABLED: "false"
+  OIDC_ENABLED: "true"
   OIDC_ADDITIONAL_SCOPES: groups
   GLOBAL_SERVICE_ACCOUNT_NAMESPACES: kargo
   OIDC_ISSUER_URL: "https://pocketid.kyledev.co"
