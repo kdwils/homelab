@@ -234,6 +234,8 @@ spec:
               mountPath: /etc/crowdsec_data
             - name: crowdsec-data
               mountPath: /etc/crowdsec
+            - name: crowdsec-collection-files
+              mountPath: /var/lib/crowdsec
       terminationGracePeriodSeconds: 30
       volumes:
         - name: appsec-acquis-config-volume
