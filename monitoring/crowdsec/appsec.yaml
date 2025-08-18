@@ -235,7 +235,7 @@ spec:
             - name: crowdsec-data
               mountPath: /etc/crowdsec
             - name: crowdsec-data
-              mountPath: /var/lib/crowdsec
+              mountPath: /var/lib/crowdsec/data
               subPath: collections
       terminationGracePeriodSeconds: 30
       volumes:
