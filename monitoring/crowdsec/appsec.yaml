@@ -52,7 +52,6 @@ data:
       - crowdsecurity/generic-*
 
     outofband_rules:
-      - crowdsecurity/generic-*
       - crowdsecurity/vpatch-*
       - crowdsecurity/crs
 ---
