@@ -155,7 +155,7 @@ data:
   OIDC_CLI_CLIENT_ID: "b1a7028d-1ee7-4f24-bfee-bf96f42aa0d0"
   OIDC_USERNAME_CLAIM: "email"
   ARGOCD_NAMESPACE: argocd
-  ARGOCD_URLS: =https://argocd.kyledev.co,
+  ARGOCD_URLS: https://argocd.kyledev.co,
   ROLLOUTS_INTEGRATION_ENABLED: "true"
 ---
 # Source: kargo/templates/controller/configmap.yaml
