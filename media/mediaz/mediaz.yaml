@@ -180,5 +180,5 @@ spec:
     - "mediaz.int.kyledev.co"
   rules:
     - backendRefs:
-        - name: mediaz
+        - name: homelab-mediaz
           port: 8080
