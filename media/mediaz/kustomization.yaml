@@ -7,4 +7,4 @@ resources:
 images:
   - name: mediaz
     newName: ghcr.io/kasuboski/mediaz
-    newTag: sha-6baafcb968fb2863a0dd076623e31f3bc062902b
+    newTag: sha-4c6050c64b0c00dd778f559bf1ec47b211d2279c
