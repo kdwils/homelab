@@ -113,7 +113,7 @@ spec:
     spec:
       initContainers:
         - name: wait-for-lapi-and-register
-          image: "crowdsecurity/crowdsec:v1.6.11"
+          image: "crowdsecurity/crowdsec:v1.7.0"
           imagePullPolicy: IfNotPresent
           command:
             [
@@ -149,9 +149,11 @@ spec:
               value: "crowdsec-service"
             - name: LAPI_PORT
               value: "8080"
+            - name: "CROWDSEC_BYPASS_DB_VOLUME_CHECK"
+              value: "true"
       containers:
         - name: crowdsec-appsec
-          image: "crowdsecurity/crowdsec:v1.6.11"
+          image: "crowdsecurity/crowdsec:v1.7.0"
           imagePullPolicy: IfNotPresent
           command:
             [
@@ -176,6 +178,8 @@ spec:
             - name: LAPI_PORT
               value: "8080"
             - name: DISABLE_LOCAL_API
+              value: "true"
+            - name: "CROWDSEC_BYPASS_DB_VOLUME_CHECK"
               value: "true"
           resources:
             limits:
