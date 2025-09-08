@@ -119,6 +119,8 @@ spec:
               value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
             - name: COLLECTIONS
               value: "crowdsecurity/base-http-scenarios crowdsecurity/k8s-audit"
+            - name: "CROWDSEC_BYPASS_DB_VOLUME_CHECK"
+              value: "true"
           resources:
             limits:
               cpu: 500m
