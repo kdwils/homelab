@@ -96,6 +96,8 @@ spec:
               value: "crowdsec-service"
             - name: LAPI_PORT
               value: "8080"
+            - name: "CROWDSEC_BYPASS_DB_VOLUME_CHECK"
+              value: "true"
       containers:
         - name: crowdsec-agent
           image: "crowdsecurity/crowdsec:v1.7.0"
