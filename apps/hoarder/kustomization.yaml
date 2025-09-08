@@ -5,7 +5,7 @@ resources:
   - httproute.yaml
   # - hoarder.yaml
   - sealedsecret.yaml
-  - meilisearch.yaml
+  # - meilisearch.yaml
 
 images:
   - name: hoarder
