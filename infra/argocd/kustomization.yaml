@@ -4,7 +4,7 @@ resources:
   - ingress.yaml
   - httproute.yaml
   - namespace.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.14.11/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.14.17/manifests/install.yaml
 
 namespace: argocd
 
