@@ -2,10 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - constellation
   - envoy-bouncer.yaml
   - namespace.yaml
   - crowdsec.yaml
   - grafana.yaml
   - prometheus.yaml
-  # - trivy.yaml
   - vpa.yaml

@@ -1,0 +1,175 @@
+---
+# Source: constellation/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: homelab-constellation
+  labels:
+    helm.sh/chart: constellation-0.1.0
+    app.kubernetes.io/name: constellation
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: constellation/templates/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: homelab-constellation
+  labels:
+    helm.sh/chart: constellation-0.1.0
+    app.kubernetes.io/name: constellation
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+  # Core resources - namespaces, services, pods
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  # Ingress resources
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["get", "list", "watch"]
+  # Gateway API resources
+  - apiGroups: ["gateway.networking.k8s.io"]
+    resources: ["httproutes"]
+    verbs: ["get", "list", "watch"]
+---
+# Source: constellation/templates/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: homelab-constellation
+  labels:
+    helm.sh/chart: constellation-0.1.0
+    app.kubernetes.io/name: constellation
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: homelab-constellation
+subjects:
+  - kind: ServiceAccount
+    name: homelab-constellation
+    namespace: constellation
+---
+# Source: constellation/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: homelab-constellation
+  labels:
+    helm.sh/chart: constellation-0.1.0
+    app.kubernetes.io/name: constellation
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: constellation
+    app.kubernetes.io/instance: homelab
+---
+# Source: constellation/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homelab-constellation
+  labels:
+    helm.sh/chart: constellation-0.1.0
+    app.kubernetes.io/name: constellation
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: constellation
+      app.kubernetes.io/instance: homelab
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: constellation-0.1.0
+        app.kubernetes.io/name: constellation
+        app.kubernetes.io/instance: homelab
+        app.kubernetes.io/version: "0.1.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: homelab-constellation
+      securityContext:
+        fsGroup: 65534
+        runAsGroup: 65534
+        runAsNonRoot: true
+        runAsUser: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: constellation
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
+          image: constellation
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources: {}
+---
+# Source: constellation/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: homelab-constellation
+  labels:
+    helm.sh/chart: constellation-0.1.0
+    app.kubernetes.io/name: constellation
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/version: "0.1.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "constellation.int.kyledev.co"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: homelab-constellation
+          port: 8080
+---
+
