@@ -9,6 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "hoarder.int.kyledev.co"
+    - "hoarder.ts.kyledev.co"
   rules:
     - backendRefs:
         - name: hoarder

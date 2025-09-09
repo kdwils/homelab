@@ -177,6 +177,7 @@ metadata:
   namespace: media
 spec:
   hostnames:
+    - mediaz.ts.kyledev.co
     - mediaz.int.kyledev.co
   parentRefs:
     - name: homelab

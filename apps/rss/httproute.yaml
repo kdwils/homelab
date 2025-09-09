@@ -9,6 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "rss.int.kyledev.co"
+    - "rss.ts.kyledev.co"
     - "freshrss.int.kyledev.co"
   rules:
     - backendRefs:

@@ -9,6 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "draw.int.kyledev.co"
+    - "draw.ts.kyledev.co"
     - "excalidraw.int.kyledev.co"
   rules:
     - backendRefs:

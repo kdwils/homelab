@@ -12,3 +12,4 @@ spec:
   dnsNames:
     - "*.kyledev.co"
     - "*.int.kyledev.co"
+    - "*.ts.kyledev.co"

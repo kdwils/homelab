@@ -9,6 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "kargo.int.kyledev.co"
+    - "kargo.ts.kyledev.co"
   rules:
     - backendRefs:
         - name: kargo-api

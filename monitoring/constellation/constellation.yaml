@@ -162,6 +162,7 @@ spec:
     - name: homelab
       namespace: envoy-gateway-system
   hostnames:
+    - "constellation.ts.kyledev.co"
     - "constellation.int.kyledev.co"
   rules:
     - matches:

@@ -8,6 +8,7 @@ spec:
     - name: homelab
       namespace: envoy-gateway-system
   hostnames:
+    - sonarr.ts.kyledev.co
     - "sonarr.int.kyledev.co"
   rules:
     - backendRefs:
