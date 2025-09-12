@@ -7,4 +7,4 @@ resources:
 images:
   - name: constellation
     newName: ghcr.io/kdwils/constellation
-    newTag: sha-16215eef5beb9e1a3c66d9ac9f3fbed825712f88
+    newTag: sha-69f5279f3fef1ad8014e5ecca00839f65e84072a
