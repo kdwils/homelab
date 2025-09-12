@@ -2,12 +2,16 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: excalidraw
+  annotations:
+    constellation.kyledev.co/group: "excalidraw"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: excalidraw
   namespace: excalidraw
+  annotations:
+    constellation.kyledev.co/group: "excalidraw"
 spec:
   selector:
     matchLabels:
@@ -16,6 +20,8 @@ spec:
     metadata:
       labels:
         app: excalidraw
+      annotations:
+        constellation.kyledev.co/group: "excalidraw"
     spec:
       containers:
         - name: excalidraw
@@ -35,6 +41,8 @@ metadata:
   labels:
     app: excalidraw
   name: excalidraw
+  annotations:
+    constellation.kyledev.co/group: "excalidraw"
 spec:
   ports:
     - name: http
