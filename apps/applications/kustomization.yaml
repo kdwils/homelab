@@ -8,7 +8,7 @@ resources:
   # - hoarder.yaml
   - kargo.yaml
   - mealie.yaml
-  - minio.yaml
+  # - minio.yaml
   - pocketid.yaml
   - vaultwarden.yaml
   - rss.yaml
