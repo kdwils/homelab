@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - bouncer.yaml
   - sealedsecret.yaml
-  - httproute.yaml
+  # - httproute.yaml
