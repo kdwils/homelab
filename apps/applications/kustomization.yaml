@@ -5,10 +5,10 @@ resources:
   - bluesky.yaml
   - excalidraw.yaml
   - headlamp.yaml
-  - hoarder.yaml
+  # - hoarder.yaml
   - kargo.yaml
   - mealie.yaml
-  - minio.yaml
+  # - minio.yaml
   - pocketid.yaml
   - vaultwarden.yaml
   - rss.yaml
