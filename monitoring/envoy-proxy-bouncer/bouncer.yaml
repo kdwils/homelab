@@ -81,6 +81,9 @@ spec:
             - name: grpc
               containerPort: 8080
               protocol: TCP
+            - name: http
+              containerPort: 8081
+              protocol: TCP
           env:
             - name: ENVOY_BOUNCER_BOUNCER_APIKEY
               valueFrom:
