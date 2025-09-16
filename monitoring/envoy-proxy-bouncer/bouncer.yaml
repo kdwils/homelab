@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.1.1
+    helm.sh/chart: envoy-proxy-bouncer-0.1.3
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/version: "v0.1.3"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: envoy-proxy-bouncer/templates/service.yaml
@@ -17,10 +17,10 @@ kind: Service
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.1.1
+    helm.sh/chart: envoy-proxy-bouncer-0.1.3
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/version: "v0.1.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -29,6 +29,10 @@ spec:
       targetPort: grpc
       protocol: TCP
       name: grpc
+    - port: 8081
+      targetPort: http
+      protocol: TCP
+      name: http
   selector:
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
@@ -39,10 +43,10 @@ kind: Deployment
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.1.1
+    helm.sh/chart: envoy-proxy-bouncer-0.1.3
     app.kubernetes.io/name: envoy-proxy-bouncer
     app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.1.0"
+    app.kubernetes.io/version: "v0.1.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -53,10 +57,10 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: envoy-proxy-bouncer-0.1.1
+        helm.sh/chart: envoy-proxy-bouncer-0.1.3
         app.kubernetes.io/name: envoy-proxy-bouncer
         app.kubernetes.io/instance: homelab
-        app.kubernetes.io/version: "v0.1.0"
+        app.kubernetes.io/version: "v0.1.3"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
@@ -71,7 +75,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.1.2"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.1.3"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -84,7 +88,7 @@ spec:
                   name: "envoy-bouncer"
                   key: "apiKey"
             - name: ENVOY_BOUNCER_BOUNCER_LAPIURL
-              value: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
+              value: "http://crowdsec-service:8080"
             - name: ENVOY_BOUNCER_BOUNCER_ENABLED
               value: "true"
             - name: ENVOY_BOUNCER_BOUNCER_METRICS
@@ -92,10 +96,7 @@ spec:
             - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
               value: "10s"
             - name: ENVOY_BOUNCER_TRUSTEDPROXIES
-              valueFrom:
-                secretKeyRef:
-                  name: "envoy-bouncer"
-                  key: "trustedProxies"
+              value: "10.43.0.0/16,10.42.0.0/16"
             - name: ENVOY_BOUNCER_WAF_ENABLED
               value: "true"
             - name: ENVOY_BOUNCER_WAF_APIKEY
@@ -104,9 +105,24 @@ spec:
                   name: "envoy-bouncer"
                   key: "apiKey"
             - name: ENVOY_BOUNCER_WAF_APPSECURL
-              value: "http://crowdsec-appsec-service.crowdsec.svc.cluster.local:7422"
-            - name: ENVOY_BOUNCER_SERVER_PORT
+              value: "http://crowdsec-appsec-service:7422"
+            - name: ENVOY_BOUNCER_CAPTCHA_ENABLED
+              value: "true"
+            - name: ENVOY_BOUNCER_CAPTCHA_PROVIDER
+              value: "turnstile"
+            - name: ENVOY_BOUNCER_CAPTCHA_SITEKEY
+              value: "0x4AAAAAAB1bbQbIpIhvAYwl"
+            - name: ENVOY_BOUNCER_CAPTCHA_SECRETKEY
+              valueFrom:
+                secretKeyRef:
+                  name: "envoy-bouncer"
+                  key: "secretKey"
+            - name: ENVOY_BOUNCER_CAPTCHA_HOSTNAME
+              value: "https://bouncer.int.kyledev.co"
+            - name: ENVOY_BOUNCER_SERVER_GRPCPORT
               value: "8080"
+            - name: ENVOY_BOUNCER_SERVER_HTTPPORT
+              value: "8081"
             - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
               value: info
           resources:
