@@ -14,6 +14,19 @@ spec:
     requests:
       storage: 1Gi
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: overseerr-settings
+  namespace: media
+data:
+  settings.json: |
+    {
+      "main": {
+        "applicationUrl": "https://overseerr.int.kyledev.co"
+      }
+    }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,10 +56,16 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /app/config
+            - name: config-volume
+              mountPath: /app/config/settings.json
+              subPath: settings.json
       volumes:
         - name: config
           persistentVolumeClaim:
             claimName: overseerr-config
+        - name: config-volume
+          configMap:
+            name: overseerr-settings
 ---
 apiVersion: v1
 kind: Service
