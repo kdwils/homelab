@@ -9,7 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "overseerr.int.kyledev.co"
-    - "overseerr.kyledev.co"
+    # - "overseerr.kyledev.co"
   rules:
     - backendRefs:
         - name: overseerr
