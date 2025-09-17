@@ -38,6 +38,8 @@ spec:
           ports:
             - containerPort: 5055
           env:
+            - name: LOG_LEVEL
+              value: "debug"
             - name: APPLICATION_URL
               value: "https://overseerr.int.kyledev.co"
             - name: TZ
