@@ -75,7 +75,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-0054189900fd85e1c75d22d61a5a01782f6e5507"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-80460245d53045caabb68c9a6dcdafa02c8af5c7"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
