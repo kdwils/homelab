@@ -97,7 +97,7 @@ spec:
             - name: ENVOY_BOUNCER_BOUNCER_METRICS
               value: "true"
             - name: ENVOY_BOUNCER_BOUNCER_METRICSINTERVAL
-              value: "10s"
+              value: "3m"
             - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
               value: "10s"
             - name: ENVOY_BOUNCER_TRUSTEDPROXIES
@@ -129,7 +129,7 @@ spec:
             - name: ENVOY_BOUNCER_SERVER_HTTPPORT
               value: "8081"
             - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
-              value: debug
+              value: info
           resources:
             limits:
               cpu: 100m
