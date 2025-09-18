@@ -38,10 +38,6 @@ spec:
           ports:
             - containerPort: 5055
           env:
-            - name: TRUST_PROXY
-              value: "true"
-            - name: APPLICATION_URL
-              value: "https://overseerr.int.kyledev.co"
             - name: TZ
               value: "UTC"
           volumeMounts:
