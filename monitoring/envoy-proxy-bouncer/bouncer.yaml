@@ -75,7 +75,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-80460245d53045caabb68c9a6dcdafa02c8af5c7"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-0316c14cae80e0f13b520cc01172d37889d03205"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -95,7 +95,7 @@ spec:
             - name: ENVOY_BOUNCER_BOUNCER_ENABLED
               value: "true"
             - name: ENVOY_BOUNCER_BOUNCER_METRICS
-              value: "false"
+              value: "true"
             - name: ENVOY_BOUNCER_BOUNCER_METRICSINTERVAL
               value: "10s"
             - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
