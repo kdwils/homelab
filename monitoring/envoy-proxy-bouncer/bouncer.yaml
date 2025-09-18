@@ -95,7 +95,7 @@ spec:
             - name: ENVOY_BOUNCER_BOUNCER_ENABLED
               value: "true"
             - name: ENVOY_BOUNCER_BOUNCER_METRICS
-              value: "true"
+              value: "false"
             - name: ENVOY_BOUNCER_BOUNCER_METRICSINTERVAL
               value: "10s"
             - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
