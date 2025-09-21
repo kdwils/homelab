@@ -12,6 +12,14 @@ spec:
   rules:
     - matches:
         - path:
+            type: Exact
+            value: /captcha
+      backendRefs:
+        - name: homelab-envoy-proxy-bouncer
+          port: 8081
+          namespace: envoy-gateway-system
+    - matches:
+        - path:
             type: PathPrefix
             value: /
       backendRefs:
@@ -52,9 +60,6 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: bluesky
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: homelab-bouncer
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: mealie
