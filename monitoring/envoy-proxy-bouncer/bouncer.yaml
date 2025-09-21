@@ -123,7 +123,7 @@ spec:
                   name: "envoy-bouncer"
                   key: "secretKey"
             - name: ENVOY_BOUNCER_CAPTCHA_CALLBACKURL
-              value: "https://bouncer.int.kyledev.co"
+              value: "https://bouncer.kyledev.co"
             - name: ENVOY_BOUNCER_SERVER_GRPCPORT
               value: "8080"
             - name: ENVOY_BOUNCER_SERVER_HTTPPORT
