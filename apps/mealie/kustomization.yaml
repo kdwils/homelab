@@ -6,6 +6,7 @@ resources:
   - config.yaml
   - sealedsecret.yaml
   - httproute.yaml
+  - securitypolicy.yaml
 
 images:
   - name: mealie

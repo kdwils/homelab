@@ -6,6 +6,7 @@ resources:
   - vaultwarden.yaml
   - httproute.yaml
   - sealedsecret.yaml
+  - securitypolicy.yaml
 
 images:
   - name: vaultwarden

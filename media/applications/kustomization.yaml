@@ -11,4 +11,4 @@ resources:
   - prowlarr.yaml
   - flaresolverr.yaml
   - mediaz.yaml
-  - media-security.yaml
+  - securitypolicy.yaml
