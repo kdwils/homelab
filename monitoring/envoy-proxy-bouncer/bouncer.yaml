@@ -134,22 +134,3 @@ spec:
             limits:
               cpu: 100m
               memory: 128Mi
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: SecurityPolicy
-metadata:
-  name: homelab-envoy-proxy-bouncer
-  namespace: envoy-gateway-system
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: homelab
-  extAuth:
-    grpc:
-      backendRefs:
-        - group: ""
-          kind: Service
-          name: homelab-envoy-proxy-bouncer
-          port: 8080
-          namespace: envoy-gateway-system
