@@ -57,27 +57,35 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: argocd
+      namespace: argocd
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: bluesky
+      namespace: bluesky
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: mealie
+      namespace: mealie
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: overseer
+      namespace: media
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: plex
+      namespace: media
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: pocketid
+      namespace: pocketid
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: vaultwarden
+      namespace: vaultwarden
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: blog
+      namespace: blog
   extAuth:
     grpc:
       backendRefs:
