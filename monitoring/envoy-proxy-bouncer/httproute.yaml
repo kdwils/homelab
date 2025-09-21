@@ -7,8 +7,9 @@ spec:
     - name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - "bouncer.ts.kyledev.co"
-    - "bouncer.int.kyledev.co"
+    - bouncer.ts.kyledev.co
+    - bouncer.int.kyledev.co
+    - bouncer.kyledev.co
   rules:
     - matches:
         - path:
