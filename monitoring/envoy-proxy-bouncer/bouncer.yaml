@@ -64,15 +64,14 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
-      securityContext:
-        {}
+      securityContext: {}
       containers:
         - name: envoy-proxy-bouncer
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - all
+                - all
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
@@ -174,31 +173,31 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: homelab-envoy-proxy-bouncer
-  namespace: default
+  namespace: envoy-gateway-system
 spec:
   from:
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: argocd
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: bluesky
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: mealie
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: media
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: pocketid
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: vaultwarden
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: blog
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: argocd
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: bluesky
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: mealie
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: media
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: pocketid
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: vaultwarden
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: blog
   to:
-  - group: ""
-    kind: Service
-    name: homelab-envoy-proxy-bouncer
+    - group: ""
+      kind: Service
+      name: homelab-envoy-proxy-bouncer
