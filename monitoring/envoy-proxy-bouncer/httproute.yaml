@@ -1,3 +1,4 @@
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -7,14 +8,31 @@ spec:
     - name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - bouncer.ts.kyledev.co
-    - bouncer.int.kyledev.co
     - bouncer.kyledev.co
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
+      backendRefs:
+        - name: homelab-envoy-proxy-bouncer
+          port: 8081
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: captcha-route
+  namespace: envoy-gateway-system
+spec:
+  parentRefs:
+    - name: homelab
+  hostnames:
+    - bouncer.kyledev.co
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /captcha/
       backendRefs:
         - name: homelab-envoy-proxy-bouncer
           port: 8081
