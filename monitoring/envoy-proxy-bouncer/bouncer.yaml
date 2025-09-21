@@ -112,7 +112,7 @@ spec:
             - name: ENVOY_BOUNCER_WAF_APPSECURL
               value: "http://crowdsec-appsec-service.crowdsec.svc.cluster.local:7422"
             - name: ENVOY_BOUNCER_CAPTCHA_ENABLED
-              value: "false"
+              value: "true"
             - name: ENVOY_BOUNCER_CAPTCHA_PROVIDER
               value: "turnstile"
             - name: ENVOY_BOUNCER_CAPTCHA_SITEKEY
