@@ -135,7 +135,6 @@ spec:
               cpu: 100m
               memory: 128Mi
 ---
-# Source: envoy-proxy-bouncer/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
@@ -154,3 +153,10 @@ spec:
           name: homelab-envoy-proxy-bouncer
           port: 8080
           namespace: envoy-gateway-system
+    rules:
+      - action:
+          type: Skip
+        matches:
+          - path:
+              type: PathPrefix
+              value: /captcha/
