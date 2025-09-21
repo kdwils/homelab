@@ -4,3 +4,4 @@ resources:
   - bouncer.yaml
   - sealedsecret.yaml
   - httproute.yaml
+  - referencegrant.yaml
