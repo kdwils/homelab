@@ -2,6 +2,7 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: homelab-bouncer
+  namespace: envoy-gateway-system
 spec:
   parentRefs:
     - name: homelab
@@ -16,11 +17,13 @@ spec:
       backendRefs:
         - name: homelab-envoy-proxy-bouncer
           port: 8080
+          namespace: envoy-gateway-system
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: homelab-bouncer-captcha
+  namespace: envoy-gateway-system
 spec:
   parentRefs:
     - name: homelab
@@ -35,17 +38,41 @@ spec:
       backendRefs:
         - name: homelab-envoy-proxy-bouncer
           port: 8081
+          namespace: envoy-gateway-system
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: homelab-gateway-security
-  namespace: envoy-gateway-system
 spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: homelab
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: argocd
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: bluesky
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: homelab-bouncer
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: mealie
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: overseer
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: plex
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: pocketid
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: vaultwarden
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: blog
   extAuth:
     grpc:
       backendRefs:
@@ -54,15 +81,3 @@ spec:
           name: homelab-envoy-proxy-bouncer
           port: 8080
           namespace: envoy-gateway-system
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: SecurityPolicy
-metadata:
-  name: homelab-captcha-security-override
-  namespace: envoy-gateway-system
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    name: homelab-bouncer-captcha
-  extAuth: null
