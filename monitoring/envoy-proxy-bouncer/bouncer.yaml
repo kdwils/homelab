@@ -112,7 +112,7 @@ spec:
             - name: ENVOY_BOUNCER_WAF_APPSECURL
               value: "http://crowdsec-appsec-service.crowdsec.svc.cluster.local:7422"
             - name: ENVOY_BOUNCER_CAPTCHA_ENABLED
-              value: "true"
+              value: "false"
             - name: ENVOY_BOUNCER_CAPTCHA_PROVIDER
               value: "turnstile"
             - name: ENVOY_BOUNCER_CAPTCHA_SITEKEY
@@ -134,17 +134,6 @@ spec:
             limits:
               cpu: 100m
               memory: 128Mi
----
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: SecurityPolicy
-metadata:
-  name: no-auth-captcha
-  namespace: envoy-gateway-system
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    name: captcha-route
 ---
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
