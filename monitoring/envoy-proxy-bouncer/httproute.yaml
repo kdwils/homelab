@@ -65,4 +65,3 @@ spec:
     group: gateway.networking.k8s.io
     kind: HTTPRoute
     name: homelab-bouncer-captcha
-  extAuth: {}
