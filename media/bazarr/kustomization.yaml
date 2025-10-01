@@ -5,6 +5,7 @@ resources:
   - deployment.yaml
   - service.yaml
   - httproute.yaml
+  - securitypolicy.yaml
 
 images:
   - name: bazarr
