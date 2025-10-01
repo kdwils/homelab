@@ -1,13 +1,13 @@
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: mealie
-  namespace: mealie
+  name: bazarr
+  namespace: bazarr
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
-      name: mealie
+      name: bazarr
   extAuth:
     grpc:
       backendRefs:
