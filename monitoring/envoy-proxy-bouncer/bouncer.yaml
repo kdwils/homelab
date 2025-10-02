@@ -135,7 +135,7 @@ spec:
             - name: ENVOY_BOUNCER_SERVER_HTTPPORT
               value: "8081"
             - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
-              value: debug
+              value: info
           resources:
             limits:
               cpu: 100m
