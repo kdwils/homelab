@@ -13,6 +13,6 @@ spec:
       backendRefs:
         - group: ""
           kind: Service
-          name: test-envoy-proxy-bouncer
+          name: homelab-envoy-proxy-bouncer
           port: 8080
           namespace: envoy-gateway-system

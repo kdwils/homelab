@@ -64,19 +64,18 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
-      securityContext:
-        {}
+      securityContext: {}
       containers:
         - name: envoy-proxy-bouncer
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - all
+                - all
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.2.2"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-5d1e118bc91875f9e1934763c3eb92965d244f72"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -182,28 +181,28 @@ metadata:
   name: homelab-envoy-proxy-bouncer
 spec:
   from:
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: argocd
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: bluesky
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: mealie
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: media
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: pocketid
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: vaultwarden
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: blog
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: argocd
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: bluesky
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: mealie
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: media
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: pocketid
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: vaultwarden
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: blog
   to:
-  - group: ""
-    kind: Service
-    name: homelab-envoy-proxy-bouncer
+    - group: ""
+      kind: Service
+      name: homelab-envoy-proxy-bouncer
