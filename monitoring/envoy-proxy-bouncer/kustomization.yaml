@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - bouncer.yaml
   - sealedsecret.yaml
+  - test.yaml
