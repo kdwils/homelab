@@ -3,11 +3,11 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: test-tinyauth
+  name: homelab-tinyauth
   labels:
     helm.sh/chart: tinyauth-0.1.0
     app.kubernetes.io/name: tinyauth
-    app.kubernetes.io/instance: test
+    app.kubernetes.io/instance: homelab
     app.kubernetes.io/version: "v4.0.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
@@ -16,11 +16,11 @@ automountServiceAccountToken: true
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: test-tinyauth
+  name: homelab-tinyauth
   labels:
     helm.sh/chart: tinyauth-0.1.0
     app.kubernetes.io/name: tinyauth
-    app.kubernetes.io/instance: test
+    app.kubernetes.io/instance: homelab
     app.kubernetes.io/version: "v4.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -34,11 +34,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: test-tinyauth
+  name: homelab-tinyauth
   labels:
     helm.sh/chart: tinyauth-0.1.0
     app.kubernetes.io/name: tinyauth
-    app.kubernetes.io/instance: test
+    app.kubernetes.io/instance: homelab
     app.kubernetes.io/version: "v4.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -50,17 +50,17 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: tinyauth
-    app.kubernetes.io/instance: test
+    app.kubernetes.io/instance: homelab
 ---
 # Source: tinyauth/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test-tinyauth
+  name: homelab-tinyauth
   labels:
     helm.sh/chart: tinyauth-0.1.0
     app.kubernetes.io/name: tinyauth
-    app.kubernetes.io/instance: test
+    app.kubernetes.io/instance: homelab
     app.kubernetes.io/version: "v4.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -68,17 +68,17 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: tinyauth
-      app.kubernetes.io/instance: test
+      app.kubernetes.io/instance: homelab
   template:
     metadata:
       labels:
         helm.sh/chart: tinyauth-0.1.0
         app.kubernetes.io/name: tinyauth
-        app.kubernetes.io/instance: test
+        app.kubernetes.io/instance: homelab
         app.kubernetes.io/version: "v4.0.0"
         app.kubernetes.io/managed-by: Helm
     spec:
-      serviceAccountName: test-tinyauth
+      serviceAccountName: homelab-tinyauth
       securityContext: {}
       containers:
         - name: tinyauth
@@ -119,6 +119,8 @@ spec:
               value: "https://pocketid.kyledev.co/api/oidc/token"
             - name: PROVIDERS_POCKETID_USER_INFO_URL
               value: "https://pocketid.kyledev.co/api/oidc/userinfo"
+            - name: PROVIDERS_POCKETID_SCOPES
+              value: "openid email profile groups"
           livenessProbe:
             httpGet:
               path: /api/health
@@ -134,22 +136,22 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: test-tinyauth
+            claimName: homelab-tinyauth
 ---
 # Source: tinyauth/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: HTTPRoute
 metadata:
-  name: test-tinyauth-httproute
+  name: homelab-tinyauth-httproute
   labels:
     helm.sh/chart: tinyauth-0.1.0
     app.kubernetes.io/name: tinyauth
-    app.kubernetes.io/instance: test
+    app.kubernetes.io/instance: homelab
     app.kubernetes.io/version: "v4.0.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
-    - name: homelab
+    - name: homelab-gateway
       namespace: envoy-gateway-system
   hostnames:
     - tinyauth.ts.kyledev.co
@@ -160,5 +162,5 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: test-tinyauth
+        - name: homelab-tinyauth
           port: 80
