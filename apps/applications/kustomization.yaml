@@ -12,3 +12,4 @@ resources:
   - pocketid.yaml
   - vaultwarden.yaml
   - rss.yaml
+  - tinyauth.yaml
