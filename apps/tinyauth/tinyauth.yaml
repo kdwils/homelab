@@ -95,7 +95,7 @@ spec:
             - name: ADDRESS
               value: "0.0.0.0"
             - name: APP_URL
-              value: "https://pocketid.ts.kyledev.co"
+              value: "https://tinyauth.int.kyledev.co"
             - name: SESSION_EXPIRY
               value: "86400"
             - name: LOG_LEVEL
