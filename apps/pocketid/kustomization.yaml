@@ -12,4 +12,4 @@ resources:
 images:
   - name: pocketid
     newName: ghcr.io/pocket-id/pocket-id
-    newTag: v1.12.0
+    newTag: v1.13.0
