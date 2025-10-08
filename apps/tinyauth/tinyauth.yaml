@@ -83,7 +83,7 @@ spec:
       containers:
         - name: tinyauth
           securityContext: {}
-          image: "ghcr.io/steveiliop56/tinyauth:nightly"
+          image: "ghcr.io/steveiliop56/tinyauth:v4.0.0"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
