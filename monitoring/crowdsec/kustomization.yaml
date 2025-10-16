@@ -4,5 +4,6 @@ resources:
   - agent.yaml
   - appsec.yaml
   - lapi.yaml
+  - profiles.yaml
   - sealedsecret.yaml
   - namespace.yaml

@@ -737,6 +737,9 @@ spec:
             - name: crowdsec-config-local-volume
               mountPath: /etc/crowdsec_data/config.yaml.local
               subPath: config.yaml.local
+            - name: crowdsec-profiles
+              mountPath: /etc/crowdsec_data/profiles.yaml
+              subPath: profiles.yaml
       terminationGracePeriodSeconds: 30
       volumes:
         - name: crowdsec-docker-start-script
@@ -751,6 +754,9 @@ spec:
         - name: crowdsec-config-local-volume
           configMap:
             name: crowdsec-config-local
+        - name: crowdsec-profiles
+          configMap:
+            name: crowdsec-profiles
       priorityClassName:
 ---
 apiVersion: v1
