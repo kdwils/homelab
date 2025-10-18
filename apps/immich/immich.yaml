@@ -60,12 +60,7 @@ spec:
       hostPID: false
       dnsPolicy: ClusterFirst
       containers:
-        - env:
-            - name: IMMICH_MACHINE_LEARNING_URL
-              value: http://immich-machine-learning:3003
-            - name: REDIS_HOSTNAME
-              value: immich-valkey
-          image: ghcr.io/immich-app/immich-server:v2.0.0
+        - image: ghcr.io/immich-app/immich-server:v2.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
