@@ -7,3 +7,4 @@ resources:
   - profiles.yaml
   - sealedsecret.yaml
   - namespace.yaml
+  - httproute.yaml
