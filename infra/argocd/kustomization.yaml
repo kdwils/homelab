@@ -5,7 +5,7 @@ resources:
   - httproute.yaml
   - namespace.yaml
   - securitypolicy.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v3.1.7/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v3.1.9/manifests/install.yaml
 
 namespace: argocd
 
