@@ -270,6 +270,9 @@ spec:
     - group: gateway.envoyproxy.io
       kind: SecurityPolicy
       namespace: blog
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: blog-dev
   to:
     - group: ""
       kind: Service
