@@ -13,4 +13,4 @@ spec:
   rules:
     - backendRefs:
         - name: immich-server
-          port: 3001
+          port: 2283
