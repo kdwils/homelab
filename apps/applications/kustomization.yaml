@@ -9,6 +9,7 @@ resources:
   - kargo.yaml
   - mealie.yaml
   - minio.yaml
+  - immich.yaml
   - pocketid.yaml
   - vaultwarden.yaml
   - rss.yaml
