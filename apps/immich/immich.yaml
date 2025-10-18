@@ -11,7 +11,6 @@ metadata:
     app.kubernetes.io/service: immich-server
     app.kubernetes.io/version: v2.0.0
     helm.sh/chart: immich-0.10.0
-  namespace: default
 spec:
   type: ClusterIP
   ports:
@@ -36,7 +35,6 @@ metadata:
     app.kubernetes.io/name: server
     app.kubernetes.io/version: v2.0.0
     helm.sh/chart: immich-0.10.0
-  namespace: default
 spec:
   revisionHistoryLimit: 3
   replicas: 1
