@@ -9,4 +9,4 @@ resources:
 images:
   - name: radarr
     newName: linuxserver/radarr
-    newTag: 5.27.5
+    newTag: 5.28.0
