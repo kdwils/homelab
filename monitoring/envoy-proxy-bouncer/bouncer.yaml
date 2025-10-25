@@ -107,7 +107,7 @@ metadata:
     app.kubernetes.io/version: "v0.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: envoy-proxy-bouncer
