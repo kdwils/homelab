@@ -133,7 +133,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-df785a50bdaa706c6dcae0d2bbcef1d5966245eb"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-62dfdeb3f5e40c3fd2b88696b26b55b1a4335b55"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -180,11 +180,6 @@ spec:
                 secretKeyRef:
                   name: "envoy-bouncer"
                   key: "secretKey"
-            - name: ENVOY_BOUNCER_CAPTCHA_SIGNINGKEY
-              valueFrom:
-                secretKeyRef:
-                  name: "envoy-bouncer"
-                  key: "signingKey"
             - name: ENVOY_BOUNCER_CAPTCHA_SESSIONDURATION
               value: "15m"
             - name: ENVOY_BOUNCER_CAPTCHA_TIMEOUT
