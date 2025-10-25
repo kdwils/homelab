@@ -133,7 +133,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-62dfdeb3f5e40c3fd2b88696b26b55b1a4335b55"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-a8ab217f7e3e8035b3df99daf28fed4331847692"
           imagePullPolicy: IfNotPresent
           ports:
             - name: grpc
@@ -180,6 +180,13 @@ spec:
                 secretKeyRef:
                   name: "envoy-bouncer"
                   key: "secretKey"
+            - name: ENVOY_BOUNCER_CAPTCHA_SIGNINGKEY
+              valueFrom:
+                secretKeyRef:
+                  name: "envoy-bouncer"
+                  key: "signingKey"
+            - name: ENVOY_BOUNCER_CAPTCHA_COOKIEDOMAIN
+              value: ".kyledev.co"
             - name: ENVOY_BOUNCER_CAPTCHA_SESSIONDURATION
               value: "15m"
             - name: ENVOY_BOUNCER_CAPTCHA_TIMEOUT
