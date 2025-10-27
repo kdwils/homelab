@@ -241,13 +241,6 @@ spec:
       backendRefs:
         - name: homelab-envoy-proxy-bouncer
           port: 8081
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
-        - name: homelab-envoy-proxy-bouncer
-          port: 8080
 ---
 # Source: envoy-proxy-bouncer/templates/referencegrant.yaml
 apiVersion: gateway.networking.k8s.io/v1beta1
