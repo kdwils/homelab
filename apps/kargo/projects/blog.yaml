@@ -2,11 +2,13 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
   name: blog
+  namespace: blog
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: blog
+  namespace: blog
 spec:
   promotionPolicies:
     - stageSelector:
@@ -20,6 +22,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: blog
+  namespace: blog
 spec:
   subscriptions:
     - image:
