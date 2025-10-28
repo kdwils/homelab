@@ -51,7 +51,7 @@ spec:
         name: blog
       sources:
         stages:
-          - dev
+          - blog-dev
   promotionTemplate:
     spec:
       vars:
