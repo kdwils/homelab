@@ -41,25 +41,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: blog-kargo
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    namespace: kargo
-    server: "https://kubernetes.default.svc"
-  source:
-    path: kargo
-    repoURL: "https://github.com/kdwils/blog-deploy"
-    targetRevision: dev
-  sources: []
-  project: apps
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
