@@ -7,7 +7,6 @@ resources:
   - sealedsecret.yaml
   - promotion.yaml
   - global-credentials-rolebinding.yaml
-  - projects
 
 images:
   - name: kargo

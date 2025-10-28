@@ -4,40 +4,29 @@ metadata:
   name: blog
 ---
 apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: blog
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: dev
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: prod
+      autoPromotionEnabled: false
+---
+apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: blog
-  namespace: blog
 spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/blog
-        constraint: ^1.0.0 # Semver constraint
-        discoveryLimit: 5
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: blog-dev
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        direct: true
-  promotionTemplate:
-    spec:
-      vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-      steps:
-        - task:
-            kind: ClusterPromotionTask
-            name: kustomize-image-promote
+        semverConstraint: ^1.0.0
+    - git:
+        repoURL: https://github.com/kdwils/blog-deploy.git
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -56,10 +45,40 @@ spec:
     spec:
       vars:
         - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
+          value: https://github.com/kdwils/blog-deploy.git
         - name: imageRepo
           value: ghcr.io/kdwils/blog
       steps:
         - task:
-            kind: ClusterPromotionTask
             name: kustomize-image-promote
+            kind: ClusterPromotionTask
+          config:
+            gitRepo: ${{ vars.gitRepo }}
+            imageRepo: ${{ vars.imageRepo }}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: blog-dev
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy.git
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
+      steps:
+        - task:
+            name: kustomize-image-promote
+            kind: ClusterPromotionTask
+          config:
+            gitRepo: ${{ vars.gitRepo }}
+            imageRepo: ${{ vars.imageRepo }}
