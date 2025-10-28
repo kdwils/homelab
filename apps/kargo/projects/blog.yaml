@@ -32,6 +32,7 @@ spec:
         semverConstraint: ^1.0.0
     - git:
         repoURL: https://github.com/kdwils/blog-deploy.git
+        branch: main
         includePaths:
           - base/**
           - overlays/**
