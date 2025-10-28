@@ -33,9 +33,6 @@ spec:
     - git:
         repoURL: https://github.com/kdwils/blog-deploy.git
         branch: main
-        includePaths:
-          - base/**
-          - overlays/**
         excludePaths:
           - rendered/**
 ---
