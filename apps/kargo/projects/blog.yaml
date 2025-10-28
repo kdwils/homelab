@@ -54,6 +54,9 @@ spec:
         - task:
             name: kustomize-image-promote
             kind: ClusterPromotionTask
+          config:
+            gitRepo: ${{ vars.gitRepo }}
+            imageRepo: ${{ vars.imageRepo }}
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -78,3 +81,6 @@ spec:
         - task:
             name: kustomize-image-promote
             kind: ClusterPromotionTask
+          config:
+            gitRepo: ${{ vars.gitRepo }}
+            imageRepo: ${{ vars.imageRepo }}
