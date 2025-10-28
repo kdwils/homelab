@@ -1,0 +1,63 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: blog
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: blog
+  namespace: blog
+spec:
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/kdwils/blog
+        constraint: ^1.0.0 # Semver constraint
+        discoveryLimit: 5
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
+      steps:
+        - task:
+            name: kustomize-image-promote
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        stages:
+          - dev
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
+      steps:
+        - task:
+            name: kustomize-image-promote
