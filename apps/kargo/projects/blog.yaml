@@ -10,10 +10,10 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: dev
+        name: blog-dev
       autoPromotionEnabled: true
     - stageSelector:
-        name: prod
+        name: blog-prod
       autoPromotionEnabled: false
 ---
 apiVersion: kargo.akuity.io/v1alpha1
