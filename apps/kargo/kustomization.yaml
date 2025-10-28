@@ -5,7 +5,9 @@ resources:
   - kargo.yaml
   - httproute.yaml
   - sealedsecret.yaml
-  - promotion.yaml
+  - promotion-render.yaml
+  - promotion-auto-merge.yaml
+  - promotion-manual-approval.yaml
   - global-credentials-rolebinding.yaml
   - projects
 

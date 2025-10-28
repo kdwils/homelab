@@ -1,0 +1,78 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: promote-with-auto-merge
+  namespace: kargo
+spec:
+  vars:
+    - name: gitRepo
+    - name: sourcePath
+    - name: targetBranch
+    - name: appName
+    - name: appNamespace
+      value: argocd
+  steps:
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - commit: ${{ commitFrom(vars.gitRepo).ID }}
+            path: ./source
+          - branch: ${{ vars.targetBranch }}
+            create: true
+            path: ./target
+    - uses: copy
+      config:
+        inPath: ./source/${{ vars.sourcePath }}
+        outPath: ./target
+
+    - uses: git-commit
+      config:
+        path: ./target
+        message: |
+          Promote to ${{ vars.targetBranch }}
+
+          Image: ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}
+          Commit: ${{ commitFrom(vars.gitRepo).ID }}
+
+    # Push to a temporary branch for PR
+    - uses: git-push
+      as: push
+      config:
+        path: ./target
+        generateTargetBranch: true
+
+    # Open PR from temp branch to target branch
+    - uses: git-open-pr
+      as: open-pr
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ outputs.push.branch }}
+        targetBranch: ${{ vars.targetBranch }}
+        createTargetBranch: true
+        title: "Deploy blog to ${{ vars.targetBranch }} - ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}"
+        description: |
+          ## Automated Deployment
+
+          **Image:** `${{ imageFrom('ghcr.io/kdwils/blog').Tag }}`
+          **Source Commit:** `${{ commitFrom(vars.gitRepo).ID }}`
+
+          This PR was automatically created by Kargo and will be auto-merged.
+
+    # Auto-merge the PR
+    - uses: git-merge-pr
+      as: merge-pr
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ outputs['open-pr'].pr.id }}
+
+    # Update ArgoCD app to sync to the merged commit
+    - uses: argocd-update
+      config:
+        apps:
+          - name: ${{ vars.appName }}
+            namespace: ${{ vars.appNamespace }}
+            sources:
+              - repoURL: ${{ vars.gitRepo }}
+                desiredRevision: ${{ vars.targetBranch }}
+                desiredCommitID: ${{ outputs['merge-pr'].commit }}

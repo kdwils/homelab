@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: blog-dev
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: blog:dev
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,9 +12,9 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: env/dev
+    path: .
     repoURL: "https://github.com/kdwils/blog-deploy"
-    targetRevision: dev
+    targetRevision: stage/dev
   sources: []
   project: apps
   syncPolicy:
@@ -25,6 +27,8 @@ kind: Application
 metadata:
   name: blog-prod
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: blog:prod
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -32,9 +36,9 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: env/prod
+    path: .
     repoURL: "https://github.com/kdwils/blog-deploy"
-    targetRevision: prod
+    targetRevision: stage/prod
   sources: []
   project: apps
   syncPolicy:

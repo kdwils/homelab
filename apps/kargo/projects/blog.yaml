@@ -11,11 +11,14 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
+        name: render
+      autoPromotionEnabled: true
+    - stageSelector:
         name: dev
       autoPromotionEnabled: true
     - stageSelector:
         name: prod
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
@@ -29,6 +32,64 @@ spec:
         semverConstraint: ^1.0.0
     - git:
         repoURL: https://github.com/kdwils/blog-deploy.git
+        includePaths:
+          - base/**
+          - overlays/**
+        excludePaths:
+          - rendered/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: render
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
+      steps:
+        - task:
+            name: render-kustomize
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        stages:
+          - render
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy
+        - name: sourcePath
+          value: rendered/dev
+        - name: targetBranch
+          value: stage/dev
+        - name: appName
+          value: blog-dev
+      steps:
+        - task:
+            name: promote-with-auto-merge
+            kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -48,33 +109,13 @@ spec:
       vars:
         - name: gitRepo
           value: https://github.com/kdwils/blog-deploy
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
+        - name: sourcePath
+          value: rendered/prod
+        - name: targetBranch
+          value: stage/prod
+        - name: appName
+          value: blog-prod
       steps:
         - task:
-            name: kustomize-image-promote
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: dev
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        direct: true
-  promotionTemplate:
-    spec:
-      vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-      steps:
-        - task:
-            name: kustomize-image-promote
+            name: promote-with-manual-approval
             kind: ClusterPromotionTask

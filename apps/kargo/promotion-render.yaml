@@ -1,0 +1,45 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-kustomize
+  namespace: kargo
+spec:
+  vars:
+    - name: gitRepo
+    - name: imageRepo
+    - name: targetRevision
+      value: main
+  steps:
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.targetRevision }}
+            path: ./src
+    - uses: kustomize-set-image
+      config:
+        path: ./src/overlays/dev
+        images:
+          - image: ${{ vars.imageRepo }}
+            tag: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: kustomize-build
+      config:
+        path: ./src/overlays/dev
+        outPath: ./src/rendered/dev/manifest.yaml
+    - uses: kustomize-set-image
+      config:
+        path: ./src/overlays/prod
+        images:
+          - image: ${{ vars.imageRepo }}
+            tag: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: kustomize-build
+      config:
+        path: ./src/overlays/prod
+        outPath: ./src/rendered/prod/manifest.yaml
+    - uses: git-commit
+      config:
+        path: ./src
+        message: "Render manifests for ${{ imageFrom(vars.imageRepo).Tag }}"
+    - uses: git-push
+      config:
+        path: ./src

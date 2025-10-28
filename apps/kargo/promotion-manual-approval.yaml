@@ -1,0 +1,88 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: promote-with-manual-approval
+  namespace: kargo
+spec:
+  vars:
+    - name: gitRepo
+    - name: sourcePath
+    - name: targetBranch
+    - name: appName
+    - name: appNamespace
+      value: argocd
+  steps:
+    # Clone the main branch with rendered manifests
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          # Clone from the commit that contains rendered manifests
+          - commit: ${{ commitFrom(vars.gitRepo).ID }}
+            path: ./source
+          # Checkout or create the target branch for deployment
+          - branch: ${{ vars.targetBranch }}
+            create: true
+            path: ./target
+
+    # Copy rendered manifests to the root of target branch
+    - uses: copy
+      config:
+        inPath: ./source/${{ vars.sourcePath }}
+        outPath: ./target
+
+    # Commit the changes with descriptive message
+    - uses: git-commit
+      config:
+        path: ./target
+        message: |
+          Promote to ${{ vars.targetBranch }}
+
+          Image: ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}
+          Commit: ${{ commitFrom(vars.gitRepo).ID }}
+
+    # Push to a temporary branch for PR
+    - uses: git-push
+      as: push
+      config:
+        path: ./target
+        generateTargetBranch: true
+
+    # Open PR from temp branch to target branch
+    - uses: git-open-pr
+      as: open-pr
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ outputs.push.branch }}
+        targetBranch: ${{ vars.targetBranch }}
+        createTargetBranch: true
+        title: "Deploy blog to ${{ vars.targetBranch }} - ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}"
+        description: |
+          ## Production Deployment - Review Required
+
+          **Image:** `${{ imageFrom('ghcr.io/kdwils/blog').Tag }}`
+          **Source Commit:** `${{ commitFrom(vars.gitRepo).ID }}`
+
+          This PR was automatically created by Kargo for production deployment.
+
+          **⚠️ Manual review and approval required before merging.**
+
+          Please review the rendered manifest changes in the "Files changed" tab.
+
+    # Wait for manual PR approval and merge
+    - uses: git-wait-for-pr
+      as: wait-for-pr
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ outputs['open-pr'].pr.id }}
+
+    # Update ArgoCD app to sync to the merged commit
+    - uses: argocd-update
+      config:
+        apps:
+          - name: ${{ vars.appName }}
+            namespace: ${{ vars.appNamespace }}
+            sources:
+              - repoURL: ${{ vars.gitRepo }}
+                desiredRevision: ${{ vars.targetBranch }}
+                desiredCommitID: ${{ outputs['wait-for-pr'].commit }}
