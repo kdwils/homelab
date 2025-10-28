@@ -6987,3 +6987,230 @@ spec:
             resources:
               {}
           restartPolicy: Never
+---
+# Source: kargo/templates/kubernetes-webhooks-server/webhooks.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: kargo
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
+  annotations:
+    cert-manager.io/inject-ca-from: kargo/kargo-webhooks-server
+webhooks:
+- name: freight.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /mutate-kargo-akuity-io-v1alpha1-freight
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["freights"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: promotion.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /mutate-kargo-akuity-io-v1alpha1-promotion
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["promotions"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: stage.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /mutate-kargo-akuity-io-v1alpha1-stage
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["stages"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: warehouse.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /mutate-kargo-akuity-io-v1alpha1-warehouse
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["warehouses"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+---
+# Source: kargo/templates/kubernetes-webhooks-server/webhooks.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: kargo
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
+  annotations:
+    cert-manager.io/inject-ca-from: kargo/kargo-webhooks-server
+webhooks:
+- name: clusterconfig.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-clusterconfig
+  rules:
+  - scope: Cluster
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["clusterconfigs"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: clusterpromotiontask.kargo.akuity.io
+  admissionReviewVersions: [ "v1" ]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-clusterpromotiontask
+  rules:
+  - scope: Cluster
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["clusterpromotiontasks"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: freight.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-freight
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["freights", "freights/status"]
+    operations: ["CREATE", "UPDATE", "DELETE"]
+  failurePolicy: Fail
+- name: project.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: NoneOnDryRun
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-project
+  rules:
+  - scope: Cluster
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["projects"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: projectconfig.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: NoneOnDryRun
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-projectconfig
+  rules:
+    - scope: Namespaced
+      apiGroups: ["kargo.akuity.io"]
+      apiVersions: ["v1alpha1"]
+      resources: ["projectconfigs"]
+      operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: promotion.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-promotion
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["promotions"]
+    operations: ["CREATE", "UPDATE", "DELETE"]
+  failurePolicy: Fail
+- name: promotiontask.kargo.akuity.io
+  admissionReviewVersions: [ "v1" ]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-promotiontask
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["promotiontasks"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: stage.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-stage
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["stages"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
+- name: warehouse.kargo.akuity.io
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  clientConfig:
+    service:
+      namespace: kargo
+      name: kargo-webhooks-server
+      path: /validate-kargo-akuity-io-v1alpha1-warehouse
+  rules:
+  - scope: Namespaced
+    apiGroups: ["kargo.akuity.io"]
+    apiVersions: ["v1alpha1"]
+    resources: ["warehouses"]
+    operations: ["CREATE", "UPDATE"]
+  failurePolicy: Fail
