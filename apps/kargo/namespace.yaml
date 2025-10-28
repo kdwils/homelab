@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kargo-cluster-secrets
+  labels:
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/component: cluster-secrets
