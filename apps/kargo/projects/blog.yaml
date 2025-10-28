@@ -18,7 +18,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: dev
+  name: blog-dev
   namespace: blog
 spec:
   requestedFreight:
@@ -42,7 +42,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: prod
+  name: blog-prod
   namespace: blog
 spec:
   requestedFreight:
