@@ -53,6 +53,20 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: garbage-collector
 ---
+# Source: kargo/templates/kubernetes-webhooks-server/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kargo-webhooks-server
+  namespace: kargo
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+---
 # Source: kargo/templates/management-controller/service-account.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -214,6 +228,25 @@ data:
   MIN_PROMOTION_DELETION_AGE: "336h"
   MAX_RETAINED_FREIGHT: "20"
   MIN_FREIGHT_DELETION_AGE: "336h"
+---
+# Source: kargo/templates/kubernetes-webhooks-server/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kargo-webhooks-server
+  namespace: kargo
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+data:
+  KARGO_NAMESPACE: kargo
+  LOG_LEVEL: "INFO"
+  LOG_FORMAT: "CONSOLE"
+  CONTROLPLANE_USER_REGEX: ^system:serviceaccount:kargo:(kargo-api|kargo-controller|kargo-garbage-collector|kargo-management-controller)$
 ---
 # Source: kargo/templates/management-controller/configmap.yaml
 apiVersion: v1
@@ -6072,6 +6105,131 @@ rules:
   - list
   - watch
 ---
+# Source: kargo/templates/kubernetes-webhooks-server/cluster-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kargo-webhooks-server
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - create
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+    - ""
+  resources:
+    - events
+  verbs:
+    - create
+    - patch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - secrets
+  - serviceaccounts
+  verbs:
+  - "*"
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  - roles
+  verbs:
+  - "*"
+- apiGroups:
+  - kargo.akuity.io
+  resources:
+  - clusterconfigs
+  - clusterpromotiontasks
+  - freights
+  - projects
+  - projectconfigs
+  - promotiontasks
+  - stages
+  - warehouses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - kargo.akuity.io
+  resources:
+  - project/status
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+---
+# Source: kargo/templates/kubernetes-webhooks-server/cluster-role.yaml
+# This cluster role is custom for the namespace controller. The namespace
+# controller will not actually be able to carry our promotions because it lacks
+# permission to create Promotion resources, but having the custom promote verb
+# on Stages allows it to delete Promotion resources associated with any Stage
+# when a namespace is deleted. Without this, the webhook would prevent that.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kargo-webhooks-server-ns-controller
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+rules:
+- apiGroups:
+  - kargo.akuity.io
+  resources:
+  - stages
+  verbs:
+  - promote
+---
+# Source: kargo/templates/kubernetes-webhooks-server/cluster-role.yaml
+# This cluster role is custom for the generic garbage collector. It will not
+# actually be able to carry our promotions because it lacks permission to create
+# Promotion resources, but having the custom promote verb on Stages allows it to
+# delete Promotion resources associated with any Stage when the Stage is
+# deleted. Without this, the webhook would prevent that and Stage deletions
+# would not cascade to related Promotions.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kargo-webhooks-server-generic-gc
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+rules:
+- apiGroups:
+  - kargo.akuity.io
+  resources:
+  - stages
+  verbs:
+  - promote
+---
 # Source: kargo/templates/management-controller/cluster-roles.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -6509,6 +6667,69 @@ subjects:
   namespace: kargo
   name: kargo-garbage-collector
 ---
+# Source: kargo/templates/kubernetes-webhooks-server/cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kargo-webhooks-server
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kargo-webhooks-server
+subjects:
+- kind: ServiceAccount
+  namespace: kargo
+  name: kargo-webhooks-server
+---
+# Source: kargo/templates/kubernetes-webhooks-server/cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kargo-webhooks-server-ns-controller
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kargo-webhooks-server-ns-controller
+subjects:
+- kind: ServiceAccount
+  namespace: kube-system
+  name: namespace-controller
+---
+# Source: kargo/templates/kubernetes-webhooks-server/cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kargo-webhooks-server-generic-gc
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kargo-webhooks-server-generic-gc
+subjects:
+- kind: ServiceAccount
+  namespace: kube-system
+  name: generic-garbage-collector
+---
 # Source: kargo/templates/management-controller/cluster-role-bindings.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -6721,6 +6942,30 @@ spec:
     app.kubernetes.io/instance: kargo
     app.kubernetes.io/component: api
 ---
+# Source: kargo/templates/kubernetes-webhooks-server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kargo-webhooks-server
+  namespace: kargo
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+spec:
+  type: ClusterIP
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 9443
+  selector:
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/component: kubernetes-webhooks-server
+---
 # Source: kargo/templates/api/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -6861,6 +7106,79 @@ spec:
       - name: tmp-data
         emptyDir: {}
 ---
+# Source: kargo/templates/kubernetes-webhooks-server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kargo-webhooks-server
+  namespace: kargo
+  labels:
+    helm.sh/chart: kargo-1.8.1
+    app.kubernetes.io/name: kargo
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "v1.8.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: kubernetes-webhooks-server
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kargo
+      app.kubernetes.io/instance: kargo
+      app.kubernetes.io/component: kubernetes-webhooks-server
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: kargo-1.8.1
+        app.kubernetes.io/name: kargo
+        app.kubernetes.io/instance: kargo
+        app.kubernetes.io/version: "v1.8.1"
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/component: kubernetes-webhooks-server
+      annotations:
+        configmap/checksum: 3c8f56df54b64ba8341117d66dd5cb356751704782a5334d42fafc1fa3808895
+    spec:
+      serviceAccount: kargo-webhooks-server
+      containers:
+      - name: webhooks-server
+        image: ghcr.io/akuity/kargo:v1.8.1
+        imagePullPolicy: IfNotPresent
+        command: ["/sbin/tini", "--", "/usr/local/bin/kargo"]
+        args: ["kubernetes-webhooks-server"]
+        env:
+        - name: GOMEMLIMIT
+          valueFrom:
+            resourceFieldRef:
+              containerName: webhooks-server
+              divisor: "1"
+              resource: limits.memory
+        - name: GOMAXPROCS
+          valueFrom:
+            resourceFieldRef:
+              containerName: webhooks-server
+              divisor: "1"
+              resource: limits.cpu
+        envFrom:
+        - configMapRef:
+            name: kargo-webhooks-server
+        ports:
+        - containerPort: 9443
+          name: webhooks-server
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: cert
+          readOnly: true
+        resources:
+          {}
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 0644
+          secretName: kargo-webhooks-server-cert
+---
 # Source: kargo/templates/management-controller/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -6987,6 +7305,29 @@ spec:
             resources:
               {}
           restartPolicy: Never
+---
+# Source: kargo/templates/kubernetes-webhooks-server/cert.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kargo-webhooks-server
+  namespace: kargo
+spec:
+  dnsNames:
+  - kargo-webhooks-server.kargo.svc
+  issuerRef:
+    kind: Issuer
+    name: kargo-selfsigned-cert-issuer
+  secretName: kargo-webhooks-server-cert
+---
+# Source: kargo/templates/common/cert-issuer.yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kargo-selfsigned-cert-issuer
+  namespace: kargo
+spec:
+  selfSigned: {}
 ---
 # Source: kargo/templates/kubernetes-webhooks-server/webhooks.yaml
 apiVersion: admissionregistration.k8s.io/v1
