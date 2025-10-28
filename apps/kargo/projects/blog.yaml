@@ -36,6 +36,7 @@ spec:
           value: ghcr.io/kdwils/blog
       steps:
         - task:
+            kind: ClusterPromotionTask
             name: kustomize-image-promote
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -60,4 +61,5 @@ spec:
           value: ghcr.io/kdwils/blog
       steps:
         - task:
+            kind: ClusterPromotionTask
             name: kustomize-image-promote
