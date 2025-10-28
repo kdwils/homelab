@@ -168,14 +168,11 @@ data:
   KARGO_NAMESPACE: kargo
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
-  TLS_ENABLED: "true"
-  TLS_CERT_PATH: /etc/kargo/tls.crt
-  TLS_KEY_PATH: /etc/kargo/tls.key
   SECRET_MANAGEMENT_ENABLED: "true"
   CLUSTER_SECRETS_NAMESPACE: kargo-cluster-secrets
   PERMISSIVE_CORS_POLICY_ENABLED: "false"
   ADMIN_ACCOUNT_ENABLED: "true"
-  ADMIN_ACCOUNT_TOKEN_ISSUER: https://kargo.int.kyledev.co
+  ADMIN_ACCOUNT_TOKEN_ISSUER: http://kargo.int.kyledev.co
   ADMIN_ACCOUNT_TOKEN_AUDIENCE: "kargo.int.kyledev.co"
   ADMIN_ACCOUNT_TOKEN_TTL: "24h"
   OIDC_ENABLED: "true"
@@ -203,7 +200,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 data:
-  API_SERVER_BASE_URL: https://kargo.int.kyledev.co
+  API_SERVER_BASE_URL: http://kargo.int.kyledev.co
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
   CLUSTER_SECRETS_NAMESPACE: kargo-cluster-secrets
@@ -238,14 +235,11 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: external-webhooks-server
 data:
-  EXTERNAL_WEBHOOK_SERVER_BASE_URL: https://kargo.int.kyledev.co
+  EXTERNAL_WEBHOOK_SERVER_BASE_URL: http://kargo.int.kyledev.co
   KARGO_NAMESPACE: kargo
   CLUSTER_SECRETS_NAMESPACE: kargo-cluster-secrets
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
-  TLS_ENABLED: "true"
-  TLS_CERT_PATH: /etc/kargo/tls.crt
-  TLS_KEY_PATH: /etc/kargo/tls.key
 ---
 # Source: kargo/templates/garbage-collector/configmap.yaml
 apiVersion: v1
@@ -302,7 +296,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: management-controller
 data:
-  EXTERNAL_WEBHOOK_SERVER_BASE_URL: https://kargo.int.kyledev.co
+  EXTERNAL_WEBHOOK_SERVER_BASE_URL: http://kargo.int.kyledev.co
   KARGO_NAMESPACE: kargo
   CLUSTER_SECRETS_NAMESPACE: kargo-cluster-secrets
   LOG_LEVEL: "INFO"
@@ -7028,7 +7022,7 @@ spec:
   type: ClusterIP
   ports:
   - protocol: TCP
-    port: 443
+    port: 80
     targetPort: 8080
   selector:
     app.kubernetes.io/name: kargo
@@ -7052,7 +7046,7 @@ spec:
   type: ClusterIP
   ports:
   - protocol: TCP
-    port: 443
+    port: 80
     targetPort: 8080
   selector:
     app.kubernetes.io/name: kargo
@@ -7115,7 +7109,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: api
       annotations:
-        configmap/checksum: f6cdfbb521c11daf441260a574c13dcc679ffd43a81c1f1ebcc21563e18ca202
+        configmap/checksum: d3b2ff2a2232cd12d5af7cf3675a58f62c5c2a80095cf4331fdd12fc4e8ca6d0
         secret/checksum: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
     spec:
       serviceAccount: kargo-api
@@ -7147,38 +7141,15 @@ spec:
               containerPort: 8080
               protocol: TCP
           livenessProbe:
-            exec:
-              command:
-                - /usr/local/bin/grpc_health_probe
-                - -addr=:8080
-                - -tls
-                - -tls-no-verify
+            grpc:
+              port: 8080
             initialDelaySeconds: 10
           readinessProbe:
-            exec:
-              command:
-                - /usr/local/bin/grpc_health_probe
-                - -addr=:8080
-                - -tls
-                - -tls-no-verify
+            grpc:
+              port: 8080
             initialDelaySeconds: 5
-          volumeMounts:
-            - mountPath: /etc/kargo
-              name: config
-              readOnly: true
           resources:
             {}
-      volumes:
-        - name: config
-          projected:
-            sources:
-              - secret:
-                  name: kargo-api-cert
-                  items:
-                    - key: tls.crt
-                      path: tls.crt
-                    - key: tls.key
-                      path: tls.key
 ---
 # Source: kargo/templates/controller/deployment.yaml
 apiVersion: apps/v1
@@ -7212,7 +7183,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: controller
       annotations:
-        configmap/checksum: 6cfecbbbc984f5246da9dc41bc5d6a66f298773d85a94ac67415056a3ed48634
+        configmap/checksum: f86577888281c292fe7d861222a0e4d40b1283112d1cad8d48d3be6d75c1f689
     spec:
       serviceAccount: kargo-controller
       containers:
@@ -7278,7 +7249,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: external-webhooks-server
       annotations:
-        configmap/checksum: ceb5a715051bb6f106eec56dc3623a44c015300179232665b2f0f1142f9ebc4b
+        configmap/checksum: 6d347a217c1d3d56c79b5e6c4ad9887bd916eec76be7585e03c7ba64f978951b
     spec:
       serviceAccount: kargo-external-webhooks-server
       containers:
@@ -7305,37 +7276,20 @@ spec:
             name: kargo-external-webhooks-server
         ports:
         - containerPort: 8080
-          name: "https"
+          name: "http"
           protocol: TCP
         livenessProbe:
           httpGet:
-            scheme: HTTPS
             port: 8080
             path: /healthz
           initialDelaySeconds: 10
         readinessProbe:
           httpGet:
-            scheme: HTTPS
             port: 8080
             path: /healthz
           initialDelaySeconds: 5
-        volumeMounts:
-        - mountPath: /etc/kargo
-          name: config
-          readOnly: true
         resources:
           {}
-      volumes:
-      - name: config
-        projected:
-          sources:
-            - secret:
-                name: kargo-external-webhooks-server-cert
-                items:
-                - key: tls.crt
-                  path: tls.crt
-                - key: tls.key
-                  path: tls.key
 ---
 # Source: kargo/templates/kubernetes-webhooks-server/deployment.yaml
 apiVersion: apps/v1
@@ -7442,7 +7396,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: management-controller
       annotations:
-        configmap/checksum: 74f266a1c04ebd5a4e8d8886fe7cf21a68ddf1427a46ad35847624c12229c757
+        configmap/checksum: 958c2dad9a3aaf1737abe8fed42201a0b40eba992ee28937c1eac7620d190f08
     spec:
       serviceAccount: kargo-management-controller
       containers:
@@ -7536,48 +7490,6 @@ spec:
             resources:
               {}
           restartPolicy: Never
----
-# Source: kargo/templates/api/cert.yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: kargo-api
-  namespace: kargo
-  labels:
-    helm.sh/chart: kargo-1.8.1
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.1"
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: api
-spec:
-  dnsNames:
-  - "kargo.int.kyledev.co"
-  issuerRef:
-    kind: Issuer
-    name: kargo-selfsigned-cert-issuer
-  secretName: kargo-api-cert
----
-# Source: kargo/templates/external-webhooks-server/cert.yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: kargo-external-webhooks-server
-  namespace: kargo
-  labels:
-    helm.sh/chart: kargo-1.8.1
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.1"
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: external-webhooks-server
-spec:
-  dnsNames:
-  - "kargo.int.kyledev.co"
-  issuerRef:
-    kind: Issuer
-    name: kargo-selfsigned-cert-issuer
-  secretName:  kargo-external-webhooks-server-cert
 ---
 # Source: kargo/templates/kubernetes-webhooks-server/cert.yaml
 apiVersion: cert-manager.io/v1
