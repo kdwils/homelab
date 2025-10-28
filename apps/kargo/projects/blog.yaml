@@ -44,7 +44,7 @@ spec:
     spec:
       vars:
         - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy.git
+          value: https://github.com/kdwils/blog-deploy
         - name: imageRepo
           value: ghcr.io/kdwils/blog
       steps:
@@ -70,7 +70,7 @@ spec:
     spec:
       vars:
         - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy.git
+          value: https://github.com/kdwils/blog-deploy
         - name: imageRepo
           value: ghcr.io/kdwils/blog
       steps:
