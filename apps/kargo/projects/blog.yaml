@@ -11,10 +11,10 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: blog-dev
+        name: dev
       autoPromotionEnabled: true
     - stageSelector:
-        name: blog-prod
+        name: prod
       autoPromotionEnabled: false
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -33,7 +33,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: blog-prod
+  name: prod
   namespace: blog
 spec:
   requestedFreight:
@@ -42,7 +42,7 @@ spec:
         name: blog
       sources:
         stages:
-          - blog-dev
+          - dev
   promotionTemplate:
     spec:
       vars:
@@ -58,7 +58,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: blog-dev
+  name: dev
   namespace: blog
 spec:
   requestedFreight:
