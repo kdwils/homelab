@@ -42,7 +42,7 @@ spec:
       as: open-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ outputs['push'].branch }}
+        sourceBranch: ${{ task.outputs['push'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: true
         title: "Deploy blog to ${{ vars.targetBranch }} - ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}"
@@ -59,7 +59,7 @@ spec:
       as: wait-for-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ outputs['open-pr'].pr.id }}
+        prNumber: ${{ task.outputs['open-pr'].pr.id }}
     - uses: argocd-update
       config:
         apps:
@@ -68,4 +68,4 @@ spec:
             sources:
               - repoURL: ${{ vars.gitRepo }}
                 desiredRevision: ${{ vars.targetBranch }}
-                desiredCommitID: ${{ outputs['wait-for-pr'].commit }}
+                desiredCommitID: ${{ task.outputs['wait-for-pr'].commit }}
