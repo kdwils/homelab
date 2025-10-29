@@ -101,7 +101,7 @@ spec:
         name: blog
       sources:
         stages:
-          - dev
+          - render
   promotionTemplate:
     spec:
       vars:
