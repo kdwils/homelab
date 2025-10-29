@@ -41,7 +41,7 @@ spec:
       as: open-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ outputs.push.branch }}
+        sourceBranch: ${{ outputs['push'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: true
         title: "Deploy blog to ${{ vars.targetBranch }} - ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}"
