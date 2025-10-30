@@ -55,10 +55,34 @@ spec:
           value: https://github.com/kdwils/blog-deploy
         - name: imageRepo
           value: ghcr.io/kdwils/blog
+        - name: targetRevision
+          value: main
       steps:
+        - task:
+            name: git-clone
+            kind: ClusterPromotionTask
         - task:
             name: render-kustomize
             kind: ClusterPromotionTask
+            vars:
+              - name: overlayPath
+                value: overlays/dev
+              - name: environment
+                value: dev
+        - task:
+            name: render-kustomize
+            kind: ClusterPromotionTask
+            vars:
+              - name: overlayPath
+                value: overlays/prod
+              - name: environment
+                value: prod
+        - task:
+            name: git-push
+            kind: ClusterPromotionTask
+            vars:
+              - name: commitMessage
+                value: "Render manifests for ${{ imageFrom(vars.imageRepo).Tag }}"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -78,6 +102,8 @@ spec:
       vars:
         - name: gitRepo
           value: https://github.com/kdwils/blog-deploy
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
         - name: sourcePath
           value: rendered/dev
         - name: targetBranch
@@ -101,12 +127,14 @@ spec:
         name: blog
       sources:
         stages:
-          - render
+          - dev
   promotionTemplate:
     spec:
       vars:
         - name: gitRepo
           value: https://github.com/kdwils/blog-deploy
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
         - name: sourcePath
           value: rendered/prod
         - name: targetBranch

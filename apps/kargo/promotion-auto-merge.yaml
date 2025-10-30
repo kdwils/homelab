@@ -6,6 +6,7 @@ metadata:
 spec:
   vars:
     - name: gitRepo
+    - name: imageRepo
     - name: sourcePath
     - name: targetBranch
     - name: appName
@@ -30,7 +31,7 @@ spec:
         path: ./target
         message: |
           Promote to ${{ vars.targetBranch }}
-          Image: ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}
+          Image: ${{ imageFrom(vars.imageRepo).Tag }}
           Commit: ${{ commitFrom(vars.gitRepo).ID }}
     - uses: git-push
       as: push
@@ -44,10 +45,10 @@ spec:
         sourceBranch: ${{ task.outputs['push'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: true
-        title: "Deploy blog to ${{ vars.targetBranch }} - ${{ imageFrom('ghcr.io/kdwils/blog').Tag }}"
+        title: "Deploy to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
         description: |
           ## Automated Deployment
-          **Image:** `${{ imageFrom('ghcr.io/kdwils/blog').Tag }}`
+          **Image:** `${{ imageFrom(vars.imageRepo).Tag }}`
           **Source Commit:** `${{ commitFrom(vars.gitRepo).ID }}`
           This PR was automatically created by Kargo and will be auto-merged.
     - uses: git-merge-pr

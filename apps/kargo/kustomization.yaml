@@ -5,7 +5,10 @@ resources:
   - kargo.yaml
   - httproute.yaml
   - sealedsecret.yaml
-  - promotion-render.yaml
+  - git-clone.yaml
+  - git-push.yaml
+  - kustomize-render.yaml
+  - helm-render.yaml
   - promotion-auto-merge.yaml
   - promotion-manual-approval.yaml
   - global-credentials-rolebinding.yaml

@@ -1,0 +1,17 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: git-clone
+  namespace: kargo
+spec:
+  vars:
+    - name: gitRepo
+    - name: targetRevision
+      value: main
+  steps:
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.targetRevision }}
+            path: ./src

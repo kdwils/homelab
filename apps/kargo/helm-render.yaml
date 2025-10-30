@@ -1,0 +1,23 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-helm
+  namespace: kargo
+spec:
+  vars:
+    - name: chartPath
+    - name: valuesFiles
+    - name: namespace
+    - name: releaseName
+    - name: environment
+  steps:
+    - uses: helm-update-chart
+      config:
+        path: ./src/${{ vars.chartPath }}
+    - uses: helm-template
+      config:
+        path: ./src/${{ vars.chartPath }}
+        valuesFiles: ${{ vars.valuesFiles }}
+        namespace: ${{ vars.namespace }}
+        releaseName: ${{ vars.releaseName }}
+        outPath: ./src/rendered/${{ vars.environment }}

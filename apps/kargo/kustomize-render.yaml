@@ -1,0 +1,21 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-kustomize
+  namespace: kargo
+spec:
+  vars:
+    - name: imageRepo
+    - name: overlayPath
+    - name: environment
+  steps:
+    - uses: kustomize-set-image
+      config:
+        path: ./src/${{ vars.overlayPath }}
+        images:
+          - image: ${{ vars.imageRepo }}
+            tag: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: kustomize-build
+      config:
+        path: ./src/${{ vars.overlayPath }}
+        outPath: ./src/rendered/${{ vars.environment }}/manifest.yaml
