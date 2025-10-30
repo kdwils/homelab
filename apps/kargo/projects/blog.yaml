@@ -64,25 +64,25 @@ spec:
         - task:
             name: render-kustomize
             kind: ClusterPromotionTask
-            vars:
-              - name: overlayPath
-                value: overlays/dev
-              - name: environment
-                value: dev
+          vars:
+            - name: overlayPath
+              value: overlays/dev
+            - name: environment
+              value: dev
         - task:
             name: render-kustomize
             kind: ClusterPromotionTask
-            vars:
-              - name: overlayPath
-                value: overlays/prod
-              - name: environment
-                value: prod
+          vars:
+            - name: overlayPath
+              value: overlays/prod
+            - name: environment
+              value: prod
         - task:
             name: git-push
             kind: ClusterPromotionTask
-            vars:
-              - name: commitMessage
-                value: "Render manifests for ${{ imageFrom(vars.imageRepo).Tag }}"
+          vars:
+            - name: commitMessage
+              value: "Render manifests for ${{ imageFrom(vars.imageRepo).Tag }}"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
