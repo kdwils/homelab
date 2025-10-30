@@ -2,7 +2,6 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
   name: git-clone
-  namespace: kargo
 spec:
   vars:
     - name: gitRepo
