@@ -33,8 +33,11 @@ spec:
     - git:
         repoURL: https://github.com/kdwils/blog-deploy.git
         branch: main
+        includePaths:
+          - overlays/
+          - base/
         excludePaths:
-          - rendered/**
+          - rendered/
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
