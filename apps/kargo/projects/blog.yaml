@@ -14,9 +14,6 @@ spec:
         name: update-config
       autoPromotionEnabled: true
     - stageSelector:
-        name: render
-      autoPromotionEnabled: true
-    - stageSelector:
         name: dev
       autoPromotionEnabled: true
     - stageSelector:
