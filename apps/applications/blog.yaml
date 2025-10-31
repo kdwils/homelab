@@ -4,7 +4,7 @@ metadata:
   name: blog-dev
   namespace: argocd
   annotations:
-    kargo.akuity.io/authorized-stage: blog:render
+    kargo.akuity.io/authorized-stage: blog:dev
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
