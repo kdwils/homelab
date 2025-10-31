@@ -34,9 +34,6 @@ spec:
     - uses: helm-update-chart
       config:
         path: ./src/${{ vars.chartPath }}
-    - uses: git-clear
-      config:
-        path: ./target/rendered
     - uses: helm-template
       config:
         path: ./src/${{ vars.chartPath }}
