@@ -129,6 +129,18 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
+        name: images
+      sources:
+        stages:
+          - update-image
+    - origin:
+        kind: Warehouse
+        name: helm-charts
+      sources:
+        stages:
+          - update-helm-charts
+    - origin:
+        kind: Warehouse
         name: blog-deploy
       sources:
         direct: true
@@ -163,8 +175,6 @@ spec:
       sources:
         stages:
           - render-manifests
-          - update-helm-charts
-          - update-image
   promotionTemplate:
     spec:
       vars:
