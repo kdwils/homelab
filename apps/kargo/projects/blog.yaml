@@ -117,7 +117,7 @@ spec:
           value: stage/dev
       steps:
         - task:
-            name: helm-update
+            name: update-image
             kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
