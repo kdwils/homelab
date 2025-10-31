@@ -12,26 +12,6 @@ spec:
     - name: appNamespace
       value: argocd
   steps:
-    - uses: git-clone
-      config:
-        repoURL: ${{ vars.gitRepo }}
-        checkout:
-          - branch: ${{ vars.sourceBranch }}
-            path: ./source
-          - branch: ${{ vars.targetBranch }}
-            create: true
-            path: ./target
-    - uses: git-commit
-      config:
-        path: ./target
-        message: |
-          Promote to ${{ vars.targetBranch }}
-          Image: ${{ imageFrom(vars.imageRepo).Tag }}
-    - uses: git-push
-      as: push
-      config:
-        path: ./target
-        generateTargetBranch: true
     - uses: git-open-pr
       as: open-pr
       config:
