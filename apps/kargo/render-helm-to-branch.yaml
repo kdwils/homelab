@@ -24,10 +24,7 @@ spec:
             path: ./target
     - uses: git-clear
       config:
-        path: ./target/rendered/dev/manifest.yaml
-    - uses: git-clear
-      config:
-        path: ./target/rendered/prod/manifest.yaml
+        path: ./target/rendered
     - uses: helm-update-chart
       config:
         path: ./src/${{ vars.chartPath }}
