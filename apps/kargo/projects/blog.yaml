@@ -45,7 +45,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: update-config
+  name: dev
   namespace: blog
 spec:
   requestedFreight:
@@ -70,31 +70,6 @@ spec:
       steps:
         - task:
             name: helm-render
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: dev
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        stages:
-          - update-config
-  promotionTemplate:
-    spec:
-      vars:
-        - name: appName
-          value: blog-dev
-        - name: appNamespace
-          value: argocd
-      steps:
-        - task:
-            name: argocd-sync
             kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
