@@ -1,0 +1,78 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: helm
+spec:
+  vars:
+    - name: gitRepo
+    - name: imageRepo
+    - name: chartPath
+    - name: sourceBranch
+    - name: targetBranch
+  steps:
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.sourceBranch }}
+            path: ./src
+          - branch: ${{ vars.targetBranch }}
+            create: true
+            path: ./target
+    - uses: yaml-update
+      config:
+        path: ./src/environments/dev/values.yaml
+        updates:
+          - key: blog.deployment.image.tag
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: yaml-update
+      config:
+        path: ./src/environments/prod/values.yaml
+        updates:
+          - key: blog.deployment.image.tag
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: helm-update-chart
+      config:
+        path: ./src/${{ vars.chartPath }}
+    - uses: git-commit
+      config:
+        path: ./src
+        message: |
+          Update blog configuration
+          Image: ${{ imageFrom(vars.imageRepo).Tag }}
+          Commit: ${{ commitFrom(vars.gitRepo).ID }}
+    - uses: git-push
+      as: push-main
+      config:
+        path: ./src
+    - uses: git-clear
+      config:
+        path: ./target/rendered
+    - uses: helm-template
+      config:
+        path: ./src/${{ vars.chartPath }}
+        valuesFiles:
+          - ./src/environments/dev/values.yaml
+        namespace: blog
+        releaseName: blog-dev
+        outPath: ./target/rendered/dev/manifest.yaml
+    - uses: helm-template
+      config:
+        path: ./src/${{ vars.chartPath }}
+        valuesFiles:
+          - ./src/environments/prod/values.yaml
+        namespace: blog
+        releaseName: blog-prod
+        outPath: ./target/rendered/prod/manifest.yaml
+    - uses: git-commit
+      config:
+        path: ./target
+        message: |
+          Render Helm manifests for ${{ vars.targetBranch }}
+          Image: ${{ imageFrom(vars.imageRepo).Tag }}
+          Commit: ${{ commitFrom(vars.gitRepo).ID }}
+    - uses: git-push
+      as: push-target
+      config:
+        path: ./target
+        targetBranch: ${{ vars.targetBranch }}

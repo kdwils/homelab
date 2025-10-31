@@ -1,0 +1,15 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: argocd-sync
+spec:
+  vars:
+    - name: appName
+    - name: appNamespace
+      value: argocd
+  steps:
+    - uses: argocd-update
+      config:
+        apps:
+          - name: ${{ vars.appName }}
+            namespace: ${{ vars.appNamespace }}

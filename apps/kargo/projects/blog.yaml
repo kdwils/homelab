@@ -61,11 +61,15 @@ spec:
           value: https://github.com/kdwils/blog-deploy
         - name: imageRepo
           value: ghcr.io/kdwils/blog
-        - name: targetRevision
+        - name: chartPath
+          value: charts/blog-deploy
+        - name: sourceBranch
           value: main
+        - name: targetBranch
+          value: stage/dev
       steps:
         - task:
-            name: helm-update-config
+            name: helm-render
             kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -84,21 +88,13 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-        - name: chartPath
-          value: charts/blog-deploy
-        - name: sourceBranch
-          value: main
-        - name: targetBranch
-          value: stage/dev
         - name: appName
           value: blog-dev
+        - name: appNamespace
+          value: argocd
       steps:
         - task:
-            name: render-helm-to-branch
+            name: argocd-sync
             kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
