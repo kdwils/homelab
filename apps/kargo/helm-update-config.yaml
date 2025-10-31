@@ -1,0 +1,43 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: helm-update-config
+spec:
+  vars:
+    - name: gitRepo
+    - name: imageRepo
+    - name: targetRevision
+      value: main
+  steps:
+    - uses: git-clone
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.targetRevision }}
+            path: ./src
+    - uses: yaml-update
+      config:
+        path: ./src/environments/dev/values.yaml
+        updates:
+          - key: blog.deployment.image.tag
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: yaml-update
+      config:
+        path: ./src/environments/prod/values.yaml
+        updates:
+          - key: blog.deployment.image.tag
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: helm-update-chart
+      config:
+        path: ./src/charts/blog-deploy
+    - uses: git-commit
+      config:
+        path: ./src
+        message: |
+          Update blog configuration
+
+          Image: ${{ imageFrom(vars.imageRepo).Tag }}
+          Commit: ${{ commitFrom(vars.gitRepo).ID }}
+    - uses: git-push
+      config:
+        path: ./src

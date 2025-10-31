@@ -5,12 +5,9 @@ resources:
   - kargo.yaml
   - httproute.yaml
   - sealedsecret.yaml
-  - git-clone.yaml
-  - git-push.yaml
-  - kustomize-render.yaml
-  - helm-render.yaml
-  - promotion-auto-merge.yaml
-  - promotion-manual-approval.yaml
+  - helm-update-config.yaml
+  - render-helm-and-promote.yaml
+  - promote-branch-with-approval.yaml
   - global-credentials-rolebinding.yaml
   - projects
 

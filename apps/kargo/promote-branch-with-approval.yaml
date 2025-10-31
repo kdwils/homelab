@@ -1,13 +1,12 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
-  name: promote-with-auto-merge
-  namespace: kargo
+  name: promote-branch-with-approval
 spec:
   vars:
     - name: gitRepo
     - name: imageRepo
-    - name: sourcePath
+    - name: sourceBranch
     - name: targetBranch
     - name: appName
     - name: appNamespace
@@ -17,22 +16,25 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
-          - commit: ${{ commitFrom(vars.gitRepo).ID }}
+          - branch: ${{ vars.sourceBranch }}
             path: ./source
           - branch: ${{ vars.targetBranch }}
             create: true
             path: ./target
+    - uses: git-clear
+      config:
+        path: ./target
     - uses: copy
       config:
-        inPath: ./source/${{ vars.sourcePath }}
+        inPath: ./source
         outPath: ./target
     - uses: git-commit
       config:
         path: ./target
         message: |
           Promote to ${{ vars.targetBranch }}
+
           Image: ${{ imageFrom(vars.imageRepo).Tag }}
-          Commit: ${{ commitFrom(vars.gitRepo).ID }}
     - uses: git-push
       as: push
       config:
@@ -47,12 +49,10 @@ spec:
         createTargetBranch: true
         title: "Deploy to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
         description: |
-          ## Automated Deployment
+          ## Production Deployment - Review Required
           **Image:** `${{ imageFrom(vars.imageRepo).Tag }}`
-          **Source Commit:** `${{ commitFrom(vars.gitRepo).ID }}`
-          This PR was automatically created by Kargo and will be auto-merged.
-    - uses: git-merge-pr
-      as: merge-pr
+    - uses: git-wait-for-pr
+      as: wait-for-pr
       config:
         repoURL: ${{ vars.gitRepo }}
         prNumber: ${{ task.outputs['open-pr'].pr.id }}
@@ -63,5 +63,5 @@ spec:
             namespace: ${{ vars.appNamespace }}
             sources:
               - repoURL: ${{ vars.gitRepo }}
-                desiredRevision: ${{ task.outputs['merge-pr'].commit }}
+                desiredRevision: ${{ task.outputs['wait-for-pr'].commit }}
                 updateTargetRevision: true

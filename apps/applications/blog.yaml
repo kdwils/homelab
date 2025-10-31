@@ -4,7 +4,7 @@ metadata:
   name: blog-dev
   namespace: argocd
   annotations:
-    kargo.akuity.io/authorized-stage: blog:dev
+    kargo.akuity.io/authorized-stage: blog:render
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,7 +12,7 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: .
+    path: rendered/dev
     repoURL: "https://github.com/kdwils/blog-deploy"
     targetRevision: stage/dev
   sources: []
@@ -36,7 +36,7 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: .
+    path: rendered/prod
     repoURL: "https://github.com/kdwils/blog-deploy"
     targetRevision: stage/prod
   sources: []

@@ -11,10 +11,10 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: render
+        name: update-config
       autoPromotionEnabled: true
     - stageSelector:
-        name: dev
+        name: render
       autoPromotionEnabled: true
     - stageSelector:
         name: prod
@@ -30,19 +30,22 @@ spec:
     - image:
         repoURL: ghcr.io/kdwils/blog
         semverConstraint: ^1.0.0
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
     - git:
         repoURL: https://github.com/kdwils/blog-deploy.git
         branch: main
         includePaths:
-          - glob:overlays/**
-          - glob:base/**
+          - glob:environments/**
+          - glob:charts/**
         excludePaths:
           - glob:rendered/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: render
+  name: update-config
   namespace: blog
 spec:
   requestedFreight:
@@ -62,35 +65,44 @@ spec:
           value: main
       steps:
         - task:
-            name: git-clone
+            name: helm-update-config
             kind: ClusterPromotionTask
-        - task:
-            name: render-kustomize
-            kind: ClusterPromotionTask
-          vars:
-            - name: overlayPath
-              value: overlays/dev
-            - name: environment
-              value: dev
-        - task:
-            name: render-kustomize
-            kind: ClusterPromotionTask
-          vars:
-            - name: overlayPath
-              value: overlays/prod
-            - name: environment
-              value: prod
-        - task:
-            name: git-push
-            kind: ClusterPromotionTask
-          vars:
-            - name: commitMessage
-              value: "Render manifests for ${{ imageFrom(vars.imageRepo).Tag }}"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: dev
+  name: render
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        stages:
+          - update-config
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
+        - name: chartPath
+          value: charts/blog-deploy
+        - name: targetBranch
+          value: stage/dev
+        - name: appName
+          value: blog-dev
+      steps:
+        - task:
+            name: render-helm-and-promote
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod
   namespace: blog
 spec:
   requestedFreight:
@@ -107,44 +119,13 @@ spec:
           value: https://github.com/kdwils/blog-deploy
         - name: imageRepo
           value: ghcr.io/kdwils/blog
-        - name: sourcePath
-          value: rendered/dev
-        - name: targetBranch
+        - name: sourceBranch
           value: stage/dev
-        - name: appName
-          value: blog-dev
-      steps:
-        - task:
-            name: promote-with-auto-merge
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: prod
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        stages:
-          - dev
-  promotionTemplate:
-    spec:
-      vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-        - name: sourcePath
-          value: rendered/prod
         - name: targetBranch
           value: stage/prod
         - name: appName
           value: blog-prod
       steps:
         - task:
-            name: promote-with-manual-approval
+            name: promote-branch-with-approval
             kind: ClusterPromotionTask

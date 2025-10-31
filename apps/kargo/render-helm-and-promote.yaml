@@ -1,13 +1,12 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
-  name: promote-with-manual-approval
-  namespace: kargo
+  name: render-helm-and-promote
 spec:
   vars:
     - name: gitRepo
     - name: imageRepo
-    - name: sourcePath
+    - name: chartPath
     - name: targetBranch
     - name: appName
     - name: appNamespace
@@ -18,19 +17,34 @@ spec:
         repoURL: ${{ vars.gitRepo }}
         checkout:
           - commit: ${{ commitFrom(vars.gitRepo).ID }}
-            path: ./source
+            path: ./src
           - branch: ${{ vars.targetBranch }}
             create: true
             path: ./target
-    - uses: copy
+    - uses: helm-update-chart
       config:
-        inPath: ./source/${{ vars.sourcePath }}
-        outPath: ./target
+        path: ./src/${{ vars.chartPath }}
+    - uses: helm-template
+      config:
+        path: ./src/${{ vars.chartPath }}
+        valuesFiles:
+          - ./src/environments/dev/values.yaml
+        namespace: blog
+        releaseName: blog-dev
+        outPath: ./target/rendered/dev
+    - uses: helm-template
+      config:
+        path: ./src/${{ vars.chartPath }}
+        valuesFiles:
+          - ./src/environments/prod/values.yaml
+        namespace: blog
+        releaseName: blog-prod
+        outPath: ./target/rendered/prod
     - uses: git-commit
       config:
         path: ./target
         message: |
-          Promote to ${{ vars.targetBranch }}
+          Render Helm manifests for ${{ vars.targetBranch }}
 
           Image: ${{ imageFrom(vars.imageRepo).Tag }}
           Commit: ${{ commitFrom(vars.gitRepo).ID }}
@@ -46,18 +60,13 @@ spec:
         sourceBranch: ${{ task.outputs['push'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: true
-        title: "Deploy to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
+        title: "Render manifests to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
         description: |
-          ## Production Deployment - Review Required
-
           **Image:** `${{ imageFrom(vars.imageRepo).Tag }}`
           **Source Commit:** `${{ commitFrom(vars.gitRepo).ID }}`
-
-          This PR was automatically created by Kargo for production deployment.
-
-          **⚠️ Manual review and approval required before merging.**
-    - uses: git-wait-for-pr
-      as: wait-for-pr
+          This PR was automatically created by Kargo and will be auto-merged.
+    - uses: git-merge-pr
+      as: merge-pr
       config:
         repoURL: ${{ vars.gitRepo }}
         prNumber: ${{ task.outputs['open-pr'].pr.id }}
@@ -68,5 +77,5 @@ spec:
             namespace: ${{ vars.appNamespace }}
             sources:
               - repoURL: ${{ vars.gitRepo }}
-                desiredRevision: ${{ task.outputs['wait-for-pr'].commit }}
+                desiredRevision: ${{ task.outputs['merge-pr'].commit }}
                 updateTargetRevision: true
