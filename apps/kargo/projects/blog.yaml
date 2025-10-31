@@ -132,16 +132,6 @@ spec:
         name: blog-deploy
       sources:
         direct: true
-    - origin:
-        kind: Warehouse
-        name: helm-charts
-      sources:
-        direct: false
-    - origin:
-        kind: Warehouse
-        name: images
-      sources:
-        direct: false
   promotionTemplate:
     spec:
       vars:
@@ -173,6 +163,8 @@ spec:
       sources:
         stages:
           - render-manifests
+          - update-helm-charts
+          - update-image
   promotionTemplate:
     spec:
       vars:
