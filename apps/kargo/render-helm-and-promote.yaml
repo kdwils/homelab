@@ -20,10 +20,13 @@ spec:
             path: ./src
           - branch: ${{ vars.targetBranch }}
             create: true
-            path: ./target/rendered
+            path: ./target
     - uses: git-clear
       config:
-        path: ./target
+        path: ./target/rendered/dev/manifest.yaml
+    - uses: git-clear
+      config:
+        path: ./target/rendered/prod/manifest.yaml
     - uses: helm-update-chart
       config:
         path: ./src/${{ vars.chartPath }}
