@@ -13,21 +13,19 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
-          - branch: ${{ vars.sourceBranch }}
-            path: ./src
           - branch: ${{ vars.targetBranch }}
             create: true
-            path: ./target
+            path: ./repo
     - uses: helm-update-chart
       config:
-        path: ./src/${{ vars.chartPath }}
+        path: ./repo/${{ vars.chartPath }}
     - uses: git-commit
       config:
-        path: ./src/${{ vars.chartPath }}
+        path: ./repo
         message: |
-          Render Helm manifests for ${{ vars.chartPath }}
+          Update Helm chart dependencies for ${{ vars.chartPath }}
     - uses: git-push
       as: push-target
       config:
-        path: ./src/${{ vars.chartPath }}
+        path: ./repo
         targetBranch: ${{ vars.targetBranch }}

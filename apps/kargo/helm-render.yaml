@@ -14,34 +14,32 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
-          - branch: ${{ vars.sourceBranch }}
-            path: ./src
           - branch: ${{ vars.targetBranch }}
             create: true
-            path: ./target
+            path: ./repo
     - uses: helm-template
       config:
-        path: ./src/${{ vars.chartPath }}
+        path: ./repo/${{ vars.chartPath }}
         valuesFiles:
-          - ./src/environments/dev/values.yaml
+          - ./repo/environments/dev/values.yaml
         namespace: blog
         releaseName: blog-dev
-        outPath: ./target/rendered/dev/manifest.yaml
+        outPath: ./repo/rendered/dev/manifest.yaml
     - uses: helm-template
       config:
-        path: ./src/${{ vars.chartPath }}
+        path: ./repo/${{ vars.chartPath }}
         valuesFiles:
-          - ./src/environments/prod/values.yaml
+          - ./repo/environments/prod/values.yaml
         namespace: blog
         releaseName: blog-prod
-        outPath: ./target/rendered/prod/manifest.yaml
+        outPath: ./repo/rendered/prod/manifest.yaml
     - uses: git-commit
       config:
-        path: ./target
+        path: ./repo
         message: |
-          Render Helm manifests for ${{ vars.targetBranch }}
+          Render Helm manifests
     - uses: git-push
       as: push-target
       config:
-        path: ./target
+        path: ./repo
         targetBranch: ${{ vars.targetBranch }}

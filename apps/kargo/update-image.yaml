@@ -14,30 +14,28 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
-          - branch: ${{ vars.sourceBranch }}
-            path: ./src
           - branch: ${{ vars.targetBranch }}
             create: true
-            path: ./target
+            path: ./repo
     - uses: yaml-update
       config:
-        path: ./src/environments/dev/values.yaml
+        path: ./repo/environments/dev/values.yaml
         updates:
           - key: blog.deployment.image.tag
             value: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: yaml-update
       config:
-        path: ./src/environments/prod/values.yaml
+        path: ./repo/environments/prod/values.yaml
         updates:
           - key: blog.deployment.image.tag
             value: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-commit
       config:
-        path: ./target
+        path: ./repo
         message: |
-          Update image for ${{ vars.targetBranch }}
+          Update image to ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-push
       as: push-target
       config:
-        path: ./target
+        path: ./repo
         targetBranch: ${{ vars.targetBranch }}
