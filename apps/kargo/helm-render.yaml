@@ -34,15 +34,6 @@ spec:
     - uses: helm-update-chart
       config:
         path: ./src/${{ vars.chartPath }}
-    - uses: git-commit
-      config:
-        path: ./src/${{ vars.chartPath }}
-        message: |
-          Update helm chart version
-    - uses: git-push
-      as: push-main
-      config:
-        path: ./src
     - uses: git-clear
       config:
         path: ./target/rendered
@@ -62,6 +53,12 @@ spec:
         namespace: blog
         releaseName: blog-prod
         outPath: ./target/rendered/prod/manifest.yaml
+    - uses: git-clear
+      config:
+        path: ./src/${{ vars.chartPath }}/chart.lock
+    - uses: git-clear
+      config:
+        path: ./src/${{ vars.chartPath }}/charts
     - uses: git-commit
       config:
         path: ./target
