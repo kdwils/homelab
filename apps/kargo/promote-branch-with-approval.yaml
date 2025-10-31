@@ -8,9 +8,6 @@ spec:
     - name: imageRepo
     - name: sourceBranch
     - name: targetBranch
-    - name: appName
-    - name: appNamespace
-      value: argocd
   steps:
     - uses: git-open-pr
       as: open-pr
@@ -18,7 +15,7 @@ spec:
         repoURL: ${{ vars.gitRepo }}
         sourceBranch: ${{ vars.sourceBranch }}
         targetBranch: ${{ vars.targetBranch }}
-        createTargetBranch: true
+        createTargetBranch: false
         title: "Deploy to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
         description: |
           ## Production Deployment - Review Required
