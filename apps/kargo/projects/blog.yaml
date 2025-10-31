@@ -27,12 +27,6 @@ metadata:
   namespace: blog
 spec:
   subscriptions:
-    - image:
-        repoURL: ghcr.io/kdwils/blog
-        semverConstraint: ^1.0.0
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - git:
         repoURL: https://github.com/kdwils/blog-deploy.git
         branch: main
