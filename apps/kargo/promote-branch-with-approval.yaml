@@ -33,7 +33,6 @@ spec:
         path: ./target
         message: |
           Promote to ${{ vars.targetBranch }}
-
           Image: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-push
       as: push

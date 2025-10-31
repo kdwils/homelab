@@ -19,7 +19,7 @@ spec:
         checkout:
           - commit: ${{ commitFrom(vars.gitRepo).ID }}
             path: ./src
-          - branch: ${{ vars.targetBranch }}
+          - branch: ${{ vars.sourceBranch }}
             create: true
             path: ./target
     - uses: git-clear
@@ -49,13 +49,13 @@ spec:
         path: ./target
         message: |
           Render Helm manifests for ${{ vars.targetBranch }}
-
           Image: ${{ imageFrom(vars.imageRepo).Tag }}
           Commit: ${{ commitFrom(vars.gitRepo).ID }}
     - uses: git-push
       as: push
       config:
         path: ./target
+        targetBranch: ${{ vars.targetBranch }}
     - uses: argocd-update
       config:
         apps:
