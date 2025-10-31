@@ -17,9 +17,9 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
-          - commit: ${{ commitFrom(vars.gitRepo).ID }}
-            path: ./src
           - branch: ${{ vars.sourceBranch }}
+            path: ./src
+          - branch: ${{ vars.targetBranch }}
             create: true
             path: ./target
     - uses: git-clear
