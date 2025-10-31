@@ -43,7 +43,7 @@ spec:
       as: open-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ task.outputs['push'].branch }}
+        sourceBranch: ${{ vars.sourceBranch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: true
         title: "Deploy to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
