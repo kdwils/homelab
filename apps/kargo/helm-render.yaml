@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
-  name: helm
+  name: helm-render
 spec:
   vars:
     - name: gitRepo
