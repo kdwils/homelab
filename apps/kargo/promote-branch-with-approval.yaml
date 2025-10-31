@@ -55,12 +55,3 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         prNumber: ${{ task.outputs['open-pr'].pr.id }}
-    - uses: argocd-update
-      config:
-        apps:
-          - name: ${{ vars.appName }}
-            namespace: ${{ vars.appNamespace }}
-            sources:
-              - repoURL: ${{ vars.gitRepo }}
-                desiredRevision: ${{ task.outputs['wait-for-pr'].commit }}
-                updateTargetRevision: true

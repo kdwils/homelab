@@ -18,7 +18,7 @@ spec:
       autoPromotionEnabled: true
     - stageSelector:
         name: prod
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
@@ -123,7 +123,12 @@ spec:
           value: stage/prod
         - name: appName
           value: blog-prod
+        - name: appNamespace
+          value: argocd
       steps:
         - task:
             name: promote-branch-with-approval
+            kind: ClusterPromotionTask
+        - task:
+            name: argocd-sync
             kind: ClusterPromotionTask
