@@ -6,7 +6,7 @@ resources:
   - httproute.yaml
   - sealedsecret.yaml
   - helm-update-config.yaml
-  - render-helm-and-promote.yaml
+  - render-helm-to-branch.yaml
   - promote-branch-with-approval.yaml
   - global-credentials-rolebinding.yaml
   - projects

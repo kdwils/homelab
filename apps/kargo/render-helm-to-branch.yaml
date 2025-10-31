@@ -1,12 +1,13 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
-  name: render-helm-and-promote
+  name: render-helm-to-branch
 spec:
   vars:
     - name: gitRepo
     - name: imageRepo
     - name: chartPath
+    - name: sourceBranch
     - name: targetBranch
     - name: appName
     - name: appNamespace
@@ -58,24 +59,6 @@ spec:
       as: push
       config:
         path: ./target
-        generateTargetBranch: true
-    - uses: git-open-pr
-      as: open-pr
-      config:
-        repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ task.outputs['push'].branch }}
-        targetBranch: ${{ vars.targetBranch }}
-        createTargetBranch: true
-        title: "Render manifests to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
-        description: |
-          **Image:** `${{ imageFrom(vars.imageRepo).Tag }}`
-          **Source Commit:** `${{ commitFrom(vars.gitRepo).ID }}`
-          This PR was automatically created by Kargo and will be auto-merged.
-    - uses: git-merge-pr
-      as: merge-pr
-      config:
-        repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ task.outputs['open-pr'].pr.id }}
     - uses: argocd-update
       config:
         apps:
@@ -83,5 +66,5 @@ spec:
             namespace: ${{ vars.appNamespace }}
             sources:
               - repoURL: ${{ vars.gitRepo }}
-                desiredRevision: ${{ task.outputs['merge-pr'].commit }}
+                desiredRevision: ${{ vars.targetBranch }}
                 updateTargetRevision: true

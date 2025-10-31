@@ -17,6 +17,9 @@ spec:
         name: render
       autoPromotionEnabled: true
     - stageSelector:
+        name: dev
+      autoPromotionEnabled: true
+    - stageSelector:
         name: prod
       autoPromotionEnabled: false
 ---
@@ -90,14 +93,32 @@ spec:
           value: ghcr.io/kdwils/blog
         - name: chartPath
           value: charts/blog-deploy
+        - name: sourceBranch
+          value: main
         - name: targetBranch
           value: stage/dev
         - name: appName
           value: blog-dev
       steps:
         - task:
-            name: render-helm-and-promote
+            name: render-helm-to-branch
             kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: dev
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog
+      sources:
+        stages:
+          - render
+  verification:
+    enabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -111,7 +132,7 @@ spec:
         name: blog
       sources:
         stages:
-          - render
+          - dev
   promotionTemplate:
     spec:
       vars:
