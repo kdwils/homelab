@@ -17,9 +17,6 @@ spec:
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
         title: "Deploy to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
-        description: |
-          ## Production Deployment - Review Required
-          **Image:** `${{ imageFrom(vars.imageRepo).Tag }}`
     - uses: git-wait-for-pr
       as: wait-for-pr
       config:
