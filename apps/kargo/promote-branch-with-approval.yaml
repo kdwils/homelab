@@ -21,13 +21,6 @@ spec:
           - branch: ${{ vars.targetBranch }}
             create: true
             path: ./target
-    - uses: git-clear
-      config:
-        path: ./target
-    - uses: copy
-      config:
-        inPath: ./source
-        outPath: ./target
     - uses: git-commit
       config:
         path: ./target
