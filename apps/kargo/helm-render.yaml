@@ -37,6 +37,8 @@ spec:
     - uses: git-commit
       config:
         path: ./src/${{ vars.chartPath }}/Chart.yaml
+        message: |
+          Update helm chart version
     - uses: git-push
       as: push-main
       config:
@@ -63,6 +65,8 @@ spec:
     - uses: git-commit
       config:
         path: ./target
+        message: |
+          Render Helm manifests for ${{ vars.targetBranch }}
     - uses: git-push
       as: push-target
       config:
