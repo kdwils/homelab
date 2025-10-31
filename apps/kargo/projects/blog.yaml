@@ -11,7 +11,13 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: update-config
+        name: update-helm-charts
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: update-image
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: render-manifests
       autoPromotionEnabled: true
     - stageSelector:
         name: dev
