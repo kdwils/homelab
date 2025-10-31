@@ -31,7 +31,7 @@ spec:
           - ./src/environments/dev/values.yaml
         namespace: blog
         releaseName: blog-dev
-        outPath: ./target/rendered/dev
+        outPath: ./target/rendered/dev/manifest.yaml
     - uses: helm-template
       config:
         path: ./src/${{ vars.chartPath }}
@@ -39,7 +39,7 @@ spec:
           - ./src/environments/prod/values.yaml
         namespace: blog
         releaseName: blog-prod
-        outPath: ./target/rendered/prod
+        outPath: ./target/rendered/prod/manifest.yaml
     - uses: git-commit
       config:
         path: ./target
