@@ -20,7 +20,10 @@ spec:
             path: ./src
           - branch: ${{ vars.targetBranch }}
             create: true
-            path: ./target
+            path: ./target/rendered
+    - uses: git-clear
+      config:
+        path: ./target
     - uses: helm-update-chart
       config:
         path: ./src/${{ vars.chartPath }}
