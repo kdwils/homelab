@@ -36,11 +36,7 @@ spec:
         path: ./src/${{ vars.chartPath }}
     - uses: git-commit
       config:
-        path: ./src
-        message: |
-          Update blog configuration
-          Image: ${{ imageFrom(vars.imageRepo).Tag }}
-          Commit: ${{ commitFrom(vars.gitRepo).ID }}
+        path: ./src/${{ vars.chartPath }}/Chart.yaml
     - uses: git-push
       as: push-main
       config:
@@ -67,10 +63,6 @@ spec:
     - uses: git-commit
       config:
         path: ./target
-        message: |
-          Render Helm manifests for ${{ vars.targetBranch }}
-          Image: ${{ imageFrom(vars.imageRepo).Tag }}
-          Commit: ${{ commitFrom(vars.gitRepo).ID }}
     - uses: git-push
       as: push-target
       config:
