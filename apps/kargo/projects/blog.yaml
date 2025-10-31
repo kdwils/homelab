@@ -23,7 +23,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
-  name: blog
+  name: blog-deploy
   namespace: blog
 spec:
   subscriptions:
@@ -43,15 +43,93 @@ spec:
           - glob:rendered/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: helm-charts
+  namespace: blog
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: images
+  namespace: blog
+spec:
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/kdwils/blog
+        semverConstraint: ^1.0.0
+---
+apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: update-config
+  name: update-helm-charts
   namespace: blog
 spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: blog
+        name: helm-charts
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy
+        - name: chartPath
+          value: charts/blog-deploy
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: stage/dev
+      steps:
+        - task:
+            name: helm-update
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: update-image
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: images
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/blog-deploy
+        - name: chartPath
+          value: charts/blog-deploy
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: stage/dev
+      steps:
+        - task:
+            name: helm-update
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: render-manifests
+  namespace: blog
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: blog-deploy
       sources:
         direct: true
   promotionTemplate:
@@ -84,7 +162,7 @@ spec:
         name: blog
       sources:
         stages:
-          - update-config
+          - render-manifests
   promotionTemplate:
     spec:
       vars:

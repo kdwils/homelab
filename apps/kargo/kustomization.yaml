@@ -6,6 +6,8 @@ resources:
   - httproute.yaml
   - sealedsecret.yaml
   - helm-render.yaml
+  - helm-update.yaml
+  - update-image.yaml
   - argocd-sync.yaml
   - promote-branch-with-approval.yaml
   - global-credentials-rolebinding.yaml

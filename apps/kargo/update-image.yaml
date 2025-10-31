@@ -19,27 +19,23 @@ spec:
           - branch: ${{ vars.targetBranch }}
             create: true
             path: ./target
-    - uses: helm-template
+    - uses: yaml-update
       config:
-        path: ./src/${{ vars.chartPath }}
-        valuesFiles:
-          - ./src/environments/dev/values.yaml
-        namespace: blog
-        releaseName: blog-dev
-        outPath: ./target/rendered/dev/manifest.yaml
-    - uses: helm-template
+        path: ./src/environments/dev/values.yaml
+        updates:
+          - key: blog.deployment.image.tag
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
+    - uses: yaml-update
       config:
-        path: ./src/${{ vars.chartPath }}
-        valuesFiles:
-          - ./src/environments/prod/values.yaml
-        namespace: blog
-        releaseName: blog-prod
-        outPath: ./target/rendered/prod/manifest.yaml
+        path: ./src/environments/prod/values.yaml
+        updates:
+          - key: blog.deployment.image.tag
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
     - uses: git-commit
       config:
         path: ./target
         message: |
-          Render Helm manifests for ${{ vars.targetBranch }}
+          Update image for ${{ vars.targetBranch }}
     - uses: git-push
       as: push-target
       config:
