@@ -74,7 +74,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: render
+  name: dev
   namespace: blog
 spec:
   requestedFreight:
@@ -103,22 +103,6 @@ spec:
         - task:
             name: render-helm-to-branch
             kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: dev
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        stages:
-          - render
-  verification:
-    enabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
