@@ -53,12 +53,6 @@ spec:
         namespace: blog
         releaseName: blog-prod
         outPath: ./target/rendered/prod/manifest.yaml
-    - uses: git-clear
-      config:
-        path: ./src/${{ vars.chartPath }}/chart.lock
-    - uses: git-clear
-      config:
-        path: ./src/${{ vars.chartPath }}/charts
     - uses: git-commit
       config:
         path: ./target
