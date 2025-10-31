@@ -13,9 +13,15 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
+          - branch: ${{ vars.sourceBranch }}
+            path: ./source
           - branch: ${{ vars.targetBranch }}
             create: true
             path: ./repo
+    - uses: copy
+      config:
+        inPath: ./source/${{ vars.chartPath }}
+        outPath: ./repo/${{ vars.chartPath }}
     - uses: helm-update-chart
       config:
         path: ./repo/${{ vars.chartPath }}
