@@ -36,7 +36,7 @@ spec:
         path: ./src/${{ vars.chartPath }}
     - uses: git-commit
       config:
-        path: ./src/${{ vars.chartPath }}/Chart.yaml
+        path: ./src/${{ vars.chartPath }}
         message: |
           Update helm chart version
     - uses: git-push
