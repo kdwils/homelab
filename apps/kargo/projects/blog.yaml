@@ -173,6 +173,18 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
+        name: helm-charts
+      sources:
+        stages:
+          - render-manifests
+    - origin:
+        kind: Warehouse
+        name: images
+      sources:
+        stages:
+          - render-manifests
+    - origin:
+        kind: Warehouse
         name: blog-deploy
       sources:
         stages:
@@ -196,6 +208,18 @@ metadata:
   namespace: blog
 spec:
   requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: helm-charts
+      sources:
+        stages:
+          - dev
+    - origin:
+        kind: Warehouse
+        name: images
+      sources:
+        stages:
+          - dev
     - origin:
         kind: Warehouse
         name: blog-deploy
