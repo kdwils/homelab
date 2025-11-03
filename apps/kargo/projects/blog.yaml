@@ -72,6 +72,8 @@ spec:
           value: main
         - name: targetBranch
           value: stage/dev
+        - name: warehouse
+          value: blog
       steps:
         - task:
             name: helm-update

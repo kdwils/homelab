@@ -8,6 +8,7 @@ spec:
     - name: chartPath
     - name: sourceBranch
     - name: targetBranch
+    - name: warehouse
   steps:
     - uses: git-clone
       config:
@@ -25,6 +26,9 @@ spec:
     - uses: helm-update-chart
       config:
         path: ./repo/${{ vars.chartPath }}
+        fromOrigin:
+          kind: Warehouse
+          name: ${{ vars.warehouse }}
     - uses: git-commit
       config:
         path: ./repo
