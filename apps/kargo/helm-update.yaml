@@ -31,9 +31,7 @@ spec:
         charts:
           - repository: ${{ vars.chartRepo }}
             name: ${{ vars.chartName }}
-            fromOrigin:
-              kind: Warehouse
-              name: ${{ vars.warehouse }}
+            version: ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
     - uses: git-commit
       config:
         path: ./repo
