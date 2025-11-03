@@ -173,7 +173,7 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: blog
+        name: blog-deploy
       sources:
         stages:
           - render-manifests
