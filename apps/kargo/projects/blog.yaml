@@ -94,7 +94,8 @@ spec:
         kind: Warehouse
         name: blog
       sources:
-        direct: true
+        stages:
+          - update-helm-charts
   promotionTemplate:
     spec:
       vars:
