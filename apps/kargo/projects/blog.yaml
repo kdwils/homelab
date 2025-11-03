@@ -29,10 +29,17 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
-  name: blog-deploy
+  name: blog
   namespace: blog
 spec:
   subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: ghcr.io/kdwils/blog
+        semverConstraint: ^1.0.0
+        strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/blog-deploy.git
         branch: main
@@ -43,28 +50,6 @@ spec:
           - glob:rendered/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
-kind: Warehouse
-metadata:
-  name: helm-charts
-  namespace: blog
-spec:
-  subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Warehouse
-metadata:
-  name: images
-  namespace: blog
-spec:
-  subscriptions:
-    - image:
-        repoURL: ghcr.io/kdwils/blog
-        semverConstraint: ^1.0.0
----
-apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: update-helm-charts
@@ -73,7 +58,7 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: helm-charts
+        name: blog
       sources:
         direct: true
   promotionTemplate:
@@ -101,7 +86,7 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: images
+        name: blog
       sources:
         direct: true
   promotionTemplate:
@@ -131,21 +116,11 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: images
+        name: blog
       sources:
         stages:
           - update-image
-    - origin:
-        kind: Warehouse
-        name: helm-charts
-      sources:
-        stages:
           - update-helm-charts
-    - origin:
-        kind: Warehouse
-        name: blog-deploy
-      sources:
-        direct: true
   promotionTemplate:
     spec:
       vars:
@@ -173,19 +148,7 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: helm-charts
-      sources:
-        stages:
-          - render-manifests
-    - origin:
-        kind: Warehouse
-        name: images
-      sources:
-        stages:
-          - render-manifests
-    - origin:
-        kind: Warehouse
-        name: blog-deploy
+        name: blog
       sources:
         stages:
           - render-manifests
@@ -210,19 +173,7 @@ spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: helm-charts
-      sources:
-        stages:
-          - dev
-    - origin:
-        kind: Warehouse
-        name: images
-      sources:
-        stages:
-          - dev
-    - origin:
-        kind: Warehouse
-        name: blog-deploy
+        name: blog
       sources:
         stages:
           - dev
