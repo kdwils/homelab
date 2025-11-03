@@ -26,9 +26,12 @@ spec:
     - uses: helm-update-chart
       config:
         path: ./repo/${{ vars.chartPath }}
-        fromOrigin:
-          kind: Warehouse
-          name: ${{ vars.warehouse }}
+        charts:
+          - repository: ${{ chartFrom(vars.warehouse).RepoURL }}
+            name: ${{ chartFrom(vars.warehouse).Name }}
+            fromOrigin:
+              kind: Warehouse
+              name: ${{ vars.warehouse }}
     - uses: git-commit
       config:
         path: ./repo
