@@ -127,7 +127,6 @@ spec:
       sources:
         stages:
           - update-image
-          - update-helm-charts
   promotionTemplate:
     spec:
       vars:
