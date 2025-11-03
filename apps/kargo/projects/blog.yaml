@@ -74,6 +74,10 @@ spec:
           value: stage/dev
         - name: warehouse
           value: blog
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
       steps:
         - task:
             name: helm-update

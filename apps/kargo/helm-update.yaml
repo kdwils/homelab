@@ -9,6 +9,8 @@ spec:
     - name: sourceBranch
     - name: targetBranch
     - name: warehouse
+    - name: chartRepo
+    - name: chartName
   steps:
     - uses: git-clone
       config:
@@ -27,8 +29,8 @@ spec:
       config:
         path: ./repo/${{ vars.chartPath }}
         charts:
-          - repository: ${{ chartFrom(vars.warehouse).RepoURL }}
-            name: ${{ chartFrom(vars.warehouse).Name }}
+          - repository: ${{ vars.chartRepo }}
+            name: ${{ vars.chartName }}
             fromOrigin:
               kind: Warehouse
               name: ${{ vars.warehouse }}
