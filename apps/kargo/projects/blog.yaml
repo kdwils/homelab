@@ -109,6 +109,8 @@ spec:
       vars:
         - name: gitRepo
           value: https://github.com/kdwils/blog-deploy
+        - name: imageRepo
+          value: ghcr.io/kdwils/blog
         - name: chartPath
           value: charts/blog-deploy
         - name: sourceBranch
