@@ -14,9 +14,15 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
+          - branch: ${{ vars.sourceBranch }}
+            path: ./source
           - branch: ${{ vars.targetBranch }}
             create: true
             path: ./repo
+    - uses: copy
+      config:
+        inPath: ./source/environments
+        outPath: ./repo/environments
     - uses: yaml-update
       config:
         path: ./repo/environments/dev/values.yaml
