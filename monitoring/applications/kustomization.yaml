@@ -6,6 +6,4 @@ resources:
   - envoy-bouncer.yaml
   - namespace.yaml
   - crowdsec.yaml
-  - grafana.yaml
-  - prometheus.yaml
   - vpa.yaml

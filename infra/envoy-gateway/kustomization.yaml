@@ -3,7 +3,6 @@ resources:
   - gatewayclass.yaml
   - gateway.yaml
   - proxy.yaml
-  - servicemonitor.yaml
   - certificate.yaml
   - policy.yaml
   - metallb.yaml
