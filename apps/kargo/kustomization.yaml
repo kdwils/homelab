@@ -8,6 +8,7 @@ resources:
   - helm-render.yaml
   - helm-update.yaml
   - update-image.yaml
+  - staging-helm.yaml
   - argocd-sync.yaml
   - promote-branch-with-approval.yaml
   - global-credentials-rolebinding.yaml

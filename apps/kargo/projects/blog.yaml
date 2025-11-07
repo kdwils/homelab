@@ -11,13 +11,7 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: update-helm-charts
-      autoPromotionEnabled: true
-    - stageSelector:
-        name: update-image
-      autoPromotionEnabled: true
-    - stageSelector:
-        name: render-manifests
+        name: staging
       autoPromotionEnabled: true
     - stageSelector:
         name: dev
@@ -52,7 +46,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: update-helm-charts
+  name: staging
   namespace: blog
 spec:
   requestedFreight:
@@ -78,71 +72,15 @@ spec:
           value: https://kdwils.github.io/helm-charts
         - name: chartName
           value: homelab-chart
-      steps:
-        - task:
-            name: helm-update
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: update-image
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        stages:
-          - update-helm-charts
-  promotionTemplate:
-    spec:
-      vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
         - name: imageRepo
           value: ghcr.io/kdwils/blog
-        - name: chartPath
-          value: charts/blog-deploy
-        - name: sourceBranch
-          value: main
-        - name: targetBranch
-          value: stage/dev
+        - name: projectName
+          value: blog
+        - name: imageTagYamlPath
+          value: blog.deployment.image.tag
       steps:
         - task:
-            name: update-image
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: render-manifests
-  namespace: blog
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: blog
-      sources:
-        stages:
-          - update-image
-  promotionTemplate:
-    spec:
-      vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-        - name: chartPath
-          value: charts/blog-deploy
-        - name: sourceBranch
-          value: main
-        - name: targetBranch
-          value: stage/dev
-      steps:
-        - task:
-            name: helm-render
+            name: staging-helm
             kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -157,7 +95,7 @@ spec:
         name: blog
       sources:
         stages:
-          - render-manifests
+          - staging
   promotionTemplate:
     spec:
       vars:

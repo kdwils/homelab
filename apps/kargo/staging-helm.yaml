@@ -1,0 +1,117 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: staging-helm
+spec:
+  vars:
+    - name: gitRepo
+    - name: chartPath
+    - name: sourceBranch
+    - name: targetBranch
+    - name: warehouse
+    - name: chartRepo
+    - name: chartName
+    - name: imageRepo
+    - name: projectName
+    - name: imageTagYamlPath
+  steps:
+    # Clone both source and target branches
+    - uses: git-clone
+      as: clone-repo
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.sourceBranch }}
+            path: ./source
+          - branch: ${{ vars.targetBranch }}
+            create: true
+            path: ./repo
+
+    # Copy chart from source to target
+    - uses: copy
+      as: copy-chart
+      config:
+        inPath: ./source/${{ vars.chartPath }}
+        outPath: ./repo/${{ vars.chartPath }}
+
+    # Update Helm chart dependencies
+    - uses: helm-update-chart
+      as: update-chart-deps
+      config:
+        path: ./repo/${{ vars.chartPath }}
+        charts:
+          - repository: ${{ vars.chartRepo }}
+            name: ${{ vars.chartName }}
+            version: ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
+
+    # Copy environments directory from source to target (may not exist)
+    - uses: copy
+      as: copy-environments
+      config:
+        inPath: ./source/environments
+        outPath: ./repo/environments
+
+    # Update image tag in dev values (only if copy-environments succeeded)
+    - uses: yaml-update
+      as: update-dev-image
+      if: ${{ success() }}
+      config:
+        path: ./repo/environments/dev/values.yaml
+        updates:
+          - key: ${{ vars.imageTagYamlPath }}
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
+
+    # Update image tag in prod values (only if copy-environments succeeded)
+    - uses: yaml-update
+      as: update-prod-image
+      if: ${{ success() }}
+      config:
+        path: ./repo/environments/prod/values.yaml
+        updates:
+          - key: ${{ vars.imageTagYamlPath }}
+            value: ${{ imageFrom(vars.imageRepo).Tag }}
+
+    # Render Helm templates for dev environment (only if dev values exist)
+    - uses: helm-template
+      as: render-dev
+      if: ${{ success() }}
+      config:
+        path: ./repo/${{ vars.chartPath }}
+        valuesFiles:
+          - ./repo/environments/dev/values.yaml
+        namespace: ${{ vars.projectName }}
+        releaseName: ${{ vars.projectName }}-dev
+        outPath: ./repo/rendered/dev/manifest.yaml
+
+    # Render Helm templates for prod environment (only if prod values exist)
+    - uses: helm-template
+      as: render-prod
+      if: ${{ success() }}
+      config:
+        path: ./repo/${{ vars.chartPath }}
+        valuesFiles:
+          - ./repo/environments/prod/values.yaml
+        namespace: ${{ vars.projectName }}
+        releaseName: ${{ vars.projectName }}-prod
+        outPath: ./repo/rendered/prod/manifest.yaml
+
+    # Commit all changes (always run if we got past chart update)
+    - uses: git-commit
+      as: commit-changes
+      if: ${{ status('update-chart-deps') == 'Succeeded' }}
+      config:
+        path: ./repo
+        message: |
+          Prepare deployment: update chart, image, and render manifests
+
+          - Updated Helm chart dependencies for ${{ vars.chartPath }}
+          - Updated image to ${{ imageFrom(vars.imageRepo).Tag }}
+          - Rendered manifests for available environments
+
+    # Push to target branch (always run if commit succeeded)
+    - uses: git-push
+      as: push-target
+      if: ${{ status('commit-changes') == 'Succeeded' }}
+      config:
+        path: ./repo
+        targetBranch: ${{ vars.targetBranch }}
