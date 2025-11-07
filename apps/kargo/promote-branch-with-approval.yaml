@@ -17,8 +17,9 @@ spec:
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
         title: "Deploy to ${{ vars.targetBranch }} - ${{ imageFrom(vars.imageRepo).Tag }}"
-    - uses: git-wait-for-pr
-      as: wait-for-pr
+    - uses: git-merge-pr
+      as: merge-pr
       config:
         repoURL: ${{ vars.gitRepo }}
         prNumber: ${{ task.outputs['open-pr'].pr.id }}
+        wait: true
