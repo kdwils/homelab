@@ -20,7 +20,7 @@ spec:
       config:
         repoURL: ${{ vars.gitRepo }}
         checkout:
-          - branch: ${{ vars.targetBranch }}
+          - commit: ${{ commitFrom(vars.gitRepo, warehouse(vars.warehouse)).ID }}
             path: ./repo
     - uses: helm-update-chart
       as: update-chart-version
