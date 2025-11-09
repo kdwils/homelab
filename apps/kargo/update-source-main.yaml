@@ -1,0 +1,71 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: update-source-main
+spec:
+  vars:
+    - name: gitRepo
+    - name: sourceBranch
+    - name: targetBranch
+    - name: chartPath
+    - name: warehouse
+    - name: chartRepo
+    - name: chartName
+    - name: imageRepo
+    - name: valuesFilePath
+    - name: imageTagYamlPath
+  steps:
+    - uses: git-clone
+      as: clone-main
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.targetBranch }}
+            path: ./repo
+    - uses: helm-update-chart
+      as: update-chart-version
+      config:
+        path: ./repo/${{ vars.chartPath }}
+        charts:
+          - repository: ${{ vars.chartRepo }}
+            name: ${{ vars.chartName }}
+            version: ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
+    - uses: yaml-update
+      as: update-image-tag
+      config:
+        path: ./repo/${{ vars.valuesFilePath }}
+        updates:
+          - key: ${{ vars.imageTagYamlPath }}
+            value: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
+    - uses: git-commit
+      as: commit-updates
+      config:
+        path: ./repo
+        message: |
+          Update chart and image versions
+
+          - Chart: ${{ vars.chartName }} → ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
+          - Image: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
+    - uses: git-open-pr
+      as: open-pr-main
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ outputs['commit-updates'].commit.branch }}
+        targetBranch: ${{ vars.targetBranch }}
+        createTargetBranch: false
+        title: "Update ${{ vars.chartName }} and image versions"
+        description: |
+          ## Updates
+          - **Chart:** ${{ vars.chartName }} → `${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}`
+          - **Image:** `${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}`
+          Updated via Kargo promotion from warehouse: ${{ vars.warehouse }}
+    - uses: git-wait-for-pr
+      as: wait-pr-approval
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ outputs['open-pr-main'].pr.id }}
+    - uses: git-merge-pr
+      as: merge-pr-main
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ outputs['open-pr-main'].pr.id }}

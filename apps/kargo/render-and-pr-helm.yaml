@@ -1,0 +1,82 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-and-pr-helm
+spec:
+  vars:
+    - name: gitRepo
+    - name: chartPath
+    - name: sourceBranch
+    - name: targetBranch
+    - name: projectName
+    - name: environmentName
+    - name: valuesFilePath
+    - name: appName
+  steps:
+    - uses: git-clone
+      as: clone-repos
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.sourceBranch }}
+            path: ./source
+          - branch: ${{ vars.targetBranch }}
+            create: true
+            path: ./target
+    - uses: copy
+      as: copy-chart
+      config:
+        inPath: ./source/${{ vars.chartPath }}
+        outPath: ./target/${{ vars.chartPath }}
+    - uses: copy
+      as: copy-environments
+      config:
+        inPath: ./source/${{ dirname(vars.valuesFilePath) }}
+        outPath: ./target/${{ dirname(vars.valuesFilePath) }}
+    - uses: helm-template
+      as: render-manifests
+      config:
+        path: ./target/${{ vars.chartPath }}
+        valuesFiles:
+          - ./target/${{ vars.valuesFilePath }}
+        namespace: ${{ vars.projectName }}
+        releaseName: ${{ vars.projectName }}-${{ vars.environmentName }}
+        outPath: ./target/rendered/manifest.yaml
+    - uses: git-commit
+      as: commit-rendered
+      config:
+        path: ./target
+        message: |
+          Render manifests for ${{ vars.projectName }} (${{ vars.environmentName }})
+          Rendered from ${{ vars.sourceBranch }} branch
+    - uses: git-push
+      as: push-target
+      config:
+        path: ./target
+        targetBranch: ${{ vars.targetBranch }}
+    - uses: git-open-pr
+      as: open-pr
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ vars.sourceBranch }}
+        targetBranch: ${{ vars.targetBranch }}
+        createTargetBranch: false
+        title: "Deploy ${{ vars.projectName }} to ${{ vars.environmentName }}"
+        description: |
+          Rendered manifests from ${{ vars.sourceBranch }} ready for deployment.
+    - uses: git-wait-for-pr
+      as: wait-for-approval
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ outputs['open-pr'].pr.id }}
+    - uses: git-merge-pr
+      as: merge-pr
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ outputs['open-pr'].pr.id }}
+    - uses: argocd-update
+      as: sync-argocd
+      config:
+        apps:
+          - name: ${{ vars.appName }}
+            namespace: argocd

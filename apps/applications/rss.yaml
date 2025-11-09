@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: rss
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: rss:render-staging
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,9 +12,9 @@ spec:
     namespace: rss
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/rss
+    path: rendered
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: apps/rss/staging
   sources: []
   project: apps
   syncPolicy:

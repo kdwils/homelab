@@ -1,0 +1,116 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: rss
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: rss
+  namespace: rss
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: update-main
+      autoPromotionEnabled: false
+    - stageSelector:
+        name: render-staging
+      autoPromotionEnabled: false
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: rss
+  namespace: rss
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: ghcr.io/kdwils/rss
+        semverConstraint: ^1.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob: apps/rss/environments/**
+          - glob: charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: update-main
+  namespace: rss
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: rss
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: charts/homelab
+        - name: warehouse
+          value: rss
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: ghcr.io/kdwils/rss
+        - name: valuesFilePath
+          value: apps/rss/environments/homelab/values.yaml
+        - name: imageTagYamlPath
+          value: rss.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: render-staging
+  namespace: rss
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: rss
+      sources:
+        stages:
+          - update-main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: charts/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: apps/rss/staging
+        - name: projectName
+          value: rss
+        - name: environmentName
+          value: homelab
+        - name: valuesFilePath
+          value: apps/rss/environments/homelab/values.yaml
+        - name: appName
+          value: rss
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

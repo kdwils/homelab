@@ -11,6 +11,8 @@ resources:
   - staging-helm.yaml
   - argocd-sync.yaml
   - promote-branch-with-approval.yaml
+  - update-source-main.yaml
+  - render-and-pr-helm.yaml
   - global-credentials-rolebinding.yaml
   - projects
 

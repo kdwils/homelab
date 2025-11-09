@@ -1,0 +1,73 @@
+rss:
+  serviceAccount:
+    create: true
+    automount: true
+
+  deployment:
+    create: true
+    replicaCount: 1
+
+    image:
+      repository: freshrss/freshrss
+      tag: "1.27.1"
+      pullPolicy: IfNotPresent
+    env:
+      CRON_MIN: "13,43"
+      OIDC_ENABLED: "1"
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "America/New_York"
+
+    envFrom:
+      - secretRef:
+          name: homelab-rss
+
+    resources:
+      limits:
+        cpu: 100m
+        memory: 256Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+
+    livenessProbe:
+      httpGet:
+        path: /
+        port: http
+
+    readinessProbe:
+      httpGet:
+        path: /
+        port: http
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 80
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - "rss.int.kyledev.co"
+      - "rss.ts.kyledev.co"
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  pvc:
+    create: true
+    pvcs:
+      - name: freshrss-data-pvc
+        size: 5Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce
+        mountPath: /var/www/FreshRSS/data
+
+  sealedsecrets:
+    OIDC_CLIENT_ID: AgCYLBCqhemQWEdpVXeJ0t8Tf5AYyVfYWmqnoYVjhpwI+8eV72ZBhJYBQCMrFg+QpmH7Aw1j32goyrcFxVS7SEll2IPT4DXd1UxXHXVNoaPw9UFtytcl1NyBl5lsMyE178pG1mqPBYL2dYnd0Z8227ka7OYYs+c1NVz06fwhtHRA2rMxefM7XuNlhqGvV02mG2zycHUew0taJZ5i4palGQ0x8sKXsjOeFP1Anv07/o+95PU3GJaCan37LroCAv+G5O8EqCrwY76n0MKxrNbWYUnqT+2y099z7yNcstgdF/JVdOTk+qg46z70garMK1oF80NzFbMOUoQvocOetVSFnOVDQEclXDM11ui/ZrgsbdfJUuqRs9nb7nFDxe0jlr6+dXJgN6qHgxOYIMbaE0ekntdCCRsFocM8H7AHenztwxIYGHHxn1lJb2GjjpH8fVACtOdsBEbQzXxmMOdv9uKZwx4VlbQaNmgBqN8ESYZXkrmKOXEqRwI80tVxp0y4WAFI2Jc2wNu9ZIWfwmBOHd/P2a3Cu7N+VhnwGdkuVmgpwtJVb8WDd3GBfnip4UomoLx+6bRhZKqWcnb/gB4j4jTyBEi2YjMj8Lozr4SN2jrctUEHP0u/tVkqjx1YqcxfGGT8s0fVwJF5feCC3z/dIkDH4F2ZJOegakl7Ha8nohsWj3TF/pXnT7+yC2ELZJs9dm6Dkb3kDjxWdZBghDx9cOdvSWCiJs095zUNetzhHBsI2HvW0HvAMJg=
+    OIDC_CLIENT_SECRET: AgAu6qK5fPU+2+3tflpTZVUPBzVsLDR7a8R1VdcLwjf0A7IJieSrasVHvzowQD/Edy7C0BYNwCogIBIjOq03bo0W/7inOFCQZZRXGeffnDNmK59wsOMLelunDmq/36sKW1e66kDPKNE+4rbDlUbwPcPYt7J8opzuINxondoMdOdIT4jUXPoAjdXLa9OwL1kBFsvfyWoyBqor/IL6T1tV7a1OR7b/8sK27X1Yr1xGDYR8rK8J9ngVxt28vwCyC1Ejk1lhbfdvKyhtgV1Wolp5OGr1mR5VdBwdgXncVwhW7ev0bZty3v7McZruQlyRuqGVxGZv0e74vlXgA+Fd3R2TDv50bQAoDlccYqFE4piy2DpOcP/YE/kOZFlEW0QVF8d8mMizdTVSSZhXrGUdT7ZBDOopbO7SaTw5dR/2bQ+/lJ7jqukKmKTGif4qizb4y7yxe8xHgP+Q7pzcnKad1AFZhdrUTViyfJcYAhAwuBJrmFhj297fq3unUAphRXv3HbgcFcs4rTCKA7kC4+2H9jPMcQ2fd0EsW6dUnJb5Z62UrsREImfWFEVuW5VPAmf41ep3rQ0hiLLiqAcbqtmArqWk4Y3K2mrptquhAJxheearQIYz8p8OUwTQ+LuL+4WWuM3i7YT59ThNiX85bKLZ+hLHz1iQmt1M3i/I6jhFITpQU/dJPYSjuVvcYGcBbIA74Tp8VJ1v6Ovc+eazhfx64+C/9WGjIFNR+5ZMMKSxgk54FdYixA==
+    OIDC_PROVIDER_METADATA_URL: AgAMOsebCKeiGzd+O4HuK+qPYIrcIZZ4z3sjLSYdS7PS2JUeR2482P+PrGuirZ9hea+VoWL3HsmAOXqq6hnL5vvovVdhhFh6Z9Ci5rgdWt3pbgGR1239U8dJlYhcH5Fyoiqnl+y1ToQcd65hnOBSSCRaoB/WpaPDBy4r+MzWC+gPi0Z0HKZ5cStbEXnVoufbr6UuDwWiJ0Mt+UPGCs8sh+/W37lc80XxfyfqauxuHJN/K75ai3zZEKVu3golEcaozsZAnGJe6I0lnds8S2jrQqdpVBwYhSzBmlZPOwNYhDgx71v6UHuG62VM3L+i9gtwdMmSoKP2irfg+NsX8e+AMeyYIecRoJD4zjLWhYVxWO8YsXdh/f1RN7Ca7R1fiDtO63uh6fotSOUaDAsS90Me+A/M6J8/X218l1IZSbljVZPu42FG7d0M3Hg8qTAhG2VdV3jXhUFK/8vhtO7LJvO/R8WKKVr3LsRqg2Xz15HV24hBcUrOcb5uFxY9AitIAUQVC/kaGll6ISMkKutxRc2M77n53DzpgUTQ44ZC+BhMtntCS29jHiF7BBqrCJ1gCTLHCLZpvP5q3ACFsl5efr3IV2GAaVBhO0BVr2HOOsjG//Pcv0hdLrLlDMcka1IySv0nGxr1TQNEDQ9LXpn5KBh44vcFj777paMoLU8Bnn4ZCdUzlxmYxF+6bNEumskKYAkBbwWEG0/aj14IpdQITR0rY2wWZsIb9qr9octNpt1FaRyU2hQ0cDQ9uSrbiSUkSl3MfzUxIK7R0GatjrP6FM0=
+    OIDC_REMOTE_USER_CLAIM: AgBcRQjBvZUN9pVx5R2/AL1LymluUZxg43e+Xkpvib1To7I82gg/KBFSV0TPB+CfH1maM6QZRPWYMQfZM5d5iyHcR0ngqIs/ECHgCGAoI2B6M03n3KMEUM3r0CuqDhyo+uy9KXDhnZioCRapm4BOxGoGDOXoyLuzCujo6uCatY5z1ik+giVGgGgK+FcetBz8n2xtRRCDhiMLyakIbt7/Ap8MoUAeAtfpmUpF5NyiCF65QEGr2wRvoa4WVcALoVb8Ddq+epvPCNv8h2++fWtubScpfpH1HnJeWhV71rEvhVc5nqn/71fsUlV5h7h6SG9nXGHxvVq89uNhUlicy6YKBK+43B8n57Lw82cB9ALO1kR0nsHhBpbsDTxnIYZcsiO5hkIfIo2okzJCkL96l5U7/245YRVs6qusXaFISDIEW3Oz3JcrsyCKRKPwz2MqMOtQmPjLPzPp3K0p4EAN59D2WXMPd+2jENnpm/b/r9fbvd1LBptt7fNRblzD08u53jU08qaNkwEVkRyUWJn52PDFW2WKp15y7dZpXKNQgjZP75xDB+YEy+xnkF5DYh2geX4AQSd2SAN27FWOotlSAa/RbWdx5epArmU3QGWFxgpGuWOZSqjaXm7oaUJvvGTkHfKfyBMMLAe1rD9OcNj4KwKYm9gjYHSLerOjW0/kstCqbJfyLpF3+Ofx2/prFawSAlHe/hR8397HGh3X6x6niyjejj4wo8k=
+    OIDC_SCOPES: AgBjSG3AIwnQEh3K8crMeUtfeVFBaYo0mFj8VwUR7imf/7zEjDPtomZIiHJwUA7ODbniIZ/MlH1zkmMnMFrraim8KMxjSXwJVoSQslnnQVAxnv3R9JPxDU8BhKHE4zDD7OKxhYQWCn6zp6Z3sPaEOkTbJZ0mJ/wR+Q3kNOdNotptqjI84MvKVVhMIRycllgnlcPhol+0FekPgp24w5caejJIXaWSaRRzYThkdnWE9cjJNeKTGRwmzQIkcgQqEyxqqpMz2TjuKHEY9TSf9UJYUqZ/PlxJ51bJWMJAKR7h/efIgF+5STDt3o2+a21w6S881eNdCB1+ozUW1D+q+qg7Q2cKd7HbGZgDmNVf93XCUIeCw0r3FE5i8CezAc9+tRgvuHu0OxabFqU3lJmXz9sH4a7cqS/7xdY8SpFGCAs5SNNgrQG5d2f0BxyJGDi49Y1cqrK672iogtxhRWgQRtDqdAioCD7DC4nweJqT/gp2GrCn+kckDx3esrvurK698gpi9eQwlCH1W/yCSRlwAZcG21fO5tNDJZVexkpAJwG0WQHggNJluNRnRzLZrKRSJ/kRswgu77zmSDhjFXh7iljNkeCf4Mg5xdP+h2LDuGFB6nIRlP23hzlknMKR7nZkG6oHU+vw2K1K99C7a8NKToa8JN9E2Xia833cCCBatiIy7J6iob63qpqNkVQ03U1Lq4B4jjH9311bvRKmNO88QYvmE2bvCYvm9FrVslnqu3U=
+    OIDC_X_FORWARDED_HEADERS: AgAMTdUIySsp6nJ9m898WsyOccrebLp9x3M4xF7dL/d8hgSyzcoVWCQHgcG32/YIueAYCP8ub9Lu/x/rIe1YI05tTNJfMuhXWLSlP7AlT298jmexAkkHVwAiZCAvQNS+YTlZ11quUyAY1TvCJOWlFCQEeuYAxRO9HG2XaQo852kHE+D6S81VV2zRDFPoEyeEkAiFWvlt09kQCPC6Pzcwd4BgoRW6otSGxNNxyLmGpeONhoUIaMtgLvVaSjjW8Nm7SzpAlGb0e+NNyL/RtJ82Lfv94DerHX/kkcZCvx23Q2kpaZ74fjiAiqrZ5zMhluPgOoTAa2RJQFpJyN9u2TdSI7HxB3O3iIRhCo6cxJeB3yGRce6/p3X4Ulg0qoDBUB+UZfevzMAtYTX/CDWHEIfdDr0iHcmT9Db01CfFgdsC2pYqzXJLaYwvXFexEe0n7FU1v6mMfrry2xUgA098b2to32m5wNXyL1k0x9pvmZQpV2pA82k9V6MZHthAtsTE1rUJ2MyBDJOAi9pnlsfrrXCiRM0hu+BW2ujZi+rVUEJW9GosOodByTM7CgrKffztPrLBgp3blG1LJDHh6tkBXJayPpxHWi9ii4kBPJb/i6595zXddsQ5NUtnccNaHo6WdWX6ZzT/yefdFymIp+YsxqQHn5dwwaMy29s2NE8rxJq3SSZ5bJbTQIlazF7xtvY05SV92RJcA5QQXEUebpyjUK2mbR1+PvDCPHGwRI8PCbYnK0dOUMd7
