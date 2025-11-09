@@ -5,7 +5,7 @@ rss:
 
   deployment:
     create: true
-    replicaCount: 2
+    replicaCount: 1
 
     image:
       repository: freshrss/freshrss
@@ -17,6 +17,7 @@ rss:
       PUID: "1000"
       PGID: "1000"
       TZ: "America/New_York"
+      kyle: test
 
     envFrom:
       - secretRef:
