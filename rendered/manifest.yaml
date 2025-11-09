@@ -119,6 +119,8 @@ spec:
               value: "1000"
             - name: TZ
               value: "America/New_York"
+            - name: kyle
+              value: "test"
           envFrom:
             - secretRef:
                 name: homelab-rss
