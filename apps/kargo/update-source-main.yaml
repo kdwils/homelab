@@ -68,9 +68,3 @@ spec:
       as: wait-pr-approval
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ task.outputs['open-pr-main'].pr.id }}
-    - uses: git-merge-pr
-      as: merge-pr-main
-      config:
-        repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ task.outputs['open-pr-main'].pr.id }}
