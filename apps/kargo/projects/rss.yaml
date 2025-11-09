@@ -12,7 +12,7 @@ spec:
   promotionPolicies:
     - stageSelector:
         name: update-main
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
     - stageSelector:
         name: render-staging
       autoPromotionEnabled: false
