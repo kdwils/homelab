@@ -55,7 +55,7 @@ spec:
       as: open-pr-main
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ outputs['push-feature-branch'].branch }}
+        sourceBranch: ${{ task.outputs['push-feature-branch'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
         title: "Update ${{ vars.chartName }} and image versions"
@@ -68,9 +68,9 @@ spec:
       as: wait-pr-approval
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ outputs['open-pr-main'].pr.id }}
+        prNumber: ${{ task.outputs['open-pr-main'].pr.id }}
     - uses: git-merge-pr
       as: merge-pr-main
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ outputs['open-pr-main'].pr.id }}
+        prNumber: ${{ task.outputs['open-pr-main'].pr.id }}

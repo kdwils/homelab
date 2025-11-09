@@ -68,12 +68,12 @@ spec:
       as: wait-for-approval
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ outputs['open-pr'].pr.id }}
+        prNumber: ${{ task.outputs['open-pr'].pr.id }}
     - uses: git-merge-pr
       as: merge-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ outputs['open-pr'].pr.id }}
+        prNumber: ${{ task.outputs['open-pr'].pr.id }}
     - uses: argocd-update
       as: sync-argocd
       config:
