@@ -106,6 +106,8 @@ spec:
           value: rss
         - name: environmentName
           value: homelab
+        - name: environmentsPath
+          value: apps/rss/environments/homelab
         - name: valuesFilePath
           value: apps/rss/environments/homelab/homelab.yaml
         - name: appName

@@ -10,6 +10,7 @@ spec:
     - name: targetBranch
     - name: projectName
     - name: environmentName
+    - name: environmentsPath
     - name: valuesFilePath
     - name: appName
   steps:
@@ -31,8 +32,8 @@ spec:
     - uses: copy
       as: copy-environments
       config:
-        inPath: ./source/${{ dirname(vars.valuesFilePath) }}
-        outPath: ./target/${{ dirname(vars.valuesFilePath) }}
+        inPath: ./source/${{ vars.environmentsPath }}
+        outPath: ./target/${{ vars.environmentsPath }}
     - uses: helm-template
       as: render-manifests
       config:
