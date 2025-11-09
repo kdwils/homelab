@@ -46,11 +46,16 @@ spec:
 
           - Chart: ${{ vars.chartName }} → ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
           - Image: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
+    - uses: git-push
+      as: push-feature-branch
+      config:
+        path: ./repo
+        generateTargetBranch: true
     - uses: git-open-pr
       as: open-pr-main
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ outputs['commit-updates'].commit.branch }}
+        sourceBranch: ${{ outputs['push-feature-branch'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
         title: "Update ${{ vars.chartName }} and image versions"
