@@ -70,7 +70,7 @@ spec:
         - name: imageRepo
           value: freshrss/freshrss
         - name: valuesFilePath
-          value: apps/rss/environments/homelab/values.yaml
+          value: apps/rss/environments/homelab/homelab.yaml
         - name: imageTagYamlPath
           value: rss.deployment.image.tag
       steps:
@@ -107,7 +107,7 @@ spec:
         - name: environmentName
           value: homelab
         - name: valuesFilePath
-          value: apps/rss/environments/homelab/values.yaml
+          value: apps/rss/environments/homelab/homelab.yaml
         - name: appName
           value: rss
       steps:
