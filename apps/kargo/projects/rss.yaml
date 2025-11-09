@@ -28,7 +28,7 @@ spec:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
     - image:
-        repoURL: ghcr.io/kdwils/rss
+        repoURL: freshrss/freshrss
         semverConstraint: ^1.0.0
         strictSemvers: false
     - git:
@@ -68,7 +68,7 @@ spec:
         - name: chartName
           value: homelab-chart
         - name: imageRepo
-          value: ghcr.io/kdwils/rss
+          value: freshrss/freshrss
         - name: valuesFilePath
           value: apps/rss/environments/homelab/values.yaml
         - name: imageTagYamlPath
