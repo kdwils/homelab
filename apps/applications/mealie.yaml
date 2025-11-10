@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: mealie
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: mealie:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: mealie
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/mealie
+    path: apps/mealie/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: apps/mealie/staging
   sources: []
   project: apps
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

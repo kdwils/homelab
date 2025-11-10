@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: mealie
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: mealie
+  namespace: mealie
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: mealie
+  namespace: mealie
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: ghcr.io/mealie-recipes/mealie
+        constraint: ^3.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/mealie/environments/**
+          - glob:charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: mealie
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: mealie
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: charts/homelab
+        - name: warehouse
+          value: mealie
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: ghcr.io/mealie-recipes/mealie
+        - name: valuesFilePath
+          value: apps/mealie/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: mealie.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: mealie
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: mealie
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: charts/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: apps/mealie/staging
+        - name: projectName
+          value: mealie
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: apps/mealie/environments/homelab
+        - name: valuesFilePath
+          value: apps/mealie/environments/homelab/homelab.yaml
+        - name: appName
+          value: mealie
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
