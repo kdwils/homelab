@@ -129,7 +129,7 @@ spec:
               value: "America/New_York"
           envFrom:
             - secretRef:
-                name: homelab-rss
+                name: freshrss-oidc
       volumes:
         - name: pvc-freshrss-data-pvc
           persistentVolumeClaim:
@@ -164,7 +164,7 @@ spec:
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
-  name: homelab-rss
+  name: freshrss-oidc
   namespace: rss
 spec:
   encryptedData:
@@ -173,5 +173,5 @@ spec:
   template:
     type: Opaque
     metadata:
-      name: homelab-rss
+      name: freshrss-oidc
       namespace: rss
