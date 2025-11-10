@@ -1,4 +1,17 @@
 ---
+# Source: homelab/charts/mealie/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rss-homelab-mealie
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
 # Source: homelab/charts/rss/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -30,6 +43,28 @@ spec:
     requests:
       storage: 5Gi
 ---
+# Source: homelab/charts/mealie/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rss-homelab-mealie
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss-homelab
+---
 # Source: homelab/charts/rss/templates/service.yaml
 apiVersion: v1
 kind: Service
@@ -51,6 +86,50 @@ spec:
   selector:
     app.kubernetes.io/name: rss
     app.kubernetes.io/instance: rss-homelab
+---
+# Source: homelab/charts/mealie/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rss-homelab-mealie
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mealie
+      app.kubernetes.io/instance: rss-homelab
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: mealie-0.0.12
+        app.kubernetes.io/name: mealie
+        app.kubernetes.io/instance: rss-homelab
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: rss-homelab-mealie
+      securityContext:
+        {}
+      containers:
+        - name: mealie
+          image: ":1.16.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            {}
+          readinessProbe:
+            {}
+          resources:
+            {}
 ---
 # Source: homelab/charts/rss/templates/deployment.yaml
 apiVersion: apps/v1
