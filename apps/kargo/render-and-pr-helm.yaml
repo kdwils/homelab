@@ -58,7 +58,7 @@ spec:
       as: open-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ outputs['push-target'].branch }}
+        sourceBranch: ${{ task.outputs['push-target'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
         title: "Deploy ${{ vars.projectName }} to ${{ vars.environmentName }}"
@@ -68,7 +68,7 @@ spec:
       as: wait-for-approval
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ outputs['open-pr'].pr.id }}
+        prNumber: ${{ task.outputs['open-pr'].pr.id }}
     - uses: argocd-update
       as: sync-argocd
       config:
