@@ -35,8 +35,8 @@ spec:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:apps/radarr/environments/**
-          - glob:apps/radarr/charts/**
+          - glob:media/radarr/environments/**
+          - glob:media/radarr/charts/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -60,7 +60,7 @@ spec:
         - name: targetBranch
           value: main
         - name: chartPath
-          value: apps/radarr/charts/radarr
+          value: media/radarr/charts/radarr
         - name: warehouse
           value: radarr
         - name: chartRepo
@@ -70,7 +70,7 @@ spec:
         - name: imageRepo
           value: linuxserver/radarr
         - name: valuesFilePath
-          value: apps/radarr/environments/homelab/homelab.yaml
+          value: media/radarr/environments/homelab/homelab.yaml
         - name: imageTagYamlPath
           value: radarr.deployment.image.tag
       steps:
@@ -97,19 +97,19 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: apps/radarr/charts/radarr
+          value: media/radarr/charts/radarr
         - name: sourceBranch
           value: main
         - name: targetBranch
-          value: apps/radarr/staging
+          value: media/radarr/staging
         - name: projectName
           value: radarr
         - name: environmentName
           value: homelab
         - name: environmentsPath
-          value: apps/radarr/environments/homelab
+          value: media/radarr/environments/homelab
         - name: valuesFilePath
-          value: apps/radarr/environments/homelab/homelab.yaml
+          value: media/radarr/environments/homelab/homelab.yaml
         - name: appName
           value: radarr
       steps:
