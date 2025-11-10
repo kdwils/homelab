@@ -1,9 +1,9 @@
 apiVersion: v2
-name: overseer
-description: overseer
+name: overseerr
+description: overseerr
 version: 0.1.0
 dependencies:
   - name: homelab-chart
     version: 0.0.14
     repository: https://kdwils.github.io/helm-charts
-    alias: overseer
+    alias: overseerr
