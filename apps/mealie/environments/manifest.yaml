@@ -1,0 +1,285 @@
+---
+# Source: homelab/charts/mealie/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mealie-homelab
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/rss/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mealie-homelab-rss
+  labels:
+    helm.sh/chart: rss-0.0.12
+    app.kubernetes.io/name: rss
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: homelab/charts/mealie/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mealie-data
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+# Source: homelab/charts/mealie/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie-homelab
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9925
+      targetPort: 9000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie-homelab
+---
+# Source: homelab/charts/rss/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie-homelab-rss
+  labels:
+    helm.sh/chart: rss-0.0.12
+    app.kubernetes.io/name: rss
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: rss
+    app.kubernetes.io/instance: mealie-homelab
+---
+# Source: homelab/charts/mealie/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mealie-homelab
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mealie
+      app.kubernetes.io/instance: mealie-homelab
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: mealie-0.0.12
+        app.kubernetes.io/name: mealie
+        app.kubernetes.io/instance: mealie-homelab
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: mealie-homelab
+      securityContext:
+        {}
+      containers:
+        - name: mealie
+          image: "ghcr.io/mealie-recipes/mealie:v3.4.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9925
+              protocol: TCP
+          livenessProbe:
+            {}
+          readinessProbe:
+            {}
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /app/data
+              name: pvc-mealie-data
+              readOnly: false
+          env:
+            - name: ALLOW_SIGNUP
+              value: "false"
+            - name: BASE_URL
+              value: "https://mealie.kyledev.co"
+            - name: MAX_WORKERS
+              value: "3"
+            - name: OIDC_ADMIN_GROUP
+              value: "admins"
+            - name: OIDC_AUTH_ENABLED
+              value: "true"
+            - name: OIDC_CLIENT_ID
+              value: "c8b87ff4-436f-4552-ab7e-e2ab0661c73c"
+            - name: OIDC_CONFIGURATION_URL
+              value: "https://pocketid.kyledev.co/.well-known/openid-configuration"
+            - name: OIDC_PROVIDER_NAME
+              value: "pocketid"
+            - name: OIDC_USER_GROUP
+              value: "friends"
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TZ
+              value: "America/New_York"
+            - name: WEB_CONCURRENCY
+              value: "3"
+          envFrom:
+            - secretRef:
+                name: mealie-oidc
+      volumes:
+        - name: pvc-mealie-data
+          persistentVolumeClaim:
+            claimName: mealie-data
+---
+# Source: homelab/charts/rss/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mealie-homelab-rss
+  labels:
+    helm.sh/chart: rss-0.0.12
+    app.kubernetes.io/name: rss
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rss
+      app.kubernetes.io/instance: mealie-homelab
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: rss-0.0.12
+        app.kubernetes.io/name: rss
+        app.kubernetes.io/instance: mealie-homelab
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: mealie-homelab-rss
+      securityContext:
+        {}
+      containers:
+        - name: rss
+          image: ":1.16.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            {}
+          readinessProbe:
+            {}
+          resources:
+            {}
+---
+# Source: homelab/charts/mealie/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mealie-homelab
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "mealie.kyledev.co"
+    - "mealie.int.kyledev.co"
+    - "mealie.ts.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: mealie-homelab
+        port: 9925
+---
+# Source: homelab/charts/mealie/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: mealie-oidc
+  namespace: mealie
+spec:
+  encryptedData:
+    OIDC_CLIENT_SECRET: AgArHfZSd29P9BAaus77RkQvPhkvRFSV9rP5MATP4GO2MiyZy2vgWj3mKFdm3SSdcbsJPmPnqgB9DKtirki8EDC4hm//ykZOWwtwYIdIZ4vnu3ZGfRKzjED1t0aBLj8fraVEJgE/MdPgj0vi0B2Hc2IUYmurf77LYqaRYxfOl61g8RhaO2k6KvbLS8l1KSYNiZX2vUHg8FBfYAg3zbZ0qy7peKCrlDKwnagzimx69snhkdQc16XRLXxsAN17+zODltWVbjh70PG7OUQ4/QB/spcyBBn61IPChjPtTn76Iq+Zp6aoobCyS7G1ITM7RiePq9mdGrnN4EisZITriaEhkrvAp5hWWR6th0DLM7hhp+SSMmABfOx2JH349Rwiqx/h2wL1ULCHuG06nxCyuke7IdNqnCVXiG8+toIrWJh3R/qxt1o4TeSQbhN9HG5BQxPh2SAUtSOyLx/QQCi5hlrJxBEjDWz9x0RDAkLQ8CVy332CPHMfe8c7O+j5t9RRnnpDbVJpV7b2WYqVUTbWQtZ+cpkOdXH69V9l/YoS64n6t0AlNFKmVTxC82yFdCty6lpyEqYl83ZggKj7/0G0wQYv94G1/1g6xuWz5vvcSlSqByUSf11UxtfwGuIxPePwt8BYfKdIQ1Yj8UhlqYnllXaANdyeSitDEhOcNJiIP1JoWlPb/z8syWyd874qQY+wArlgGdso5hXNRqgSCNEaaRNPRX1Vtj5xzBsOPRypwT64fmfPrg==
+  template:
+    type: Opaque
+    metadata:
+      name: mealie-oidc
+      namespace: mealie
+---
+# Source: homelab/charts/mealie/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: mealie-homelab
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie-homelab
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: mealie-homelab
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080
