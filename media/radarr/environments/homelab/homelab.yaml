@@ -1,0 +1,57 @@
+radarr:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    strategyType: Recreate
+
+    image:
+      repository: linuxserver/radarr
+      tag: 5.28.0
+      pullPolicy: IfNotPresent
+
+    env:
+      PUID: "0"
+      PGID: "0"
+
+    volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+
+    volumeMounts:
+      - mountPath: /downloads/transmission
+        name: media
+        subPath: downloads/transmission
+      - mountPath: /movies
+        name: media
+        subPath: movies
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 80
+    targetPort: 7878
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - radarr.ts.kyledev.co
+      - radarr.int.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  pvc:
+    create: true
+    pvcs:
+      - name: radarr
+        size: 8Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce
+        mountPath: /config
+        subPath: configs/radarr

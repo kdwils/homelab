@@ -6,3 +6,4 @@ resources:
   - rss.yaml
   - mealie.yaml
   - pocketid.yaml
+  - radarr.yaml

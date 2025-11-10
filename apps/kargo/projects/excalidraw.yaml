@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: excalidraw
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: excalidraw
+  namespace: excalidraw
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: excalidraw
+  namespace: excalidraw
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: excalidraw/excalidraw
+        constraint: latest
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/excalidraw/environments/**
+          - glob:apps/excalidraw/charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: excalidraw
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: excalidraw
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: apps/excalidraw/charts/excalidraw
+        - name: warehouse
+          value: excalidraw
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: excalidraw/excalidraw
+        - name: valuesFilePath
+          value: apps/excalidraw/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: excalidraw.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: excalidraw
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: excalidraw
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: apps/excalidraw/charts/excalidraw
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: apps/excalidraw/staging
+        - name: projectName
+          value: excalidraw
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: apps/excalidraw/environments/homelab
+        - name: valuesFilePath
+          value: apps/excalidraw/environments/homelab/homelab.yaml
+        - name: appName
+          value: excalidraw
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

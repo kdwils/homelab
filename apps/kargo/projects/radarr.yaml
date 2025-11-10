@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: radarr
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: radarr
+  namespace: radarr
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: radarr
+  namespace: radarr
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: linuxserver/radarr
+        constraint: ^5.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/radarr/environments/**
+          - glob:apps/radarr/charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: radarr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: radarr
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: apps/radarr/charts/radarr
+        - name: warehouse
+          value: radarr
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: linuxserver/radarr
+        - name: valuesFilePath
+          value: apps/radarr/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: radarr.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: radarr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: radarr
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: apps/radarr/charts/radarr
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: apps/radarr/staging
+        - name: projectName
+          value: radarr
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: apps/radarr/environments/homelab
+        - name: valuesFilePath
+          value: apps/radarr/environments/homelab/homelab.yaml
+        - name: appName
+          value: radarr
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
