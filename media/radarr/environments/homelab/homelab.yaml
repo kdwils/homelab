@@ -23,6 +23,9 @@ radarr:
           claimName: media
 
     volumeMounts:
+      - mountPath: /config
+        name: radarr
+        subPath: configs/radarr
       - mountPath: /downloads/transmission
         name: media
         subPath: downloads/transmission
@@ -53,5 +56,3 @@ radarr:
         size: 8Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
-        mountPath: /config
-        subPath: configs/radarr
