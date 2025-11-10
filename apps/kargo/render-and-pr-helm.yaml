@@ -21,8 +21,7 @@ spec:
         checkout:
           - branch: ${{ vars.sourceBranch }}
             path: ./source
-          - branch: kargo/render-${{ vars.projectName }}-${{ vars.environmentName }}
-            create: true
+          - branch: ${{ vars.targetBranch }}
             path: ./target
     - uses: copy
       as: copy-chart
