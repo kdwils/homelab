@@ -24,6 +24,7 @@ spec:
             path: ./repo
     - uses: helm-update-chart
       as: update-chart-version
+      continueOnError: true
       config:
         path: ./repo/${{ vars.chartPath }}
         charts:
@@ -32,6 +33,7 @@ spec:
             version: ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
     - uses: yaml-update
       as: update-image-tag
+      continueOnError: true
       config:
         path: ./repo/${{ vars.valuesFilePath }}
         updates:
