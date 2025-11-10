@@ -17,9 +17,10 @@ rss:
       PGID: "1000"
       TZ: "America/New_York"
       OIDC_ENABLED: "1"
+      OIDC_PROVIDER_METADATA_URL: https://pocketid.kyledev.co/.well-known/openid-configuration
+      OIDC_SCOPES: openid email profile
       OIDC_X_FORWARDED_HEADERS: X-Forwarded-Proto X-Forwarded-Host
       OIDC_REMOTE_USER_CLAIM: preferred_username
-      OIDC_PROVIDER_METADATA_URL: https://pocketid.kyledev.co/.well-known/openid-configuration
 
     envFrom:
       - secretRef:
