@@ -36,7 +36,7 @@ spec:
         branch: main
         includePaths:
           - glob:apps/mealie/environments/**
-          - glob:charts/**
+          - glob:apps/mealie/charts/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
