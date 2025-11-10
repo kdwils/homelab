@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: bluesky-data
+  name: bluesky
   labels:
     helm.sh/chart: bluesky-0.0.14
     app.kubernetes.io/name: bluesky
@@ -98,7 +98,7 @@ spec:
               memory: 128Mi
           volumeMounts:
             - mountPath: /pds
-              name: pvc-bluesky-data
+              name: pvc-bluesky
               readOnly: false
           env:
             - name: LOG_ENABLED
@@ -119,9 +119,9 @@ spec:
             - secretRef:
                 name: bluesky
       volumes:
-        - name: pvc-bluesky-data
+        - name: pvc-bluesky
           persistentVolumeClaim:
-            claimName: bluesky-data
+            claimName: bluesky
 ---
 # Source: bluesky/charts/bluesky/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
