@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: sonarr
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: sonarr:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/sonarr
+    path: media/sonarr/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: media/sonarr/staging
   sources: []
   project: media
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

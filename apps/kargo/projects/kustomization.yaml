@@ -7,3 +7,4 @@ resources:
   - mealie.yaml
   - pocketid.yaml
   - radarr.yaml
+  - sonarr.yaml

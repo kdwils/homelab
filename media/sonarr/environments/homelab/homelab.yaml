@@ -1,0 +1,59 @@
+sonarr:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    strategyType: Recreate
+
+    image:
+      repository: linuxserver/sonarr
+      tag: 4.0.15
+      pullPolicy: IfNotPresent
+
+    env:
+      PUID: "1000"
+      PGID: "1000"
+
+    volumes:
+      - name: sonarr
+        persistentVolumeClaim:
+          claimName: sonarr
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+    volumeMounts:
+      - mountPath: /config
+        name: sonarr
+        subPath: configs/sonarr
+      - mountPath: /downloads/transmission
+        name: media
+        subPath: downloads/transmission
+      - mountPath: /tv
+        name: media
+        subPath: tv
+  service:
+    create: true
+    type: ClusterIP
+    port: 80
+    targetPort: 8989
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - sonarr.ts.kyledev.co
+      - sonarr.int.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  pvc:
+    create: true
+    pvcs:
+      - name: sonarr
+        size: 8Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce

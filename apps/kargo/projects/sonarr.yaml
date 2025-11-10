@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: sonarr
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: sonarr
+  namespace: sonarr
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: sonarr
+  namespace: sonarr
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: linuxserver/sonarr
+        constraint: ^4.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/sonarr/environments/**
+          - glob:media/sonarr/charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: sonarr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: sonarr
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: media/sonarr/charts/sonarr
+        - name: warehouse
+          value: sonarr
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: linuxserver/sonarr
+        - name: valuesFilePath
+          value: media/sonarr/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: sonarr.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: sonarr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: sonarr
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: media/sonarr/charts/sonarr
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: media/sonarr/staging
+        - name: projectName
+          value: sonarr
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: media/sonarr/environments/homelab
+        - name: valuesFilePath
+          value: media/sonarr/environments/homelab/homelab.yaml
+        - name: appName
+          value: sonarr
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
