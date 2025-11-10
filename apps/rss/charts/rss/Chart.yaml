@@ -4,6 +4,6 @@ description: rss feed deploy
 version: 0.1.0
 dependencies:
   - name: homelab-chart
-    version: 0.0.13
+    version: 0.0.14
     repository: https://kdwils.github.io/helm-charts
     alias: rss
