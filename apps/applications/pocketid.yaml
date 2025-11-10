@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: pocketid
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: pocketid:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: pocketid
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/pocketid
+    path: apps/pocketid/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: apps/pocketid/staging
   sources: []
   project: apps
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

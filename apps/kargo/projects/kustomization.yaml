@@ -4,3 +4,4 @@ resources:
   - blog.yaml
   - rss.yaml
   - mealie.yaml
+  - pocketid.yaml

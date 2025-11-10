@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: pocketid
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: pocketid
+  namespace: pocketid
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: pocketid
+  namespace: pocketid
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: ghcr.io/pocket-id/pocket-id
+        constraint: ^1.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/pocketid/environments/**
+          - glob:charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: pocketid
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: pocketid
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: apps/pocketid/charts/pocketid
+        - name: warehouse
+          value: pocketid
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: ghcr.io/pocket-id/pocket-id
+        - name: valuesFilePath
+          value: apps/pocketid/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: pocketid.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: pocketid
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: pocketid
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: apps/pocketid/charts/pocketid
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: apps/pocketid/staging
+        - name: projectName
+          value: pocketid
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: apps/pocketid/environments/homelab
+        - name: valuesFilePath
+          value: apps/pocketid/environments/homelab/homelab.yaml
+        - name: appName
+          value: pocketid
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
