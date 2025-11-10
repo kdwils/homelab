@@ -93,8 +93,8 @@ spec:
             {}
           volumeMounts:
             - mountPath: /config
-              name: pvc-radarr
-              readOnly: false
+              name: radarr
+              subPath: configs/radarr
             - mountPath: /downloads/transmission
               name: media
               subPath: downloads/transmission
@@ -107,9 +107,6 @@ spec:
             - name: PUID
               value: "0"
       volumes:
-        - name: pvc-radarr
-          persistentVolumeClaim:
-            claimName: radarr
         - name: media
           persistentVolumeClaim:
             claimName: media
