@@ -12,9 +12,9 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/radarr/environments
+    path: media/radarr/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: apps/radarr/staging
+    targetRevision: media/radarr/staging
   sources: []
   project: media
   syncPolicy:
