@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: bluesky
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: bluesky
+  namespace: bluesky
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: bluesky
+  namespace: bluesky
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: ghcr.io/bluesky-social/pds
+        semverConstraint: ^0.4.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob: apps/bluesky/environments/**
+          - glob: charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: bluesky
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: bluesky
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: apps/bluesky/charts/bluesky
+        - name: warehouse
+          value: bluesky
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: ghcr.io/bluesky-social/pds
+        - name: valuesFilePath
+          value: apps/bluesky/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: bluesky.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: bluesky
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: bluesky
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: apps/bluesky/charts/bluesky
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: apps/bluesky/staging
+        - name: projectName
+          value: bluesky
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: apps/bluesky/environments/homelab
+        - name: valuesFilePath
+          value: apps/bluesky/environments/homelab/homelab.yaml
+        - name: appName
+          value: bluesky
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
