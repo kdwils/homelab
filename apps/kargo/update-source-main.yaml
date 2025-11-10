@@ -67,6 +67,6 @@ spec:
           Updated via Kargo promotion from warehouse: ${{ vars.warehouse }}
     - uses: git-wait-for-pr
       as: wait-pr-approval
-      if: success('open-pr-main')
+      if: ${{ status('open-pr-main') == 'Succeeded' }}
       config:
         repoURL: ${{ vars.gitRepo }}
