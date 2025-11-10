@@ -1,43 +1,25 @@
 ---
-# Source: homelab/charts/rss/templates/serviceaccount.yaml
+# Source: homelab/charts/homelab-chart/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: rss-homelab
+  name: rss-homelab-homelab-chart
   labels:
-    helm.sh/chart: rss-0.0.12
-    app.kubernetes.io/name: rss
+    helm.sh/chart: homelab-chart-0.0.12
+    app.kubernetes.io/name: homelab-chart
     app.kubernetes.io/instance: rss-homelab
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
-# Source: homelab/charts/rss/templates/pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: freshrss-data-pvc
-  labels:
-    helm.sh/chart: rss-0.0.12
-    app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
----
-# Source: homelab/charts/rss/templates/service.yaml
+# Source: homelab/charts/homelab-chart/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: rss-homelab
+  name: rss-homelab-homelab-chart
   labels:
-    helm.sh/chart: rss-0.0.12
-    app.kubernetes.io/name: rss
+    helm.sh/chart: homelab-chart-0.0.12
+    app.kubernetes.io/name: homelab-chart
     app.kubernetes.io/instance: rss-homelab
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
@@ -49,17 +31,17 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: rss
+    app.kubernetes.io/name: homelab-chart
     app.kubernetes.io/instance: rss-homelab
 ---
-# Source: homelab/charts/rss/templates/deployment.yaml
+# Source: homelab/charts/homelab-chart/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rss-homelab
+  name: rss-homelab-homelab-chart
   labels:
-    helm.sh/chart: rss-0.0.12
-    app.kubernetes.io/name: rss
+    helm.sh/chart: homelab-chart-0.0.12
+    app.kubernetes.io/name: homelab-chart
     app.kubernetes.io/instance: rss-homelab
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
@@ -67,111 +49,31 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: rss
+      app.kubernetes.io/name: homelab-chart
       app.kubernetes.io/instance: rss-homelab
   template:
     metadata:
       labels:
-        helm.sh/chart: rss-0.0.12
-        app.kubernetes.io/name: rss
+        helm.sh/chart: homelab-chart-0.0.12
+        app.kubernetes.io/name: homelab-chart
         app.kubernetes.io/instance: rss-homelab
         app.kubernetes.io/version: "1.16.0"
         app.kubernetes.io/managed-by: Helm
     spec:
-      serviceAccountName: rss-homelab
+      serviceAccountName: rss-homelab-homelab-chart
       securityContext:
         {}
       containers:
-        - name: rss
-          image: "freshrss/freshrss:1.27.1"
+        - name: homelab-chart
+          image: ":1.16.0"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            {}
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            {}
           resources:
-            limits:
-              cpu: 100m
-              memory: 256Mi
-            requests:
-              cpu: 50m
-              memory: 64Mi
-          volumeMounts:
-            - mountPath: /var/www/FreshRSS/data
-              name: pvc-freshrss-data-pvc
-              readOnly: false
-          env:
-            - name: CRON_MIN
-              value: "13,43"
-            - name: OIDC_ENABLED
-              value: "1"
-            - name: OIDC_PROVIDER_METADATA_URL
-              value: "https://pocketid.kyledev.co/.well-known/openid-configuration"
-            - name: OIDC_REMOTE_USER_CLAIM
-              value: "preferred_username"
-            - name: OIDC_SCOPES
-              value: "openid email profile"
-            - name: OIDC_X_FORWARDED_HEADERS
-              value: "X-Forwarded-Proto X-Forwarded-Host"
-            - name: PGID
-              value: "1000"
-            - name: PUID
-              value: "1000"
-            - name: TZ
-              value: "America/New_York"
-          envFrom:
-            - secretRef:
-                name: freshrss-oidc
-      volumes:
-        - name: pvc-freshrss-data-pvc
-          persistentVolumeClaim:
-            claimName: freshrss-data-pvc
----
-# Source: homelab/charts/rss/templates/httproute.yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: rss-homelab
-  labels:
-    helm.sh/chart: rss-0.0.12
-    app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  parentRefs:
-    - name: homelab
-      namespace: envoy-gateway-system
-  hostnames:
-    - "rss.int.kyledev.co"
-    - "rss.ts.kyledev.co"
-  rules:
-    - backendRefs:
-      - group: ""
-        kind: Service
-        name: rss-homelab
-        port: 80
----
-# Source: homelab/charts/rss/templates/sealedsecret.yaml
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  name: freshrss-oidc
-  namespace: rss
-spec:
-  encryptedData:
-    OIDC_CLIENT_ID: AgATW9eAmCBx6owNFkMdEI55OyZHq0ZpBVdut0mVObtwK+R4lr3vwbvpqKSYEiejTF2AdRlAfdFGCk37TkWceJuH98Ep+e4CXECyX+m4sUVefTgDkEK+DzC/DCXUonB06XnB3Snw/cOcXASYxlObmxHsOEMVnIMLXAYbJX4FmjDpaIu7Eq/o+cf17FylG1pyNvAoydcl2FHLHGsq2ay/+Ijiu24/A41KbX5ITT7pNjcMDo2RRTMMdnPs4eguucqKqd9k+8e/1zTTW25TuRXf8F+OIKmwPT0jC9jb8L35MXZczrzQ3IUf4p3kWt2pjihJnfRaCEqp9SSdW8B6b4ST9dcrNHl57CzmnYmWPMTKOXBo6q63QXOORhBDAyAlGv/f8UDorxEGqpAdCrDZa9FXsZE9oOoaPJRvBtq6S9XDbxey4X5cmZERq+OfTl4EsP7MUQ8i1NpYR+dMGaGP6cY6ZJq6rsrWI/Ar4nRhrgOPu7KwbJIvdbdUBTw2WsCDudRowsQ7flMzsWkwp6Q7Clj309sHyj4Nc18Q4aDEiNMHejuydT157KdUy/JhAvUx0+Ic8H0kqVjdojmN3Y5m1c0ZCL9JNs45WDTP5qhKWeZMe42lxMK3SFcLdjoUjt9zjQbeGRv+6SMBtln4VSoBrMcRtLKm8gjAuiNAOUwr/m6S63LEGIC/YaNyF1NLqctdya5YIF7uTK5iyeBhS0Uye+E4IEDfLdlkjGtuAjwURxLqzrt+PX/Xv7k=
-    OIDC_CLIENT_SECRET: AgBVIZL9Y0WF3eaAAsNB2ZHZ+kKEFgwJdMH30LoK6IElHpoNIJT/xIs3g2iCbH5c5TkeeTn+/d+xD+qY2QXXnDF6MWw3mm5SDSW306VTNYW6NBzv2x9Q25JSd9IxcPWMGs09w86T0P4mRZ3Xmf3lc00rssZJhHS/O3v9jTNo83eWepz12e60iz9NUc36nqPBoyADsAkN1G0ifJwZBtFYYB7fzrLfD7pa6fS0GezgVjNmz9xcnYx4APzqKslboZw5Lrpb8Ln4unnC3I9JhW2SD3QJDSk8+gVkXIMEJN++x7Rl5zET1KV9FFROHdCUFPn8TGRAMuG67uOIciRHzxGqtJmRRZto+oeVMoQ1qaJelLp9TH2gkQsXVws2TBDKjafXPSAHAYEDNbtTzd1OmX5O1yaISL/Cmp+0DG0AH8i5LvhZRnrfANcWVijkXOs9fyX/qNSrli4vdJKPOQdQ3UTU7M0PozI+/ynYty1iW/8/5cDrFKMEHeX0g6HFCYkLraCn89X/lA4Jw4jcX8ZPAWWyFHonnfegIegC+sg0SiJftmfafQacUtB9UCUDfZ7O1cWiHFmLAXEal0AkbgFzdTbp3H+K3aqjrx8dXML7TRYOhPJ4yzjLZnX3PI06hCDHk+5YRGRhXb/pm79XQFLk2NmAlVkyr9fXtdfY9mqxS63DeWxWjowKhMplIic910Z788WFwnNWqy4CD/Dw1JDcCNuujUD7ai/qPrKvwOLWPqhycXforw==
-  template:
-    type: Opaque
-    metadata:
-      name: freshrss-oidc
-      namespace: rss
+            {}
