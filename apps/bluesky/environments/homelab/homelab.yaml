@@ -66,7 +66,7 @@ bluesky:
   pvc:
     create: true
     pvcs:
-      - name: bluesky
+      - name: bluesky-temp
         size: 20Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
