@@ -1,4 +1,4 @@
-overseer:
+overseerr:
   serviceAccount:
     create: true
     automount: false
