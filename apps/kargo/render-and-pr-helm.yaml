@@ -23,22 +23,12 @@ spec:
             path: ./source
           - branch: ${{ vars.targetBranch }}
             path: ./target
-    - uses: copy
-      as: copy-chart
-      config:
-        inPath: ./source/${{ vars.chartPath }}
-        outPath: ./target/${{ vars.chartPath }}
-    - uses: copy
-      as: copy-environments
-      config:
-        inPath: ./source/${{ vars.environmentsPath }}
-        outPath: ./target/${{ vars.environmentsPath }}
     - uses: helm-template
       as: render-manifests
       config:
-        path: ./target/${{ vars.chartPath }}
+        path: ./source/${{ vars.chartPath }}
         valuesFiles:
-          - ./target/${{ vars.valuesFilePath }}
+          - ./source/${{ vars.valuesFilePath }}
         namespace: ${{ vars.projectName }}
         releaseName: ${{ vars.projectName }}-${{ vars.environmentName }}
         outPath: ./target/${{ vars.environmentsPath }}/../manifest.yaml
