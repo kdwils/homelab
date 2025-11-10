@@ -21,7 +21,7 @@ spec:
         checkout:
           - branch: ${{ vars.sourceBranch }}
             path: ./source
-          - branch: ${{ vars.targetBranch }}
+          - branch: kargo/render-${{ vars.projectName }}-${{ vars.environmentName }}
             create: true
             path: ./target
     - uses: copy
@@ -54,12 +54,12 @@ spec:
       as: push-target
       config:
         path: ./target
-        targetBranch: ${{ vars.targetBranch }}
+        targetBranch: kargo/render-${{ vars.projectName }}-${{ vars.environmentName }}
     - uses: git-open-pr
       as: open-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ vars.sourceBranch }}
+        sourceBranch: kargo/render-${{ vars.projectName }}-${{ vars.environmentName }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
         title: "Deploy ${{ vars.projectName }} to ${{ vars.environmentName }}"
