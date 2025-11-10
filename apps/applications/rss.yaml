@@ -12,7 +12,7 @@ spec:
     namespace: rss
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/rss
+    path: apps/rss/environments
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: apps/rss/staging
   sources: []
