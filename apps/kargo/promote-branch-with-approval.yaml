@@ -21,9 +21,9 @@ spec:
       as: wait-for-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ task.outputs['open-pr'].pr.id }}
+        prNumber: ${{ outputs['open-pr'].pr.id }}
     - uses: git-merge-pr
       as: merge-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ task.outputs['open-pr'].pr.id }}
+        prNumber: ${{ outputs['open-pr'].pr.id }}
