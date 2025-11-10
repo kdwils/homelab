@@ -18,6 +18,7 @@ rss:
       PGID: "1000"
       TZ: "America/New_York"
       kyle: test
+      test: two
 
     envFrom:
       - secretRef:
