@@ -1,81 +1,80 @@
-nameOverride: mealie
+mealie:
+  serviceAccount:
+    create: true
+    automount: false
 
-serviceAccount:
-  create: true
-  automount: false
+  deployment:
+    create: true
+    replicaCount: 1
 
-deployment:
-  create: true
-  replicaCount: 1
+    image:
+      repository: ghcr.io/mealie-recipes/mealie
+      tag: v3.4.0
+      pullPolicy: IfNotPresent
+    env:
+      ALLOW_SIGNUP: "false"
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "America/New_York"
+      MAX_WORKERS: "3"
+      WEB_CONCURRENCY: "3"
+      BASE_URL: "https://mealie.kyledev.co"
+      OIDC_AUTH_ENABLED: "true"
+      OIDC_PROVIDER_NAME: pocketid
+      OIDC_USER_GROUP: "friends"
+      OIDC_ADMIN_GROUP: "admins"
+      OIDC_CONFIGURATION_URL: "https://pocketid.kyledev.co/.well-known/openid-configuration"
+      OIDC_CLIENT_ID: c8b87ff4-436f-4552-ab7e-e2ab0661c73c
 
-  image:
-    repository: ghcr.io/mealie-recipes/mealie
-    tag: v3.4.0
-    pullPolicy: IfNotPresent
-  env:
-    ALLOW_SIGNUP: "false"
-    PUID: "1000"
-    PGID: "1000"
-    TZ: "America/New_York"
-    MAX_WORKERS: "3"
-    WEB_CONCURRENCY: "3"
-    BASE_URL: "https://mealie.kyledev.co"
-    OIDC_AUTH_ENABLED: "true"
-    OIDC_PROVIDER_NAME: pocketid
-    OIDC_USER_GROUP: "friends"
-    OIDC_ADMIN_GROUP: "admins"
-    OIDC_CONFIGURATION_URL: "https://pocketid.kyledev.co/.well-known/openid-configuration"
-    OIDC_CLIENT_ID: c8b87ff4-436f-4552-ab7e-e2ab0661c73c
+    envFrom:
+      - secretRef:
+          name: mealie-oidc
 
-  envFrom:
-    - secretRef:
-        name: mealie-oidc
+    resources:
+      limits:
+        cpu: 100m
+        memory: 256Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
 
-  resources:
-    limits:
-      cpu: 100m
-      memory: 256Mi
-    requests:
-      cpu: 50m
-      memory: 64Mi
+  service:
+    create: true
+    type: ClusterIP
+    port: 9925
+    targetPort: 9000
+    name: http
 
-service:
-  create: true
-  type: ClusterIP
-  port: 9925
-  targetPort: 9000
-  name: http
+  httproute:
+    create: true
+    hostnames:
+      - mealie.kyledev.co
+      - mealie.int.kyledev.co
+      - mealie.ts.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
 
-httproute:
-  create: true
-  hostnames:
-    - mealie.kyledev.co
-    - mealie.int.kyledev.co
-    - mealie.ts.kyledev.co
-  parentRefs:
-    - name: homelab
-      namespace: envoy-gateway-system
+  pvc:
+    create: true
+    pvcs:
+      - name: mealie-data
+        size: 10Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce
+        mountPath: /app/data
 
-pvc:
-  create: true
-  pvcs:
-    - name: mealie-data
-      size: 10Gi
-      storageClassName: ""
-      accessMode: ReadWriteOnce
-      mountPath: /app/data
+  sealedsecrets:
+    - name: mealie-oidc
+      data:
+        OIDC_CLIENT_SECRET: AgArHfZSd29P9BAaus77RkQvPhkvRFSV9rP5MATP4GO2MiyZy2vgWj3mKFdm3SSdcbsJPmPnqgB9DKtirki8EDC4hm//ykZOWwtwYIdIZ4vnu3ZGfRKzjED1t0aBLj8fraVEJgE/MdPgj0vi0B2Hc2IUYmurf77LYqaRYxfOl61g8RhaO2k6KvbLS8l1KSYNiZX2vUHg8FBfYAg3zbZ0qy7peKCrlDKwnagzimx69snhkdQc16XRLXxsAN17+zODltWVbjh70PG7OUQ4/QB/spcyBBn61IPChjPtTn76Iq+Zp6aoobCyS7G1ITM7RiePq9mdGrnN4EisZITriaEhkrvAp5hWWR6th0DLM7hhp+SSMmABfOx2JH349Rwiqx/h2wL1ULCHuG06nxCyuke7IdNqnCVXiG8+toIrWJh3R/qxt1o4TeSQbhN9HG5BQxPh2SAUtSOyLx/QQCi5hlrJxBEjDWz9x0RDAkLQ8CVy332CPHMfe8c7O+j5t9RRnnpDbVJpV7b2WYqVUTbWQtZ+cpkOdXH69V9l/YoS64n6t0AlNFKmVTxC82yFdCty6lpyEqYl83ZggKj7/0G0wQYv94G1/1g6xuWz5vvcSlSqByUSf11UxtfwGuIxPePwt8BYfKdIQ1Yj8UhlqYnllXaANdyeSitDEhOcNJiIP1JoWlPb/z8syWyd874qQY+wArlgGdso5hXNRqgSCNEaaRNPRX1Vtj5xzBsOPRypwT64fmfPrg==
 
-sealedsecrets:
-  - name: mealie-oidc
-    data:
-      OIDC_CLIENT_SECRET: AgArHfZSd29P9BAaus77RkQvPhkvRFSV9rP5MATP4GO2MiyZy2vgWj3mKFdm3SSdcbsJPmPnqgB9DKtirki8EDC4hm//ykZOWwtwYIdIZ4vnu3ZGfRKzjED1t0aBLj8fraVEJgE/MdPgj0vi0B2Hc2IUYmurf77LYqaRYxfOl61g8RhaO2k6KvbLS8l1KSYNiZX2vUHg8FBfYAg3zbZ0qy7peKCrlDKwnagzimx69snhkdQc16XRLXxsAN17+zODltWVbjh70PG7OUQ4/QB/spcyBBn61IPChjPtTn76Iq+Zp6aoobCyS7G1ITM7RiePq9mdGrnN4EisZITriaEhkrvAp5hWWR6th0DLM7hhp+SSMmABfOx2JH349Rwiqx/h2wL1ULCHuG06nxCyuke7IdNqnCVXiG8+toIrWJh3R/qxt1o4TeSQbhN9HG5BQxPh2SAUtSOyLx/QQCi5hlrJxBEjDWz9x0RDAkLQ8CVy332CPHMfe8c7O+j5t9RRnnpDbVJpV7b2WYqVUTbWQtZ+cpkOdXH69V9l/YoS64n6t0AlNFKmVTxC82yFdCty6lpyEqYl83ZggKj7/0G0wQYv94G1/1g6xuWz5vvcSlSqByUSf11UxtfwGuIxPePwt8BYfKdIQ1Yj8UhlqYnllXaANdyeSitDEhOcNJiIP1JoWlPb/z8syWyd874qQY+wArlgGdso5hXNRqgSCNEaaRNPRX1Vtj5xzBsOPRypwT64fmfPrg==
-
-securityPolicy:
-  extAuth:
-    grpc:
-      backendRefs:
-        - group: ""
-          kind: Service
-          name: homelab-envoy-proxy-bouncer
-          namespace: envoy-gateway-system
-          port: 8080
+  securityPolicy:
+    extAuth:
+      grpc:
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: homelab-envoy-proxy-bouncer
+            namespace: envoy-gateway-system
+            port: 8080

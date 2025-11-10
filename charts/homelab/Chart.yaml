@@ -6,3 +6,8 @@ dependencies:
   - name: homelab-chart
     version: 0.0.12
     repository: https://kdwils.github.io/helm-charts
+    alias: rss
+  - name: homelab-chart
+    version: 0.0.12
+    repository: https://kdwils.github.io/helm-charts
+    alias: mealie
