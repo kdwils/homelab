@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: overseerr
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: overseerr:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/overseerr
+    path: media/overseerr/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: media/overseerr/staging
   sources: []
   project: media
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,60 @@
+overseer:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    strategyType: Recreate
+
+    image:
+      repository: sctx/overseerr
+      tag: 1.34.0
+      pullPolicy: IfNotPresent
+
+    env:
+      TZ: "UTC"
+
+    volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: overseerr-config
+    volumeMounts:
+      - name: config
+        mountPath: /app/config
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 80
+    targetPort: 5055
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - "overseerr.int.kyledev.co"
+      - "overseerr.ts.kyledev.co"
+      - "overseerr.kyledev.co"
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  pvc:
+    create: true
+    pvcs:
+      - name: overseerr-config
+        size: 1Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce
+
+  securityPolicy:
+    extAuth:
+      grpc:
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: homelab-envoy-proxy-bouncer
+            namespace: envoy-gateway-system
+            port: 8080

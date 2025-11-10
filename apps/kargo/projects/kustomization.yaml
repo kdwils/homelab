@@ -5,6 +5,7 @@ resources:
   - bluesky.yaml
   - rss.yaml
   - mealie.yaml
+  - overseerr.yaml
   - pocketid.yaml
   - radarr.yaml
   - sonarr.yaml
