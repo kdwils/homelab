@@ -53,12 +53,12 @@ spec:
       as: push-target
       config:
         path: ./target
-        targetBranch: kargo/render-${{ vars.projectName }}-${{ vars.environmentName }}
+        generateTargetBranch: true
     - uses: git-open-pr
       as: open-pr
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: kargo/render-${{ vars.projectName }}-${{ vars.environmentName }}
+        sourceBranch: ${{ task.outputs['push-target'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
         title: "Deploy ${{ vars.projectName }} to ${{ vars.environmentName }}"
