@@ -1,13 +1,26 @@
 ---
+# Source: homelab/charts/mealie/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rss-mealie
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
 # Source: homelab/charts/rss/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: rss-homelab
+  name: rss
   labels:
-    helm.sh/chart: rss-0.0.12
+    helm.sh/chart: rss-0.0.13
     app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
@@ -18,9 +31,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: freshrss-data-pvc
   labels:
-    helm.sh/chart: rss-0.0.12
+    helm.sh/chart: rss-0.0.13
     app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -30,15 +43,37 @@ spec:
     requests:
       storage: 5Gi
 ---
+# Source: homelab/charts/mealie/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rss-mealie
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss
+---
 # Source: homelab/charts/rss/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: rss-homelab
+  name: rss
   labels:
-    helm.sh/chart: rss-0.0.12
+    helm.sh/chart: rss-0.0.13
     app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -50,17 +85,61 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/instance: rss
+---
+# Source: homelab/charts/mealie/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rss-mealie
+  labels:
+    helm.sh/chart: mealie-0.0.12
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: rss
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mealie
+      app.kubernetes.io/instance: rss
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: mealie-0.0.12
+        app.kubernetes.io/name: mealie
+        app.kubernetes.io/instance: rss
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: rss-mealie
+      securityContext:
+        {}
+      containers:
+        - name: mealie
+          image: ":1.16.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            {}
+          readinessProbe:
+            {}
+          resources:
+            {}
 ---
 # Source: homelab/charts/rss/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rss-homelab
+  name: rss
   labels:
-    helm.sh/chart: rss-0.0.12
+    helm.sh/chart: rss-0.0.13
     app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -68,17 +147,17 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: rss
-      app.kubernetes.io/instance: rss-homelab
+      app.kubernetes.io/instance: rss
   template:
     metadata:
       labels:
-        helm.sh/chart: rss-0.0.12
+        helm.sh/chart: rss-0.0.13
         app.kubernetes.io/name: rss
-        app.kubernetes.io/instance: rss-homelab
+        app.kubernetes.io/instance: rss
         app.kubernetes.io/version: "1.16.0"
         app.kubernetes.io/managed-by: Helm
     spec:
-      serviceAccountName: rss-homelab
+      serviceAccountName: rss
       securityContext:
         {}
       containers:
@@ -139,11 +218,11 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: rss-homelab
+  name: rss
   labels:
-    helm.sh/chart: rss-0.0.12
+    helm.sh/chart: rss-0.0.13
     app.kubernetes.io/name: rss
-    app.kubernetes.io/instance: rss-homelab
+    app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -157,7 +236,7 @@ spec:
     - backendRefs:
       - group: ""
         kind: Service
-        name: rss-homelab
+        name: rss
         port: 80
 ---
 # Source: homelab/charts/rss/templates/sealedsecret.yaml
