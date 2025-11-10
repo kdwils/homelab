@@ -6,4 +6,4 @@ dependencies:
   repository: https://kdwils.github.io/helm-charts
   version: 0.0.12
 digest: sha256:930a16b63541eaf5d99ac3dcec3f2de704e59e85f0d55bbcc3e20d02f55b690a
-generated: "2025-11-10T17:01:48.827926627Z"
+generated: "2025-11-10T17:01:43.478219093Z"
