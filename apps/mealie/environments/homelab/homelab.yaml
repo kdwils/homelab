@@ -1,3 +1,5 @@
+nameOverride: mealie
+
 serviceAccount:
   create: true
   automount: false

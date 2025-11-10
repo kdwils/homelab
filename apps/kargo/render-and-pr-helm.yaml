@@ -30,7 +30,7 @@ spec:
         valuesFiles:
           - ./source/${{ vars.valuesFilePath }}
         namespace: ${{ vars.projectName }}
-        releaseName: ${{ vars.projectName }}-${{ vars.environmentName }}
+        releaseName: ${{ vars.projectName }}
         outPath: ./target/${{ vars.environmentsPath }}/../manifest.yaml
     - uses: git-commit
       as: commit-rendered

@@ -1,3 +1,5 @@
+nameOverride: rss
+
 serviceAccount:
   create: true
   automount: true
