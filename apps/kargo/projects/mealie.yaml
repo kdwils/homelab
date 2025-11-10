@@ -60,7 +60,7 @@ spec:
         - name: targetBranch
           value: main
         - name: chartPath
-          value: charts/homelab
+          value: apps/mealie/charts/mealie
         - name: warehouse
           value: mealie
         - name: chartRepo
@@ -97,7 +97,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: charts/homelab
+          value: apps/mealie/charts/mealie
         - name: sourceBranch
           value: main
         - name: targetBranch

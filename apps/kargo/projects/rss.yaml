@@ -60,7 +60,7 @@ spec:
         - name: targetBranch
           value: main
         - name: chartPath
-          value: charts/homelab
+          value: apps/rss/charts/rss
         - name: warehouse
           value: rss
         - name: chartRepo
@@ -97,7 +97,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: charts/homelab
+          value: apps/rss/charts/rss
         - name: sourceBranch
           value: main
         - name: targetBranch
