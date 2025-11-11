@@ -1,0 +1,83 @@
+bazarr:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    strategyType: Recreate
+
+    image:
+      repository: linuxserver/bazarr
+      tag: 1.5.2
+      pullPolicy: IfNotPresent
+
+    env:
+      TZ: "UTC"
+      PUID: "1000"
+      PGID: "1000"
+
+    volumes:
+      - name: bazarr
+        persistentVolumeClaim:
+          claimName: bazarr
+      - name: media
+        persistentVolumeClaim:
+          claimName: "media"
+    volumeMounts:
+      - mountPath: /config
+        name: bazarr
+        subPath: configs/bazarr
+      - mountPath: /movies
+        name: media
+        subPath: movies
+      - mountPath: /tv
+        name: media
+        subPath: tv
+
+    livenessProbe:
+      tcpSocket:
+        port: 6767
+      initialDelaySeconds: 0
+      failureThreshold: 3
+      timeoutSeconds: 1
+      periodSeconds: 10
+    readinessProbe:
+      tcpSocket:
+        port: 6767
+      initialDelaySeconds: 0
+      failureThreshold: 3
+      timeoutSeconds: 1
+      periodSeconds: 10
+    startupProbe:
+      tcpSocket:
+        port: 6767
+      initialDelaySeconds: 0
+      failureThreshold: 30
+      timeoutSeconds: 1
+      periodSeconds: 5
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 6767
+    targetPort: 6767
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - bazarr.ts.kyledev.co
+      - bazarr.int.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  pvc:
+    create: true
+    pvcs:
+      - name: bazarr
+        size: 8Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce

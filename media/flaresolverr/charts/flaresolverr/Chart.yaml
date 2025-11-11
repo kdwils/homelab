@@ -1,0 +1,9 @@
+apiVersion: v2
+name: flaresolverr
+description: flaresolverr
+version: 0.1.0
+dependencies:
+  - name: homelab-chart
+    version: 0.1.0
+    repository: https://kdwils.github.io/helm-charts
+    alias: flaresolverr
