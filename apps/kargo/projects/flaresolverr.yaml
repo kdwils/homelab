@@ -68,7 +68,7 @@ spec:
         - name: chartName
           value: homelab-chart
         - name: imageRepo
-          value: ghcr.io/linuxserver/flaresolverr
+          value: ghcr.io/flaresolverr/flaresolverr
         - name: valuesFilePath
           value: media/flaresolverr/environments/homelab/homelab.yaml
         - name: imageTagYamlPath
