@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.0.14
+    helm.sh/chart: sonarr-0.1.0
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.0.14
+    helm.sh/chart: sonarr-0.1.0
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.0.14
+    helm.sh/chart: sonarr-0.1.0
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -58,7 +58,7 @@ kind: Deployment
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.0.14
+    helm.sh/chart: sonarr-0.1.0
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -72,7 +72,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: sonarr-0.0.14
+        helm.sh/chart: sonarr-0.1.0
         app.kubernetes.io/name: sonarr
         app.kubernetes.io/instance: sonarr
         app.kubernetes.io/version: "1.16.0"
@@ -87,10 +87,8 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8989
               protocol: TCP
-          resources:
-            {}
           volumeMounts:
             - mountPath: /config
               name: sonarr
@@ -120,7 +118,7 @@ kind: HTTPRoute
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.0.14
+    helm.sh/chart: sonarr-0.1.0
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
