@@ -31,6 +31,7 @@ spec:
         repoURL: sctx/overseerr
         constraint: ^1.0.0
         strictSemvers: false
+        discoveryLimit: 5
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
