@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.0.14
+    helm.sh/chart: mealie-0.1.0
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mealie-data
   labels:
-    helm.sh/chart: mealie-0.0.14
+    helm.sh/chart: mealie-0.1.0
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.0.14
+    helm.sh/chart: mealie-0.1.0
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -58,7 +58,7 @@ kind: Deployment
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.0.14
+    helm.sh/chart: mealie-0.1.0
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -72,7 +72,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: mealie-0.0.14
+        helm.sh/chart: mealie-0.1.0
         app.kubernetes.io/name: mealie
         app.kubernetes.io/instance: mealie
         app.kubernetes.io/version: "1.16.0"
@@ -87,7 +87,7 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
-              containerPort: 9925
+              containerPort: 9000
               protocol: TCP
           resources:
             limits:
@@ -141,7 +141,7 @@ kind: HTTPRoute
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.0.14
+    helm.sh/chart: mealie-0.1.0
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -182,7 +182,7 @@ kind: SecurityPolicy
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.0.14
+    helm.sh/chart: mealie-0.1.0
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
