@@ -27,12 +27,12 @@ bluesky:
       - secretRef:
           name: bluesky
 
-    securityContext:
+    podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
       fsGroup: 2000
 
-    containerSecurityContext:
+    securityContext:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: true
       capabilities:
