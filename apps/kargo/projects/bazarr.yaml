@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: bazarr
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: bazarr
+  namespace: bazarr
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: bazarr
+  namespace: bazarr
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: linuxserver/bazarr
+        constraint: ^1.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/bazarr/environments/**
+          - glob:media/bazarr/charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: bazarr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: bazarr
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: media/bazarr/charts/bazarr
+        - name: warehouse
+          value: bazarr
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: linuxserver/bazarr
+        - name: valuesFilePath
+          value: media/bazarr/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: bazarr.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: bazarr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: bazarr
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: media/bazarr/charts/bazarr
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: media/bazarr/staging
+        - name: projectName
+          value: bazarr
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: media/bazarr/environments/homelab
+        - name: valuesFilePath
+          value: media/bazarr/environments/homelab/homelab.yaml
+        - name: appName
+          value: bazarr
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

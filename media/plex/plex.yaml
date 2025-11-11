@@ -24,16 +24,6 @@ spec:
         app: plex
     spec:
       serviceAccountName: plex
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - w1
-                      - w2
       containers:
         - env:
             - name: PUID

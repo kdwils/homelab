@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: flaresolverr
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: flaresolverr
+  namespace: flaresolverr
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: flaresolverr
+  namespace: flaresolverr
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: ghcr.io/linuxserver/flaresolverr
+        constraint: ^3.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/flaresolverr/environments/**
+          - glob:media/flaresolverr/charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: flaresolverr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: flaresolverr
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: media/flaresolverr/charts/flaresolverr
+        - name: warehouse
+          value: flaresolverr
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: ghcr.io/linuxserver/flaresolverr
+        - name: valuesFilePath
+          value: media/flaresolverr/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: flaresolverr.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: flaresolverr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: flaresolverr
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: media/flaresolverr/charts/flaresolverr
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: media/flaresolverr/staging
+        - name: projectName
+          value: flaresolverr
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: media/flaresolverr/environments/homelab
+        - name: valuesFilePath
+          value: media/flaresolverr/environments/homelab/homelab.yaml
+        - name: appName
+          value: flaresolverr
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

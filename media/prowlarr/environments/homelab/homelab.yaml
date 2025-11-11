@@ -1,0 +1,51 @@
+prowlarr:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    strategyType: Recreate
+
+    image:
+      repository: ghcr.io/linuxserver/prowlarr
+      tag: 2.1.5.5216
+      pullPolicy: IfNotPresent
+
+    env:
+      TZ: "UTC"
+      PUID: "1000"
+      PGID: "1000"
+
+    volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: prowlarr-pvc
+    volumeMounts:
+      - name: config
+        mountPath: /config
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 80
+    targetPort: 9696
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - prowlarr.ts.kyledev.co
+      - prowlarr.int.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  pvc:
+    create: true
+    pvcs:
+      - name: prowlarr-pvc
+        size: 10Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce
