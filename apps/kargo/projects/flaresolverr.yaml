@@ -28,7 +28,7 @@ spec:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
     - image:
-        repoURL: ghcr.io/linuxserver/flaresolverr
+        repoURL: ghcr.io/flaresolverr/flaresolverr
         constraint: ^3.0.0
         strictSemvers: false
     - git:
