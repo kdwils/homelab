@@ -4,6 +4,6 @@ description: bluesky pds
 version: 0.1.0
 dependencies:
   - name: homelab-chart
-    version: 0.0.14
+    version: 0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: bluesky
