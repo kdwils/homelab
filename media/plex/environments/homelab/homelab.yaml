@@ -1,0 +1,109 @@
+plex:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    strategyType: Recreate
+
+    image:
+      repository: linuxserver/plex
+      tag: 1.42.2
+      pullPolicy: IfNotPresent
+
+    env:
+      PUID: "1000"
+      PGID: "1000"
+
+    envFrom:
+      - secretRef:
+          name: plex
+
+    volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+      - name: plex
+        persistentVolumeClaim:
+          claimName: plex
+    volumeMounts:
+      - mountPath: /movies
+        name: media
+        subPath: movies
+      - mountPath: /tv
+        name: media
+        subPath: tv
+      - mountPath: /config
+        name: plex
+        subPath: configs/plex
+
+  service:
+    create: true
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 192.168.0.240
+    ports:
+      - name: pms
+        port: 32400
+        protocol: TCP
+        targetPort: 32400
+      - name: http
+        port: 80
+        targetPort: 32400
+
+  httproutes:
+    - name: plex-int
+      hostnames:
+        - plex.ts.kyledev.co
+        - plex.int.kyledev.co
+      parentRefs:
+        - name: homelab
+          namespace: envoy-gateway-system
+      rules:
+        - backendRefs:
+            - group: ""
+              kind: Service
+              name: plex
+              port: 32400
+    - name: plex-public
+      hostnames:
+        - plex.kyledev.co
+      parentRefs:
+        - name: homelab
+          namespace: envoy-gateway-system
+      rules:
+        - backendRefs:
+            - group: ""
+              kind: Service
+              name: plex
+              port: 32400
+  pvc:
+    create: true
+    pvcs:
+      - name: media
+        size: 10Ti
+        storageClassName: "nfs-client"
+        accessMode: ReadWriteMany
+      - name: plex
+        size: 35Gi
+        accessMode: ReadWriteOnce
+
+  sealedsecrets:
+    - name: plex
+      data:
+        PLEX_CLAIM: AgBkamPKSjZR8TCXqRvrAUbElQRzMtKzkRCgH/oL1oGol26GUBlAXRLcv4BYdmJ3RJLXz1MuAX8WX0BODKysSt4eUXRph7Ynjt9APPYuwrjVn0ssllRN5cmVo3fdzQYFC4H9eAA1kEJrb4ZfiMNAvbmzeftAJ+xGP04f7/HZxrqKQ++EiVN1jmqvmMJJs5vj/9YuShOfDtbnJiSSlNXIK3GLnJr4NtT9w5RLi3DGaJRpfKjmttqRVqkK3PvZTky6gQHQHrWh5ZJo1SItvhE1Dumhw1gqkOsLSXEblA9O180q/cp0ytJ7XY4W6cCI+Bc8DUu3MaAZ+RxzobvI1FJlFv9NW1cEYh0akoOp/eXFb96imuSvxUjpTTH3YTFa33+wZwJWMeu2jIX8deMdmGKe/qrEmgHPB8zxxXKQX2jOQ8g9EwcxHkZpLuZuETYFmSacCX20dKnzTZF38UoQy0C6DEMaL5S90yrWusNMRaF7GE5s0OTGKH5eYktmUXL33jEPnJctpId0Jz8W2J++eDNGpB2330BCahPBPyfDXKlPGhY//5bwksRE/7lXunyUb/sksAsYTwp6DEQiNM0nM2y76p8+5hh8nMKcYR9haKcL7Set9mUnlCbfdcnXxAaGTHHRN0YNui/vomJAPxbQIoxOYlsOIz/oYsGGhSoPwJDpvHYpOJJYkqzpxD+/1qkIXRHV0PGOw6iFB1DigEBjFZ3G8kw8vM/5wIk4+v698w==
+
+  securityPolicies:
+    - name: plex-public
+      targetRoute: plex-public
+      targetNamespace: media
+      extAuth:
+        grpc:
+          backendRefs:
+            - group: ""
+              kind: Service
+              name: homelab-envoy-proxy-bouncer
+              namespace: envoy-gateway-system
+              port: 8080
