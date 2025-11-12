@@ -57,7 +57,7 @@ spec:
           Rendered manifests from ${{ vars.sourceBranch }} ready for deployment.
     - uses: git-wait-for-pr
       as: wait-for-approval
-      if: success('open-pr')
+      if: ${{ status('open-pr') == 'Succeeded' }}
       config:
         repoURL: ${{ vars.gitRepo }}
         prNumber: ${{ task.outputs['open-pr'].pr.id }}
