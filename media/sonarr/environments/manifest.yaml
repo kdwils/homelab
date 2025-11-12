@@ -29,6 +29,7 @@ spec:
   resources:
     requests:
       storage: 8Gi
+  volumeName: sonarr
 ---
 # Source: sonarr/charts/sonarr/templates/service.yaml
 apiVersion: v1
@@ -79,8 +80,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: sonarr
-      securityContext:
-        {}
+      securityContext: {}
       containers:
         - name: sonarr
           image: "linuxserver/sonarr:4.0.16"
@@ -132,7 +132,7 @@ spec:
     - "sonarr.int.kyledev.co"
   rules:
     - backendRefs:
-      - group: ""
-        kind: Service
-        name: sonarr
-        port: 80
+        - group: ""
+          kind: Service
+          name: sonarr
+          port: 80
