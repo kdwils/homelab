@@ -29,7 +29,6 @@ spec:
   resources:
     requests:
       storage: 8Gi
-  volumeName: sonarr
 ---
 # Source: sonarr/charts/sonarr/templates/service.yaml
 apiVersion: v1
