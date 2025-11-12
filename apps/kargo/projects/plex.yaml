@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
-  name: media
+  name: plex
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
@@ -103,7 +103,7 @@ spec:
         - name: targetBranch
           value: media/plex/staging
         - name: projectName
-          value: media
+          value: plex
         - name: environmentName
           value: homelab
         - name: environmentsPath

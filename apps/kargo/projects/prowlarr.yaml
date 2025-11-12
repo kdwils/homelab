@@ -1,4 +1,9 @@
 apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: prowlarr
+---
+apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: prowlarr
@@ -98,7 +103,7 @@ spec:
         - name: targetBranch
           value: media/prowlarr/staging
         - name: projectName
-          value: media
+          value: prowlarr
         - name: environmentName
           value: homelab
         - name: environmentsPath

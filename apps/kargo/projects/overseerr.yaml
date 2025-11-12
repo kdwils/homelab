@@ -1,4 +1,9 @@
 apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: overseerr
+---
+apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: overseerr
@@ -98,7 +103,7 @@ spec:
         - name: targetBranch
           value: media/overseerr/staging
         - name: projectName
-          value: media
+          value: overseerr
         - name: environmentName
           value: homelab
         - name: environmentsPath

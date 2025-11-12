@@ -1,8 +1,13 @@
 apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: sonarr
+---
+apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: sonarr
-  namespace: media
+  namespace: sonarr
 spec:
   promotionPolicies:
     - stageSelector:
@@ -16,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: sonarr
-  namespace: media
+  namespace: sonarr
 spec:
   subscriptions:
     - chart:
@@ -37,7 +42,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: sonarr-main
-  namespace: media
+  namespace: sonarr
 spec:
   requestedFreight:
     - origin:
@@ -98,7 +103,7 @@ spec:
         - name: targetBranch
           value: media/sonarr/staging
         - name: projectName
-          value: media
+          value: sonarr
         - name: environmentName
           value: homelab
         - name: environmentsPath
