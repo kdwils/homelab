@@ -46,8 +46,7 @@ spec:
         generateTargetBranch: true
     - uses: git-open-pr
       as: open-pr
-      retry:
-        errorThreshold: 0
+      continueOnError: true
       config:
         repoURL: ${{ vars.gitRepo }}
         sourceBranch: ${{ task.outputs['push-target'].branch }}
