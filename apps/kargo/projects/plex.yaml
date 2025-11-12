@@ -41,7 +41,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: main
+  name: plex-main
   namespace: media
 spec:
   requestedFreight:
@@ -81,7 +81,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: homelab
+  name: plex-homelab
   namespace: media
 spec:
   requestedFreight:

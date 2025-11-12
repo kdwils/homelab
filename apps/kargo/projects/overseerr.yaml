@@ -7,7 +7,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: overseerr
-  namespace: overseerr
+  namespace: media
 spec:
   promotionPolicies:
     - stageSelector:
@@ -21,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: overseerr
-  namespace: overseerr
+  namespace: media
 spec:
   subscriptions:
     - chart:
@@ -31,7 +31,6 @@ spec:
         repoURL: sctx/overseerr
         constraint: ^1.0.0
         strictSemvers: false
-        discoveryLimit: 5
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -42,8 +41,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: main
-  namespace: overseerr
+  name: overseerr-main
+  namespace: media
 spec:
   requestedFreight:
     - origin:
@@ -82,8 +81,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: homelab
-  namespace: overseerr
+  name: overseerr-homelab
+  namespace: media
 spec:
   requestedFreight:
     - origin:
