@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: flaresolverr
   labels:
-    helm.sh/chart: flaresolverr-0.1.0
+    helm.sh/chart: flaresolverr-0.1.1
     app.kubernetes.io/name: flaresolverr
     app.kubernetes.io/instance: flaresolverr
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: Service
 metadata:
   name: flaresolverr
   labels:
-    helm.sh/chart: flaresolverr-0.1.0
+    helm.sh/chart: flaresolverr-0.1.1
     app.kubernetes.io/name: flaresolverr
     app.kubernetes.io/instance: flaresolverr
     app.kubernetes.io/version: "1.16.0"
@@ -40,7 +40,7 @@ kind: Deployment
 metadata:
   name: flaresolverr
   labels:
-    helm.sh/chart: flaresolverr-0.1.0
+    helm.sh/chart: flaresolverr-0.1.1
     app.kubernetes.io/name: flaresolverr
     app.kubernetes.io/instance: flaresolverr
     app.kubernetes.io/version: "1.16.0"
@@ -54,7 +54,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: flaresolverr-0.1.0
+        helm.sh/chart: flaresolverr-0.1.1
         app.kubernetes.io/name: flaresolverr
         app.kubernetes.io/instance: flaresolverr
         app.kubernetes.io/version: "1.16.0"
