@@ -7,6 +7,7 @@ resources:
   - flaresolverr.yaml
   - mealie.yaml
   - overseerr.yaml
+  - plex.yaml
   - pocketid.yaml
   - prowlarr.yaml
   - radarr.yaml

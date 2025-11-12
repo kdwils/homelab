@@ -1,0 +1,118 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: plex
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: plex
+  namespace: plex
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: linuxserver/plex
+        constraint: ^1.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/plex/environments/**
+          - glob:media/plex/charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: plex
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: plex
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: media/plex/charts/plex
+        - name: warehouse
+          value: plex
+        - name: chartRepo
+          value: https://kdwils.github.io/helm-charts
+        - name: chartName
+          value: homelab-chart
+        - name: imageRepo
+          value: linuxserver/plex
+        - name: valuesFilePath
+          value: media/plex/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: plex.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: plex
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: plex
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: media/plex/charts/plex
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: media/plex/staging
+        - name: projectName
+          value: plex
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: media/plex/environments/homelab
+        - name: valuesFilePath
+          value: media/plex/environments/homelab/homelab.yaml
+        - name: appName
+          value: plex
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
