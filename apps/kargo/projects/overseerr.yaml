@@ -23,13 +23,12 @@ metadata:
   name: overseerr
   namespace: overseerr
 spec:
-  interval: 1h0m0s
   subscriptions:
     - chart:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
     - image:
-        repoURL: sctx/overseerr
+        repoURL: ghcr.io/sct/overseerr
         constraint: ^1.0.0
         strictSemvers: false
         discoveryLimit: 5
@@ -70,7 +69,7 @@ spec:
         - name: chartName
           value: homelab-chart
         - name: imageRepo
-          value: sctx/overseerr
+          value: ghcr.io/sct/overseerr
         - name: valuesFilePath
           value: media/overseerr/environments/homelab/homelab.yaml
         - name: imageTagYamlPath
