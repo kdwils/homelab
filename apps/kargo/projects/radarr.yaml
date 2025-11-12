@@ -1,9 +1,4 @@
 apiVersion: kargo.akuity.io/v1alpha1
-kind: Project
-metadata:
-  name: radarr
----
-apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: radarr
@@ -103,7 +98,7 @@ spec:
         - name: targetBranch
           value: media/radarr/staging
         - name: projectName
-          value: radarr
+          value: media
         - name: environmentName
           value: homelab
         - name: environmentsPath
