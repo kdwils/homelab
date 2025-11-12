@@ -112,6 +112,8 @@ spec:
           value: apps/mealie/environments/homelab/homelab.yaml
         - name: appName
           value: mealie
+        - name: namespace
+          value: mealie
       steps:
         - task:
             name: render-and-pr-helm

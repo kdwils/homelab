@@ -112,6 +112,8 @@ spec:
           value: apps/pocketid/environments/homelab/homelab.yaml
         - name: appName
           value: pocketid
+        - name: namespace
+          value: pocketid
       steps:
         - task:
             name: render-and-pr-helm

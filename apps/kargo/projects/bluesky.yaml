@@ -112,6 +112,8 @@ spec:
           value: apps/bluesky/environments/homelab/homelab.yaml
         - name: appName
           value: bluesky
+        - name: namespace
+          value: bluesky
       steps:
         - task:
             name: render-and-pr-helm

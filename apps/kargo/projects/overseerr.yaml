@@ -113,6 +113,8 @@ spec:
           value: media/overseerr/environments/homelab/homelab.yaml
         - name: appName
           value: overseerr
+        - name: namespace
+          value: media
       steps:
         - task:
             name: render-and-pr-helm

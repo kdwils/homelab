@@ -112,6 +112,8 @@ spec:
           value: apps/rss/environments/homelab/homelab.yaml
         - name: appName
           value: rss
+        - name: namespace
+          value: rss
       steps:
         - task:
             name: render-and-pr-helm

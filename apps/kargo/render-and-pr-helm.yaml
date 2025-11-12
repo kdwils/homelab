@@ -29,7 +29,7 @@ spec:
         path: ./source/${{ vars.chartPath }}
         valuesFiles:
           - ./source/${{ vars.valuesFilePath }}
-        namespace: ${{ vars.projectName }}
+        namespace: ${{ vars.namespace }}
         releaseName: ${{ vars.projectName }}
         outPath: ./target/${{ vars.environmentsPath }}/../manifest.yaml
     - uses: git-commit

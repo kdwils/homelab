@@ -112,6 +112,8 @@ spec:
           value: apps/excalidraw/environments/homelab/homelab.yaml
         - name: appName
           value: excalidraw
+        - name: namespace
+          value: excalidraw
       steps:
         - task:
             name: render-and-pr-helm
