@@ -83,7 +83,7 @@ spec:
         {}
       containers:
         - name: overseerr
-          image: "sctx/overseerr:1.34.0"
+          image: "ghcr.io/sct/overseerr:1.34.0"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
