@@ -7,7 +7,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: plex
-  namespace: media
+  namespace: plex
 spec:
   promotionPolicies:
     - stageSelector:
@@ -21,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: plex
-  namespace: media
+  namespace: plex
 spec:
   subscriptions:
     - chart:
@@ -42,7 +42,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: main
-  namespace: media
+  namespace: plex
 spec:
   requestedFreight:
     - origin:
@@ -82,7 +82,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: homelab
-  namespace: media
+  namespace: plex
 spec:
   requestedFreight:
     - origin:
