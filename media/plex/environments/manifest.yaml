@@ -1,0 +1,231 @@
+---
+# Source: plex/charts/plex/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: plex
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: plex/charts/plex/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "nfs-client"
+  resources:
+    requests:
+      storage: 10Ti
+---
+# Source: plex/charts/plex/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 35Gi
+---
+# Source: plex/charts/plex/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: plex
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 32400
+      targetPort: 32400
+      protocol: TCP
+      name: pms
+    - port: 80
+      targetPort: 32400
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+---
+# Source: plex/charts/plex/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: plex
+      app.kubernetes.io/instance: plex
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: plex-0.1.1
+        app.kubernetes.io/name: plex
+        app.kubernetes.io/instance: plex
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: plex
+      securityContext:
+        {}
+      containers:
+        - name: plex
+          image: "linuxserver/plex:1.42.2"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: pms
+              containerPort: 32400
+              protocol: TCP
+            - name: http
+              containerPort: 32400
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /movies
+              name: media
+              subPath: movies
+            - mountPath: /tv
+              name: media
+              subPath: tv
+            - mountPath: /config
+              name: plex
+              subPath: configs/plex
+          env:
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+          envFrom:
+            - secretRef:
+                name: plex
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: plex
+          persistentVolumeClaim:
+            claimName: plex
+---
+# Source: plex/charts/plex/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: plex-int
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "plex.ts.kyledev.co"
+    - "plex.int.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: plex
+        port: 32400
+---
+# Source: plex/charts/plex/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: plex-public
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "plex.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: plex
+        port: 32400
+---
+# Source: plex/charts/plex/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: plex
+  namespace: media
+spec:
+  encryptedData:
+    PLEX_CLAIM: AgBb6nB9xPCrcOAvNC9MiT+tC538Pg5/O4KhadDFK5IVsogDKc527HJTnHTedC8NZi/ikdeqW9NaCrYhkHZUkDc2+1Y5fpxwKSAFMgCa9C/44h8otHCdxaJxd4AqU7sVJtcyLgh1hhtW0ShlM0rEtg8bewy3BeAelQVVO2oTK23Hg5UvR2262QrBN383ZB/0Kx6J4BdIc1ZqU2StYHqcwgbwfd9YMJpFEkkILJGV263edyzAcJw/dp/QTXMnsh3Rx8yfRy6qnlOTP/JB6WgNoScvdUzcccv6gjdmdpyB+8LnLfXQHPr04q/We9s4VjXdWDaNrFoQVtrJFYjodCX+bca5Pfr4YCkqUVk3XTzHnPcdtMgO5TgAEFbqpFwIpI0E1qgO+O17RHK3PhTAqq+4Vgf4Co1gF/ldGKgnMR9Jib28EvQf26axlA9d3adw4X2q+fkkxe1eNUOSOjmL+7ZN94d3T7mD+/yG+BFbB05k34K8MmUn33k391AMlk1YJvnCCqNfYxjTJb7Dj/kHAVBDThSOboHF7jL2eLI6hGJb4V7j5Op/aRGhV31pSXdcVLzBm695keNHhYSD67/yKUJfYAKRsc80s7rsfa6ATxp4M2iii3VZgONKbqONYmWuBs6Tic6UahiucS/Q0OPhFwy/gUK1fcpfJbW/mgqoC56w9TSDYCo413Ok+LK39BatibwNKSKbClyUVHES//QpkwLwgfnkktlkiqLZnI8XRw==
+  template:
+    type: Opaque
+    metadata:
+      name: plex
+      namespace: media
+---
+# Source: plex/charts/plex/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: plex-public
+  labels:
+    helm.sh/chart: plex-0.1.1
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: plex-public
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080
