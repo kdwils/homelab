@@ -7,7 +7,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: radarr
-  namespace: media
+  namespace: radarr
 spec:
   promotionPolicies:
     - stageSelector:
@@ -21,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: radarr
-  namespace: media
+  namespace: radarr
 spec:
   subscriptions:
     - chart:
@@ -41,8 +41,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: radarr-main
-  namespace: media
+  name: main
+  namespace: radarr
 spec:
   requestedFreight:
     - origin:
@@ -81,8 +81,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: radarr-homelab
-  namespace: media
+  name: homelab
+  namespace: radarr
 spec:
   requestedFreight:
     - origin:

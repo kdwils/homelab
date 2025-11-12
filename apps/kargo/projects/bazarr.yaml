@@ -7,7 +7,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: bazarr
-  namespace: media
+  namespace: bazarr
 spec:
   promotionPolicies:
     - stageSelector:
@@ -21,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: bazarr
-  namespace: media
+  namespace: bazarr
 spec:
   subscriptions:
     - chart:
@@ -41,8 +41,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: bazarr-main
-  namespace: media
+  name: main
+  namespace: bazarr
 spec:
   requestedFreight:
     - origin:
@@ -81,8 +81,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: bazarr-homelab
-  namespace: media
+  name: homelab
+  namespace: bazarr
 spec:
   requestedFreight:
     - origin:

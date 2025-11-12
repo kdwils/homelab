@@ -7,7 +7,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: flaresolverr
-  namespace: media
+  namespace: flaresolverr
 spec:
   promotionPolicies:
     - stageSelector:
@@ -21,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: flaresolverr
-  namespace: media
+  namespace: flaresolverr
 spec:
   subscriptions:
     - chart:
@@ -41,8 +41,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: flaresolverr-main
-  namespace: media
+  name: main
+  namespace: flaresolverr
 spec:
   requestedFreight:
     - origin:
@@ -81,8 +81,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: flaresolverr-homelab
-  namespace: media
+  name: homelab
+  namespace: flaresolverr
 spec:
   requestedFreight:
     - origin:

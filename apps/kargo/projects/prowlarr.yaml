@@ -7,7 +7,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: prowlarr
-  namespace: media
+  namespace: prowlarr
 spec:
   promotionPolicies:
     - stageSelector:
@@ -21,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: prowlarr
-  namespace: media
+  namespace: prowlarr
 spec:
   subscriptions:
     - chart:
@@ -41,8 +41,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: prowlarr-main
-  namespace: media
+  name: main
+  namespace: prowlarr
 spec:
   requestedFreight:
     - origin:
@@ -81,8 +81,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: prowlarr-homelab
-  namespace: media
+  name: homelab
+  namespace: prowlarr
 spec:
   requestedFreight:
     - origin:
