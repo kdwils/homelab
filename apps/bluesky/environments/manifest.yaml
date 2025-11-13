@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.1
+    helm.sh/chart: bluesky-0.1.5
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: bluesky-temp
   labels:
-    helm.sh/chart: bluesky-0.1.1
+    helm.sh/chart: bluesky-0.1.5
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.1
+    helm.sh/chart: bluesky-0.1.5
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -58,13 +58,15 @@ kind: Deployment
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.1
+    helm.sh/chart: bluesky-0.1.5
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app.kubernetes.io/name: bluesky
@@ -72,7 +74,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: bluesky-0.1.1
+        helm.sh/chart: bluesky-0.1.5
         app.kubernetes.io/name: bluesky
         app.kubernetes.io/instance: bluesky
         app.kubernetes.io/version: "1.16.0"
@@ -137,7 +139,7 @@ kind: HTTPRoute
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.1
+    helm.sh/chart: bluesky-0.1.5
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -181,7 +183,7 @@ kind: SecurityPolicy
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.1
+    helm.sh/chart: bluesky-0.1.5
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
