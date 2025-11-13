@@ -142,7 +142,7 @@ spec:
         - name: valuesFilePath
           value: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
         - name: appName
-          value: envoy-proxy-bouncer
+          value: envoy-bouncer
         - name: namespace
           value: envoy-gateway-system
       steps:
