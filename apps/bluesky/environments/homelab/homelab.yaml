@@ -6,8 +6,7 @@ bluesky:
   deployment:
     create: true
     replicaCount: 1
-    strategy:
-      type: Recreate
+    deployStrategy: Recreate
 
     image:
       repository: ghcr.io/bluesky-social/pds
