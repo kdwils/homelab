@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.1.1
+    helm.sh/chart: sonarr-0.1.5
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.1.1
+    helm.sh/chart: sonarr-0.1.5
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.1.1
+    helm.sh/chart: sonarr-0.1.5
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -58,13 +58,15 @@ kind: Deployment
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.1.1
+    helm.sh/chart: sonarr-0.1.5
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: sonarr
@@ -72,14 +74,15 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: sonarr-0.1.1
+        helm.sh/chart: sonarr-0.1.5
         app.kubernetes.io/name: sonarr
         app.kubernetes.io/instance: sonarr
         app.kubernetes.io/version: "1.16.0"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: sonarr
-      securityContext: {}
+      securityContext:
+        {}
       containers:
         - name: sonarr
           image: "linuxserver/sonarr:4.0.16"
@@ -117,7 +120,7 @@ kind: HTTPRoute
 metadata:
   name: sonarr
   labels:
-    helm.sh/chart: sonarr-0.1.1
+    helm.sh/chart: sonarr-0.1.5
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/version: "1.16.0"
@@ -131,7 +134,7 @@ spec:
     - "sonarr.int.kyledev.co"
   rules:
     - backendRefs:
-        - group: ""
-          kind: Service
-          name: sonarr
-          port: 80
+      - group: ""
+        kind: Service
+        name: sonarr
+        port: 80
