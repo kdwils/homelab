@@ -4,6 +4,6 @@ description: bazarr
 version: 0.1.0
 dependencies:
   - name: homelab-chart
-    version: 0.1.1
+    version: 0.1.5
     repository: https://kdwils.github.io/helm-charts
     alias: bazarr
