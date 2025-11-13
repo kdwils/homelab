@@ -9,6 +9,7 @@ homelab:
 
 homelab-envoy-proxy-bouncer:
   replicaCount: 2
+  fullnameOverride: homelab-envoy-proxy-bouncer
 
   image:
     tag: v0.4.1
