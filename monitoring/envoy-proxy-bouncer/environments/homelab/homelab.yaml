@@ -10,6 +10,9 @@ homelab:
 envoy-proxy-bouncer:
   replicaCount: 2
 
+  image:
+    tag: v0.4.1
+
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
