@@ -1,0 +1,230 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/version: v0.3.0
+    helm.sh/chart: envoy-proxy-bouncer-0.3.0
+  name: homelab-envoy-proxy-bouncer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/version: v0.3.0
+    helm.sh/chart: envoy-proxy-bouncer-0.3.0
+  name: homelab-envoy-proxy-bouncer
+spec:
+  ports:
+  - name: grpc
+    port: 8080
+    protocol: TCP
+    targetPort: grpc
+  - name: http
+    port: 8081
+    protocol: TCP
+    targetPort: http
+  selector:
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/name: envoy-proxy-bouncer
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/version: v0.3.0
+    helm.sh/chart: envoy-proxy-bouncer-0.3.0
+  name: homelab-envoy-proxy-bouncer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: homelab
+      app.kubernetes.io/name: envoy-proxy-bouncer
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: homelab
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: envoy-proxy-bouncer
+        app.kubernetes.io/version: v0.3.0
+        helm.sh/chart: envoy-proxy-bouncer-0.3.0
+    spec:
+      containers:
+      - env:
+        - name: ENVOY_BOUNCER_BOUNCER_APIKEY
+          valueFrom:
+            secretKeyRef:
+              key: apiKey
+              name: envoy-bouncer
+        - name: ENVOY_BOUNCER_BOUNCER_LAPIURL
+          value: http://crowdsec-service.crowdsec.svc.cluster.local:8080
+        - name: ENVOY_BOUNCER_BOUNCER_ENABLED
+          value: "true"
+        - name: ENVOY_BOUNCER_BOUNCER_METRICS
+          value: "true"
+        - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
+          value: 10s
+        - name: ENVOY_BOUNCER_BOUNCER_METRICSINTERVAL
+          value: 5m
+        - name: ENVOY_BOUNCER_TRUSTEDPROXIES
+          value: 10.43.0.0/16,10.42.0.0/16
+        - name: ENVOY_BOUNCER_WAF_ENABLED
+          value: "true"
+        - name: ENVOY_BOUNCER_WAF_APIKEY
+          valueFrom:
+            secretKeyRef:
+              key: apiKey
+              name: envoy-bouncer
+        - name: ENVOY_BOUNCER_WAF_APPSECURL
+          value: http://crowdsec-appsec-service.crowdsec.svc.cluster.local:7422
+        - name: ENVOY_BOUNCER_CAPTCHA_ENABLED
+          value: "true"
+        - name: ENVOY_BOUNCER_CAPTCHA_PROVIDER
+          value: turnstile
+        - name: ENVOY_BOUNCER_CAPTCHA_SITEKEY
+          value: 0x4AAAAAAB1bbQbIpIhvAYwl
+        - name: ENVOY_BOUNCER_CAPTCHA_SECRETKEY
+          valueFrom:
+            secretKeyRef:
+              key: secretKey
+              name: envoy-bouncer
+        - name: ENVOY_BOUNCER_CAPTCHA_SIGNINGKEY
+          valueFrom:
+            secretKeyRef:
+              key: signingKey
+              name: envoy-bouncer
+        - name: ENVOY_BOUNCER_CAPTCHA_COOKIEDOMAIN
+          value: .kyledev.co
+        - name: ENVOY_BOUNCER_CAPTCHA_SESSIONDURATION
+          value: 15m
+        - name: ENVOY_BOUNCER_CAPTCHA_TIMEOUT
+          value: 10s
+        - name: ENVOY_BOUNCER_CAPTCHA_CACHECLEANUPINTERVAL
+          value: 5m
+        - name: ENVOY_BOUNCER_CAPTCHA_CALLBACKURL
+          value: https://bouncer.kyledev.co
+        - name: ENVOY_BOUNCER_SERVER_GRPCPORT
+          value: "8080"
+        - name: ENVOY_BOUNCER_SERVER_HTTPPORT
+          value: "8081"
+        - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
+          value: info
+        image: ghcr.io/kdwils/envoy-proxy-bouncer:v0.4.1
+        imagePullPolicy: IfNotPresent
+        name: envoy-proxy-bouncer
+        ports:
+        - containerPort: 8080
+          name: grpc
+          protocol: TCP
+        - containerPort: 8081
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - all
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+        volumeMounts:
+        - mountPath: /app/template/html
+          name: custom-templates
+          readOnly: true
+      securityContext: {}
+      serviceAccountName: homelab-envoy-proxy-bouncer
+      volumes:
+      - configMap:
+          name: homelab-envoy-proxy-bouncer-templates
+        name: custom-templates
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: envoy-bouncer
+  namespace: envoy-gateway-system
+spec:
+  encryptedData:
+    apiKey: AgAQyLk1dADA5TN8LTmzBZncLR7TRfP3dGHdWi7t7/rXQKRO2ZJ3tUpBHD2GI+S8Bkbv6xFGHLy1Y/gHna8CvW96pXYNCThnw31CCel15JR7sYx7BJ6HuII16FgGiYJD31/2JqwdBzX3fWnvTF8qdu1cXR3BL/8CECLA9BxRFIABrGmtfsnaw/iKpGT5e0kuiOqEPRQx4MvgKEll3M8naF/taWG85UGAJyKKawhns4NoEJXRPaR+6zgWExDi1zB5sNW5/dUS2RMaY344065dr/cgjJMQuF5kSOE0mkLTw7lky6nhjZ6jZIqtLPNTrbXXltWX852s0d6eBqTAO9mUc54niFpE1qFOuM8wac8rrRbwxY+dBZ7zMJ5vmERCfajnPvBBQIiji9R9VJk3XqqjpfcgMiCCj2cwLcr3wcmCxK1+tsYII6qYHTYatxRENvAgrXVz3CNsqd7X3LhM/R+gQcQjtQNcO6TT5wMZA+msz1mjijsZM14WwpB81bixeZlEFwn3MIlY5xCQCzkKFKP3hQqA6CRGb6vPi9MKfYdRXzUb56STtwaXog7qgzDbarlwu5Ooe/EJI7NW1eZ41SXfH0zilc3ANMLEHBnUf4OPbL4pLGxEf33GtmasPFxDK/KbLcsXL4X+mrF/BdyUa2Z8VjLWkZH3CMIANj9lAyk71ivw+VkS/Ci6R7tETex2dKWS/76ShHdjdTQjiF8tuPb2M0y6D1es/j2LUdrju0ZMx1LoJPraeHA9nxSW5gAv
+    secretKey: AgAM6NoFvbPmpunujPK/k0lcPEt1u5YqEotiXSFnUTqjydbwCSg5bnpmJZKeYuWN3fOWb6WiU18E0HatIyWZPfiOpWWQ1uGpXeYNuta9e5hYNwPlDmOiS5vQbyQLVEzXcGwU6Rcm01n/dkGmcKbj7onVFNMNdpsxfXaBo2ZUD4DzpaATZxUPg6zFd0mW50mHyliteVmkXq6ES/04c7w6z7l4lC/fR0LWzk+bKpMG7R9lDD4WVutivkmfm0h5LmuaLSPK7dSsPQtTLmmyoFzL8bdijrp4IpNtN8bLt7jUkHuIfDQuUA6F0n0hixtM4yT2j6JFP1BoAalVoZbggTh8QcsXA0mJL7FgGck0jQUp2NJXL+Wlv1AQgi+cmDqJDpezdlilSM7FwswJKbYuU+CFIiXnzJ8S3yW3g0NVcjV0qgclTIrv9U6euAzwVIoUPRwtFWp323Ceinn7LmMNu2F04dOiz7xowL9Bi5lBK05x7tBMSUjk6FBVknvBLFkJ4LGSlleCsL+5Bm2r17YVjmFNV5JzvJdjNP0qS9MXoODKmnajaVgFklj69EaU3nJtKvpt5H1aKkbNoUv7w+VnVSk4+J+v9SGu0DWGARd8sQtV3LIAN9ptzZHbNK/CVC2JPAy6MG7LpyaEyNFhuXrNd7RZYpVlsaUgMAgOmo47z08F4C791sOIkdJFP78AnPlEe8gZNBeMbZrysBcjHJJq4bt/1Mk+Gv4E8jsBDmL+HpZfYlJmIu1/Ew==
+    signingKey: AgAvL9/k73EzZ6wyJgNBJMmrOMHu5IsrgpwRKVQNyM3tGOqKSyLUb7EcRD2YCBL63KF5T4Ttl2pWWhRMfetEd8Ns1p4lZgiC2Oip8gPrrO1L30aywFzqR5r8FlkiVHrIolF0sLzJdbS4qsjIyAzcYDxIM0usIPEvST7f22d88uqF5tKngy8BtBdxqtenH0a93PGoz0yHzRjk0luR4BX66JLZ5InuXQTmCUaziJkAOkvMn7u1ALQ63XcfM0BcNAjDFnFr63lH6nQVFWisKAeJs4rrR2KlQofCHwdMSbOnsJncasVPNVGSUGblKRYYYt7SK9HQhelmB2HI2zqB3o/UMWYsI2EToWKym9Di/fi/tOtBzfayOQqiyrSGfQk5nINwz0aVPDJtwim6yClsTrMqB+EliF4H4wo/tnbAIuw/A2w3RGs32mp4ItSREoBghE+eqMj2MdQRk3WLSEGU7KliKBX0fNc4WgLVQnOUmcHSab9fYOzpn6LdJswByVoZsTUKkMyIkoEAsbd4kOXrXNLtjYCJ56ZOhG3b0O+vODmQ+nNoS7YLOyMFI1zEo4SXVOijFleOG3VSyn3O6nPsl2Q/lMSVsJ8HdfqsyEiWfnELQvumAvYr+PTvXRdEgeEMoj5R+9b2tbWIyR7bARl84VdT98xdDGm2v8XPWzmy2zL4G2WdhdL7/cEVlfFRt9DJ7qmp/9Q0TFGB45drVIocIxl6i/YypI5vZ7AUCG67L8J69ie4lk8t/RKiZ2LS1fpCroOEqJ1xXqb82eRYFl6JIAmmkLtM
+    trustedProxies: AgCUtqW4yt6osdxIEXosg++yjWhFyKLwzKiUh5AdR/jeGAwQXqdmH607lyahZd/h0xdOMh2agKM6ITu2x4E89vay7kCTQ30Jz9UeNMd835XSk5UITBOywvSPL6yVQVUVHaicYaQkCnIuNXmA6faAvVDzG4+Lynflhq1a0csNKlKxzNn4kDdAPl/IYC7yT7EeUmIEAecsbiTSGb8Ly9UHzVFoTjpPTP7ruN3k+oU5xnEUDuttnufGEc+UBaNqk9sh5sl2f971KBT2ZKBFSIqqMTdttwZDHMtWyEnmlpCn+L9oDk6yjBIMPwklpJ6ygTZTK72eMJhTKRBVQTs/b3j1+2Eik3vncNtzL7dctu3Q8M/KcXERSR5J+vPTcSVG0cp/AHFo76Td9acJALPBU7DHoda5HOGCVn25zFCMmZOvQxiOqCySBbaov8DDMaTb+xfgSftpawHHeKyiyUBYd4T9hzvok31s18kG7hRpIpEeUs23+BW8ikW5Aw6cUlmAQy+m/HMWJP3EfHsPecvtY04S8uGIAMjIa1c5+HP4Dfk6NiVdOgcf0WN3UmnWm+ST7VYFzq7gVkvali6yIXq/01O0nr2STHoLWb+b3+txd+dFLNsGSER5eIQQaSgPs4vj0aMFNUu9aHc4aEyGtU9Ce20vj9YtcCT09SvMpqcsjNXtpoQ61XLzcl1Es6kAXCSfpbOgjXyVXQFDzBfvDO+6SR3Mu8OqwUNYgnQ6ZJxRDZG2JlpqbNVESZWpHmk=
+  template:
+    metadata:
+      name: envoy-bouncer
+      namespace: envoy-gateway-system
+    type: Opaque
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels:
+    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/version: v0.3.0
+    helm.sh/chart: envoy-proxy-bouncer-0.3.0
+  name: homelab-envoy-proxy-bouncer
+spec:
+  hostnames:
+  - bouncer.kyledev.co
+  parentRefs:
+  - name: homelab
+    namespace: envoy-gateway-system
+  rules:
+  - backendRefs:
+    - name: homelab-envoy-proxy-bouncer
+      port: 8081
+    matches:
+    - path:
+        type: PathPrefix
+        value: /captcha
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: homelab-envoy-proxy-bouncer
+spec:
+  from:
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: argocd
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: bluesky
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: mealie
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: media
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: pocketid
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: vaultwarden
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: blog
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: blog-dev
+  to:
+  - group: ""
+    kind: Service
+    name: homelab-envoy-proxy-bouncer
