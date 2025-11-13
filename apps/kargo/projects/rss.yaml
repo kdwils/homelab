@@ -23,6 +23,7 @@ metadata:
   name: rss
   namespace: rss
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - chart:
         repoURL: https://kdwils.github.io/helm-charts

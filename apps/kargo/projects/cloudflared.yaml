@@ -23,6 +23,7 @@ metadata:
   name: cloudflared
   namespace: cloudflared
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - chart:
         repoURL: https://kdwils.github.io/helm-charts
