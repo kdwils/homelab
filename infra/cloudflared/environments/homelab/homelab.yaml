@@ -3,6 +3,7 @@ cloudflared:
     create: true
 
   deployment:
+    create: true
     replicas: 1
     image:
       repository: cloudflare/cloudflared
@@ -54,15 +55,6 @@ cloudflared:
             - key: config.yaml
               path: config.yaml
 
-  # Cloudflared doesn't need a Service (outbound-only tunnel)
-  service:
-    create: false
-
-  # No HTTPRoute needed (not exposing any endpoints)
-  httproute:
-    create: false
-
-  # ConfigMap for tunnel configuration
   configMaps:
     - name: cloudflared
       data:
@@ -103,7 +95,6 @@ cloudflared:
                 originServerName: bouncer.kyledev.co
             - service: http_status:404
 
-  # SealedSecret with tunnel credentials
   sealedsecrets:
     - name: tunnel
       encryptedData:
