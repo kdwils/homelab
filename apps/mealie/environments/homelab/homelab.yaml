@@ -6,6 +6,7 @@ mealie:
   deployment:
     create: true
     replicaCount: 1
+    deployStrategy: Recreate
 
     image:
       repository: ghcr.io/mealie-recipes/mealie

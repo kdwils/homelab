@@ -29,7 +29,7 @@ spec:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
     - image:
-        repoURL: cloudflare/cloudflared
+        repoURL: docker.io/cloudflare/cloudflared
         constraint: ^2025.0.0
         strictSemvers: false
     - git:
