@@ -132,7 +132,7 @@ spec:
         - name: sourceBranch
           value: main
         - name: targetBranch
-          value: monitoring/envoy-proxy-bouncer/staging
+          value: monitoring/envoy-proxy-bouncer/homelab
         - name: projectName
           value: envoy-proxy-bouncer
         - name: environmentName
