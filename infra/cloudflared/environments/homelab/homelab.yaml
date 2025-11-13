@@ -6,7 +6,7 @@ cloudflared:
     replicas: 1
     image:
       repository: cloudflare/cloudflared
-      tag: "2025.11.1"
+      tag: 2025.11.1
 
     args:
       - tunnel
