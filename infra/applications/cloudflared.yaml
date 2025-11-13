@@ -14,7 +14,7 @@ spec:
   source:
     path: infra/cloudflared/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: infra/cloudflared/staging
+    targetRevision: infra/cloudflared/homelab
   sources: []
   project: infra
   syncPolicy:
