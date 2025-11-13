@@ -14,7 +14,7 @@ spec:
   source:
     path: monitoring/envoy-proxy-bouncer/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: apps/envoy-proxy-bouncer/homelab
+    targetRevision: monitoring/envoy-proxy-bouncer/homelab
   sources: []
   project: monitoring
   syncPolicy:
