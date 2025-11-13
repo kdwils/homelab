@@ -93,7 +93,7 @@ spec:
             - name: filePath
               value: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
             - name: yamlKey
-              value: envoy-proxy-bouncer.image.tag
+              value: homelab-envoy-proxy-bouncer.image.tag
             - name: yamlValue
               value: ${{ imageFrom('ghcr.io/kdwils/envoy-proxy-bouncer', warehouse('envoy-proxy-bouncer')).Tag }}
         - task:
