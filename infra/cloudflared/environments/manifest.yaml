@@ -1,0 +1,100 @@
+---
+# Source: cloudflared/charts/cloudflared/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cloudflared
+  labels:
+    helm.sh/chart: cloudflared-0.1.1
+    app.kubernetes.io/name: cloudflared
+    app.kubernetes.io/instance: cloudflared
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: cloudflared/charts/cloudflared/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared
+  labels:
+    helm.sh/chart: cloudflared-0.1.1
+    app.kubernetes.io/name: cloudflared
+    app.kubernetes.io/instance: cloudflared
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflared
+      app.kubernetes.io/instance: cloudflared
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: cloudflared-0.1.1
+        app.kubernetes.io/name: cloudflared
+        app.kubernetes.io/instance: cloudflared
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: cloudflared
+      securityContext:
+        {}
+      containers:
+        - name: cloudflared
+          image: "cloudflare/cloudflared:2025.11.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - mountPath: /etc/cloudflared/config/config.yaml
+              name: config
+              subPath: config.yaml
+            - mountPath: /etc/cloudflared/creds/homelab.json
+              name: creds
+              subPath: homelab.json
+            - mountPath: /etc/cloudflared/cert.pem
+              name: cert
+              subPath: cert.pem
+      volumes:
+        - name: creds
+          secret:
+            items:
+            - key: homelab.json
+              path: homelab.json
+            secretName: tunnel
+        - name: cert
+          secret:
+            items:
+            - key: cert.pem
+              path: cert.pem
+            secretName: tunnel
+        - configMap:
+            items:
+            - key: config.yaml
+              path: config.yaml
+            name: cloudflared
+          name: config
+---
+# Source: cloudflared/charts/cloudflared/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: tunnel
+  namespace: cloudflared
+spec:
+  encryptedData:
+  template:
+    type: Opaque
+    metadata:
+      name: tunnel
+      namespace: cloudflared
