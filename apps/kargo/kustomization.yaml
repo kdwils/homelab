@@ -13,6 +13,10 @@ resources:
   - promote-branch-with-approval.yaml
   - update-source-main.yaml
   - render-and-pr-helm.yaml
+  - git-ops-clone.yaml
+  - git-ops-commit-pr.yaml
+  - helm-update-single-chart.yaml
+  - yaml-update-single-value.yaml
   - global-credentials-rolebinding.yaml
   - projects
 

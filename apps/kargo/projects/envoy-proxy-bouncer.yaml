@@ -1,0 +1,151 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: envoy-proxy-bouncer
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: envoy-proxy-bouncer
+  namespace: envoy-proxy-bouncer
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: envoy-proxy-bouncer
+  namespace: envoy-proxy-bouncer
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
+        name: envoy-proxy-bouncer
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - image:
+        repoURL: ghcr.io/kdwils/envoy-proxy-bouncer
+        semverConstraint: ^0.4.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:monitoring/envoy-proxy-bouncer/environments/**
+          - glob:monitoring/envoy-proxy-bouncer/charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: envoy-proxy-bouncer
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: envoy-proxy-bouncer
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: envoy-proxy-bouncer
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: monitoring/envoy-proxy-bouncer/charts/bouncer
+            - name: chartRepo
+              value: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
+            - name: chartName
+              value: envoy-proxy-bouncer
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: monitoring/envoy-proxy-bouncer/charts/bouncer
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: yaml-update-single-value
+            kind: ClusterPromotionTask
+          vars:
+            - name: filePath
+              value: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
+            - name: yamlKey
+              value: envoy-proxy-bouncer.image.tag
+            - name: yamlValue
+              value: ${{ imageFrom('ghcr.io/kdwils/envoy-proxy-bouncer', warehouse('envoy-proxy-bouncer')).Tag }}
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update envoy-proxy-bouncer chart and image versions
+            - name: prTitle
+              value: "Update envoy-proxy-bouncer charts and image versions"
+            - name: prDescription
+              value: |
+                Update envoy-proxy-bouncer chart and image versions
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: envoy-proxy-bouncer
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: envoy-proxy-bouncer
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: chartPath
+          value: monitoring/envoy-proxy-bouncer/charts/bouncer
+        - name: sourceBranch
+          value: main
+        - name: targetBranch
+          value: monitoring/envoy-proxy-bouncer/staging
+        - name: projectName
+          value: envoy-proxy-bouncer
+        - name: environmentName
+          value: homelab
+        - name: environmentsPath
+          value: monitoring/envoy-proxy-bouncer/environments/homelab
+        - name: valuesFilePath
+          value: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
+        - name: appName
+          value: envoy-proxy-bouncer
+        - name: namespace
+          value: envoy-gateway-system
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

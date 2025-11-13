@@ -1,0 +1,19 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: helm-update-single-chart
+spec:
+  vars:
+    - name: chartPath
+    - name: chartRepo
+    - name: chartName
+    - name: warehouse
+  steps:
+    - uses: helm-update-chart
+      as: update-chart
+      config:
+        path: ./repo/${{ vars.chartPath }}
+        charts:
+          - repository: ${{ vars.chartRepo }}
+            name: ${{ vars.chartName }}
+            version: ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}

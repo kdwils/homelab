@@ -1,0 +1,38 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: git-ops-commit-pr
+spec:
+  vars:
+    - name: gitRepo
+    - name: targetBranch
+    - name: commitMessage
+    - name: prTitle
+    - name: prDescription
+  steps:
+    - uses: git-commit
+      as: commit-updates
+      config:
+        path: ./repo
+        message: ${{ vars.commitMessage }}
+    - uses: git-push
+      as: push-feature-branch
+      config:
+        path: ./repo
+        generateTargetBranch: true
+    - uses: git-open-pr
+      as: open-pr
+      continueOnError: true
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ task.outputs['push-feature-branch'].branch }}
+        targetBranch: ${{ vars.targetBranch }}
+        createTargetBranch: false
+        title: ${{ vars.prTitle }}
+        description: ${{ vars.prDescription }}
+    - uses: git-wait-for-pr
+      as: wait-pr-approval
+      if: ${{ status('open-pr') == 'Succeeded' }}
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ task.outputs['open-pr'].pr.id }}

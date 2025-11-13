@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: envoy-bouncer
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: envoy-proxy-bouncer:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: envoy-gateway-system
     server: "https://kubernetes.default.svc"
   source:
-    path: monitoring/envoy-proxy-bouncer
+    path: monitoring/envoy-proxy-bouncer/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: apps/envoy-proxy-bouncer/homelab
   sources: []
   project: monitoring
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

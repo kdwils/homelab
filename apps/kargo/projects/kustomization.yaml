@@ -4,6 +4,7 @@ resources:
   - bazarr.yaml
   - blog.yaml
   - bluesky.yaml
+  - envoy-proxy-bouncer.yaml
   - flaresolverr.yaml
   - mealie.yaml
   - overseerr.yaml
