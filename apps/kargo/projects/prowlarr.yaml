@@ -50,20 +50,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: main
-        - name: chartPath
-          value: charts/homelab
         - name: warehouse
           value: prowlarr
-        - name: chartRepo
-          value: https://kdwils.github.io/helm-charts
-        - name: chartName
-          value: homelab-chart
         - name: imageRepo
           value: ghcr.io/linuxserver/prowlarr
         - name: valuesFilePath
@@ -91,18 +81,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: chartPath
-          value: charts/homelab
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: media/prowlarr/staging
         - name: projectName
           value: prowlarr
-        - name: environmentName
-          value: homelab
         - name: environmentsPath
           value: media/prowlarr/environments/homelab
         - name: valuesFilePath

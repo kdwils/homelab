@@ -5,12 +5,10 @@ metadata:
 spec:
   vars:
     - name: gitRepo
-    - name: sourceBranch
+      value: https://github.com/kdwils/homelab
     - name: targetBranch
-    - name: chartPath
+      value: main
     - name: warehouse
-    - name: chartRepo
-    - name: chartName
     - name: imageRepo
     - name: valuesFilePath
     - name: imageTagYamlPath
@@ -22,14 +20,6 @@ spec:
         checkout:
           - branch: ${{ vars.targetBranch }}
             path: ./repo
-    - uses: helm-update-chart
-      as: update-chart-version
-      config:
-        path: ./repo/${{ vars.chartPath }}
-        charts:
-          - repository: ${{ vars.chartRepo }}
-            name: ${{ vars.chartName }}
-            version: ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
     - uses: yaml-update
       as: update-image-tag
       config:
@@ -42,9 +32,7 @@ spec:
       config:
         path: ./repo
         message: |
-          Update chart and image versions
-
-          - Chart: ${{ vars.chartName }} → ${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}
+          Update image version
           - Image: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
     - uses: git-push
       as: push-feature-branch
@@ -59,10 +47,9 @@ spec:
         sourceBranch: ${{ task.outputs['push-feature-branch'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
-        title: "Update ${{ vars.chartName }} and image versions"
+        title: "Update image version"
         description: |
           ## Updates
-          - **Chart:** ${{ vars.chartName }} → `${{ chartFrom(vars.chartRepo, vars.chartName, warehouse(vars.warehouse)).Version }}`
           - **Image:** `${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}`
           Updated via Kargo promotion from warehouse: ${{ vars.warehouse }}
     - uses: git-wait-for-pr
