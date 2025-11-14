@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: media
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -37,7 +37,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -55,7 +55,7 @@ kind: Service
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -81,7 +81,7 @@ kind: Deployment
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -89,7 +89,7 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: RollingUpdate
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: plex
@@ -97,7 +97,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: plex-0.1.5
+        helm.sh/chart: plex-0.1.6
         app.kubernetes.io/name: plex
         app.kubernetes.io/instance: plex
         app.kubernetes.io/version: "1.16.0"
@@ -149,7 +149,7 @@ kind: HTTPRoute
 metadata:
   name: plex-int
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -174,7 +174,7 @@ kind: HTTPRoute
 metadata:
   name: plex-public
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -213,7 +213,7 @@ kind: SecurityPolicy
 metadata:
   name: plex-public
   labels:
-    helm.sh/chart: plex-0.1.5
+    helm.sh/chart: plex-0.1.6
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
