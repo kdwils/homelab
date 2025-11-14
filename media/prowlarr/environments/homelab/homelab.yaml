@@ -6,7 +6,7 @@ prowlarr:
   deployment:
     create: true
     replicaCount: 1
-    strategyType: Recreate
+    deployStrategy: Recreate
 
     image:
       repository: ghcr.io/linuxserver/prowlarr
