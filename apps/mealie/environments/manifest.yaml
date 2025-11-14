@@ -1,5 +1,5 @@
 ---
-# Source: mealie/charts/mealie/templates/serviceaccount.yaml
+# Source: homelab/charts/mealie/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: mealie/charts/mealie/templates/pvc.yaml
+# Source: homelab/charts/mealie/templates/pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -30,7 +30,7 @@ spec:
     requests:
       storage: 10Gi
 ---
-# Source: mealie/charts/mealie/templates/service.yaml
+# Source: homelab/charts/mealie/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,7 +52,7 @@ spec:
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
 ---
-# Source: mealie/charts/mealie/templates/deployment.yaml
+# Source: homelab/charts/mealie/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -137,7 +137,7 @@ spec:
           persistentVolumeClaim:
             claimName: mealie-data
 ---
-# Source: mealie/charts/mealie/templates/httproute.yaml
+# Source: homelab/charts/mealie/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -163,7 +163,7 @@ spec:
         name: mealie
         port: 9925
 ---
-# Source: mealie/charts/mealie/templates/sealedsecret.yaml
+# Source: homelab/charts/mealie/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -178,7 +178,7 @@ spec:
       name: mealie-oidc
       namespace: mealie
 ---
-# Source: mealie/charts/mealie/templates/securitypolicy.yaml
+# Source: homelab/charts/mealie/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
