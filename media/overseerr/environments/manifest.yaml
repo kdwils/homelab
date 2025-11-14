@@ -1,5 +1,5 @@
 ---
-# Source: overseerr/charts/overseerr/templates/serviceaccount.yaml
+# Source: homelab/charts/overseerr/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: overseerr/charts/overseerr/templates/pvc.yaml
+# Source: homelab/charts/overseerr/templates/pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -30,7 +30,7 @@ spec:
     requests:
       storage: 1Gi
 ---
-# Source: overseerr/charts/overseerr/templates/service.yaml
+# Source: homelab/charts/overseerr/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,7 +52,7 @@ spec:
     app.kubernetes.io/name: overseerr
     app.kubernetes.io/instance: overseerr
 ---
-# Source: overseerr/charts/overseerr/templates/deployment.yaml
+# Source: homelab/charts/overseerr/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -102,7 +102,7 @@ spec:
           persistentVolumeClaim:
             claimName: overseerr-config
 ---
-# Source: overseerr/charts/overseerr/templates/httproute.yaml
+# Source: homelab/charts/overseerr/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -128,7 +128,7 @@ spec:
         name: overseerr
         port: 80
 ---
-# Source: overseerr/charts/overseerr/templates/securitypolicy.yaml
+# Source: homelab/charts/overseerr/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
