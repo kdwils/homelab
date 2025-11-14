@@ -24,9 +24,6 @@ metadata:
   namespace: pocketid
 spec:
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: ghcr.io/pocket-id/pocket-id
         constraint: ^1.0.0
@@ -60,7 +57,7 @@ spec:
         - name: targetBranch
           value: main
         - name: chartPath
-          value: apps/pocketid/charts/pocketid
+          value: charts/homelab
         - name: warehouse
           value: pocketid
         - name: chartRepo
@@ -97,7 +94,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: apps/pocketid/charts/pocketid
+          value: charts/homelab
         - name: sourceBranch
           value: main
         - name: targetBranch

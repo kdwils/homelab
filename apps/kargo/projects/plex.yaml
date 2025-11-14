@@ -25,9 +25,6 @@ metadata:
 spec:
   interval: "1h0m0s"
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: linuxserver/plex
         constraint: ^1.0.0
@@ -61,7 +58,7 @@ spec:
         - name: targetBranch
           value: main
         - name: chartPath
-          value: media/plex/charts/plex
+          value: charts/homelab
         - name: warehouse
           value: plex
         - name: chartRepo
@@ -98,7 +95,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: media/plex/charts/plex
+          value: charts/homelab
         - name: sourceBranch
           value: main
         - name: targetBranch

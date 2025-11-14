@@ -24,9 +24,6 @@ metadata:
   namespace: bluesky
 spec:
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: ghcr.io/bluesky-social/pds
         semverConstraint: ^0.4.0
@@ -60,7 +57,7 @@ spec:
         - name: targetBranch
           value: main
         - name: chartPath
-          value: apps/bluesky/charts/bluesky
+          value: charts/homelab
         - name: warehouse
           value: bluesky
         - name: chartRepo
@@ -97,7 +94,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: apps/bluesky/charts/bluesky
+          value: charts/homelab
         - name: sourceBranch
           value: main
         - name: targetBranch

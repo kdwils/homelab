@@ -24,9 +24,6 @@ metadata:
   namespace: prowlarr
 spec:
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: ghcr.io/linuxserver/prowlarr
         constraint: ^2.0.0
@@ -60,7 +57,7 @@ spec:
         - name: targetBranch
           value: main
         - name: chartPath
-          value: media/prowlarr/charts/prowlarr
+          value: charts/homelab
         - name: warehouse
           value: prowlarr
         - name: chartRepo
@@ -97,7 +94,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: media/prowlarr/charts/prowlarr
+          value: charts/homelab
         - name: sourceBranch
           value: main
         - name: targetBranch
