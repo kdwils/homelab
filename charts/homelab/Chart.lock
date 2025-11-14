@@ -1,39 +1,39 @@
 dependencies:
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
+  version: 0.1.6
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.5
-digest: sha256:ff8212471fcd7095d41d419c587406e1ada72d76c04a1f847274e57931863b61
-generated: "2025-11-14T01:55:40.961842-05:00"
+  version: 0.1.6
+digest: sha256:ce02b5f56bc23305745eb464b3ff86841865511adbddeb161d168123a6f25aea
+generated: "2025-11-14T07:13:17.697883436Z"
