@@ -48,5 +48,5 @@ spec:
           value: charts/homelab
       steps:
         - task:
-            name: update-all-apps-homelab-chart
+            name: update-helm-charts
             kind: ClusterPromotionTask

@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
-  name: update-all-apps-homelab-chart
+  name: update-helm-charts
 spec:
   vars:
     - name: gitRepo
@@ -32,7 +32,7 @@ spec:
         generateTargetBranch: true
     - uses: git-open-pr
       as: open-pr
-      continueOnError: true
+      continueOnError: false
       config:
         repoURL: ${{ vars.gitRepo }}
         sourceBranch: ${{ outputs['push-feature-branch'].branch }}

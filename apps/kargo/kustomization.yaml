@@ -10,7 +10,7 @@ resources:
   - promote-branch-with-approval.yaml
   - update-source-main.yaml
   - render-and-pr-helm.yaml
-  - update-all-apps-homelab-chart.yaml
+  - update-helm-charts.yaml
   - git-ops-clone.yaml
   - git-ops-commit-pr.yaml
   - helm-update-single-chart.yaml
