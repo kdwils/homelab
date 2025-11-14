@@ -1,5 +1,5 @@
 ---
-# Source: bluesky/charts/bluesky/templates/serviceaccount.yaml
+# Source: homelab/charts/bluesky/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +12,19 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: bluesky/charts/bluesky/templates/pvc.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bluesky-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: homelab/charts/bluesky/templates/pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -30,7 +42,7 @@ spec:
     requests:
       storage: 20Gi
 ---
-# Source: bluesky/charts/bluesky/templates/service.yaml
+# Source: homelab/charts/bluesky/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,7 +64,29 @@ spec:
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
 ---
-# Source: bluesky/charts/bluesky/templates/deployment.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluesky-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bluesky
+---
+# Source: homelab/charts/bluesky/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -133,7 +167,68 @@ spec:
           persistentVolumeClaim:
             claimName: bluesky-temp
 ---
-# Source: bluesky/charts/bluesky/templates/httproute.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluesky-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: envoy-proxy-bouncer
+      app.kubernetes.io/instance: bluesky
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: envoy-proxy-bouncer-0.4.1
+        app.kubernetes.io/name: envoy-proxy-bouncer
+        app.kubernetes.io/instance: bluesky
+        app.kubernetes.io/version: "v0.4.1"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: bluesky-envoy-proxy-bouncer
+      securityContext:
+        {}
+      containers:
+        - name: envoy-proxy-bouncer
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - all
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.4.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: ENVOY_BOUNCER_BOUNCER_LAPIURL
+              value: "http://crowdsec-service:8080"
+            - name: ENVOY_BOUNCER_BOUNCER_ENABLED
+              value: "true"
+            - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
+              value: "10s"
+            - name: ENVOY_BOUNCER_SERVER_GRPCPORT
+              value: "8080"
+            - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
+              value: info
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: homelab/charts/bluesky/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -158,7 +253,7 @@ spec:
         name: bluesky
         port: 3000
 ---
-# Source: bluesky/charts/bluesky/templates/sealedsecret.yaml
+# Source: homelab/charts/bluesky/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -177,7 +272,7 @@ spec:
       name: bluesky
       namespace: bluesky
 ---
-# Source: bluesky/charts/bluesky/templates/securitypolicy.yaml
+# Source: homelab/charts/bluesky/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
