@@ -68,7 +68,7 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
-              value: monitoring/envoy-proxy-bouncer/charts/bouncer
+              value: charts/envoy-proxy-bouncer
             - name: chartRepo
               value: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
             - name: chartName
@@ -78,7 +78,7 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
-              value: charts/homelab
+              value: charts/envoy-proxy-bouncer
             - name: chartRepo
               value: https://kdwils.github.io/helm-charts
             - name: chartName
@@ -125,7 +125,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: charts/homelab
+          value: charts/envoy-proxy-bouncer
         - name: sourceBranch
           value: main
         - name: targetBranch
