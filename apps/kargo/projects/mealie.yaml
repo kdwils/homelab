@@ -24,9 +24,6 @@ metadata:
   namespace: mealie
 spec:
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: ghcr.io/mealie-recipes/mealie
         constraint: ^3.0.0
@@ -53,20 +50,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: main
-        - name: chartPath
-          value: apps/mealie/charts/mealie
         - name: warehouse
           value: mealie
-        - name: chartRepo
-          value: https://kdwils.github.io/helm-charts
-        - name: chartName
-          value: homelab-chart
         - name: imageRepo
           value: ghcr.io/mealie-recipes/mealie
         - name: valuesFilePath
@@ -94,18 +81,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: chartPath
-          value: apps/mealie/charts/mealie
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: apps/mealie/staging
         - name: projectName
           value: mealie
-        - name: environmentName
-          value: homelab
         - name: environmentsPath
           value: apps/mealie/environments/homelab
         - name: valuesFilePath

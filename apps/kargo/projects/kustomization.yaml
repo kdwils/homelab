@@ -6,7 +6,9 @@ resources:
   - bluesky.yaml
   - cloudflared.yaml
   - envoy-proxy-bouncer.yaml
+  - excalidraw.yaml
   - flaresolverr.yaml
+  - homelab-chart.yaml
   - mealie.yaml
   - overseerr.yaml
   - plex.yaml

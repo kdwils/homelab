@@ -25,9 +25,6 @@ metadata:
 spec:
   interval: "1h0m0s"
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: cloudflare/cloudflared
         constraint: ^2025.0.0
@@ -55,20 +52,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: main
-        - name: chartPath
-          value: infra/cloudflared/charts/cloudflared
         - name: warehouse
           value: cloudflared
-        - name: chartRepo
-          value: https://kdwils.github.io/helm-charts
-        - name: chartName
-          value: homelab-chart
         - name: imageRepo
           value: cloudflare/cloudflared
         - name: valuesFilePath
@@ -96,18 +83,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: chartPath
-          value: infra/cloudflared/charts/cloudflared
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: infra/cloudflared/homelab
         - name: projectName
           value: cloudflared
-        - name: environmentName
-          value: homelab
         - name: environmentsPath
           value: infra/cloudflared/environments/homelab
         - name: valuesFilePath

@@ -1,0 +1,52 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: homelab-chart
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: homelab-chart
+  namespace: homelab-chart
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: update-all-apps
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: homelab-chart
+  namespace: homelab-chart
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: update-all-apps
+  namespace: homelab-chart
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: homelab-chart
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: chartPath
+          value: charts/homelab
+      steps:
+        - task:
+            name: update-all-apps-homelab-chart
+            kind: ClusterPromotionTask

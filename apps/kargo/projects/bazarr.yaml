@@ -25,9 +25,6 @@ metadata:
 spec:
   interval: "1h0m0s"
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: linuxserver/bazarr
         constraint: ^1.0.0
@@ -54,20 +51,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: main
-        - name: chartPath
-          value: media/bazarr/charts/bazarr
         - name: warehouse
           value: bazarr
-        - name: chartRepo
-          value: https://kdwils.github.io/helm-charts
-        - name: chartName
-          value: homelab-chart
         - name: imageRepo
           value: linuxserver/bazarr
         - name: valuesFilePath
@@ -95,18 +82,10 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: chartPath
-          value: media/bazarr/charts/bazarr
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: media/bazarr/staging
         - name: projectName
           value: bazarr
-        - name: environmentName
-          value: homelab
         - name: environmentsPath
           value: media/bazarr/environments/homelab
         - name: valuesFilePath

@@ -27,9 +27,6 @@ spec:
     - chart:
         repoURL: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
         name: envoy-proxy-bouncer
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: ghcr.io/kdwils/envoy-proxy-bouncer
         semverConstraint: ^0.4.0
@@ -81,7 +78,7 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
-              value: monitoring/envoy-proxy-bouncer/charts/bouncer
+              value: charts/homelab
             - name: chartRepo
               value: https://kdwils.github.io/helm-charts
             - name: chartName
@@ -128,7 +125,7 @@ spec:
         - name: gitRepo
           value: https://github.com/kdwils/homelab
         - name: chartPath
-          value: monitoring/envoy-proxy-bouncer/charts/bouncer
+          value: charts/homelab
         - name: sourceBranch
           value: main
         - name: targetBranch

@@ -1,0 +1,48 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: update-all-apps-homelab-chart
+spec:
+  vars:
+    - name: gitRepo
+    - name: targetBranch
+    - name: chartPath
+  steps:
+    - uses: git-clone
+      as: clone-main
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.targetBranch }}
+            path: ./repo
+    - uses: helm-update-chart
+      as: update-homelab-chart
+      config:
+        path: ./repo/${{ vars.chartPath }}
+    - uses: git-commit
+      as: commit-chart-update
+      config:
+        path: ./repo
+        message: |
+          Update homelab-chart across all applications
+          ${{ outputs['update-homelab-chart'].commitMessage }}
+    - uses: git-push
+      as: push-feature-branch
+      config:
+        path: ./repo
+        generateTargetBranch: true
+    - uses: git-open-pr
+      as: open-pr
+      continueOnError: true
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ outputs['push-feature-branch'].branch }}
+        targetBranch: ${{ vars.targetBranch }}
+        createTargetBranch: false
+        title: "Update homelab-chart version"
+    - uses: git-wait-for-pr
+      as: wait-pr-approval
+      if: ${{ status('open-pr') == 'Succeeded' }}
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ outputs['open-pr'].pr.id }}

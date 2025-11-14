@@ -5,11 +5,15 @@ metadata:
 spec:
   vars:
     - name: gitRepo
+      value: https://github.com/kdwils/homelab
     - name: chartPath
+      value: charts/homelab
     - name: sourceBranch
+      value: main
     - name: targetBranch
     - name: projectName
     - name: environmentName
+      value: homelab
     - name: environmentsPath
     - name: valuesFilePath
     - name: appName
