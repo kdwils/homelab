@@ -4,6 +4,6 @@ description: Cloudflare Tunnel connector for homelab
 version: 0.1.0
 dependencies:
   - name: homelab-chart
-    version: 0.1.4
+    version: 0.1.5
     repository: https://kdwils.github.io/helm-charts
     alias: cloudflared
