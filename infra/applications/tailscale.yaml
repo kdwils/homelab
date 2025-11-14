@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: tailscale
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: tailscale:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: tailscale
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/tailscale
+    path: infra/tailscale/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: infra/tailscale/homelab
   sources: []
   project: infra
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
