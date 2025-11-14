@@ -26,8 +26,8 @@ spec:
   subscriptions:
     - image:
         repoURL: excalidraw/excalidraw
+        imageSelectionStrategy: Digest
         constraint: latest
-        strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
