@@ -33,7 +33,7 @@ spec:
         branch: main
         includePaths:
           - glob:media/prowlarr/environments/**
-          - glob:media/prowlarr/charts/**
+          - glob:charts/homelab/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage

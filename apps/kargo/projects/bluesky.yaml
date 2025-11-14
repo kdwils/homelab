@@ -33,7 +33,7 @@ spec:
         branch: main
         includePaths:
           - glob:apps/bluesky/environments/**
-          - glob:apps/bluesky/charts/**
+          - glob:charts/homelab/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage

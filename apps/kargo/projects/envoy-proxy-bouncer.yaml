@@ -36,7 +36,7 @@ spec:
         branch: main
         includePaths:
           - glob:monitoring/envoy-proxy-bouncer/environments/**
-          - glob:monitoring/envoy-proxy-bouncer/charts/**
+          - glob:charts/envoy-proxy-bouncer/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
