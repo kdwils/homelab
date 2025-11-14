@@ -35,13 +35,13 @@ spec:
       continueOnError: false
       config:
         repoURL: ${{ vars.gitRepo }}
-        sourceBranch: ${{ outputs['push-feature-branch'].branch }}
+        sourceBranch: ${{ task.outputs['push-feature-branch'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
-        title: "Update homelab-chart version"
+        title: "Update ${{ vars.chartPath }} chart"
     - uses: git-wait-for-pr
       as: wait-pr-approval
       if: ${{ status('open-pr') == 'Succeeded' }}
       config:
         repoURL: ${{ vars.gitRepo }}
-        prNumber: ${{ outputs['open-pr'].pr.id }}
+        prNumber: ${{ task.outputs['open-pr'].pr.id }}
