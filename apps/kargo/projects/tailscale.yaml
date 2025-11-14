@@ -11,9 +11,6 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: main
-      autoPromotionEnabled: true
-    - stageSelector:
         name: homelab
       autoPromotionEnabled: true
 ---
@@ -42,8 +39,7 @@ spec:
         kind: Warehouse
         name: tailscale
       sources:
-        stages:
-          - main
+        direct: true
   promotionTemplate:
     spec:
       vars:
