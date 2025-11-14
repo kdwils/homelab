@@ -30,10 +30,6 @@ spec:
     - chart:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
-    - image:
-        repoURL: ghcr.io/kdwils/envoy-proxy-bouncer
-        semverConstraint: ^0.4.0
-        strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -87,27 +83,16 @@ spec:
             - name: chartName
               value: homelab-chart
         - task:
-            name: yaml-update-single-value
-            kind: ClusterPromotionTask
-          vars:
-            - name: filePath
-              value: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
-            - name: yamlKey
-              value: homelab-envoy-proxy-bouncer.image.tag
-            - name: yamlValue
-              value: ${{ imageFrom('ghcr.io/kdwils/envoy-proxy-bouncer', warehouse('envoy-proxy-bouncer')).Tag }}
-        - task:
             name: git-ops-commit-pr
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
               value: |
-                Update envoy-proxy-bouncer chart and image versions
+                Update envoy-proxy-bouncer chart dependencies
             - name: prTitle
-              value: "Update envoy-proxy-bouncer charts and image versions"
+              value: "Update envoy-proxy-bouncer chart dependencies"
             - name: prDescription
-              value: |
-                Update envoy-proxy-bouncer chart and image versions
+              value: Update envoy-proxy-bouncer chart dependencies
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -125,18 +110,12 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
         - name: chartPath
           value: charts/envoy-proxy-bouncer
-        - name: sourceBranch
-          value: main
         - name: targetBranch
           value: monitoring/envoy-proxy-bouncer/homelab
         - name: projectName
           value: envoy-proxy-bouncer
-        - name: environmentName
-          value: homelab
         - name: environmentsPath
           value: monitoring/envoy-proxy-bouncer/environments/homelab
         - name: valuesFilePath
