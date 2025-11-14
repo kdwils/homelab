@@ -26,7 +26,7 @@ spec:
   subscriptions:
     - chart:
         repoURL: https://pkgs.tailscale.com/helmcharts
-        name: tailscale
+        name: tailscale-operator
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -68,7 +68,7 @@ spec:
             - name: chartRepo
               value: https://pkgs.tailscale.com/helmcharts
             - name: chartName
-              value: tailscale
+              value: tailscale-operator
         - task:
             name: helm-update-single-chart
             kind: ClusterPromotionTask
