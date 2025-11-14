@@ -91,6 +91,8 @@ spec:
                 Update tailscale chart dependencies
             - name: prTitle
               value: "Update tailscale chart dependencies"
+            - name: prDescription
+              value: Update tailscale chart dependencies
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
