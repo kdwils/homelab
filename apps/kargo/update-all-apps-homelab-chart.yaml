@@ -24,8 +24,7 @@ spec:
       config:
         path: ./repo
         message: |
-          Update homelab-chart across all applications
-          ${{ outputs['update-homelab-chart'].commitMessage }}
+          Helm dependency update ${{ vars.chartPath }}
     - uses: git-push
       as: push-feature-branch
       config:
