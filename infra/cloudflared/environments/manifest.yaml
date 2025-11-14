@@ -1,134 +1,28 @@
-apiVersion: apps/v1
-
-kind: Deployment
-
+---
+# Source: homelab/charts/cloudflared/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
 metadata:
   name: cloudflared
-
-  namespace: cloudflared
-
-spec:
-  replicas: 1
-
-  selector:
-    matchLabels:
-      app: cloudflared
-
-  template:
-    metadata:
-      labels:
-        app: cloudflared
-
-    spec:
-      containers:
-        - image: cloudflare/cloudflared:2025.11.1
-
-          args:
-            - tunnel
-
-            - --loglevel
-
-            - debug
-
-            - --config
-
-            - /etc/cloudflared/config/config.yaml
-
-            - run
-
-          livenessProbe:
-            httpGet:
-              path: /ready
-
-              port: 2000
-
-            initialDelaySeconds: 10
-
-            periodSeconds: 10
-
-          name: cloudflared
-
-          volumeMounts:
-            - name: config
-
-              mountPath: /etc/cloudflared/config/config.yaml
-
-              subPath: config.yaml
-
-            - name: creds
-
-              mountPath: /etc/cloudflared/creds/homelab.json
-
-              subPath: homelab.json
-
-            - name: cert
-
-              mountPath: /etc/cloudflared/cert.pem
-
-              subPath: cert.pem
-
-      volumes:
-        - name: creds
-
-          secret:
-            items:
-              - key: homelab.json
-
-                path: homelab.json
-
-            secretName: tunnel
-
-        - name: cert
-
-          secret:
-            items:
-              - key: cert.pem
-
-                path: cert.pem
-
-            secretName: tunnel
-
-        - name: config
-
-          configMap:
-            name: cloudflared
-
-            items:
-              - key: config.yaml
-
-                path: config.yaml
+  labels:
+    helm.sh/chart: cloudflared-0.1.5
+    app.kubernetes.io/name: cloudflared
+    app.kubernetes.io/instance: cloudflared
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
 ---
-apiVersion: bitnami.com/v1alpha1
-
-kind: SealedSecret
-
-metadata:
-  creationTimestamp: null
-
-  name: tunnel
-
-  namespace: cloudflared
-
-spec:
-  encryptedData:
-    cert.pem: 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
-
-    homelab.json: AgAQXQpL4oL1FFIGi8NOcFrH9cINpRcVcOXoon19P5QVgu1ytRBOp3vUHwuI17Zc2ExkVbX2rs/YhYddk6FlK1DW9U8DzKZP+gvDyFq4LJXQterO3Fp/7W4xoyy8vS+rPqhokwIejAVRUPAFP6RSdfz8k9OPWnvO1v5yZtdm5Q7JZALOQ86GBU+0lHxxadbZLXSl2jBGG66qkyffubNVUgn6NxMh8RUUfPAHjF+c0YIqsHwgBOnmirNwYoIwAvy3LcN7TFUyYWRxDKyHnDoQ5kA3bC4b5c1EK23WkEFX67FXIK84dWaW59QQE5tYhgbHqVnaR/IJEvvo6LSAThfxBQHGZOpVW3J+jNVtjUVMN/Fo6KKYepjodcX+le2TF6CdPkci/zFoo3URze2HVSmXQS/vm9gRs37x63KNK9MeK1l11aOi7jUOsnvz/nN04aKcBlz2Wu0xdsSryte+GHVbYaq1KveByBtie3w2fTntIl4qMMMRLwDpgxGgUQ+5yf7q5cuseByaPT2T9EGaol9soV/llS9Bp89hJMc1lbpRtEs1i3NtCcAkg69SwB88UXHdQILVW9fwN8o3z5XWtQBhFklcbSumqWI3HqwV1izPXfe0F89gLPkBa2OTJm600+NpD95wB/XfNF9lb2hcQkLc6RzyFNzJhIxZBd1LyKlbMjQ6uXvIRR9veON2etPzC8KP4cccfMqSakevyPitOJeYc9FboXzrhwo7pXbjYaFpdVECRqhkB8O9Wp07nkfRVUAX0CzYmtrttxbxgOjAlhn4mpMX4TbiD5/Xtbz/DYBrdOt6da0pvhDzgTNiGj5M2KzCP0Kr70zoxqjtnSu5QEMUQPvOtIUU1kUb429LE0JY9a4p0ES4skUbwhR7jz9OTusdvvAYmzBx+++7DeAapcfPqnCjsSJ0/UtomGumT8Hv3bQ=
-
-  template:
-    data: null
-
-    metadata:
-      creationTimestamp: null
-
-      name: tunnel
-
-      namespace: cloudflared
----
+# Source: homelab/charts/cloudflared/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cloudflared
+  labels:
+    helm.sh/chart: cloudflared-0.1.5
+    app.kubernetes.io/name: cloudflared
+    app.kubernetes.io/instance: cloudflared
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
     tunnel: 34a29bd3-c367-4439-bc8d-32a6dbfc98ff
@@ -166,3 +60,94 @@ data:
         originRequest:
           originServerName: bouncer.kyledev.co
       - service: http_status:404
+---
+# Source: homelab/charts/cloudflared/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared
+  labels:
+    helm.sh/chart: cloudflared-0.1.5
+    app.kubernetes.io/name: cloudflared
+    app.kubernetes.io/instance: cloudflared
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflared
+      app.kubernetes.io/instance: cloudflared
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: cloudflared-0.1.5
+        app.kubernetes.io/name: cloudflared
+        app.kubernetes.io/instance: cloudflared
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: cloudflared
+      securityContext:
+        {}
+      containers:
+        - name: cloudflared
+          image: "cloudflare/cloudflared:2025.11.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - mountPath: /etc/cloudflared/config/config.yaml
+              name: config
+              subPath: config.yaml
+            - mountPath: /etc/cloudflared/creds/homelab.json
+              name: creds
+              subPath: homelab.json
+            - mountPath: /etc/cloudflared/cert.pem
+              name: cert
+              subPath: cert.pem
+      volumes:
+        - name: creds
+          secret:
+            items:
+            - key: homelab.json
+              path: homelab.json
+            secretName: tunnel
+        - name: cert
+          secret:
+            items:
+            - key: cert.pem
+              path: cert.pem
+            secretName: tunnel
+        - configMap:
+            items:
+            - key: config.yaml
+              path: config.yaml
+            name: cloudflared
+          name: config
+---
+# Source: homelab/charts/cloudflared/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: tunnel
+  namespace: cloudflared
+spec:
+  encryptedData:
+    cert.pem: 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
+    homelab.json: AgAQXQpL4oL1FFIGi8NOcFrH9cINpRcVcOXoon19P5QVgu1ytRBOp3vUHwuI17Zc2ExkVbX2rs/YhYddk6FlK1DW9U8DzKZP+gvDyFq4LJXQterO3Fp/7W4xoyy8vS+rPqhokwIejAVRUPAFP6RSdfz8k9OPWnvO1v5yZtdm5Q7JZALOQ86GBU+0lHxxadbZLXSl2jBGG66qkyffubNVUgn6NxMh8RUUfPAHjF+c0YIqsHwgBOnmirNwYoIwAvy3LcN7TFUyYWRxDKyHnDoQ5kA3bC4b5c1EK23WkEFX67FXIK84dWaW59QQE5tYhgbHqVnaR/IJEvvo6LSAThfxBQHGZOpVW3J+jNVtjUVMN/Fo6KKYepjodcX+le2TF6CdPkci/zFoo3URze2HVSmXQS/vm9gRs37x63KNK9MeK1l11aOi7jUOsnvz/nN04aKcBlz2Wu0xdsSryte+GHVbYaq1KveByBtie3w2fTntIl4qMMMRLwDpgxGgUQ+5yf7q5cuseByaPT2T9EGaol9soV/llS9Bp89hJMc1lbpRtEs1i3NtCcAkg69SwB88UXHdQILVW9fwN8o3z5XWtQBhFklcbSumqWI3HqwV1izPXfe0F89gLPkBa2OTJm600+NpD95wB/XfNF9lb2hcQkLc6RzyFNzJhIxZBd1LyKlbMjQ6uXvIRR9veON2etPzC8KP4cccfMqSakevyPitOJeYc9FboXzrhwo7pXbjYaFpdVECRqhkB8O9Wp07nkfRVUAX0CzYmtrttxbxgOjAlhn4mpMX4TbiD5/Xtbz/DYBrdOt6da0pvhDzgTNiGj5M2KzCP0Kr70zoxqjtnSu5QEMUQPvOtIUU1kUb429LE0JY9a4p0ES4skUbwhR7jz9OTusdvvAYmzBx+++7DeAapcfPqnCjsSJ0/UtomGumT8Hv3bQ=
+  template:
+    type: Opaque
+    metadata:
+      name: tunnel
+      namespace: cloudflared
