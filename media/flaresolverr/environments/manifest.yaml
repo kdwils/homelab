@@ -1,5 +1,5 @@
 ---
-# Source: flaresolverr/charts/flaresolverr/templates/serviceaccount.yaml
+# Source: homelab/charts/flaresolverr/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: flaresolverr/charts/flaresolverr/templates/service.yaml
+# Source: homelab/charts/flaresolverr/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -34,7 +34,7 @@ spec:
     app.kubernetes.io/name: flaresolverr
     app.kubernetes.io/instance: flaresolverr
 ---
-# Source: flaresolverr/charts/flaresolverr/templates/deployment.yaml
+# Source: homelab/charts/flaresolverr/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
