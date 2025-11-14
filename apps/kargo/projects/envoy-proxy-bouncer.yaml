@@ -27,6 +27,9 @@ spec:
     - chart:
         repoURL: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
         name: envoy-proxy-bouncer
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
     - image:
         repoURL: ghcr.io/kdwils/envoy-proxy-bouncer
         semverConstraint: ^0.4.0
