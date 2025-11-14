@@ -5,14 +5,12 @@ resources:
   - kargo.yaml
   - httproute.yaml
   - sealedsecret.yaml
-  - helm-render.yaml
-  - helm-update.yaml
-  - update-image.yaml
   - staging-helm.yaml
   - argocd-sync.yaml
   - promote-branch-with-approval.yaml
   - update-source-main.yaml
   - render-and-pr-helm.yaml
+  - update-all-apps-homelab-chart.yaml
   - git-ops-clone.yaml
   - git-ops-commit-pr.yaml
   - helm-update-single-chart.yaml
