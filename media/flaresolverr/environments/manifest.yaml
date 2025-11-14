@@ -1,5 +1,17 @@
 ---
-# Source: flaresolverr/charts/flaresolverr/templates/serviceaccount.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flaresolverr-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: flaresolverr
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: homelab/charts/flaresolverr/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +24,29 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: flaresolverr/charts/flaresolverr/templates/service.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaresolverr-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: flaresolverr
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: flaresolverr
+---
+# Source: homelab/charts/flaresolverr/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -34,7 +68,68 @@ spec:
     app.kubernetes.io/name: flaresolverr
     app.kubernetes.io/instance: flaresolverr
 ---
-# Source: flaresolverr/charts/flaresolverr/templates/deployment.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaresolverr-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: flaresolverr
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: envoy-proxy-bouncer
+      app.kubernetes.io/instance: flaresolverr
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: envoy-proxy-bouncer-0.4.1
+        app.kubernetes.io/name: envoy-proxy-bouncer
+        app.kubernetes.io/instance: flaresolverr
+        app.kubernetes.io/version: "v0.4.1"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: flaresolverr-envoy-proxy-bouncer
+      securityContext:
+        {}
+      containers:
+        - name: envoy-proxy-bouncer
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - all
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.4.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: ENVOY_BOUNCER_BOUNCER_LAPIURL
+              value: "http://crowdsec-service:8080"
+            - name: ENVOY_BOUNCER_BOUNCER_ENABLED
+              value: "true"
+            - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
+              value: "10s"
+            - name: ENVOY_BOUNCER_SERVER_GRPCPORT
+              value: "8080"
+            - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
+              value: info
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: homelab/charts/flaresolverr/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
