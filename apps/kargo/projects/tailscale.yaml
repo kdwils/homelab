@@ -1,0 +1,67 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: tailscale
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: tailscale
+  namespace: tailscale
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: tailscale
+  namespace: tailscale
+spec:
+  subscriptions:
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:infra/tailscale/environments/**
+          - glob:charts/tailscale/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: tailscale
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: tailscale
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: chartPath
+          value: charts/tailscale
+        - name: targetBranch
+          value: infra/tailscale/homelab
+        - name: projectName
+          value: tailscale
+        - name: environmentsPath
+          value: infra/tailscale/environments/homelab
+        - name: valuesFilePath
+          value: infra/tailscale/environments/homelab/homelab.yaml
+        - name: appName
+          value: tailscale
+        - name: namespace
+          value: tailscale
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
