@@ -1,5 +1,5 @@
 ---
-# Source: bazarr/charts/bazarr/templates/serviceaccount.yaml
+# Source: homelab/charts/bazarr/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +12,19 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: bazarr/charts/bazarr/templates/pvc.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bazarr-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: homelab/charts/bazarr/templates/pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -30,7 +42,7 @@ spec:
     requests:
       storage: 8Gi
 ---
-# Source: bazarr/charts/bazarr/templates/service.yaml
+# Source: homelab/charts/bazarr/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,7 +64,29 @@ spec:
     app.kubernetes.io/name: bazarr
     app.kubernetes.io/instance: bazarr
 ---
-# Source: bazarr/charts/bazarr/templates/deployment.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bazarr-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bazarr
+---
+# Source: homelab/charts/bazarr/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -130,7 +164,68 @@ spec:
           persistentVolumeClaim:
             claimName: media
 ---
-# Source: bazarr/charts/bazarr/templates/httproute.yaml
+# Source: homelab/charts/envoy-proxy-bouncer/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bazarr-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: envoy-proxy-bouncer-0.4.1
+    app.kubernetes.io/name: envoy-proxy-bouncer
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "v0.4.1"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: envoy-proxy-bouncer
+      app.kubernetes.io/instance: bazarr
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: envoy-proxy-bouncer-0.4.1
+        app.kubernetes.io/name: envoy-proxy-bouncer
+        app.kubernetes.io/instance: bazarr
+        app.kubernetes.io/version: "v0.4.1"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: bazarr-envoy-proxy-bouncer
+      securityContext:
+        {}
+      containers:
+        - name: envoy-proxy-bouncer
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - all
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.4.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: ENVOY_BOUNCER_BOUNCER_LAPIURL
+              value: "http://crowdsec-service:8080"
+            - name: ENVOY_BOUNCER_BOUNCER_ENABLED
+              value: "true"
+            - name: ENVOY_BOUNCER_BOUNCER_TICKERINTERVAL
+              value: "10s"
+            - name: ENVOY_BOUNCER_SERVER_GRPCPORT
+              value: "8080"
+            - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
+              value: info
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: homelab/charts/bazarr/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
