@@ -6,6 +6,7 @@ spec:
   vars:
     - name: gitRepo
     - name: targetBranch
+      value: main
     - name: chartPath
   steps:
     - uses: git-clone
@@ -22,7 +23,7 @@ spec:
     - uses: git-commit
       as: commit-chart-update
       config:
-        path: ./repo
+        path: ./repo/${{ vars.chartPath }}
         message: |
           Helm dependency update ${{ vars.chartPath }}
     - uses: git-push
