@@ -1,5 +1,5 @@
 ---
-# Source: pocketid/charts/pocketid/templates/serviceaccount.yaml
+# Source: homelab/charts/pocketid/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -12,7 +12,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
 ---
-# Source: pocketid/charts/pocketid/templates/pvc.yaml
+# Source: homelab/charts/pocketid/templates/pvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -30,7 +30,7 @@ spec:
     requests:
       storage: 5Gi
 ---
-# Source: pocketid/charts/pocketid/templates/service.yaml
+# Source: homelab/charts/pocketid/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,7 +52,7 @@ spec:
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
 ---
-# Source: pocketid/charts/pocketid/templates/deployment.yaml
+# Source: homelab/charts/pocketid/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -116,7 +116,7 @@ spec:
           persistentVolumeClaim:
             claimName: pocketid-data
 ---
-# Source: pocketid/charts/pocketid/templates/httproute.yaml
+# Source: homelab/charts/pocketid/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -140,7 +140,7 @@ spec:
         name: pocketid
         port: 1411
 ---
-# Source: pocketid/charts/pocketid/templates/sealedsecret.yaml
+# Source: homelab/charts/pocketid/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -159,7 +159,7 @@ spec:
       name: pocketid
       namespace: pocketid
 ---
-# Source: pocketid/charts/pocketid/templates/securitypolicy.yaml
+# Source: homelab/charts/pocketid/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
