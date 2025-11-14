@@ -27,6 +27,9 @@ spec:
     - chart:
         repoURL: https://pkgs.tailscale.com/helmcharts
         name: tailscale-operator
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
