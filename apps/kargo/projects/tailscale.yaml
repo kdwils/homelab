@@ -11,6 +11,9 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
         name: homelab
       autoPromotionEnabled: true
 ---
@@ -21,12 +24,70 @@ metadata:
   namespace: tailscale
 spec:
   subscriptions:
+    - chart:
+        repoURL: https://pkgs.tailscale.com/helmcharts
+        name: tailscale
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:infra/tailscale/environments/**
+          - glob:monitoring/tailscale/environments/**
           - glob:charts/tailscale/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: tailscale
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: tailscale
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: tailscale
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/tailscale
+            - name: chartRepo
+              value: https://pkgs.tailscale.com/helmcharts
+            - name: chartName
+              value: tailscale
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/tailscale
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update tailscale chart dependencies
+            - name: prTitle
+              value: "Update tailscale chart dependencies"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -39,7 +100,8 @@ spec:
         kind: Warehouse
         name: tailscale
       sources:
-        direct: true
+        stages:
+          - main
   promotionTemplate:
     spec:
       vars:
