@@ -4,50 +4,50 @@ description: Consolidated Helm chart for all homelab applications
 version: 0.1.0
 dependencies:
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: bluesky
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: mealie
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: pocketid
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: rss
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: cloudflared
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: bazarr
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: flaresolverr
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: overseerr
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: plex
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: prowlarr
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: radarr
   - name: homelab-chart
-    version: 0.1.5
+    version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: sonarr
