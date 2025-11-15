@@ -1,0 +1,8 @@
+apiVersion: v2
+name: sealedsecrets
+description: Sealed Secrets controller for encrypting secrets
+version: 0.1.0
+dependencies:
+  - name: sealed-secrets
+    version: 2.16.2
+    repository: https://bitnami-labs.github.io/sealed-secrets

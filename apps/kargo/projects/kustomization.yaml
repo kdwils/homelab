@@ -16,5 +16,6 @@ resources:
   - prowlarr.yaml
   - radarr.yaml
   - rss.yaml
+  - sealedsecrets.yaml
   - sonarr.yaml
   - tailscale.yaml
