@@ -4572,10 +4572,8 @@ spec:
     - "longhorn.int.kyledev.co"
   rules:
     - backendRefs:
-      - group: ""
-        kind: Service
-        name: longhorn-homelab
-        port: 0
+      - name: longhorn-frontend
+        port: 80
 ---
 # Source: longhorn/charts/longhorn/templates/postupgrade-job.yaml
 apiVersion: batch/v1
