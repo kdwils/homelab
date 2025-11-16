@@ -1,0 +1,130 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: longhorn
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://charts.longhorn.io
+        name: longhorn
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:infra/longhorn/environments/**
+          - glob:charts/longhorn/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: longhorn-system
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: longhorn
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: longhorn
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/longhorn
+            - name: chartRepo
+              value: https://charts.longhorn.io
+            - name: chartName
+              value: longhorn
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/longhorn
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update longhorn chart dependencies
+            - name: prTitle
+              value: "Update longhorn chart dependencies"
+            - name: prDescription
+              value: Update longhorn chart dependencies
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: longhorn-system
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: longhorn
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: chartPath
+          value: charts/longhorn
+        - name: targetBranch
+          value: infra/longhorn/homelab
+        - name: projectName
+          value: longhorn
+        - name: environmentsPath
+          value: infra/longhorn/environments/homelab
+        - name: valuesFilePath
+          value: infra/longhorn/environments/homelab/homelab.yaml
+        - name: appName
+          value: longhorn
+        - name: namespace
+          value: longhorn-system
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

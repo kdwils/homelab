@@ -1,0 +1,23 @@
+longhorn:
+  persistence:
+    defaultClass: true
+    defaultClassReplicaCount: 1
+  defaultSettings:
+    defaultReplicaCount: 1
+  longhornUI:
+    replicas: 1
+  service:
+    ui:
+      type: LoadBalancer
+
+homelab:
+  httproute:
+    create: true
+    hostnames:
+      - "longhorn.int.kyledev.co"
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+    backendRefs:
+      - name: longhorn-frontend
+        port: 80
