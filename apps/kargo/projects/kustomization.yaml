@@ -9,6 +9,7 @@ resources:
   # - excalidraw.yaml
   - flaresolverr.yaml
   - homelab-chart.yaml
+  - longhorn.yaml
   - mealie.yaml
   - overseerr.yaml
   - plex.yaml

@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: longhorn
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: longhorn-system:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: longhorn-system
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/longhorn
+    path: infra/longhorn/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: infra/longhorn/homelab
   sources: []
   project: infra
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

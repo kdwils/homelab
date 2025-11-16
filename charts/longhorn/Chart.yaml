@@ -1,0 +1,13 @@
+apiVersion: v2
+name: longhorn
+description: longhorn
+version: 0.1.0
+dependencies:
+  - name: longhorn
+    version: 1.10.1
+    repository: https://charts.longhorn.io
+    alias: longhorn
+  - name: homelab-chart
+    version: 0.1.6
+    repository: https://kdwils.github.io/helm-charts
+    alias: homelab
