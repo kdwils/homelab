@@ -6,7 +6,7 @@ metadata:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
-  name: longhorn
+  name: longhorn-system
   namespace: longhorn-system
 spec:
   promotionPolicies:
