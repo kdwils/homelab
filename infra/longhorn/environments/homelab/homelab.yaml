@@ -6,9 +6,6 @@ longhorn:
     defaultReplicaCount: 1
   longhornUI:
     replicas: 1
-  service:
-    ui:
-      type: LoadBalancer
 
 homelab:
   httproute:
