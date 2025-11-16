@@ -15,6 +15,7 @@ homelab:
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
-    backendRefs:
-      - name: longhorn-frontend
-        port: 80
+    rules:
+      - backendRefs:
+          - name: longhorn-frontend
+            port: 80
