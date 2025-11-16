@@ -124,6 +124,8 @@ spec:
           value: longhorn
         - name: namespace
           value: longhorn-system
+        - name: includeCRDs
+          value: "true"
       steps:
         - task:
             name: render-and-pr-helm

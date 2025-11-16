@@ -124,6 +124,8 @@ spec:
           value: tailscale
         - name: namespace
           value: tailscale
+        - name: includeCRDs
+          value: "true"
       steps:
         - task:
             name: render-and-pr-helm
