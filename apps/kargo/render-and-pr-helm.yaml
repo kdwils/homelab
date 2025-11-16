@@ -17,6 +17,8 @@ spec:
     - name: environmentsPath
     - name: valuesFilePath
     - name: appName
+    - name: includeCrds
+      value: "false"
   steps:
     - uses: git-clone
       as: clone-repos
@@ -36,6 +38,7 @@ spec:
         namespace: ${{ vars.namespace }}
         releaseName: ${{ vars.projectName }}
         outPath: ./target/${{ vars.environmentsPath }}/../manifest.yaml
+        includeCrds: ${{ vars.includeCrds }}
     - uses: git-commit
       as: commit-rendered
       config:
