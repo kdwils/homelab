@@ -4,7 +4,7 @@ description: tailscale
 version: 0.1.0
 dependencies:
   - name: tailscale-operator
-    version: 1.90.8
+    version: 1.90.9
     repository: https://pkgs.tailscale.com/helmcharts
     alias: tailscale
   - name: homelab-chart
