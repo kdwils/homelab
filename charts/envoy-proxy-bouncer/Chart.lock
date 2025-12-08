@@ -1,9 +1,9 @@
 dependencies:
 - name: envoy-proxy-bouncer
   repository: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
-  version: 0.4.1
+  version: 0.4.2
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
   version: 0.1.6
-digest: sha256:97fa8c25c471578febaf9a6b9f2067e134e6ee515e140433631f9b757608427c
-generated: "2025-11-14T08:16:59.524127611Z"
+digest: sha256:fcdc9a1f2e99117dc9a6e133451670939b1aa950571378c4cc34aaadcabfcdd8
+generated: "2025-12-07T18:42:51.760854541Z"
