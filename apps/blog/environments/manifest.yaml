@@ -95,6 +95,16 @@ spec:
             requests:
               cpu: 50m
               memory: 64Mi
+          volumeMounts:
+            - mountPath: /var/cache/nginx
+              name: cache
+            - mountPath: /var/run
+              name: run
+      volumes:
+        - emptyDir: {}
+          name: cache
+        - emptyDir: {}
+          name: run
 ---
 # Source: homelab/charts/blog/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
