@@ -26,6 +26,7 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/mealie-recipes/mealie
+        constraint: ^3.0.0
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git

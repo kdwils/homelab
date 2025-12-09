@@ -27,6 +27,7 @@ spec:
   subscriptions:
     - image:
         repoURL: linuxserver/bazarr
+        constraint: ^1.0.0
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
