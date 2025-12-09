@@ -37,6 +37,18 @@ blog:
       runAsNonRoot: true
       runAsUser: 1000
 
+    volumes:
+      - name: cache
+        emptyDir: {}
+      - name: run
+        emptyDir: {}
+
+    volumeMounts:
+      - name: cache
+        mountPath: /var/cache/nginx
+      - name: run
+        mountPath: /var/run
+
   httproute:
     create: true
     hostnames:
