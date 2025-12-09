@@ -11,7 +11,7 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: staging
+        name: main
       autoPromotionEnabled: true
     - stageSelector:
         name: dev
@@ -35,18 +35,18 @@ spec:
         semverConstraint: ^1.0.0
         strictSemvers: false
     - git:
-        repoURL: https://github.com/kdwils/blog-deploy.git
+        repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:environments/**
-          - glob:charts/**
+          - glob:apps/blog/environments/**
+          - glob:apps/blog/charts/**
         excludePaths:
-          - glob:rendered/**
+          - glob:apps/blog/rendered/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: staging
+  name: main
   namespace: blog
 spec:
   requestedFreight:
@@ -58,30 +58,26 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
-        - name: chartPath
-          value: charts/blog-deploy
-        - name: sourceBranch
-          value: main
         - name: targetBranch
-          value: stage/dev
+          value: main
         - name: warehouse
           value: blog
-        - name: chartRepo
-          value: https://kdwils.github.io/helm-charts
-        - name: chartName
-          value: homelab-chart
         - name: imageRepo
           value: ghcr.io/kdwils/blog
-        - name: projectName
-          value: blog
+        - name: valuesFilePath
+          value: apps/blog/environments/dev/homelab.yaml
         - name: imageTagYamlPath
           value: blog.deployment.image.tag
       steps:
         - task:
-            name: staging-helm
+            name: update-source-main
             kind: ClusterPromotionTask
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+          vars:
+            - name: valuesFilePath
+              value: apps/blog/environments/prod/homelab.yaml
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -95,17 +91,25 @@ spec:
         name: blog
       sources:
         stages:
-          - staging
+          - main
   promotionTemplate:
     spec:
       vars:
+        - name: targetBranch
+          value: apps/blog/dev
+        - name: projectName
+          value: blog
+        - name: environmentsPath
+          value: apps/blog/environments/dev
+        - name: valuesFilePath
+          value: apps/blog/environments/dev/homelab.yaml
         - name: appName
           value: blog-dev
-        - name: appNamespace
-          value: argocd
+        - name: namespace
+          value: blog
       steps:
         - task:
-            name: argocd-sync
+            name: render-and-pr-helm
             kind: ClusterPromotionTask
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -124,22 +128,19 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/blog-deploy
-        - name: imageRepo
-          value: ghcr.io/kdwils/blog
-        - name: sourceBranch
-          value: stage/dev
         - name: targetBranch
-          value: stage/prod
+          value: apps/blog/prod
+        - name: projectName
+          value: blog
+        - name: environmentsPath
+          value: apps/blog/environments/prod
+        - name: valuesFilePath
+          value: apps/blog/environments/prod/homelab.yaml
         - name: appName
           value: blog-prod
-        - name: appNamespace
-          value: argocd
+        - name: namespace
+          value: blog
       steps:
         - task:
-            name: promote-branch-with-approval
-            kind: ClusterPromotionTask
-        - task:
-            name: argocd-sync
+            name: render-and-pr-helm
             kind: ClusterPromotionTask

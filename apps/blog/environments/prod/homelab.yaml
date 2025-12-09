@@ -1,0 +1,61 @@
+blog:
+  fullnameOverride: blog-prod
+
+  serviceAccount:
+    create: true
+    automount: true
+
+  deployment:
+    create: true
+    image:
+      repository: ghcr.io/kdwils/blog
+      tag: 1.0.4
+    replicaCount: 2
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 8080
+
+    securityContext:
+      capabilities:
+        drop:
+          - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
+
+  httproute:
+    create: true
+    hostnames:
+      - "blog.kyledev.co"
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 8080
+
+  securityPolicy:
+    extAuth:
+      grpc:
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: homelab-envoy-proxy-bouncer
+            namespace: envoy-gateway-system
+            port: 8080

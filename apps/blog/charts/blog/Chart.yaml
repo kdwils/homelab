@@ -1,0 +1,9 @@
+apiVersion: v2
+name: blog
+description: Personal blog application
+version: 0.1.0
+dependencies:
+  - name: homelab-chart
+    version: 0.0.14
+    repository: https://kdwils.github.io/helm-charts
+    alias: blog
