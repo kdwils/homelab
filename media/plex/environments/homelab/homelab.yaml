@@ -10,7 +10,7 @@ plex:
 
     image:
       repository: linuxserver/plex
-      tag: 1.42.2
+      tag: 168
       pullPolicy: IfNotPresent
 
     env:
