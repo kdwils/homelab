@@ -27,9 +27,6 @@ metadata:
   namespace: blog
 spec:
   subscriptions:
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - image:
         repoURL: ghcr.io/kdwils/blog
         semverConstraint: ^1.0.0
@@ -38,8 +35,8 @@ spec:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:apps/blog/environments/**
-          - glob:apps/blog/charts/**
+          - glob:apps/bluesky/environments/**
+          - glob:charts/homelab/**
         excludePaths:
           - glob:apps/blog/rendered/**
 ---
@@ -76,7 +73,6 @@ spec:
             checkout:
               - branch: ${{ vars.targetBranch }}
                 path: ./repo
-
         - uses: yaml-update
           as: update-dev
           config:
@@ -84,7 +80,6 @@ spec:
             updates:
               - key: ${{ vars.imageTagYamlPath }}
                 value: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
-
         - uses: yaml-update
           as: update-prod
           config:
@@ -92,23 +87,19 @@ spec:
             updates:
               - key: ${{ vars.imageTagYamlPath }}
                 value: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
-
         - uses: git-commit
           as: commit-updates
           config:
             path: ./repo
             message: |
               Update blog image across all environments
-
               - Image: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
               - Environments: dev, prod
-
         - uses: git-push
           as: push-feature-branch
           config:
             path: ./repo
             generateTargetBranch: true
-
         - uses: git-open-pr
           as: open-pr-main
           continueOnError: true
@@ -122,9 +113,7 @@ spec:
               ## Updates
               - **Image:** `${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}`
               - **Environments:** dev, prod
-
               Updated via Kargo promotion from warehouse: ${{ vars.warehouse }}
-
         - uses: git-wait-for-pr
           as: wait-pr-approval
           if: ${{ status('open-pr-main') == 'Succeeded' }}

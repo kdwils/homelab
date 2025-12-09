@@ -6,6 +6,10 @@ dependencies:
   - name: homelab-chart
     version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
+    alias: blog
+  - name: homelab-chart
+    version: ^0.1.0
+    repository: https://kdwils.github.io/helm-charts
     alias: bluesky
   - name: homelab-chart
     version: ^0.1.0
