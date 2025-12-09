@@ -27,7 +27,6 @@ spec:
   subscriptions:
     - image:
         repoURL: cloudflare/cloudflared
-        constraint: ^2025.0.0
         strictSemvers: false
         discoveryLimit: 5
     - git:

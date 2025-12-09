@@ -26,7 +26,6 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/linuxserver/prowlarr
-        constraint: ^2.0.0
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git

@@ -26,7 +26,6 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/sct/overseerr
-        constraint: ^1.0.0
         strictSemvers: false
         discoveryLimit: 5
     - git:

@@ -26,7 +26,6 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/flaresolverr/flaresolverr
-        constraint: ^3.0.0
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git

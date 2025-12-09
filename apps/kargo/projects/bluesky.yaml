@@ -26,7 +26,6 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/bluesky-social/pds
-        semverConstraint: ^0.4.0
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
