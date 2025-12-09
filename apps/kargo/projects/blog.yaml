@@ -58,26 +58,79 @@ spec:
   promotionTemplate:
     spec:
       vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
         - name: targetBranch
           value: main
         - name: warehouse
           value: blog
         - name: imageRepo
           value: ghcr.io/kdwils/blog
-        - name: valuesFilePath
-          value: apps/blog/environments/dev/homelab.yaml
         - name: imageTagYamlPath
           value: blog.deployment.image.tag
       steps:
-        - task:
-            name: update-source-main
-            kind: ClusterPromotionTask
-        - task:
-            name: update-source-main
-            kind: ClusterPromotionTask
-          vars:
-            - name: valuesFilePath
-              value: apps/blog/environments/prod/homelab.yaml
+        - uses: git-clone
+          as: clone-main
+          config:
+            repoURL: ${{ vars.gitRepo }}
+            checkout:
+              - branch: ${{ vars.targetBranch }}
+                path: ./repo
+
+        - uses: yaml-update
+          as: update-dev
+          config:
+            path: ./repo/apps/blog/environments/dev/homelab.yaml
+            updates:
+              - key: ${{ vars.imageTagYamlPath }}
+                value: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
+
+        - uses: yaml-update
+          as: update-prod
+          config:
+            path: ./repo/apps/blog/environments/prod/homelab.yaml
+            updates:
+              - key: ${{ vars.imageTagYamlPath }}
+                value: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
+
+        - uses: git-commit
+          as: commit-updates
+          config:
+            path: ./repo
+            message: |
+              Update blog image across all environments
+
+              - Image: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
+              - Environments: dev, prod
+
+        - uses: git-push
+          as: push-feature-branch
+          config:
+            path: ./repo
+            generateTargetBranch: true
+
+        - uses: git-open-pr
+          as: open-pr-main
+          continueOnError: true
+          config:
+            repoURL: ${{ vars.gitRepo }}
+            sourceBranch: ${{ outputs['push-feature-branch'].branch }}
+            targetBranch: ${{ vars.targetBranch }}
+            createTargetBranch: false
+            title: "Update blog image across environments"
+            description: |
+              ## Updates
+              - **Image:** `${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}`
+              - **Environments:** dev, prod
+
+              Updated via Kargo promotion from warehouse: ${{ vars.warehouse }}
+
+        - uses: git-wait-for-pr
+          as: wait-pr-approval
+          if: ${{ status('open-pr-main') == 'Succeeded' }}
+          config:
+            repoURL: ${{ vars.gitRepo }}
+            prNumber: ${{ outputs['open-pr-main'].pr.id }}
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
