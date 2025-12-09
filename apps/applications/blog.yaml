@@ -38,12 +38,14 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: rendered/prod
-    repoURL: "https://github.com/kdwils/blog-deploy"
-    targetRevision: stage/prod
+    path: apps/blog/environments
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: apps/blog/prod
   sources: []
   project: apps
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
