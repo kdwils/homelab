@@ -35,7 +35,7 @@ spec:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:apps/bluesky/environments/**
+          - glob:apps/blog/environments/**
           - glob:charts/homelab/**
         excludePaths:
           - glob:apps/blog/rendered/**
