@@ -27,7 +27,7 @@ metadata:
     app.kubernetes.io/version: "1.34.1"
     app.kubernetes.io/managed-by: Helm
 data:
-  DOMAIN: "https://passwords.kyledev.co"
+  DOMAIN: "https://passwords.int.kyledev.co"
   SMTP_HOST: "smtp.gmail.com"
   SMTP_SECURITY: "starttls"
   SMTP_PORT: "587"
