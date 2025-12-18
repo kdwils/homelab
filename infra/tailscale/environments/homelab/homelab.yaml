@@ -4,3 +4,8 @@ homelab:
       data:
         client_id: AQBMjePzQJeJC+Ullm2OGhUuOVB4ex4l9hZ7O8Iiw+I/xY/Svz71R7wRdaOHEnTQKWlQE+HtuMAcN6bsOGeeCX+rY0t4QgkpNjPz0mZ9TfOCnEFi17ilDrbQiHJOBGLGyCUVJ717Xhg3S24ebc0+8qk9vC+aR2XMpUKK5A08EGiMJjd/9Ddntto8/DIettmJdOOrw/2vkDTi0d4zA8iY8Tv+yfc7ef1KR38HV9j4ONcAWvoxpqo3O3DbCA8YU/2JwZjXSeSMcxBvrNkIeiqgBYUj3Q8MrBUbVSigNprp6tr9a4Txt4C0E2ubIg7oUb6KB0KlEdhC1ErJsgien37v03AlAzuGHltuT7sTiVRiUjVzb3bV6tdbXHf1iHn4Ww==
         client_secret: AQCJftcLGNSJDxjo7WIPlAqee3mNnKNRObY7HgWWpwB4pMiKDs1GgdyhETCGqImWYLeiBdUuRhG30Bc3q9+fk208vol2nupL/Jbu65wtxWMexkkdq/JsqjxXjXmSaFJykALtgXYRGkln1nhMWwPCUr+s4Zk70dLbQwhArULCNT5DVgH0Qd0Vah8uF4Xcyg1cFxhe5ZZrrz8YDEBFR05n5cyPc/+lHGdUpepGsyjmCKTtCU4+RUFeIwJuuI08FCNRn8H6aB0lJBONPG3OT9aJnXthrI1AHib3HohI7lvxNKq6n5La44uAAF1YmfzgK2ij9MPP8g4wA30phwvXCqDLt39Q8DE7boI3oXPf2xpC7qyou6sZsqZ+uL0pdky+qGBqmInu1+ulyOY7A6kWJU73Zt8vbnawcN3PxcI3fv3tnFnmpvnkSaMz74R4QsH1
+
+tailscale:
+  oauthSecretVolume:
+    secret:
+      secretName: operator-oauth
