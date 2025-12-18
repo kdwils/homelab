@@ -3349,6 +3349,11 @@ spec:
                     Corresponds to --ui tsrecorder flag https://tailscale.com/kb/1246/tailscale-ssh-session-recording#deploy-a-recorder-node.
                     Required if S3 storage is not set up, to ensure that recordings are accessible.
                   type: boolean
+                replicas:
+                  description: Replicas specifies how many instances of tsrecorder to run. Defaults to 1.
+                  type: integer
+                  format: int32
+                  minimum: 0
                 statefulSet:
                   description: |-
                     Configuration parameters for the Recorder's StatefulSet. The operator
@@ -4964,6 +4969,9 @@ spec:
                   items:
                     type: string
                     pattern: ^tag:[a-zA-Z][a-zA-Z0-9-]*$
+              x-kubernetes-validations:
+                - rule: '!(self.replicas > 1 && (!has(self.storage) || !has(self.storage.s3)))'
+                  message: S3 storage must be used when deploying multiple Recorder replicas
             status:
               description: |-
                 RecorderStatus describes the status of the recorder. This is set
@@ -5210,13 +5218,9 @@ spec:
         app: operator
     spec:
       serviceAccountName: operator
-      volumes:
-        - name: oauth
-          secret:
-            secretName: operator-oauth
       containers:
         - name: operator
-          image: tailscale/k8s-operator:v1.90.9
+          image: tailscale/k8s-operator:v1.92.3
           imagePullPolicy: Always
           env:
             - name: OPERATOR_INITIAL_TAGS
@@ -5235,12 +5239,8 @@ spec:
               value: 
             - name: OPERATOR_INGRESS_CLASS_NAME
               value: tailscale
-            - name: CLIENT_ID_FILE
-              value: /oauth/client_id
-            - name: CLIENT_SECRET_FILE
-              value: /oauth/client_secret
             - name: PROXY_IMAGE
-              value: tailscale/tailscale:v1.90.9
+              value: tailscale/tailscale:v1.92.3
             - name: PROXY_TAGS
               value: tag:k8s
             - name: APISERVER_PROXY
@@ -5255,10 +5255,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
-          volumeMounts:
-          - name: oauth
-            mountPath: /oauth
-            readOnly: true
       nodeSelector:
         kubernetes.io/os: linux
 ---
