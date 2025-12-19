@@ -10,7 +10,7 @@ mealie:
 
     image:
       repository: ghcr.io/mealie-recipes/mealie
-      tag: v3.7.0
+      tag: v3.8.0
       pullPolicy: IfNotPresent
     env:
       ALLOW_SIGNUP: "false"
