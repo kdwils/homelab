@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: byparr
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: byparr:homelab
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: media/byparr/environments
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: media/byparr/homelab
+  sources: []
+  project: media
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
