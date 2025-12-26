@@ -83,7 +83,7 @@ spec:
     spec:
       vars:
         - name: targetBranch
-          value: media/byparr/staging
+          value: media/byparr/homelab
         - name: projectName
           value: byparr
         - name: environmentsPath
