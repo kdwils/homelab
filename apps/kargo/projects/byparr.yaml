@@ -1,0 +1,100 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: byparr
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: byparr
+  namespace: byparr
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: byparr
+  namespace: byparr
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/thephaseless/byparr
+        constraint: ^2.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/byparr/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: byparr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: byparr
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: byparr
+        - name: imageRepo
+          value: linuxserver/byparr
+        - name: valuesFilePath
+          value: media/byparr/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: byparr.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: byparr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: byparr
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: media/byparr/staging
+        - name: projectName
+          value: byparr
+        - name: environmentsPath
+          value: media/byparr/environments/homelab
+        - name: valuesFilePath
+          value: media/byparr/environments/homelab/homelab.yaml
+        - name: appName
+          value: byparr
+        - name: namespace
+          value: media
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

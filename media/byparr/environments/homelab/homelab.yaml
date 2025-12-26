@@ -1,0 +1,24 @@
+bazarr:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    deployStrategy: Recreate
+
+    image:
+      repository: ghcr.io/thephaseless/byparr
+      tag: v2.0.1
+      pullPolicy: IfNotPresent
+
+    env:
+      PORT: "8191"
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 8191
+    targetPort: 8191
+    name: http

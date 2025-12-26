@@ -4,6 +4,7 @@ resources:
   - bazarr.yaml
   - blog.yaml
   - bluesky.yaml
+  - byparr.yaml
   - cloudflared.yaml
   - envoy-proxy-bouncer.yaml
   # - excalidraw.yaml
