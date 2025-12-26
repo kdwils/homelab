@@ -56,7 +56,7 @@ spec:
         - name: warehouse
           value: byparr
         - name: imageRepo
-          value: linuxserver/byparr
+          value: ghcr.io/thephaseless/byparr
         - name: valuesFilePath
           value: media/byparr/environments/homelab/homelab.yaml
         - name: imageTagYamlPath
