@@ -8,7 +8,6 @@ resources:
   - cloudflared.yaml
   - envoy-proxy-bouncer.yaml
   # - excalidraw.yaml
-  - flaresolverr.yaml
   - homelab-chart.yaml
   - longhorn.yaml
   - mealie.yaml
