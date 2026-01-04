@@ -11,6 +11,7 @@ data:
         issuer: 'https://pocketid.kyledev.co'
         clientID: 7e697ce9-a9ae-4fae-9782-bb2f575d65a8
         clientSecret: $oidc.pocketid.clientSecret
+        insecureEnableGroups: true
         scopes:
           - openid
           - profile
