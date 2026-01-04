@@ -16,7 +16,6 @@ data:
           - profile
           - email
           - groups
-        getUserInfo: true
         userNameKey: preferred_username
         overrideClaimMapping: true
         claimMapping:
@@ -25,8 +24,6 @@ data:
           name: name
           groups: groups
         admin.enabled: 'true'
-  accounts.image-updater: apiKey
-  accounts.backstage: login, apiKey
   accounts.readonly-user: login, apiKey
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
