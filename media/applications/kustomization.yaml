@@ -10,6 +10,6 @@ resources:
   - transmission.yaml
   - plex.yaml
   - prowlarr.yaml
-  - flaresolverr.yaml
+  # - flaresolverr.yaml
   - mediaz.yaml
   - securitypolicy.yaml
