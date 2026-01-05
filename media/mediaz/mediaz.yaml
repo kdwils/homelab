@@ -31,8 +31,8 @@ data:
     storage:
       filePath: /app/data/db.sqlite
     library:
-      movie: /movies
-      tv: /tv
+      movie: /media/movies
+      tv: /media/tv
     server:
       port: 8080
 ---
@@ -148,15 +148,8 @@ spec:
             - mountPath: /app/config.yaml
               name: config
               subPath: config.yaml
-            - mountPath: /downloads
+            - mountPath: /media
               name: media
-              subPath: downloads
-            - mountPath: /tv
-              name: media
-              subPath: tv
-            - mountPath: /movies
-              name: media
-              subPath: movies
       volumes:
         - name: config
           configMap:
