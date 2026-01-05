@@ -149,9 +149,9 @@ spec:
             - mountPath: /app/config.yaml
               name: config
               subPath: config.yaml
-            - mountPath: /downloads/transmission
+            - mountPath: /downloads
               name: media
-              subPath: downloads/transmission
+              subPath: downloads
             - mountPath: /tv
               name: media
               subPath: tv
