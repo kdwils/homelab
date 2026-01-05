@@ -31,7 +31,6 @@ data:
     storage:
       filePath: /app/data/db.sqlite
     library:
-      downloadMountDir: /downloads/transmission
       movie: /movies
       tv: /tv
     server:
