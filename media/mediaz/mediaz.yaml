@@ -26,8 +26,6 @@ metadata:
 data:
   config.yaml: |
     configFilePath: /app/config.yaml
-    prowlarr:
-      uri: http://prowlarr:80
     storage:
       filePath: /app/data/db.sqlite
     library:
