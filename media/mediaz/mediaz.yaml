@@ -127,10 +127,8 @@ spec:
           env:
             - name: MEDIAZ_CONFIGFILEPATH
               value: /app/config.yaml
-            - name: JSON_LOG
-              value: "true"
             - name: LOG_LEVEL
-              value: debug
+              value: info
             - name: MEDIAZ_PROWLARR_APIKEY
               valueFrom:
                 secretKeyRef:
