@@ -27,9 +27,6 @@ spec:
     - chart:
         repoURL: https://nats-io.github.io/k8s/helm/charts/
         name: nats
-    - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -72,16 +69,6 @@ spec:
               value: https://nats-io.github.io/k8s/helm/charts/
             - name: chartName
               value: nats-operator
-        - task:
-            name: helm-update-single-chart
-            kind: ClusterPromotionTask
-          vars:
-            - name: chartPath
-              value: charts/nats
-            - name: chartRepo
-              value: https://kdwils.github.io/helm-charts
-            - name: chartName
-              value: homelab-chart
         - task:
             name: git-ops-commit-pr
             kind: ClusterPromotionTask
