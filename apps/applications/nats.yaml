@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nats
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: nats:homelab
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: nats-io
+    server: "https://kubernetes.default.svc"
+  source:
+    path: apps/nats/environments
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: apps/nats/homelab
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

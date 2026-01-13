@@ -6,6 +6,7 @@ resources:
   - kargo.yaml
   - mealie.yaml
   - minio.yaml
+  - nats.yaml
   - pocketid.yaml
   - vaultwarden.yaml
   - rss.yaml
