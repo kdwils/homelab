@@ -34,7 +34,7 @@ spec:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:monitoring/nats/environments/**
+          - glob:apps/nats/environments/**
           - glob:charts/nats/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -113,13 +113,13 @@ spec:
         - name: chartPath
           value: charts/nats
         - name: targetBranch
-          value: infra/nats/homelab
+          value: apps/nats/homelab
         - name: projectName
           value: nats
         - name: environmentsPath
-          value: infra/nats/environments/homelab
+          value: apps/nats/environments/homelab
         - name: valuesFilePath
-          value: infra/nats/environments/homelab/homelab.yaml
+          value: apps/nats/environments/homelab/homelab.yaml
         - name: appName
           value: nats
         - name: namespace

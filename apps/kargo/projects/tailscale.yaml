@@ -34,7 +34,7 @@ spec:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:monitoring/tailscale/environments/**
+          - glob:infra/tailscale/environments/**
           - glob:charts/tailscale/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
