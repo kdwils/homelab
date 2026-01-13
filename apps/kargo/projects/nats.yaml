@@ -7,7 +7,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: nats
-  namespace: nats-io
+  namespace: nats
 spec:
   promotionPolicies:
     - stageSelector:
@@ -21,7 +21,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: nats
-  namespace: nats-io
+  namespace: nats
 spec:
   subscriptions:
     - chart:
@@ -41,7 +41,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: main
-  namespace: nats-io
+  namespace: nats
 spec:
   requestedFreight:
     - origin:
@@ -98,7 +98,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: homelab
-  namespace: nats-io
+  namespace: nats
 spec:
   requestedFreight:
     - origin:

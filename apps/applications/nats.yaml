@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: nats-io
+    namespace: nats
     server: "https://kubernetes.default.svc"
   source:
     path: apps/nats/environments

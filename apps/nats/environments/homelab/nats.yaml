@@ -26,7 +26,7 @@ nats:
   # override full name of the chart+release
   fullnameOverride:
   # override the namespace that resources are installed into
-  namespaceOverride:
+  namespaceOverride: nats
 
   # reference a common CA Certificate or Bundle in all nats config `tls` blocks and nats-box contexts
   # note: `tls.verify` still must be set in the appropriate nats config `tls` blocks to require mTLS
