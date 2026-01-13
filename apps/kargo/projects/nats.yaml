@@ -106,7 +106,7 @@ spec:
         - name: environmentsPath
           value: apps/nats/environments/homelab
         - name: valuesFilePath
-          value: apps/nats/environments/homelab/homelab.yaml
+          value: apps/nats/environments/homelab/nats.yaml
         - name: appName
           value: nats
         - name: namespace
