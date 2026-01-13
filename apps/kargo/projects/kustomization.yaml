@@ -7,10 +7,10 @@ resources:
   - byparr.yaml
   - cloudflared.yaml
   - envoy-proxy-bouncer.yaml
-  # - excalidraw.yaml
   - homelab-chart.yaml
   - longhorn.yaml
   - mealie.yaml
+  - nats.yaml
   - overseerr.yaml
   - plex.yaml
   - pocketid.yaml

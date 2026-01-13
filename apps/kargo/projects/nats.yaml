@@ -1,0 +1,132 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: nats
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: nats
+  namespace: nats-io
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: nats
+  namespace: nats-io
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://nats-io.github.io/k8s/helm/charts/
+        name: nats
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:monitoring/nats/environments/**
+          - glob:charts/nats/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: nats-io
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: nats
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: nats
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/nats
+            - name: chartRepo
+              value: https://nats-io.github.io/k8s/helm/charts/
+            - name: chartName
+              value: nats-operator
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/nats
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update nats chart dependencies
+            - name: prTitle
+              value: "Update nats chart dependencies"
+            - name: prDescription
+              value: Update nats chart dependencies
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: nats-io
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: nats
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: chartPath
+          value: charts/nats
+        - name: targetBranch
+          value: infra/nats/homelab
+        - name: projectName
+          value: nats
+        - name: environmentsPath
+          value: infra/nats/environments/homelab
+        - name: valuesFilePath
+          value: infra/nats/environments/homelab/homelab.yaml
+        - name: appName
+          value: nats
+        - name: namespace
+          value: nats
+        - name: includeCRDs
+          value: "true"
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask
