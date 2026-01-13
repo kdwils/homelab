@@ -68,7 +68,7 @@ spec:
             - name: chartRepo
               value: https://nats-io.github.io/k8s/helm/charts/
             - name: chartName
-              value: nats-operator
+              value: nats
         - task:
             name: git-ops-commit-pr
             kind: ClusterPromotionTask
