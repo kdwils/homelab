@@ -74,7 +74,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/blog:1.0.6"
+          image: "ghcr.io/kdwils/blog:1.0.7"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
