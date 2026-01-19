@@ -10,7 +10,7 @@ bluesky:
 
     image:
       repository: ghcr.io/bluesky-social/pds
-      tag: 0.4.193
+      tag: 0.4.204
       pullPolicy: IfNotPresent
 
     env:
