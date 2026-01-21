@@ -1,0 +1,98 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: envoy-proxy-gatekeeper
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: envoy-proxy-gatekeeper
+  namespace: envoy-proxy-gatekeeper
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: homelab
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: envoy-proxy-gatekeeper
+  namespace: envoy-proxy-gatekeeper
+spec:
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/kdwils/envoy-proxy-gatekeeper
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:monitoring/envoy-proxy-gatekeeper/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: envoy-proxy-gatekeeper
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: envoy-proxy-gatekeeper
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: envoy-proxy-gatekeeper
+        - name: imageRepo
+          value: ghcr.io/kdwils/envoy-proxy-gatekeeper
+        - name: valuesFilePath
+          value: monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: envoy-proxy-gatekeeper.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: homelab
+  namespace: envoy-proxy-gatekeeper
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: envoy-proxy-gatekeeper
+      sources:
+        stages:
+          - main
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: monitoring/envoy-proxy-gatekeeper/staging
+        - name: projectName
+          value: envoy-proxy-gatekeeper
+        - name: environmentsPath
+          value: monitoring/envoy-proxy-gatekeeper/environments/homelab
+        - name: valuesFilePath
+          value: monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
+        - name: appName
+          value: envoy-proxy-gatekeeper
+        - name: namespace
+          value: envoy-proxy-gatekeeper
+      steps:
+        - task:
+            name: render-and-pr-helm
+            kind: ClusterPromotionTask

@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: envoy-proxy-gatekeeper
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: envoy-proxy-gatekeeper:homelab
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: envoy-gateway-system
+    server: "https://kubernetes.default.svc"
+  source:
+    path: monitoring/envoy-proxy-gatekeeper/environments
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: monitoring/envoy-proxy-gatekeeper/homelab
+  sources: []
+  project: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
