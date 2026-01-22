@@ -31,7 +31,7 @@ spec:
       allowedRoutes:
         kinds:
           - kind: HTTPRoute
-    - name: tls
+    - name: nats
       protocol: TLS
       port: 4222
       tls:
