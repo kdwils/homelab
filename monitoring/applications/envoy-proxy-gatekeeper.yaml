@@ -14,7 +14,7 @@ spec:
   source:
     path: monitoring/envoy-proxy-gatekeeper/environments
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: monitoring/envoy-proxy-gatekeeper/homelab
+    targetRevision: monitoring/envoy-proxy-gatekeeper/staging
   sources: []
   project: monitoring
   syncPolicy:
