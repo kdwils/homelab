@@ -31,12 +31,15 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: nats-tls-int
+    - name: tls
       protocol: TLS
-      port: 4222
-      hostname: "nats.int.kyledev.co"
+      port: 443
       tls:
-        mode: Passthrough
+        mode: Terminate
+        certificateRefs:
+          - name: kyledev-tls
+            kind: Secret
+            group: ""
       allowedRoutes:
         namespaces:
           from: All
