@@ -16,8 +16,8 @@ spec:
       port: 443
       hostname: "*.kyledev.co"
       allowedRoutes:
-        namespaces:
-          from: All
+        kinds:
+          - kind: HTTPRoute
       tls:
         mode: Terminate
         certificateRefs:
@@ -29,15 +29,15 @@ spec:
       port: 80
       hostname: "*.kyledev.co"
       allowedRoutes:
-        namespaces:
-          from: All
-    - name: nats
+        kinds:
+          - kind: HTTPRoute
+    - name: tls
       protocol: TLS
       port: 4222
       tls:
         mode: Terminate
         certificateRefs:
           - name: kyledev-tls
-      allowedRoutes:
-        namespaces:
-          from: All
+        allowedRoutes:
+          kinds:
+            - kind: TCPRoute
