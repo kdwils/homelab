@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - constellation.yaml
   - envoy-bouncer.yaml
-  - envoy-proxy-gatekeeper.yaml
+  # - envoy-proxy-gatekeeper.yaml
   - namespace.yaml
   - crowdsec.yaml
   - vpa.yaml
