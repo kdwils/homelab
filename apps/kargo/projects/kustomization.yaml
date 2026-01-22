@@ -7,7 +7,7 @@ resources:
   - byparr.yaml
   - cloudflared.yaml
   - envoy-proxy-bouncer.yaml
-  - envoy-proxy-gatekeeper.yaml
+  # - envoy-proxy-gatekeeper.yaml
   - homelab-chart.yaml
   - longhorn.yaml
   - mealie.yaml
