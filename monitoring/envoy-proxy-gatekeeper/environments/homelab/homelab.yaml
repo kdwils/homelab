@@ -31,7 +31,7 @@ envoy-proxy-gatekeeper:
 
   service:
     create: true
-    type: Service
+    type: ClusterIP
     ports:
       - name: grpc
         port: 8081
