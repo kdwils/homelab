@@ -16,6 +16,8 @@ spec:
       port: 443
       hostname: "*.kyledev.co"
       allowedRoutes:
+        namespaces:
+          from: All
         kinds:
           - kind: HTTPRoute
       tls:
@@ -29,6 +31,8 @@ spec:
       port: 80
       hostname: "*.kyledev.co"
       allowedRoutes:
+        namespaces:
+          from: All
         kinds:
           - kind: HTTPRoute
     - name: nats
