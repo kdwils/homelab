@@ -10,7 +10,7 @@ envoy-proxy-gatekeeper:
 
     image:
       repository: ghcr.io/kdwils/envoy-proxy-gatekeeper
-      tag: sha-4f1072af362d7fef19b89d0ba86bd788faa3e622
+      tag: v0.0.1
       pullPolicy: IfNotPresent
 
     env:
