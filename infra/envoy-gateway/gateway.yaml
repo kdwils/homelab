@@ -34,10 +34,14 @@ spec:
     - name: nats
       protocol: TLS
       port: 4222
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - kind: TCPRoute
       tls:
         mode: Terminate
         certificateRefs:
           - name: kyledev-tls
-        allowedRoutes:
-          kinds:
-            - kind: TCPRoute
+            kind: Secret
+            group: ""
