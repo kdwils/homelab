@@ -1,0 +1,147 @@
+---
+# Source: homelab/charts/envoy-proxy-gatekeeper/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: envoy-proxy-gatekeeper
+  labels:
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.6
+    app.kubernetes.io/name: envoy-proxy-gatekeeper
+    app.kubernetes.io/instance: envoy-proxy-gatekeeper
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/envoy-proxy-gatekeeper/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy-proxy-gatekeeper
+  labels:
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.6
+    app.kubernetes.io/name: envoy-proxy-gatekeeper
+    app.kubernetes.io/instance: envoy-proxy-gatekeeper
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8081
+      targetPort: 8080
+      protocol: TCP
+      name: grpc
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: envoy-proxy-gatekeeper
+    app.kubernetes.io/instance: envoy-proxy-gatekeeper
+---
+# Source: homelab/charts/envoy-proxy-gatekeeper/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy-proxy-gatekeeper
+  labels:
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.6
+    app.kubernetes.io/name: envoy-proxy-gatekeeper
+    app.kubernetes.io/instance: envoy-proxy-gatekeeper
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: envoy-proxy-gatekeeper
+      app.kubernetes.io/instance: envoy-proxy-gatekeeper
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: envoy-proxy-gatekeeper-0.1.6
+        app.kubernetes.io/name: envoy-proxy-gatekeeper
+        app.kubernetes.io/instance: envoy-proxy-gatekeeper
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: envoy-proxy-gatekeeper
+      securityContext:
+        {}
+      containers:
+        - name: envoy-proxy-gatekeeper
+          image: "ghcr.io/kdwils/envoy-proxy-gatekeeper:v0.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 8080
+              protocol: TCP
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: GATEKEEPER_CAPTCHA_CHALLENGEDURATION
+              value: "5m"
+            - name: GATEKEEPER_CAPTCHA_COOKIEDOMAIN
+              value: "kyledev.co"
+            - name: GATEKEEPER_CAPTCHA_COOKIENAME
+              value: "kyledev.co"
+            - name: GATEKEEPER_CAPTCHA_PROVIDER
+              value: "turnstile"
+            - name: GATEKEEPER_CAPTCHA_SESSIONDURATION
+              value: "6h"
+            - name: GATEKEEPER_CAPTCHA_SITEKEY
+              value: "0x4AAAAAAB1bbQbIpIhvAYwl"
+            - name: GATEKEEPER_LOGLEVEL
+              value: "debug"
+            - name: GATEKEEPER_SERVER_GRPCPORT
+              value: "8081"
+            - name: GATEKEEPER_SERVER_HOST
+              value: "gatekeeper.int.kyledev.co"
+            - name: GATEKEEPER_SERVER_HTTPPORT
+              value: "8080"
+          envFrom:
+            - secretRef:
+                name: envoy-proxy-gateway
+---
+# Source: homelab/charts/envoy-proxy-gatekeeper/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: gatekeeper-int
+  labels:
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.6
+    app.kubernetes.io/name: envoy-proxy-gatekeeper
+    app.kubernetes.io/instance: envoy-proxy-gatekeeper
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "gatekeeper.int.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: envoy-proxy-gatekeeper
+        port: 8080
+---
+# Source: homelab/charts/envoy-proxy-gatekeeper/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: envoy-proxy-gatekeeper
+  namespace: envoy-proxy-gatekeeper
+spec:
+  encryptedData:
+    GATEWAY_CAPTCHA_SECRETKEY: AgABLXPxdKpGvLEMh70q4Nz4vs/VUWG0BgPScey9pQ/WZ07DOyUW5bBVGx+vFNUa+pOsUyee6ngHHvWXDLtVJH2c+WkF+S/RIK1peJGqxX3TkfWQWiGFyZ2YknPT5uzaKrkl593IkSvxKFRWw6hEu4sZJc5eqTORF02uLc6+X+BW4EtJ3F4Ys2WOrGx/Yk3mUQdzIxV4OUqBaWx/80OpXBSXItsZ2NjstlUZ3gq+dOEw/AT2mIc+1/RuAocP93GrDIU5t/78LG439QhvKq//7lFH4q6kc9Xok4j48d73n2Rzh8Xdm0cbFbfJcCcURnvQZ9qErOOeCgVLOsRrOOazNvozXKoDH/VWVCWWxyQ3lWXt1pf+0/XJXBDKrrbE8CsyLOAN5CNIpXvf3y0WSYkBWOWMTM5BflvFZb+nsw4dn7cY2Yo+HsIcv0Skwn6H9picO49iTt0AmlJXqs7LxRlK2zRdvKQA6pz27Ti6UhZ34vD+aQmp302kisZFKrCctPAzP1NRm6sXH6YgU5Kjixa6xTV5R6VrsuistoVSN8uLNOfgGQ66vfW8jwbhP8OPSmCGPRFAKv5HjCzRVHC+Phjb/jNNIWCiFTBa65cNLSJMrtS4eF7I8QOUA5OIutdB58CiQD4wnXeL2ixN6ZDZFW79o+OLBDreFQnjeHr6lNrFPWEfBgXAHrDzEs/r5ukf9zc8tAL4vbEqVr8ebwCFlYJob0Rhowz5Ct2+Tf9UH/bS8lSciLguYQ==
+    GATEWAY_CAPTCHA_SIGNINGKEY: AgDGxvG1AMHSRt2C0ktFtVYznOoyGDD1Jy8vy5ay6XG4TW2YKLp6/CFY8PExqdsXwoviiv3RsvFxin4hfFBooNMNwcXZ+tdbg6+p1eW5knyUkFET7T5Hl4PpNFbGRhwqwLcWiQURvXh/TrG1mG0eI9UckLvjtQ6cj4ehBsgR195yIuu6AsosVcCdzse/rhWS0e450LtZNr0r8dOk3f7ZEn37MUBGrZhqHenKrrX6M/D8P+ReDz8+TBq9+K8cH3/5KLqTwoODSXQ0SNXwBCddyFXSRnK5pyO13xFKfn7npMyfaZh0pjzuvNjpehcCb7fpAXf5dJ+mwiQzKAnYMzXp6no2ggQHSAjOLbDRdQhHFicBArGrvoqjhEmwUsg4SomgdsPQcuE+VHKuCSNoxZ9fWGEYom1aN2bHPY4B1pT+RiP791yvGiPMyh2sLr9vI3r+aBaq1ismEnhoUfmAtPPxz5QUTV+DkuSpGB1PQFB25eAeSHEVRJDTkz0o+KHVB+So/Ho2fzsoZyTvK+4HvYWEMwhmuMMIq7+Qiw5lbIC3MJ9T6G/O56BJ8jIcySLqIMiBmcJQvi+uJ3eBXgimQEVRQGfsrctDrLOszGoyhbW7dtUUjne4QAzNxjHSJV+1NKGU7cGmFAwSrxaNl9OjRJwwrVPnzwsaHLXMtG9ifkajZqFIMziOG+ZgH+VdK9uAm6XdHhIdiQwAlJXQYeboP7fe4kHSNV9A/uzpg/9+3L2b/nSA7toe0k9ZIkPId7bME/ayfD4kmf4cL7m8ZistEz1WtBZj
+    GATEWAY_TRUSTEDPROXIES: AgCwR4KUrpH9rnh37IYTh7rwn3VO5s3AFTDebhoE9G3UgLmmjCAP+fmIctf4Ydql63o7DVz8edf3aXiPLAbltMoovdxjTkvqB/vldaa+qVLdnZJV2FQMuJaeFrUOgr0o77RuoTmlEE+St+bvjJDYsDp1zXwuwdqJUWV4lOCIaRww6WGj75vKvtfc0aBjyByI/ZMTAhMIHNJ8jUevxVHEKgKNP+gU5UzGByHTOkJqbMG2AevPIi7DVpYFpiqFmdR/YT6712bTATbLfzJzhoLYMGmTSUUC8h2jTJ+QO6GBmuYswDvZM6Q7RtOUiY6/iQOkuxhIX/VYbWENARw9F/ell2yAtgLfDoO8P6XiH/KvZwawrpGRQMEbzzdZ2gbVwgcxZPGgV85kMUOWo1XAisfFq0p+H/+OLHzUNF+neANno0CBVpCCPwAqV41P3DtAtU+OJtFvRtCiS2hWC1jpHUpHOZhLz91OLzR+Fdh4JVokGy6TIIrgUROH8hpom4giophz1EbTwAuPr2bb1U9m4ZE7ovqH+Kg5smmfFc4sNZehEEgtkkR9VHmsvccR2wcVD44snyqiTDmN/wPwuxJBd+5koEt80phgnmeSDN6eUzbEAwyjZqene94wAYoP3a0UdkjdSD8lGOLU7wqAXDSXHonrF9621RSua17JSBf2LXxVnIcXrRHYMkEVDNaGhf9T/+65qz8sJZln3pzlfRv9iaA=
+  template:
+    type: Opaque
+    metadata:
+      name: envoy-proxy-gatekeeper
+      namespace: envoy-proxy-gatekeeper
