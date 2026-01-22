@@ -82,7 +82,7 @@ spec:
     spec:
       vars:
         - name: targetBranch
-          value: monitoring/envoy-proxy-gatekeeper/homelab
+          value: monitoring/envoy-proxy-gatekeeper/staging
         - name: projectName
           value: envoy-proxy-gatekeeper
         - name: environmentsPath
