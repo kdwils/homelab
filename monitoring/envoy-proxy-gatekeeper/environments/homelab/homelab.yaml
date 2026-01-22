@@ -27,7 +27,7 @@ envoy-proxy-gatekeeper:
 
     envFrom:
       - secretRef:
-          name: envoy-proxy-gateway
+          name: envoy-proxy-gatekeeper
 
   service:
     create: true
