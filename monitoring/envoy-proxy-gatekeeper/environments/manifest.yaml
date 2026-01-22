@@ -103,7 +103,7 @@ spec:
               value: "8080"
           envFrom:
             - secretRef:
-                name: envoy-proxy-gateway
+                name: envoy-proxy-gatekeeper
 ---
 # Source: homelab/charts/envoy-proxy-gatekeeper/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
