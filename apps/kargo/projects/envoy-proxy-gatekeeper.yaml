@@ -26,7 +26,7 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/envoy-proxy-gatekeeper
-        constraint: *
+        constraint: "*"
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
