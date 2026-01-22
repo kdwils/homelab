@@ -14,10 +14,6 @@ spec:
       port: 80
       protocol: TCP
       targetPort: 10080
-    - name: tls
-      port: 4222
-      protocol: TCP
-      targetPort: 10443
   selector:
     app.kubernetes.io/component: proxy
     app.kubernetes.io/managed-by: envoy-gateway
