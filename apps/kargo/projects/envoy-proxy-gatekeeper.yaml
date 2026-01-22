@@ -92,7 +92,7 @@ spec:
         - name: appName
           value: envoy-proxy-gatekeeper
         - name: namespace
-          value: envoy-proxy-gatekeeper
+          value: envoy-gateway-system
       steps:
         - task:
             name: render-and-pr-helm
