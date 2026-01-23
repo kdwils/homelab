@@ -83,7 +83,7 @@ spec:
     spec:
       vars:
         - name: targetBranch
-          value: apps/events/staging
+          value: apps/events/homelab
         - name: projectName
           value: events
         - name: environmentsPath
