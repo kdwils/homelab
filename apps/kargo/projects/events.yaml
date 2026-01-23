@@ -27,7 +27,6 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/events
-        semverConstraint: ^1.0.0
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
