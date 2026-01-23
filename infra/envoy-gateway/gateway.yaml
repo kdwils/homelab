@@ -43,6 +43,6 @@ spec:
         namespaces:
           from: All
         kinds:
-          - kind: TCPRoute
+          - kind: TLSRoute
       tls:
         mode: Passthrough
