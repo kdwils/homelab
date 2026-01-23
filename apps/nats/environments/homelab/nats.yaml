@@ -1,23 +1,25 @@
 homelab:
-  # certificate:
-  #   create: true
-  #   certificates:
-  #     - name: nats-tls
-  #       secretName: nats-tls-secret
-  #       issuerRef:
-  #         name: letsencrypt-prod
-  #         kind: ClusterIssuer
-  #       dnsNames:
-  #         - nats.kyledev.co
-  #         - nats.int.kyledev.co
-  #       duration: 2160h
-  #       renewBefore: 360h
+  certificate:
+    create: true
+    certificates:
+      - name: nats-tls
+        secretName: nats-tls-secret
+        issuerRef:
+          name: letsencrypt-prod
+          kind: ClusterIssuer
+        dnsNames:
+          - nats.kyledev.co
+          - nats.int.kyledev.co
+        duration: 2160h
+        renewBefore: 360h
 
-  tcproute:
+  tlsroute:
     create: true
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
+    hostnames:
+      - nats.int.kyledev.co
     rules:
       - backendRefs:
           - name: nats
@@ -145,7 +147,7 @@ nats:
     nats:
       port: 4222
       tls:
-        enabled: false
+        enabled: true
         # set secretName in order to mount an existing secret to dir
         secretName: nats-tls-secret
         dir: /etc/nats-certs/nats
