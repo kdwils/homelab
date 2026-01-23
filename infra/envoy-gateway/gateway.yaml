@@ -35,11 +35,18 @@ spec:
           from: All
         kinds:
           - kind: HTTPRoute
-    - name: nats
-      protocol: TCP
-      port: 4222
+    - name: tls
+      protocol: TLS
+      port: 443
+      hostname: "*.kyledev.co"
       allowedRoutes:
         namespaces:
           from: All
         kinds:
           - kind: TCPRoute
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kyledev-tls
+            kind: Secret
+            group: ""
