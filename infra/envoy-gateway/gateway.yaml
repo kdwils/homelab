@@ -43,9 +43,9 @@ spec:
         namespaces:
           from: All
         kinds:
-          - kind: TCPRoute
+          - kind: TLSRoute
       tls:
-        mode: Terminate
+        mode: Passthrough
         certificateRefs:
           - name: kyledev-tls
             kind: Secret
