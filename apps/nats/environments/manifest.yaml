@@ -380,6 +380,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "nats.int.kyledev.co"
+    - "nats.kyledev.co"
   rules:
     - backendRefs:
       - name: nats
