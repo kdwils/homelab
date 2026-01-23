@@ -10,7 +10,7 @@ events:
 
     image:
       repository: ghcr.io/kdwils/events
-      tag: v0.0.1
+      tag: v0.0.2
       pullPolicy: IfNotPresent
 
     env:
