@@ -347,7 +347,7 @@ metadata:
   name: nats-tls
   namespace: nats
   labels:
-    helm.sh/chart: homelab-0.1.8
+    helm.sh/chart: homelab-0.1.9
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: nats
     app.kubernetes.io/version: "1.16.0"
@@ -363,13 +363,13 @@ spec:
   duration: 2160h
   renewBefore: 360h
 ---
-# Source: nats/charts/homelab/templates/tcproute.yaml
+# Source: nats/charts/homelab/templates/tlsroute.yaml
 apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TCPRoute
+kind: TLSRoute
 metadata:
   name: nats-homelab
   labels:
-    helm.sh/chart: homelab-0.1.8
+    helm.sh/chart: homelab-0.1.9
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: nats
     app.kubernetes.io/version: "1.16.0"
