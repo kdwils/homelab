@@ -26,8 +26,9 @@ spec:
   interval: "1h0m0s"
   subscriptions:
     - image:
-        repoURL: ghcr.io/kdwils/events
-        commitSelectionStrategy: NewestTag
+        repoURL: ghcr.io/sct/overseerr
+        constraint: ^0.0.0
+        strictSemvers: false
         discoveryLimit: 5
     - git:
         repoURL: https://github.com/kdwils/homelab.git
