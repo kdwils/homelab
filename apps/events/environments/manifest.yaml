@@ -82,9 +82,18 @@ spec:
     spec:
       serviceAccountName: events
       securityContext:
-        {}
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
         - name: events
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
           image: "ghcr.io/kdwils/events:v0.0.3"
           imagePullPolicy: IfNotPresent
           ports:
