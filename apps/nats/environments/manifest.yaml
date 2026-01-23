@@ -361,7 +361,6 @@ spec:
     - "nats.kyledev.co"
     - "nats.int.kyledev.co"
     - "nats.nats.svc.cluster.local"
-    - "nats"
   duration: 2160h
   renewBefore: 360h
 ---
