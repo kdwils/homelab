@@ -27,8 +27,9 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/events
-        constraint: "*"
-        strictSemvers: false
+        semverConstraint: ""
+        allowTags: "^sha-[a-f0-9]{40}$"
+        discoveryLimit: 20
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
