@@ -27,6 +27,8 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/events
+        allowTags: ^sha-[0-9a-f]{40}$
+        commitSelectionStrategy: NewestTag
         discoveryLimit: 5
     - git:
         repoURL: https://github.com/kdwils/homelab.git
