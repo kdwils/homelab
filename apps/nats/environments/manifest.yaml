@@ -360,7 +360,6 @@ spec:
   dnsNames:
     - "nats.kyledev.co"
     - "nats.int.kyledev.co"
-    - "nats.nats.svc.cluster.local"
   duration: 2160h
   renewBefore: 360h
 ---
