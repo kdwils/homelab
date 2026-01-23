@@ -378,6 +378,8 @@ spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
+  hostnames:
+    - "nats.int.kyledev.co"
   rules:
     - backendRefs:
       - name: nats
