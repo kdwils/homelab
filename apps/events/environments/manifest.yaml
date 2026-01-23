@@ -94,7 +94,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/events:v0.0.3"
+          image: "ghcr.io/kdwils/events:v0.0.4"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -142,6 +142,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "events.int.kyledev.co"
+    - "events.ts.kyldev.co"
   rules:
     - backendRefs:
       - group: ""
