@@ -85,7 +85,7 @@ spec:
         {}
       containers:
         - name: events
-          image: "ghcr.io/kdwils/events:v0.0.2"
+          image: "ghcr.io/kdwils/events:v0.0.3"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
