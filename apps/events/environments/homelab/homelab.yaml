@@ -1,0 +1,43 @@
+events:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicaCount: 1
+    deployStrategy: Recreate
+
+    image:
+      repository: ghcr.io/kdwils/events
+      tag: ""
+      pullPolicy: IfNotPresent
+
+    env:
+      EVENTS_LOGLEVEL: debug
+      EVENTS_NATS_HOST: nats.int.kyledev.co
+      EVENTS_NATS_SECURE: "true"
+      EVENTS_DB_FILE: db.sqlite
+
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - "events.int.kyledev.co"
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system

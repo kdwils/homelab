@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: events
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: events:homelab
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: events
+    server: "https://kubernetes.default.svc"
+  source:
+    path: apps/events/environments
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: apps/events/homelab
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
