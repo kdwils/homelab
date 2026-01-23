@@ -38,7 +38,6 @@ spec:
     - name: nats-tls
       protocol: TCP
       port: 4222
-      hostname: "*.kyledev.co"
       allowedRoutes:
         namespaces:
           from: All
