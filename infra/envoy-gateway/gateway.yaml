@@ -37,7 +37,7 @@ spec:
           - kind: HTTPRoute
     - name: tls
       protocol: TLS
-      port: 443
+      port: 4222
       hostname: "*.kyledev.co"
       allowedRoutes:
         namespaces:
