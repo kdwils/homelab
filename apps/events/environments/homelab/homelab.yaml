@@ -10,7 +10,7 @@ events:
 
     image:
       repository: ghcr.io/kdwils/events
-      tag: v0.0.4
+      tag: sha-5e621efe12fff7a37509783ecc507098a9a938b9
       pullPolicy: IfNotPresent
 
     env:
