@@ -117,7 +117,7 @@ spec:
             - name: EVENTS_LOGLEVEL
               value: "debug"
             - name: EVENTS_NATS_HOST
-              value: "nats.nats.svc.cluster.local"
+              value: "nats.int.kyledev.co"
             - name: EVENTS_NATS_SECURE
               value: "true"
       volumes:
