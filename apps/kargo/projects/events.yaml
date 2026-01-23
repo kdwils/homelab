@@ -26,13 +26,14 @@ spec:
   interval: "1h0m0s"
   subscriptions:
     - image:
-        repoURL: ghcr.io/sct/overseerr
-        constraint: ^0.0.0
+        repoURL: ghcr.io/kdwils/events
+        commitSelectionStrategy: NewestTag
+        allowTags: ^sha-.*
         strictSemvers: false
-        discoveryLimit: 5
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
+        strictSemvers: false
         includePaths:
           - glob:apps/events/environments/**
           - glob:charts/homelab/**
