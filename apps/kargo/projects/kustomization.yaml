@@ -9,6 +9,7 @@ resources:
   - envoy-proxy-bouncer.yaml
   - envoy-proxy-gatekeeper.yaml
   - events.yaml
+  - homelab-coordinator.yaml
   - homelab-chart.yaml
   - longhorn.yaml
   - mealie.yaml

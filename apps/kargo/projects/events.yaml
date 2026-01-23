@@ -13,9 +13,6 @@ spec:
     - stageSelector:
         name: main
       autoPromotionEnabled: true
-    - stageSelector:
-        name: homelab
-      autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
@@ -64,37 +61,4 @@ spec:
       steps:
         - task:
             name: update-source-main
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: homelab
-  namespace: events
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: events
-      sources:
-        stages:
-          - main
-  promotionTemplate:
-    spec:
-      vars:
-        - name: targetBranch
-          value: apps/events/homelab
-        - name: projectName
-          value: events
-        - name: environmentsPath
-          value: apps/events/environments/homelab
-        - name: valuesFilePath
-          value: apps/events/environments/homelab/homelab.yaml
-        - name: appName
-          value: events
-        - name: namespace
-          value: events
-      steps:
-        - task:
-            name: render-and-pr-helm
             kind: ClusterPromotionTask
