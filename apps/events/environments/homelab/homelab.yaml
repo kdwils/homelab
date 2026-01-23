@@ -19,6 +19,19 @@ events:
       EVENTS_NATS_SECURE: "true"
       EVENTS_DB_FILE: /data/db.sqlite
 
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
+
     resources:
       limits:
         cpu: 100m
