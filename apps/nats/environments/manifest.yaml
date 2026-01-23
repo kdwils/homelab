@@ -65,7 +65,11 @@ data:
       "lame_duck_grace_period": "10s",
       "pid_file": "/var/run/nats/nats.pid",
       "port": 4222,
-      "server_name": $SERVER_NAME
+      "server_name": $SERVER_NAME,
+      "tls": {
+        "cert_file": "/etc/nats-certs/nats/tls.crt",
+        "key_file": "/etc/nats-certs/nats/tls.key"
+      }
     }
 kind: ConfigMap
 metadata:
@@ -95,7 +99,7 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - appProtocol: tcp
+  - appProtocol: tls
     name: nats
     port: 4222
     targetPort: nats
@@ -128,7 +132,7 @@ metadata:
   namespace: nats
 spec:
   ports:
-  - appProtocol: tcp
+  - appProtocol: tls
     name: nats
     port: 4222
     targetPort: nats
@@ -294,11 +298,17 @@ spec:
           name: pid
         - mountPath: /data
           name: nats-js
+        - mountPath: /etc/nats-certs/nats
+          name: nats-tls
       - args:
         - -pid
         - /var/run/nats/nats.pid
         - -config
         - /etc/nats-config/nats.conf
+        - -config
+        - /etc/nats-certs/nats/tls.crt
+        - -config
+        - /etc/nats-certs/nats/tls.key
         image: natsio/nats-server-config-reloader:0.21.1
         name: reloader
         volumeMounts:
@@ -306,6 +316,8 @@ spec:
           name: pid
         - mountPath: /etc/nats-config
           name: config
+        - mountPath: /etc/nats-certs/nats
+          name: nats-tls
       enableServiceLinks: false
       shareProcessNamespace: true
       terminationGracePeriodSeconds: 60
@@ -315,6 +327,9 @@ spec:
         name: config
       - emptyDir: {}
         name: pid
+      - name: nats-tls
+        secret:
+          secretName: nats-tls-secret
   volumeClaimTemplates:
   - metadata:
       name: nats-js
@@ -324,6 +339,49 @@ spec:
       resources:
         requests:
           storage: 10Gi
+---
+# Source: nats/charts/homelab/templates/certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nats-tls
+  namespace: nats
+  labels:
+    helm.sh/chart: homelab-0.1.8
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: nats
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  secretName: nats-tls-secret
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - "nats.kyledev.co"
+    - "nats.int.kyledev.co"
+  duration: 2160h
+  renewBefore: 360h
+---
+# Source: nats/charts/homelab/templates/tcproute.yaml
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: nats-homelab
+  labels:
+    helm.sh/chart: homelab-0.1.8
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: nats
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  rules:
+    - backendRefs:
+      - name: nats
+        port: 4222
 ---
 # Source: nats/charts/nats/templates/tests/request-reply.yaml
 apiVersion: v1
