@@ -46,7 +46,3 @@ spec:
           - kind: TLSRoute
       tls:
         mode: Passthrough
-        certificateRefs:
-          - name: kyledev-tls
-            kind: Secret
-            group: ""
