@@ -36,13 +36,10 @@ spec:
         kinds:
           - kind: HTTPRoute
     - name: nats
-      protocol: TLS
+      protocol: TCP
       port: 4222
-      hostname: "*.kyledev.co"
       allowedRoutes:
         namespaces:
           from: All
         kinds:
-          - kind: TLSRoute
-      tls:
-        mode: Passthrough
+          - kind: TCPRoute
