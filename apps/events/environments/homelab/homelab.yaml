@@ -17,7 +17,7 @@ events:
       EVENTS_LOGLEVEL: debug
       EVENTS_NATS_HOST: nats.nats.svc.cluster.local
       EVENTS_NATS_SECURE: "true"
-      EVENTS_DB_FILE: db.sqlite
+      EVENTS_DB_FILE: /data/db.sqlite
 
     resources:
       limits:
@@ -41,3 +41,12 @@ events:
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
+
+  pvc:
+    create: true
+    pvcs:
+      - name: events-data-pvc
+        size: 10Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce
+        mountPath: /data
