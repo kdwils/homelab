@@ -1,0 +1,141 @@
+---
+# Source: homelab/charts/events/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: events
+  labels:
+    helm.sh/chart: events-0.1.9
+    app.kubernetes.io/name: events
+    app.kubernetes.io/instance: events
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/events/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: events-data-pvc
+  labels:
+    helm.sh/chart: events-0.1.9
+    app.kubernetes.io/name: events
+    app.kubernetes.io/instance: events
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+# Source: homelab/charts/events/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: events
+  labels:
+    helm.sh/chart: events-0.1.9
+    app.kubernetes.io/name: events
+    app.kubernetes.io/instance: events
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: events
+    app.kubernetes.io/instance: events
+---
+# Source: homelab/charts/events/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events
+  labels:
+    helm.sh/chart: events-0.1.9
+    app.kubernetes.io/name: events
+    app.kubernetes.io/instance: events
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: events
+      app.kubernetes.io/instance: events
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: events-0.1.9
+        app.kubernetes.io/name: events
+        app.kubernetes.io/instance: events
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: events
+      securityContext:
+        {}
+      containers:
+        - name: events
+          image: "ghcr.io/kdwils/events:v0.0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: /data
+              name: pvc-events-data-pvc
+              readOnly: false
+          env:
+            - name: EVENTS_DB_FILE
+              value: "/data/db.sqlite"
+            - name: EVENTS_LOGLEVEL
+              value: "debug"
+            - name: EVENTS_NATS_HOST
+              value: "nats.nats.svc.cluster.local"
+            - name: EVENTS_NATS_SECURE
+              value: "true"
+      volumes:
+        - name: pvc-events-data-pvc
+          persistentVolumeClaim:
+            claimName: events-data-pvc
+---
+# Source: homelab/charts/events/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: events
+  labels:
+    helm.sh/chart: events-0.1.9
+    app.kubernetes.io/name: events
+    app.kubernetes.io/instance: events
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "events.int.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: events
+        port: 8080
