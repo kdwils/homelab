@@ -363,9 +363,9 @@ spec:
   duration: 2160h
   renewBefore: 360h
 ---
-# Source: nats/charts/homelab/templates/tlsroute.yaml
+# Source: nats/charts/homelab/templates/tcproute.yaml
 apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TLSRoute
+kind: TCPRoute
 metadata:
   name: nats-homelab
   labels:
