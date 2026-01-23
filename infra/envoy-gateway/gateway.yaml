@@ -35,11 +35,11 @@ spec:
           from: All
         kinds:
           - kind: HTTPRoute
-    - name: nats-tls
+    - name: nats
       protocol: TCP
       port: 4222
       allowedRoutes:
         namespaces:
           from: All
         kinds:
-          - kind: TLSRoute
+          - kind: TCPRoute
