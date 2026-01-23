@@ -94,7 +94,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/events:v0.0.4"
+          image: "ghcr.io/kdwils/events:sha-435c3633577be244278d9e8dd99603835dcf3b6f"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
