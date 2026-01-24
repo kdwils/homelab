@@ -21,4 +21,3 @@ spec:
   sourceRepos:
     - https://github.com/kdwils/homelab.git
     - oci://docker.io/envoyproxy/gateway-helm
-    - oci://docker.io/envoyproxy/gateway-crds-helm

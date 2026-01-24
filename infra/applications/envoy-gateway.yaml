@@ -12,7 +12,7 @@ spec:
   sources:
     - repoURL: "oci://docker.io/envoyproxy/gateway-helm"
       chart: gateway-helm
-      targetRevision: v1.6.1
+      targetRevision: v1.6.2
       helm:
         valuesObject:
           config:
