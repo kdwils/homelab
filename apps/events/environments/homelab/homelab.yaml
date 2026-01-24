@@ -44,6 +44,7 @@ events:
       pullPolicy: IfNotPresent
 
     args:
+      - serve
       - --config=/app/config.yaml
 
     podSecurityContext:
