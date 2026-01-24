@@ -10,6 +10,7 @@ spec:
       name: myapp
   wasm:
     - name: traffic-plugin
+      failOpen: true
       rootID: envoy-events
       code:
         type: Image
