@@ -152,6 +152,7 @@ spec:
             - mountPath: /app/config.yaml
               name: configmap-config
               readOnly: true
+              subPath: config.yaml
       volumes:
         - name: pvc-events-data-pvc
           persistentVolumeClaim:
