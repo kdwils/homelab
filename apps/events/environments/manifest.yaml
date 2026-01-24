@@ -132,6 +132,7 @@ spec:
           image: "ghcr.io/kdwils/events:sha-2cc6bc04fd0473409c3dc99fad12ba34f8c952a6"
           imagePullPolicy: IfNotPresent
           args:
+            - serve
             - --config=/app/config.yaml
           ports:
             - name: http
