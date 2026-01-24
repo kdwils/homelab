@@ -1,32 +1,32 @@
 events:
   configmap:
     create: true
-  configmaps:
-    - name: config
-      mountPath: /app/config.yaml
-      readOnly: true
-      data:
-        logLevel: info
-        server:
-          port: 8080
-        db:
-          file: /data/db.sqlite
-        nats:
-          host: nats.int.kyledev.co
-          secure: true
-          enabled: true
-          jetstream:
+    configmaps:
+      - name: config
+        mountPath: /app/config.yaml
+        readOnly: true
+        data:
+          logLevel: info
+          server:
+            port: 8080
+          db:
+            file: /data/db.sqlite
+          nats:
+            host: nats.int.kyledev.co
+            secure: true
             enabled: true
-            streams:
-              - name: "events"
-                subjects:
-                  - "events.*"
-                storage: "file"
-            consumers:
-              - name: "events"
-                streamName: "events"
-                ackPolicy: "explicit"
-                deliverPolicy: "new"
+            jetstream:
+              enabled: true
+              streams:
+                - name: "events"
+                  subjects:
+                    - "events.*"
+                  storage: "file"
+              consumers:
+                - name: "events"
+                  streamName: "events"
+                  ackPolicy: "explicit"
+                  deliverPolicy: "new"
 
   serviceAccount:
     create: true
