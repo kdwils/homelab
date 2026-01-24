@@ -1,4 +1,6 @@
 events:
+  configmap:
+    create: true
   configmaps:
     - name: config
       mountPath: /app/config.yaml
