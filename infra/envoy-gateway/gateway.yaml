@@ -19,7 +19,8 @@ spec:
         namespaces:
           from: All
         kinds:
-          - kind: HTTPRoute
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
       tls:
         mode: Terminate
         certificateRefs:
@@ -34,7 +35,8 @@ spec:
         namespaces:
           from: All
         kinds:
-          - kind: HTTPRoute
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
     - name: nats
       protocol: TCP
       port: 4222
