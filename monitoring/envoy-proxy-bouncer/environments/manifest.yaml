@@ -64,14 +64,15 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
-      securityContext: {}
+      securityContext:
+        {}
       containers:
         - name: homelab-envoy-proxy-bouncer
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - all
+              - all
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
@@ -204,31 +205,31 @@ metadata:
   name: homelab-envoy-proxy-bouncer
 spec:
   from:
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: argocd
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: blog
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: bluesky
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: mealie
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: media
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: pocketid
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: vaultwarden
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: argocd
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: blog
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: bluesky
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: mealie
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: media
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: pocketid
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: vaultwarden
   to:
-    - group: ""
-      kind: Service
-      name: homelab-envoy-proxy-bouncer
+  - group: ""
+    kind: Service
+    name: homelab-envoy-proxy-bouncer
 ---
 # Source: envoy-proxy-bouncer/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
