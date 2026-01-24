@@ -36,28 +36,10 @@ homelab-envoy-proxy-bouncer:
         key: "apiKey"
 
     waf:
-      enabled: true
-      appSecURL: "http://crowdsec-appsec-service.crowdsec.svc.cluster.local:7422"
-      apiKeySecretRef:
-        name: "envoy-bouncer"
-        key: "apiKey"
+      enabled: false
 
     captcha:
-      enabled: true
-      provider: "turnstile"
-      siteKey: "0x4AAAAAAB1bbQbIpIhvAYwl"
-      secretKeySecretRef:
-        name: "envoy-bouncer"
-        key: "secretKey"
-      signingKeySecretRef:
-        name: "envoy-bouncer"
-        key: "signingKey"
-      timeout: "10s"
-      challengeDuration: "15m"
-      sessionDuration: "1h"
-      callbackURL: "https://bouncer.kyledev.co"
-      cookieDomain: ".kyledev.co"
-      secureCookie: true
+      enabled: false
 
   httproute:
     enabled: true
