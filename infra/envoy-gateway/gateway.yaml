@@ -44,4 +44,5 @@ spec:
         namespaces:
           from: All
         kinds:
-          - kind: TCPRoute
+          - group: gateway.networking.k8s.io
+            kind: TCPRoute
