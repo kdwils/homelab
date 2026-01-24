@@ -24,6 +24,7 @@ homelab-envoy-proxy-bouncer:
     trustedProxies:
       - 10.43.0.0/16
       - 10.42.0.0/16
+      - 74.98.232.127
     bouncer:
       enabled: true
       metrics: true
