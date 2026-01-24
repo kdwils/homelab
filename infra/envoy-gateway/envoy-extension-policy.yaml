@@ -6,8 +6,8 @@ metadata:
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: myapp
+      kind: Gateway
+      name: homelab
   wasm:
     - name: traffic-plugin
       failOpen: true
