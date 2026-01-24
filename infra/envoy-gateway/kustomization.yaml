@@ -1,8 +1,9 @@
 resources:
-  - https://github.com/envoyproxy/gateway/releases/download/v1.6.1/install.yaml
   - gatewayclass.yaml
   - gateway.yaml
   - proxy.yaml
   - certificate.yaml
   - policy.yaml
   - metallb.yaml
+  - envoy-patch-policy.yaml
+  - envoy-extension-policy.yaml

@@ -1,0 +1,26 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyExtensionPolicy
+metadata:
+  name: wasm-traffic-plugin
+  namespace: envoy-gateway-system
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: myapp
+  wasm:
+    - name: traffic-plugin
+      rootID: envoy-events
+      code:
+        type: Image
+        image:
+          url: ghcr.io/kdwils/envoy-wasm-traffic-plugin:sha-0741bb0b24626890f1bece8dcd8b6659489b527e
+      config:
+        webhook_cluster: "webhook_cluster"
+        webhook_authority: "events.events.svc.cluster.local"
+        webhook_path: "/api/v1/events/envoy-gateway/http_request"
+        headers:
+          - ":method"
+          - ":path"
+          - ":authority"
+          - "client_ip"

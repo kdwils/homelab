@@ -9,11 +9,19 @@ spec:
   destination:
     namespace: envoy-gateway-system
     server: "https://kubernetes.default.svc"
-  source:
-    path: infra/envoy-gateway
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
-  sources: []
+  sources:
+    - repoURL: "oci://docker.io/envoyproxy/gateway-helm"
+      chart: gateway-helm
+      targetRevision: v1.6.1
+      helm:
+        valuesObject:
+          config:
+            envoyGateway:
+              extensionApis:
+                enableEnvoyPatchPolicy: true
+    - repoURL: "https://github.com/kdwils/homelab"
+      path: infra/envoy-gateway
+      targetRevision: HEAD
   project: infra
   syncPolicy:
     automated:
