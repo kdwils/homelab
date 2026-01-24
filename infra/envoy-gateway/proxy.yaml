@@ -3,6 +3,8 @@ kind: EnvoyProxy
 metadata:
   name: tailscale-proxy
 spec:
+  extensionApis:
+    enableEnvoyPatchPolicy: true
   provider:
     type: "Kubernetes"
     kubernetes:
