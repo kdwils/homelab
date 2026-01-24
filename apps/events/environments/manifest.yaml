@@ -131,6 +131,8 @@ spec:
             readOnlyRootFilesystem: true
           image: "ghcr.io/kdwils/events:sha-2cc6bc04fd0473409c3dc99fad12ba34f8c952a6"
           imagePullPolicy: IfNotPresent
+          args:
+            - --config=/app/config.yaml
           ports:
             - name: http
               containerPort: 8080
