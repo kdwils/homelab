@@ -94,7 +94,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/events:sha-435c3633577be244278d9e8dd99603835dcf3b6f"
+          image: "ghcr.io/kdwils/events:sha-2cc6bc04fd0473409c3dc99fad12ba34f8c952a6"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -111,15 +111,6 @@ spec:
             - mountPath: /data
               name: pvc-events-data-pvc
               readOnly: false
-          env:
-            - name: EVENTS_DB_FILE
-              value: "/data/db.sqlite"
-            - name: EVENTS_LOGLEVEL
-              value: "debug"
-            - name: EVENTS_NATS_HOST
-              value: "nats.int.kyledev.co"
-            - name: EVENTS_NATS_SECURE
-              value: "true"
       volumes:
         - name: pvc-events-data-pvc
           persistentVolumeClaim:
