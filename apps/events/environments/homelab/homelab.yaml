@@ -43,6 +43,9 @@ events:
       tag: sha-2cc6bc04fd0473409c3dc99fad12ba34f8c952a6
       pullPolicy: IfNotPresent
 
+    args:
+      - --config=/app/config.yaml
+
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
