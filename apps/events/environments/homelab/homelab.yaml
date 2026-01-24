@@ -1,4 +1,31 @@
 events:
+  configmaps:
+    - name: config
+      mountPath: /app/config.yaml
+      readOnly: true
+      data:
+        logLevel: info
+        server:
+          port: 8080
+        db:
+          file: /data/db.sqlite
+        nats:
+          host: nats.int.kyledev.co
+          secure: true
+          enabled: true
+          jetstream:
+            enabled: true
+            streams:
+              - name: "events"
+                subjects:
+                  - "events.*"
+                storage: "file"
+            consumers:
+              - name: "events"
+                streamName: "events"
+                ackPolicy: "explicit"
+                deliverPolicy: "new"
+
   serviceAccount:
     create: true
     automount: false
@@ -12,12 +39,6 @@ events:
       repository: ghcr.io/kdwils/events
       tag: sha-435c3633577be244278d9e8dd99603835dcf3b6f
       pullPolicy: IfNotPresent
-
-    env:
-      EVENTS_LOGLEVEL: debug
-      EVENTS_NATS_HOST: nats.int.kyledev.co
-      EVENTS_NATS_SECURE: "true"
-      EVENTS_DB_FILE: /data/db.sqlite
 
     podSecurityContext:
       runAsNonRoot: true
