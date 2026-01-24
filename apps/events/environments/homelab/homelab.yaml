@@ -39,7 +39,7 @@ events:
 
     image:
       repository: ghcr.io/kdwils/events
-      tag: sha-435c3633577be244278d9e8dd99603835dcf3b6f
+      tag: sha-2cc6bc04fd0473409c3dc99fad12ba34f8c952a6
       pullPolicy: IfNotPresent
 
     podSecurityContext:
