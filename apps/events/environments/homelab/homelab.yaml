@@ -4,6 +4,7 @@ events:
     configmaps:
       - name: config
         mountPath: /app/config.yaml
+        subPath: config.yaml
         readOnly: true
         data:
           config.yaml: |
