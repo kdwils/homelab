@@ -5,7 +5,7 @@ events:
       - name: config
         mountPath: /app/config.yaml
         readOnly: true
-        data:
+        data: |
           logLevel: info
           server:
             port: 8080
