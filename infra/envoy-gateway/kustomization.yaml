@@ -6,5 +6,5 @@ resources:
   - certificate.yaml
   - policy.yaml
   - metallb.yaml
-  - envoy-patch-policy.yaml
-  - envoy-extension-policy.yaml
+  # - envoy-patch-policy.yaml
+  # - envoy-extension-policy.yaml
