@@ -184,6 +184,7 @@ spec:
         namespace: kube-system
         releaseName: sealedsecrets
         outPath: ./target/infra/sealedsecrets/manifest.yaml
+        includeCRDs: true
     - uses: helm-template
       as: render-tailscale
       config:
