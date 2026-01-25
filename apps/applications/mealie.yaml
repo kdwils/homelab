@@ -12,9 +12,9 @@ spec:
     namespace: mealie
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/mealie/environments
+    path: apps/mealie
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: apps/mealie/staging
+    targetRevision: homelab
   sources: []
   project: apps
   syncPolicy:
