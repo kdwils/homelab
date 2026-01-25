@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: PromotionTask
 metadata:
-  name: render-all-apps
+  name: render-homelab
 spec:
   vars:
     - name: gitRepo
@@ -72,7 +72,6 @@ spec:
         valuesFile: apps/pocketid/environments/homelab/homelab.yaml
         namespace: pocketid
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -84,7 +83,6 @@ spec:
         valuesFile: apps/excalidraw/environments/homelab/homelab.yaml
         namespace: excalidraw
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -96,7 +94,6 @@ spec:
         valuesFile: apps/overseerr/environments/homelab/homelab.yaml
         namespace: overseerr
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -108,7 +105,6 @@ spec:
         valuesFile: apps/prowlarr/environments/homelab/homelab.yaml
         namespace: prowlarr
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -120,7 +116,6 @@ spec:
         valuesFile: apps/bazarr/environments/homelab/homelab.yaml
         namespace: bazarr
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -132,7 +127,6 @@ spec:
         valuesFile: apps/radarr/environments/homelab/homelab.yaml
         namespace: radarr
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -144,7 +138,6 @@ spec:
         valuesFile: apps/sonarr/environments/homelab/homelab.yaml
         namespace: sonarr
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -156,7 +149,6 @@ spec:
         valuesFile: apps/hoarder/environments/homelab/homelab.yaml
         namespace: hoarder
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -168,7 +160,6 @@ spec:
         valuesFile: apps/events/environments/homelab/homelab.yaml
         namespace: events
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -180,7 +171,6 @@ spec:
         valuesFile: apps/blog/environments/dev/homelab.yaml
         namespace: blog-dev
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -192,7 +182,6 @@ spec:
         valuesFile: apps/blog/environments/prod/homelab.yaml
         namespace: blog-prod
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -204,8 +193,6 @@ spec:
         valuesFile: apps/nats/environments/homelab/nats.yaml
         namespace: nats
         includeCRDs: "true"
-
-    # Infra (4 apps)
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -217,7 +204,6 @@ spec:
         valuesFile: infra/cloudflared/environments/homelab/homelab.yaml
         namespace: cloudflared
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -229,7 +215,6 @@ spec:
         valuesFile: infra/longhorn/environments/homelab/homelab.yaml
         namespace: longhorn-system
         includeCRDs: "true"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -241,7 +226,6 @@ spec:
         valuesFile: infra/sealedsecrets/environments/homelab/homelab.yaml
         namespace: kube-system
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -264,7 +248,6 @@ spec:
         valuesFile: media/byparr/environments/homelab/homelab.yaml
         namespace: byparr
         includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -309,7 +292,6 @@ spec:
       config:
         path: ./target
         generateTargetBranch: true
-
     - uses: git-open-pr
       as: create-pr
       continueOnError: false

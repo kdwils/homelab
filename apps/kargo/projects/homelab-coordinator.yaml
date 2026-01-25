@@ -28,39 +28,34 @@ metadata:
   namespace: homelab-coordinator
 spec:
   subscriptions:
-    # Watch all app values files on main branch
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
+        strictSemvers: false
         includePaths:
-          # Apps
-          - glob: apps/mealie/environments/**
-          - glob: apps/rss/environments/**
-          - glob: apps/bluesky/environments/**
-          - glob: apps/pocketid/environments/**
-          - glob: apps/excalidraw/environments/**
-          - glob: apps/overseerr/environments/**
-          - glob: apps/prowlarr/environments/**
-          - glob: apps/bazarr/environments/**
-          - glob: apps/radarr/environments/**
-          - glob: apps/sonarr/environments/**
-          - glob: apps/hoarder/environments/**
-          - glob: apps/events/environments/**
-          - glob: apps/blog/environments/**
-          - glob: apps/nats/environments/**
-          # Infra
-          - glob: infra/cloudflared/environments/**
-          - glob: infra/longhorn/environments/**
-          - glob: infra/sealedsecrets/environments/**
-          - glob: infra/tailscale/environments/**
-          # Media
-          - glob: media/byparr/environments/**
-          - glob: media/plex/environments/**
-          # Monitoring
-          - glob: monitoring/envoy-proxy-bouncer/environments/**
-          - glob: monitoring/envoy-proxy-gatekeeper/environments/**
-          # Shared charts
-          - glob: charts/**
+          - glob:apps/mealie/environments/**
+          - glob:apps/rss/environments/**
+          - glob:apps/bluesky/environments/**
+          - glob:apps/pocketid/environments/**
+          - glob:apps/excalidraw/environments/**
+          - glob:apps/overseerr/environments/**
+          - glob:apps/prowlarr/environments/**
+          - glob:apps/bazarr/environments/**
+          - glob:apps/radarr/environments/**
+          - glob:apps/sonarr/environments/**
+          - glob:apps/hoarder/environments/**
+          - glob:apps/events/environments/**
+          - glob:apps/blog/environments/**
+          - glob:apps/nats/environments/**
+          - glob:infra/cloudflared/environments/**
+          - glob:infra/longhorn/environments/**
+          - glob:infra/sealedsecrets/environments/**
+          - glob:infra/tailscale/environments/**
+          - glob:media/byparr/environments/**
+          - glob:media/plex/environments/**
+          - glob:monitoring/envoy-proxy-bouncer/environments/**
+          - glob:monitoring/envoy-proxy-gatekeeper/environments/**
+          - glob:charts/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -78,5 +73,5 @@ spec:
     spec:
       steps:
         - task:
-            name: render-all-apps
+            name: render-homelab
             kind: PromotionTask

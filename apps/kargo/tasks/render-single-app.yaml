@@ -4,12 +4,12 @@ metadata:
   name: render-single-app
 spec:
   vars:
-    - name: projectType  # apps, infra, media, monitoring
-    - name: appName      # mealie, blog-dev, nats, etc.
-    - name: chartPath    # charts/homelab, charts/nats, charts/longhorn, etc.
-    - name: valuesFile   # apps/mealie/environments/homelab/homelab.yaml
-    - name: namespace    # mealie, longhorn-system, etc.
-    - name: includeCRDs  # "false" or "true"
+    - name: projectType
+    - name: appName
+    - name: chartPath
+    - name: valuesFile
+    - name: namespace
+    - name: includeCRDs
   steps:
     - uses: helm-template
       as: render-manifest

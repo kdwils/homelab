@@ -1,8 +1,7 @@
 resources:
   - update-source-main.yaml
   - render-single-app.yaml
-  - render-all-apps.yaml
-  - render-and-pr-helm.yaml
+  - render-homelab.yaml
   - update-helm-charts.yaml
   - git-ops-clone.yaml
   - git-ops-commit-pr.yaml
