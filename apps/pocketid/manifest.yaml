@@ -1,0 +1,186 @@
+---
+# Source: homelab/charts/pocketid/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pocketid
+  labels:
+    helm.sh/chart: pocketid-0.1.9
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/pocketid/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pocketid-data
+  labels:
+    helm.sh/chart: pocketid-0.1.9
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Source: homelab/charts/pocketid/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: pocketid
+  labels:
+    helm.sh/chart: pocketid-0.1.9
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1411
+      targetPort: 1411
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+---
+# Source: homelab/charts/pocketid/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocketid
+  labels:
+    helm.sh/chart: pocketid-0.1.9
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pocketid
+      app.kubernetes.io/instance: pocketid
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: pocketid-0.1.9
+        app.kubernetes.io/name: pocketid
+        app.kubernetes.io/instance: pocketid
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: pocketid
+      securityContext:
+        {}
+      containers:
+        - name: pocketid
+          image: "ghcr.io/pocket-id/pocket-id:v2.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 1411
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 1411
+          volumeMounts:
+            - mountPath: /app/data
+              name: pvc-pocketid-data
+              readOnly: false
+          env:
+            - name: APP_URL
+              value: "https://pocketid.kyledev.co"
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TRUST_PROXY
+              value: "true"
+          envFrom:
+            - secretRef:
+                name: pocketid
+      volumes:
+        - name: pvc-pocketid-data
+          persistentVolumeClaim:
+            claimName: pocketid-data
+---
+# Source: homelab/charts/pocketid/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: pocketid
+  labels:
+    helm.sh/chart: pocketid-0.1.9
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "pocketid.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: pocketid
+        port: 1411
+---
+# Source: homelab/charts/pocketid/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: pocketid
+  namespace: pocketid
+spec:
+  encryptedData:
+    ENCRYPTION_KEY: AgBW1Ap2oQuXxZweT8vRvr2/W55Q0ZKriAi4Ycv1DjTF1zsH6/vk4dmyNps2PpEpd7DSo72A51lcT6Kut48yvyfreXF11TfYYoUW4ASPeXfpATZoZHpIIjVVImBZZMMVUVf+ciVi0IEIl7jgZ3HMJaBHF0NY+li4UZ8Tzukic9maEyQf1vMno78z3Z/QzpHdbi3Y7w0q8GnK/BdgnppeBt+fzrAdxuBVh452R1OJvgSSE+f6Lztl/PzptiJ2xwbmLcFFpQ3+aZzKIp3US/zUOThc/gKlPgvT86yGJPrrPsN3hnCxRV3ZjGpCOx9u07vrLIfQ4fyx8zWmIw0xjiVLi5//KNS5x/iayjGbqueIzgi6pFfXTBGQIQmmqtT3Mfr8Uzv+2UcVMJQ+3AFaioBEkkce+nl0CEKhDkAv9bnvpSr7ZItt9mjdeSNNxyjC8rC36sYMV/NM1NljLoMjtelziEcj7OFxyVADSc3ueS+m5RjO2k8qUkaozu4uGrgaKduljNoO4Hvu7Q/Mr8nF7+UvMZoJbelJzcrG2z4D/VVwuvTFOBZxHxyxzDtOHf1OI1UuAHpQDUe2j+ovk/NLMLEQ8Rx/ndsVPzsRG0Sfx4mtwiI9MPAul5e13riwEvlcEAvjc6e+0QG6iuxsQqKqCJNZNq/3J4nHG7vUorj/xoltAzDQnnBDIHT/eaHfvC+6E4SM+yBGI6ZCuBMqOnaVP1+npeHybwBM4zT60Z5wm6XWuihviNOSyUyLKX4i9h+LPw==
+    SMTP_FROM: AgCg4jnVGQzv/hsN/JcPsJgVze8wHQ0PuMmOw5sYz+HxouPQJEs+9VEuxKA/8v9fFoZnI3L2ChVi9yEfpoiKRChGCIxonYpk+2JxBPpP5iHfGNm2ZDbT0he6nuJ0aIGmHtYKxVgP8xouguCYpAN/eWriGSz+SjXTIBAHNJl6vox7pcUlxpsoG9mvZFjE8WDTuwGs2Znf9z4EE31u6rjoEtZSdSR565bMqGWWEr3CAFR/pZempCsZIxpaspiqaHFYDl5An79LcO58KLyFjI7O0kkJxPzYcQTKJd4FFHfj5WIeOto3ImPxtYqWLQd6KXYusoLG7xvrx7NHScQs5QqCxmvo3Wwbh+IPSHNKDO4ykRqOVekuLWS28wULC1wk4fLEbVcJwT/EMN1ZQsTjGvQeDOiQCfaFSSBF05ZN0p34QsHmAkOB9Uf5sO0lfiNsTarpSSIMWUNdd38VeHcn7JHVg5ddGoY9gGNc8DzkRrWMspm0NgCgFF4tDhJnPPM2QTDoinJesPXcMhiPxH481f/6j7qSvcq88WnqySL7QnE/9jMwI9+fzw9mvxJ00KuAQMxIvifNh42ztaw7lnd8gBuFbumQ5rgu/Nfi8EXAD+WrpHdS7zP3KGCUCpxArjCE2P+f9m40Zl2XmVl7b6IDTrmWwG5DuFUvlLyG1+h0QMOSXhDma/kIf4zRVOB9F7J4rMg1nc7czE0eoo+3hLEjZAMWnROdyUpj6QNm
+    SMTP_HOST: AgAeO81pODuJ1sukLd8nkRq3PDlu7JwDajXHAoMaHiy2sgzEFMknPzkWjvLJ1uqoaBOGnPD7+8+ctDklWJAOfjtN4zqE+MAmsEzIh6c8mmtLh/Xj8QA0jj1NjvUq+3xRZgqO0CZen2Aod9ttn7yXJZRVZUFjrTaVnaK53icXeZ8UmGeBLbOKxQ3oMuXjCRRZit8VZqzjjH6UXUgq8QZNPNzgKvCipZ0X/X8LGJr7W2T1vYzwvtOelu+huLVXmAevUpYzYfPdCL1vPqbf3LANSsz3GIrVo5XyLCh5vRvTLgrsC4GAkPUuvsb8+WaRr2KLrzapOc3d+z/JsyyjoEUIvzo6wliBUQGcSe0pG0dEzt5zuDvjCTwlEzuUNJd+OgVNd6crbivjB8GelOBFz13MPy4ksIvV/H2VoXlqVSBMyKg1w3F1GX1ANhLGUyF3RGq7FxkL7o8zXr1nLOxTPK7qSGu0fUGP1UgUJc8DTv6solajg9jwl5x3HIzonAg0c56hGM0zfAMpKjIfhe6aqmWMXnta5ehdoYF18fH35kmea3zksVclMq0POsHRgyK7r9a1F/hyqKsErsZWr8jBwEQF/gy9jz7qIAZ8CuhXHQwOL7XHTZKz+er5nYZ84nfVXWjj53dZ85RInHMg0eLmbbCQWry54wpYx4WBTtjbiundOBSwYKRaM2m315WPE11I6+XTszW8WdVcCj119LBcDLME5Q==
+    SMTP_PASSWORD: AgBZ6Iz8JxAmJd3TLBHiPV3zGG9/Iz9jT3q5Fd9CHbJrqqYGlJetrutQ60Td20ITK1vOF/8h0PUSXYzmEMn4FtRr2wLCwCnqdqGMH7PtW/p3c1TmpT6z/gUSJhNbgyyi1av/ffd1Du/I32WlFUeSjoPq8rxXc2gOe7/De6rbMdgTGFAef9DYaHCHt4bOr5c8+NLh4q8+mavsGOGUlB16NqpOFeDnOiYxwrXUi4EWZe5mBJHygskktEGGDBSE4kNDdfgasoCGUl1OPuy04THboVFIXavZ4TSj7S+WVrZgCDLIUbT/QfoT4hq6T/soKOvdsDQavK7kDo1VdfM14bC1IG8FSEDGynH+0EpT3TJX1G40nZnj2liYtyxNBTxFdl7vUm0eYMemaP34Io6VcV1EzEcUjsa751KgLJTLDWkKgqOvi+Kxk6vtvm4+zhknlGEM4px6+zdxzbVRXfa5hf2qWAOF2/0fttJhlBCFER9KUYx0b/X/IdDFGUiJ+cb+lIMSdek9XkUW76F0z5CPVEpVzj3ClZbc1ELTsTTGUjzu2SSzdpinGCirEoUAzE55SkOSIZjTr+vvY3pe2AxwOEmc+6C8I1/90wTkNMHja6yzSK7VNCrDgJCFwAUrTaVAOTz+OpA86qynA1seAJhhkZh/oiHgFzhv8xNOA3rAQvjjHAIrWVc4veBx9z1h7TjHvH5iqK3RgQbXziRNFu5UOPZTNbRq
+    SMTP_PORT: AgCJl5gmGYFgFfcTfZmxe3TqXMRV1JnnCojmz4s4GG/junp0SP9+SrQdI8OCXrqSSJVAu2urvo1WwSvWUCwVJ52XfBvdRGmAMdn8+Chzxd3F+yApUAKBbB56GkVzmnx+GeEBch+LYkEyxPmA6SRkVvXilY06RSfm4wl31ZLau0RpbYCqsNlqfPPrgXdkt3DsabOnzpryTWa82QsZINHm9cn5cW7nHKtVqBu3bzKEolTiVtsX0NRqqchdqHZ9Xzw/vYe3yB6wAyh9YkO1ALhKBlWLsWXWkYHuDtMukeMaKK+LhnGXi+v/w7FM7Nj+EjuQ6eTqzuBcRj2FarWNvlyHHecxj2ZO2z0rDNCGlNXoliufwBorld5/bcn81ilubqrAvVC9JB0OZyZKoAb0A/C8YiKhQahbenUEtM+keEb24H/8mkvHj5nBLxN4To/of39ZV88iC0k3vdPhmyZk/AL5mk1010Iafoh60lPrxhxxMh6E+F4vtncR6o7TIpTpW/MQWY68FNZ5kqVTDoBq37xOYIZI2X8TZWjR4U9ZYcwjRrNEL5PG4Bn2fEnKJClPevTe8jrXqlDkDYG1Zt5xo0v1aK+ZSc17sPYE3HFMQxbRTsZ8aKBMd8ECBEnNQTvKrn7gJw1zLs8lkyJ7Qbq441JgsZzh7kHO/5qFqNuEcODtWayqOK1yjALyuO919R6EtANrgaGwr/s=
+    SMTP_USER: AgB9c9EeC/gsmDS+kq+IPE+lVxkUvQBf9UQYt9uDPOADZ/ujWycTx3Kae/a9WTwA5lQIoqsjO9t31T4aF3rZ6lFbm1aMNAUUgDT1tAORoW28/Bf8oD4+bjGUeHeIIhppZMe86GhAc+O9ra127DRE77D5zwkDvZK4uLf27yIxVnMrtjsw5tWQB7Mpu0Y8kCz1h4dQL0tosSbhl8fCaq7rDntYW5/Re2xqCrnSV95dXb+lw+QBx0wvAgWSyjYIWMZ4uYc1230a9CGHg8flfW6Qsap2RMNbp8gIn4TiTUxe1FOe2qaSPK6i8OOv52mAkBzy20xHeyA/2sDlX1H1nm9kYWoUG9CrWrxaz2DXi39OLpAekiDIt/helEVE4Wt6fjQ+n888MWU8OsweYCTY81m0FU005dWU+DbbwcABiDWFR8tTvCL3FZ/GytJ6X/tjNOQ2t0EQtauxf2ELYR3oXD0FN02LrcFQZfwXBRYIZFSeP6YU2vyakHqiIPK9wVGIo3MO+OjYocaYZYi7TxsNVqD5HFRIizA1aMmOwDalfR52QoJehU+slruUK7FxIN4vBwPhhz1667wRbO3bSnZBQOqJfJD/TNe4iDFQdq0WFwOMgRAUr+Lq4xb/Qb9xFI9+K1FB3hO813qR14zZA3zVNWp9kgtm/R8tZpueiK553zo1DfVCqMCJzDDVafZnq5vFKg7r8tdaXm7ZlQl0cSdZtdyQEW8iFPI1JZYC
+  template:
+    type: Opaque
+    metadata:
+      name: pocketid
+      namespace: pocketid
+---
+# Source: homelab/charts/pocketid/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: pocketid
+  labels:
+    helm.sh/chart: pocketid-0.1.9
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: pocketid
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080
