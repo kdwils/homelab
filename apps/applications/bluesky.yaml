@@ -12,9 +12,9 @@ spec:
     namespace: bluesky
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/bluesky/environments
+    path: apps/bluesky
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: apps/bluesky/staging
+    targetRevision: homelab
   sources: []
   project: apps
   syncPolicy:

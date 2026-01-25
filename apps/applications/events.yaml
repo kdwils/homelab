@@ -12,9 +12,9 @@ spec:
     namespace: events
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/events/environments
+    path: apps/events
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: apps/events/homelab
+    targetRevision: homelab
   sources: []
   project: apps
   syncPolicy:

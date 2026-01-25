@@ -12,9 +12,9 @@ spec:
     namespace: pocketid
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/pocketid/environments
+    path: apps/pocketid
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: apps/pocketid/staging
+    targetRevision: homelab
   sources: []
   project: apps
   syncPolicy:
