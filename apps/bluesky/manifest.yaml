@@ -1,0 +1,204 @@
+---
+# Source: homelab/charts/bluesky/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.9
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/bluesky/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bluesky-temp
+  labels:
+    helm.sh/chart: bluesky-0.1.9
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+# Source: homelab/charts/bluesky/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.9
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: pds-port
+  selector:
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+---
+# Source: homelab/charts/bluesky/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.9
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bluesky
+      app.kubernetes.io/instance: bluesky
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: bluesky-0.1.9
+        app.kubernetes.io/name: bluesky
+        app.kubernetes.io/instance: bluesky
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: bluesky
+      securityContext:
+        fsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: bluesky
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          image: "ghcr.io/bluesky-social/pds:0.4.204"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: pds-port
+              containerPort: 3000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /pds
+              name: pvc-bluesky-temp
+              readOnly: false
+          env:
+            - name: LOG_ENABLED
+              value: "true"
+            - name: PDS_BLOBSTORE_DISK_LOCATION
+              value: "/pds/blocks"
+            - name: PDS_BSKY_APP_VIEW_DID
+              value: "did:web:api.bsky.app"
+            - name: PDS_BSKY_APP_VIEW_URL
+              value: "https://api.bsky.app"
+            - name: PDS_CRAWLERS
+              value: "https://bsky.network"
+            - name: PDS_DATA_DIRECTORY
+              value: "/pds"
+            - name: PDS_HOSTNAME
+              value: "bluesky.kyledev.co"
+          envFrom:
+            - secretRef:
+                name: bluesky
+      volumes:
+        - name: pvc-bluesky-temp
+          persistentVolumeClaim:
+            claimName: bluesky-temp
+---
+# Source: homelab/charts/bluesky/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.9
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "bluesky.kyledev.co"
+    - "bluesky.int.kyledev.co"
+    - "bluesky.ts.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: bluesky
+        port: 3000
+---
+# Source: homelab/charts/bluesky/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: bluesky
+  namespace: bluesky
+spec:
+  encryptedData:
+    PDS_ADMIN_PASSWORD: AgA6pVq1msvxaSeIVruncQmx2Hd5uAQd3ZCrOn65cmB/8z4oLgWc8FCXm8xA6lYojU1NvRyKgHXCIzMoh5oAbs5+ti2T5ZHfBKN3A9+LEI/G5EQ5+KQVpbBRCgpN70Yhio8JCeZUDCBoPHKiTcceokAhxv8jLZnMUBjMkA144M++yXopU9GLztcOnLKNFmb9+kcIec982n0EiynrTd04uh5Wrh8awxzb5neLUJjZsVborAX0O3PPmPPrsCtCa+5MFfN33TvbzuywbAlxrdCVHXu1Cb4whoo8MseuJ0nDohtRWLLuY0S7MJ9URWODMI3mV9/33BnUDlH334m46HT582XGe8yD2xlOtb+C4hTIwdsC7hdoref2ERFOEae4mAyQtAQHopXD3E8w43fAtMce8s1EYc/5YhMZuKrFljRL7pBvKF7Nw5e/rOV3xjJbBRbII1yjodXrHDbNvxCYtpUc4l2SKfrfnJF1js6G1X09FApuWpyWgd55e46l6LFYD0sA/eopDrLTOEDifcDVWz8TWdny0y5gwFEwVuUH2QCfr3OhuPVXky+EgFTdR59z55OQma8bkd6vf+GRaZZFO5U6Gg01ViNA9F3JOoCqoI87u98Z+E4GreHn7cx1416IQEX0N3SX5S4JVu8xbvvYByduL91WtXbQp65ZfigvgDkgea0Ugy5C1UhH09F4ebI2eRJJ48uN3iBGElMMYm5Fi4L0pMmF5PkuFiH2M0nel1QFtBKNpw==
+    PDS_EMAIL_FROM_ADDRESS: AgCW7vcBjOQLCWt7mp5KgR2hP4vepA8nMOzGPXTsEsYmD1v8gse0Tcw7MuAefs0yjhPjCq1nm5DhI+6OOoTT1EllOEmLsTV2otqKSpOIC5aG/Rhy7QlQoovH7u1xkYTqKqWz8vUrcjS8tYs2B7Gw/5lYUMdFrRgfCMy1op01fbW7rrQO3gNMuNPNWwxR0NZzMi9qZxJDidn4vuSusGN6xYQr6u1yLbU+8T+6SF9msFHJJYxOhq9HFGyuaRlcBaIITpf1fODFneEI5t6QpUShFiyR23yZ4wXp5guWILxBMOEqr+Fka3iWtUI23PjQrSn/jUVZV+yfeBmkKvK225oxLo9YdowAvh9my01UasT9iUpT9d4w5do3VzNSqkriGQT1tctkVO4NC3l+vZubrNT6G2OynuZDzhhwry9NkxQQyy6V6bmiwHbHyGkEQTl/MfWzlxRRKe/oRRV6r+cP7bXw8SmtQyyXQ01CxItkBLTkGUrCsOKKGXqAO91f3tQTgGcvSAjAmAx0kDe7U1F4zxhaB/fM3M5e6mSLt9j196D8OMN1LNLLBHuG0A34H/qj03DCrnPIgB0wIJH7g3sUJzghUKk8v5CG5NQulkMDEagosPtXZrDIoeW1aIU6O6laSi42nwh6IYUKOj64x0e7jfCyDZqpiyTtVGLLCa2CExPAbc/CWoU3BvFhWH9vVcjJVLgQhuoXZSzTm9ZjLqGt/iWcou6oDaMVW44=
+    PDS_EMAIL_SMTP_URL: AgC2u2h/RolYV5i0f46+jfyzDmQxotXm1x1texuiAESlZBXiHCzrzyL1BN8WFOMZ7x1gubZ1QAvXP6OgCtkjTJY3oC5BN3ZP+2Pz9+IyhfjOddYGjAj3Rs66pmkAGRyANwzsRZIbJKTBScjh02x4w6z2k/ygYCNbVlOW7ClXXX7miW7dDHoGgo2C3T92WzixvrI+dmcDxWbCSTiBsbTxp0mpU9Z3mYlGy9do7MIx/r7fomgZfe/3du34jUlaJyeI5c+pEnBjayRfHQ13kHqaWTB8oJE0RXVJZhumaUPyhnjfSyh2RHPYdQgZrC+9+qG23LEVdItCGWrmstxFjyyK7wiP8w+wiTIElnQtziK2kYrnmBWwYoa/IJKK+AhmfGgoKJYHED6DPADTQ5CE6AFIatoJjigNWx8L2nkLcsv8XuRoO+halL8TiXfQ/4sgcrPmcD0yHAiUHN9OuhPUj8rkL/COeA53vOqP2LE8vGCT+rqAWzDb1b7M237qPLqcvjzEzmM87v5/dTz/zvHrXUF8P07NvJWzmECUc3ffH2u/QvLOeWSwEVaR2bxRivRRH8DMAuQPisMDY5o+rmyr3CyMZZF5X+2fyJ1reZ5hVDdh5+31ehHt4kIseIQzy20NDvYJFhumTtFuYSYs3pgO9eBCeFY+REsUK/5AI8jpnzafOE/w2jvk3uQOagxTn9xvZNOwItctBjclDMdzFY21J3EvJ4X94kuv2fPP+ZDitav8TZTuu7H9lpZZC2GdKfmIDM5wk9W6glcvzv3Qbfn39kp/KUVN
+    PDS_JWT_SECRET: AgBvJlKy+NKbksyQbP2O3Fdag2qJEteQDOp03Zd7sdJPy47V8jHtdBfi+Mi6njdvrY65m4lgA9t0ss1Smn0RNyCoiNyUUS3wxbDYj4rzGuYNE/ELxdRQkHgV4TmNVXcEktJ2SxxIhAXWbEjID/5fh7qDDtiKzYz4QM9uc8hCT0Jwh5/yWGr5by38f06P3o7DDXlKfJS7Pk1MMtKldr4i407selHmgaLOAnrH9aKdDxWEEt15yVgD9xAf5q1yXgeibLOQfAMswPV30yNpktVkgeqbN9beun8ArJuyquHmS72q7hbTmch2AFNboB4ZwJdK4KETJ3sxu+KhiGdtGvra0QME4Npt4fNLjUOoaf8gZscxDET7pPhp1eaTmj40rD6gg+ME6xggFMnw7wj7xcJApsRTAeM7grNZ5XrNUhiOlLoqJf10PBIOT/1G+tmKySYefyM3XDvURrjToSzXZhOADwOKloKiUcRFWw0qfNVNZYQxlw3PFXlvXaZCQp73++W7sGSJZk21e1oI0t67Z9MPZKjJ4bDuiXPbZpaeKbppadW5Y8QVUvOuB+tgzlfZyfKxQvhETU50/XIIQOFr7bgL4olrnZNjw8G7DfG3+27WSP6g6Sg0YpClvMovw+K9pOm0CDYglOpC/G9QWEon44Qssiv9vNHX3SNbydiDfZdbxSQgnOedH1Fej4WFHNyn4oRAuUpnJ6bsoAuAzkoNuz1HcrnKPJ+eaQQIfYK8bFlrHRPguA==
+    PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX: AgAu/h4l6RHkPy/AblcWFb4TdtTBWd3dtQacq7KivEtDaddpQIa5CtnVF37/D8og5znf4AlpnK5CH/MZTUUj4Zb5qtptMahucE6FhSQHRTKqAHpjlaQX0oAxTTxbe1bFmVNhVkXyIwOHKiGnuQaYQzWdFFC6Qf99QtqftdxBUSlX83dQfdviikpbEZ5lfPLdh/4OvHvm0TBJskGSXdy5ba34SnT2be4OmRDZG5kj7OzYntPsZ4CIxUkQzYjNkqZhJLrRAcRTNkYz0MvzJ/c0t5g4DBLLLA2FwX9u2NpUk+vH5uWMmkAjCrKPudKYdFgParaLPS656s/cUnFK80YmRChgcWGdNVL8pNiDuE677wgqZ3u5TUYrQRhhG/AeAJ0ZUxT+exx5agu2sBUcatkxKPcz9xvuuB5ThuaHW4fMg1QSrU6TUwcWa8flNHQhN98xhXy5/Pa2y4gDdpNq7JN3lgybu9nHK4VgeQrkn6OeLbuOAcKmtknGw7xhEhC/JvJv67AaezKltYYo7BjSMVfU2xN3kJWWinKDY/f9gyXxuh4yznzS9Kqq+Y+NFDthJ+tD7Q7HPMuccoLT/l2o2uHTTJHAkEhkfApH0CCrUbWI6bwjRWaxbDUejUebcYAZLuRud6OFCkmV5vZT4i3EEDdE5asqgVD5uyQKL+2vv3416Gl73yiKKp9nzaT0AsXCjbY3Ul5tJiYWJqGVNvOhgQOed/8ZznJP42fgNkkHHgvujBsGsymXnVAcR5PtthQizEkJ03Y0L8CwS1h/nxfVcxC86QQ3
+  template:
+    type: Opaque
+    metadata:
+      name: bluesky
+      namespace: bluesky
+---
+# Source: homelab/charts/bluesky/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.9
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: bluesky
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080

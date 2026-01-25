@@ -1,0 +1,140 @@
+---
+# Source: homelab/charts/sonarr/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sonarr
+  labels:
+    helm.sh/chart: sonarr-0.1.9
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/sonarr/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr
+  labels:
+    helm.sh/chart: sonarr-0.1.9
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+# Source: homelab/charts/sonarr/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr
+  labels:
+    helm.sh/chart: sonarr-0.1.9
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8989
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: sonarr
+---
+# Source: homelab/charts/sonarr/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  labels:
+    helm.sh/chart: sonarr-0.1.9
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sonarr
+      app.kubernetes.io/instance: sonarr
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: sonarr-0.1.9
+        app.kubernetes.io/name: sonarr
+        app.kubernetes.io/instance: sonarr
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: sonarr
+      securityContext:
+        {}
+      containers:
+        - name: sonarr
+          image: "linuxserver/sonarr:4.0.16"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8989
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: sonarr
+              subPath: configs/sonarr
+            - mountPath: /downloads/transmission
+              name: media
+              subPath: downloads/transmission
+            - mountPath: /tv
+              name: media
+              subPath: tv
+          env:
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+      volumes:
+        - name: sonarr
+          persistentVolumeClaim:
+            claimName: sonarr
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+---
+# Source: homelab/charts/sonarr/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: sonarr
+  labels:
+    helm.sh/chart: sonarr-0.1.9
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "sonarr.ts.kyledev.co"
+    - "sonarr.int.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: sonarr
+        port: 80
