@@ -1,0 +1,358 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: PromotionTask
+metadata:
+  name: render-all-apps
+spec:
+  vars:
+    - name: gitRepo
+      value: https://github.com/kdwils/homelab
+    - name: sourceBranch
+      value: main
+    - name: targetBranch
+      value: homelab
+  steps:
+    # Step 1: Clone both branches
+    - uses: git-clone
+      as: clone-repos
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - branch: ${{ vars.sourceBranch }}
+            path: ./source
+          - branch: ${{ vars.targetBranch }}
+            path: ./target
+
+    # Step 2: Pull latest from target to avoid conflicts
+    - uses: git-pull
+      as: sync-target
+      config:
+        path: ./target
+        branch: ${{ vars.targetBranch }}
+
+    # Step 3-25: Render each app (23 apps total)
+
+    # Apps (15 apps)
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-mealie
+      config:
+        projectType: apps
+        appName: mealie
+        chartPath: charts/homelab
+        valuesFile: apps/mealie/environments/homelab/homelab.yaml
+        namespace: mealie
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-rss
+      config:
+        projectType: apps
+        appName: rss
+        chartPath: charts/homelab
+        valuesFile: apps/rss/environments/homelab/homelab.yaml
+        namespace: rss
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-bluesky
+      config:
+        projectType: apps
+        appName: bluesky
+        chartPath: charts/homelab
+        valuesFile: apps/bluesky/environments/homelab/homelab.yaml
+        namespace: bluesky
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-pocketid
+      config:
+        projectType: apps
+        appName: pocketid
+        chartPath: charts/homelab
+        valuesFile: apps/pocketid/environments/homelab/homelab.yaml
+        namespace: pocketid
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-excalidraw
+      config:
+        projectType: apps
+        appName: excalidraw
+        chartPath: charts/homelab
+        valuesFile: apps/excalidraw/environments/homelab/homelab.yaml
+        namespace: excalidraw
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-overseerr
+      config:
+        projectType: apps
+        appName: overseerr
+        chartPath: charts/homelab
+        valuesFile: apps/overseerr/environments/homelab/homelab.yaml
+        namespace: overseerr
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-prowlarr
+      config:
+        projectType: apps
+        appName: prowlarr
+        chartPath: charts/homelab
+        valuesFile: apps/prowlarr/environments/homelab/homelab.yaml
+        namespace: prowlarr
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-bazarr
+      config:
+        projectType: apps
+        appName: bazarr
+        chartPath: charts/homelab
+        valuesFile: apps/bazarr/environments/homelab/homelab.yaml
+        namespace: bazarr
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-radarr
+      config:
+        projectType: apps
+        appName: radarr
+        chartPath: charts/homelab
+        valuesFile: apps/radarr/environments/homelab/homelab.yaml
+        namespace: radarr
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-sonarr
+      config:
+        projectType: apps
+        appName: sonarr
+        chartPath: charts/homelab
+        valuesFile: apps/sonarr/environments/homelab/homelab.yaml
+        namespace: sonarr
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-hoarder
+      config:
+        projectType: apps
+        appName: hoarder
+        chartPath: charts/homelab
+        valuesFile: apps/hoarder/environments/homelab/homelab.yaml
+        namespace: hoarder
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-events
+      config:
+        projectType: apps
+        appName: events
+        chartPath: charts/homelab
+        valuesFile: apps/events/environments/homelab/homelab.yaml
+        namespace: events
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-blog-dev
+      config:
+        projectType: apps
+        appName: blog-dev
+        chartPath: charts/homelab
+        valuesFile: apps/blog/environments/dev/homelab.yaml
+        namespace: blog-dev
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-blog-prod
+      config:
+        projectType: apps
+        appName: blog-prod
+        chartPath: charts/homelab
+        valuesFile: apps/blog/environments/prod/homelab.yaml
+        namespace: blog-prod
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-nats
+      config:
+        projectType: apps
+        appName: nats
+        chartPath: charts/nats
+        valuesFile: apps/nats/environments/homelab/nats.yaml
+        namespace: nats
+        includeCRDs: "true"
+
+    # Infra (4 apps)
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-cloudflared
+      config:
+        projectType: infra
+        appName: cloudflared
+        chartPath: charts/homelab
+        valuesFile: infra/cloudflared/environments/homelab/homelab.yaml
+        namespace: cloudflared
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-longhorn
+      config:
+        projectType: infra
+        appName: longhorn
+        chartPath: charts/longhorn
+        valuesFile: infra/longhorn/environments/homelab/homelab.yaml
+        namespace: longhorn-system
+        includeCRDs: "true"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-sealedsecrets
+      config:
+        projectType: infra
+        appName: sealedsecrets
+        chartPath: charts/homelab
+        valuesFile: infra/sealedsecrets/environments/homelab/homelab.yaml
+        namespace: kube-system
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-tailscale
+      config:
+        projectType: infra
+        appName: tailscale
+        chartPath: charts/homelab
+        valuesFile: infra/tailscale/environments/homelab/homelab.yaml
+        namespace: tailscale
+        includeCRDs: "false"
+
+    # Media (2 apps)
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-byparr
+      config:
+        projectType: media
+        appName: byparr
+        chartPath: charts/homelab
+        valuesFile: media/byparr/environments/homelab/homelab.yaml
+        namespace: byparr
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-plex
+      config:
+        projectType: media
+        appName: plex
+        chartPath: charts/homelab
+        valuesFile: media/plex/environments/homelab/homelab.yaml
+        namespace: plex
+        includeCRDs: "false"
+
+    # Monitoring (2 apps)
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-envoy-proxy-bouncer
+      config:
+        projectType: monitoring
+        appName: envoy-proxy-bouncer
+        chartPath: charts/envoy-proxy-bouncer
+        valuesFile: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
+        namespace: envoy-gateway-system
+        includeCRDs: "false"
+
+    - task:
+        name: render-single-app
+        kind: ClusterPromotionTask
+      as: render-envoy-proxy-gatekeeper
+      config:
+        projectType: monitoring
+        appName: envoy-proxy-gatekeeper
+        chartPath: charts/homelab
+        valuesFile: monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
+        namespace: envoy-gateway-system
+        includeCRDs: "false"
+
+    # Step 26: Commit all rendered manifests
+    - uses: git-commit
+      as: commit-all
+      config:
+        path: ./target
+        message: |
+          Render all apps to homelab
+
+          Batch render of all 23 application manifests from main branch.
+
+          Co-authored-by: Kargo <kargo@akuity.io>
+
+    # Step 27: Push to homelab branch
+    - uses: git-push
+      as: push-changes
+      config:
+        path: ./target
+        generateTargetBranch: true
+
+    # Step 28: Create PR
+    - uses: git-open-pr
+      as: create-pr
+      continueOnError: false
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ task.outputs['push-changes'].branch }}
+        targetBranch: ${{ vars.targetBranch }}
+        createTargetBranch: false
+        title: "Deploy all apps to homelab"
+        description: |
+          ## Batch Deployment
+
+          Rendered manifests for all 23 applications from main branch.
+
+          **Projects:** apps (15), infra (4), media (2), monitoring (2)
+          **Environment:** homelab
+
+          Co-authored-by: Kargo <kargo@akuity.io>
+
+    # Step 29: Wait for PR approval
+    - uses: git-wait-for-pr
+      as: wait-approval
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ task.outputs['create-pr'].pr.id }}

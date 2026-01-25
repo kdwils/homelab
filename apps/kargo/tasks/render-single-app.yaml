@@ -1,0 +1,23 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-single-app
+spec:
+  vars:
+    - name: projectType  # apps, infra, media, monitoring
+    - name: appName      # mealie, blog-dev, nats, etc.
+    - name: chartPath    # charts/homelab, charts/nats, charts/longhorn, etc.
+    - name: valuesFile   # apps/mealie/environments/homelab/homelab.yaml
+    - name: namespace    # mealie, longhorn-system, etc.
+    - name: includeCRDs  # "false" or "true"
+  steps:
+    - uses: helm-template
+      as: render-manifest
+      config:
+        path: ./source/${{ vars.chartPath }}
+        valuesFiles:
+          - ./source/${{ vars.valuesFile }}
+        namespace: ${{ vars.namespace }}
+        releaseName: ${{ vars.appName }}
+        outPath: ./target/${{ vars.projectType }}/${{ vars.appName }}/manifest.yaml
+        includeCRDs: ${{ vars.includeCRDs }}

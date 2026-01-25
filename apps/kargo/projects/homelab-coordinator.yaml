@@ -9,9 +9,16 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
   name: homelab-coordinator
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: homelab-coordinator
+  namespace: homelab-coordinator
 spec:
   promotionPolicies:
-    - stage: deploy
+    - stageSelector:
+        name: deploy
       autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -21,15 +28,39 @@ metadata:
   namespace: homelab-coordinator
 spec:
   subscriptions:
+    # Watch all app values files on main branch
     - git:
-        repoURL: https://github.com/kdwils/homelab
+        repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob: apps/*/environments/**
-          - glob: infra/*/environments/**
-          - glob: media/*/environments/**
-          - glob: monitoring/*/environments/**
-          - glob: charts/homelab/**
+          # Apps
+          - glob: apps/mealie/environments/**
+          - glob: apps/rss/environments/**
+          - glob: apps/bluesky/environments/**
+          - glob: apps/pocketid/environments/**
+          - glob: apps/excalidraw/environments/**
+          - glob: apps/overseerr/environments/**
+          - glob: apps/prowlarr/environments/**
+          - glob: apps/bazarr/environments/**
+          - glob: apps/radarr/environments/**
+          - glob: apps/sonarr/environments/**
+          - glob: apps/hoarder/environments/**
+          - glob: apps/events/environments/**
+          - glob: apps/blog/environments/**
+          - glob: apps/nats/environments/**
+          # Infra
+          - glob: infra/cloudflared/environments/**
+          - glob: infra/longhorn/environments/**
+          - glob: infra/sealedsecrets/environments/**
+          - glob: infra/tailscale/environments/**
+          # Media
+          - glob: media/byparr/environments/**
+          - glob: media/plex/environments/**
+          # Monitoring
+          - glob: monitoring/envoy-proxy-bouncer/environments/**
+          - glob: monitoring/envoy-proxy-gatekeeper/environments/**
+          # Shared charts
+          - glob: charts/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -46,241 +77,6 @@ spec:
   promotionTemplate:
     spec:
       steps:
-        # Clone source and target branches
-        - uses: git-clone
-          as: clone-repos
-          config:
-            repoURL: https://github.com/kdwils/homelab
-            checkout:
-              - branch: main
-                path: ./source
-              - branch: homelab
-                path: ./target
-
-        # Render mealie
-        - uses: helm-template
-          as: render-mealie
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/apps/mealie/environments/homelab/homelab.yaml
-            namespace: mealie
-            releaseName: mealie
-            outPath: ./target/apps/mealie/manifest.yaml
-
-        # Render rss
-        - uses: helm-template
-          as: render-rss
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/apps/rss/environments/homelab/homelab.yaml
-            namespace: rss
-            releaseName: rss
-            outPath: ./target/apps/rss/manifest.yaml
-
-        # Render bluesky
-        - uses: helm-template
-          as: render-bluesky
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/apps/bluesky/environments/homelab/homelab.yaml
-            namespace: bluesky
-            releaseName: bluesky
-            outPath: ./target/apps/bluesky/manifest.yaml
-
-        # Render pocketid
-        - uses: helm-template
-          as: render-pocketid
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/apps/pocketid/environments/homelab/homelab.yaml
-            namespace: pocketid
-            releaseName: pocketid
-            outPath: ./target/apps/pocketid/manifest.yaml
-
-        # Render events
-        - uses: helm-template
-          as: render-events
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/apps/events/environments/homelab/homelab.yaml
-            namespace: events
-            releaseName: events
-            outPath: ./target/apps/events/manifest.yaml
-
-        # Render nats
-        - uses: helm-template
-          as: render-nats
-          config:
-            path: ./source/charts/nats
-            valuesFiles:
-              - ./source/apps/nats/environments/homelab/nats.yaml
-            namespace: nats
-            releaseName: nats
-            outPath: ./target/apps/nats/manifest.yaml
-
-        # Render blog-dev
-        - uses: helm-template
-          as: render-blog-dev
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/apps/blog/environments/dev/homelab.yaml
-            namespace: blog
-            releaseName: blog-dev
-            outPath: ./target/apps/blog-dev/manifest.yaml
-
-        # Render blog-prod
-        - uses: helm-template
-          as: render-blog-prod
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/apps/blog/environments/prod/homelab.yaml
-            namespace: blog
-            releaseName: blog-prod
-            outPath: ./target/apps/blog-prod/manifest.yaml
-
-        # Render longhorn
-        - uses: helm-template
-          as: render-longhorn
-          config:
-            path: ./source/charts/longhorn
-            valuesFiles:
-              - ./source/infra/longhorn/environments/homelab/homelab.yaml
-            namespace: longhorn-system
-            releaseName: longhorn
-            outPath: ./target/infra/longhorn/manifest.yaml
-
-        # Render cloudflared
-        - uses: helm-template
-          as: render-cloudflared
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/infra/cloudflared/environments/homelab/homelab.yaml
-            namespace: cloudflared
-            releaseName: cloudflared
-            outPath: ./target/infra/cloudflared/manifest.yaml
-
-        # Render tailscale
-        - uses: helm-template
-          as: render-tailscale
-          config:
-            path: ./source/charts/tailscale
-            valuesFiles:
-              - ./source/infra/tailscale/environments/homelab/homelab.yaml
-            namespace: tailscale
-            releaseName: tailscale
-            outPath: ./target/infra/tailscale/manifest.yaml
-
-        # Render sealedsecrets
-        - uses: helm-template
-          as: render-sealedsecrets
-          config:
-            path: ./source/charts/sealedsecrets
-            valuesFiles:
-              - ./source/infra/sealedsecrets/environments/homelab/homelab.yaml
-            namespace: kube-system
-            releaseName: sealed-secrets
-            outPath: ./target/infra/sealedsecrets/manifest.yaml
-
-        # Render envoy-proxy-bouncer
-        - uses: helm-template
-          as: render-envoy-proxy-bouncer
-          config:
-            path: ./source/charts/envoy-proxy-bouncer
-            valuesFiles:
-              - ./source/monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
-            namespace: envoy-gateway-system
-            releaseName: envoy-proxy-bouncer
-            outPath: ./target/infra/envoy-proxy-bouncer/manifest.yaml
-
-        # Render envoy-proxy-gatekeeper
-        - uses: helm-template
-          as: render-envoy-proxy-gatekeeper
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
-            namespace: envoy-gateway-system
-            releaseName: envoy-proxy-gatekeeper
-            outPath: ./target/infra/envoy-proxy-gatekeeper/manifest.yaml
-
-        # Render radarr
-        - uses: helm-template
-          as: render-radarr
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/media/radarr/environments/homelab/homelab.yaml
-            namespace: radarr
-            releaseName: radarr
-            outPath: ./target/media/radarr/manifest.yaml
-
-        # Render sonarr
-        - uses: helm-template
-          as: render-sonarr
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/media/sonarr/environments/homelab/homelab.yaml
-            namespace: sonarr
-            releaseName: sonarr
-            outPath: ./target/media/sonarr/manifest.yaml
-
-        # Render bazarr
-        - uses: helm-template
-          as: render-bazarr
-          config:
-            path: ./source/charts/homelab
-            valuesFiles:
-              - ./source/media/bazarr/environments/homelab/homelab.yaml
-            namespace: bazarr
-            releaseName: bazarr
-            outPath: ./target/media/bazarr/manifest.yaml
-
-        # Commit all rendered manifests
-        - uses: git-commit
-          as: commit-manifests
-          config:
-            path: ./target
-            message: |
-              Render all application manifests
-
-              Rendered from main branch
-
-        # Push to homelab branch
-        - uses: git-push
-          as: push-manifests
-          config:
-            path: ./target
-            generateTargetBranch: true
-
-        # Open PR to homelab branch
-        - uses: git-open-pr
-          as: open-pr
-          continueOnError: true
-          config:
-            repoURL: https://github.com/kdwils/homelab
-            sourceBranch: ${{ outputs['push-manifests'].branch }}
-            targetBranch: homelab
-            title: "Deploy applications to homelab"
-            description: |
-              **Automated deployment of rendered manifests**
-
-              This PR contains rendered Kubernetes manifests for all applications.
-
-              Review the manifest changes and approve to deploy to the cluster.
-
-        # Wait for PR approval
-        - uses: git-wait-for-pr
-          as: wait-for-approval
-          if: ${{ status('open-pr') == 'Succeeded' }}
-          config:
-            repoURL: https://github.com/kdwils/homelab
-            prNumber: ${{ outputs['open-pr'].pr.id }}
+        - task:
+            name: render-all-apps
+            kind: PromotionTask

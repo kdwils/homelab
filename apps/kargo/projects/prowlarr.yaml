@@ -13,9 +13,6 @@ spec:
     - stageSelector:
         name: main
       autoPromotionEnabled: true
-    - stageSelector:
-        name: homelab
-      autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
@@ -63,37 +60,4 @@ spec:
       steps:
         - task:
             name: update-source-main
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: homelab
-  namespace: prowlarr
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: prowlarr
-      sources:
-        stages:
-          - main
-  promotionTemplate:
-    spec:
-      vars:
-        - name: targetBranch
-          value: media/prowlarr/staging
-        - name: projectName
-          value: prowlarr
-        - name: environmentsPath
-          value: media/prowlarr/environments/homelab
-        - name: valuesFilePath
-          value: media/prowlarr/environments/homelab/homelab.yaml
-        - name: appName
-          value: prowlarr
-        - name: namespace
-          value: media
-      steps:
-        - task:
-            name: render-and-pr-helm
             kind: ClusterPromotionTask
