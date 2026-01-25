@@ -1,7 +1,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
-kind: PromotionTask
+kind: ClusterPromotionTask
 metadata:
-  name: ClusterPromotionTask
+  name: render-homelab
 spec:
   vars:
     - name: gitRepo
