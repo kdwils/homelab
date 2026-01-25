@@ -12,9 +12,9 @@ spec:
     namespace: envoy-gateway-system
     server: "https://kubernetes.default.svc"
   source:
-    path: monitoring/envoy-proxy-gatekeeper/environments
+    path: monitoring/envoy-proxy-gatekeeper
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: monitoring/envoy-proxy-gatekeeper/homelab
+    targetRevision: homelab
   sources: []
   project: monitoring
   syncPolicy:
