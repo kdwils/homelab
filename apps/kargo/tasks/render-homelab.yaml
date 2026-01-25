@@ -25,238 +25,236 @@ spec:
       config:
         path: ./target
         branch: ${{ vars.targetBranch }}
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+    - uses: helm-template
       as: render-mealie
       config:
-        projectType: apps
-        appName: mealie
-        chartPath: charts/homelab
-        valuesFile: apps/mealie/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/mealie/environments/homelab/homelab.yaml
         namespace: mealie
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: mealie
+        outPath: ./target/apps/mealie/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-rss
       config:
-        projectType: apps
-        appName: rss
-        chartPath: charts/homelab
-        valuesFile: apps/rss/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/rss/environments/homelab/homelab.yaml
         namespace: rss
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: rss
+        outPath: ./target/apps/rss/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-bluesky
       config:
-        projectType: apps
-        appName: bluesky
-        chartPath: charts/homelab
-        valuesFile: apps/bluesky/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/bluesky/environments/homelab/homelab.yaml
         namespace: bluesky
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: bluesky
+        outPath: ./target/apps/bluesky/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-pocketid
       config:
-        projectType: apps
-        appName: pocketid
-        chartPath: charts/homelab
-        valuesFile: apps/pocketid/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/pocketid/environments/homelab/homelab.yaml
         namespace: pocketid
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: pocketid
+        outPath: ./target/apps/pocketid/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-excalidraw
       config:
-        projectType: apps
-        appName: excalidraw
-        chartPath: charts/homelab
-        valuesFile: apps/excalidraw/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/excalidraw/environments/homelab/homelab.yaml
         namespace: excalidraw
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: excalidraw
+        outPath: ./target/apps/excalidraw/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-overseerr
       config:
-        projectType: apps
-        appName: overseerr
-        chartPath: charts/homelab
-        valuesFile: apps/overseerr/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/overseerr/environments/homelab/homelab.yaml
         namespace: overseerr
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: overseerr
+        outPath: ./target/apps/overseerr/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-prowlarr
       config:
-        projectType: apps
-        appName: prowlarr
-        chartPath: charts/homelab
-        valuesFile: apps/prowlarr/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/prowlarr/environments/homelab/homelab.yaml
         namespace: prowlarr
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: prowlarr
+        outPath: ./target/apps/prowlarr/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-bazarr
       config:
-        projectType: apps
-        appName: bazarr
-        chartPath: charts/homelab
-        valuesFile: apps/bazarr/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/bazarr/environments/homelab/homelab.yaml
         namespace: bazarr
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: bazarr
+        outPath: ./target/apps/bazarr/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-radarr
       config:
-        projectType: apps
-        appName: radarr
-        chartPath: charts/homelab
-        valuesFile: apps/radarr/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/radarr/environments/homelab/homelab.yaml
         namespace: radarr
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: radarr
+        outPath: ./target/apps/radarr/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-sonarr
       config:
-        projectType: apps
-        appName: sonarr
-        chartPath: charts/homelab
-        valuesFile: apps/sonarr/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/sonarr/environments/homelab/homelab.yaml
         namespace: sonarr
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: sonarr
+        outPath: ./target/apps/sonarr/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-hoarder
       config:
-        projectType: apps
-        appName: hoarder
-        chartPath: charts/homelab
-        valuesFile: apps/hoarder/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/hoarder/environments/homelab/homelab.yaml
         namespace: hoarder
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: hoarder
+        outPath: ./target/apps/hoarder/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-events
       config:
-        projectType: apps
-        appName: events
-        chartPath: charts/homelab
-        valuesFile: apps/events/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/events/environments/homelab/homelab.yaml
         namespace: events
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: events
+        outPath: ./target/apps/events/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-blog-dev
       config:
-        projectType: apps
-        appName: blog-dev
-        chartPath: charts/homelab
-        valuesFile: apps/blog/environments/dev/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/blog/environments/dev/homelab.yaml
         namespace: blog-dev
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: blog-dev
+        outPath: ./target/apps/blog-dev/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-blog-prod
       config:
-        projectType: apps
-        appName: blog-prod
-        chartPath: charts/homelab
-        valuesFile: apps/blog/environments/prod/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/blog/environments/prod/homelab.yaml
         namespace: blog-prod
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: blog-prod
+        outPath: ./target/apps/blog-prod/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-nats
       config:
-        projectType: apps
-        appName: nats
-        chartPath: charts/nats
-        valuesFile: apps/nats/environments/homelab/nats.yaml
+        path: ./source/charts/nats
+        valuesFiles:
+          - ./source/apps/nats/environments/homelab/nats.yaml
         namespace: nats
+        releaseName: nats
+        outPath: ./target/apps/nats/manifest.yaml
         includeCRDs: "true"
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+    - uses: helm-template
       as: render-cloudflared
       config:
-        projectType: infra
-        appName: cloudflared
-        chartPath: charts/homelab
-        valuesFile: infra/cloudflared/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/infra/cloudflared/environments/homelab/homelab.yaml
         namespace: cloudflared
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: cloudflared
+        outPath: ./target/infra/cloudflared/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-longhorn
       config:
-        projectType: infra
-        appName: longhorn
-        chartPath: charts/longhorn
-        valuesFile: infra/longhorn/environments/homelab/homelab.yaml
+        path: ./source/charts/longhorn
+        valuesFiles:
+          - ./source/infra/longhorn/environments/homelab/homelab.yaml
         namespace: longhorn-system
+        releaseName: longhorn
+        outPath: ./target/infra/longhorn/manifest.yaml
         includeCRDs: "true"
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+    - uses: helm-template
       as: render-sealedsecrets
       config:
-        projectType: infra
-        appName: sealedsecrets
-        chartPath: charts/homelab
-        valuesFile: infra/sealedsecrets/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/infra/sealedsecrets/environments/homelab/homelab.yaml
         namespace: kube-system
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: sealedsecrets
+        outPath: ./target/infra/sealedsecrets/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-tailscale
       config:
-        projectType: infra
-        appName: tailscale
-        chartPath: charts/homelab
-        valuesFile: infra/tailscale/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/infra/tailscale/environments/homelab/homelab.yaml
         namespace: tailscale
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: tailscale
+        outPath: ./target/infra/tailscale/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-byparr
       config:
-        projectType: media
-        appName: byparr
-        chartPath: charts/homelab
-        valuesFile: media/byparr/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/media/byparr/environments/homelab/homelab.yaml
         namespace: byparr
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: byparr
+        outPath: ./target/media/byparr/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-plex
       config:
-        projectType: media
-        appName: plex
-        chartPath: charts/homelab
-        valuesFile: media/plex/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/media/plex/environments/homelab/homelab.yaml
         namespace: plex
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: plex
+        outPath: ./target/media/plex/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-envoy-proxy-bouncer
       config:
-        projectType: monitoring
-        appName: envoy-proxy-bouncer
-        chartPath: charts/envoy-proxy-bouncer
-        valuesFile: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
+        path: ./source/charts/envoy-proxy-bouncer
+        valuesFiles:
+          - ./source/monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
         namespace: envoy-gateway-system
-    - task:
-        name: render-single-app
-        kind: ClusterPromotionTask
+        releaseName: envoy-proxy-bouncer
+        outPath: ./target/monitoring/envoy-proxy-bouncer/manifest.yaml
+        includeCRDs: "false"
+    - uses: helm-template
       as: render-envoy-proxy-gatekeeper
       config:
-        projectType: monitoring
-        appName: envoy-proxy-gatekeeper
-        chartPath: charts/homelab
-        valuesFile: monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
         namespace: envoy-gateway-system
+        releaseName: envoy-proxy-gatekeeper
+        outPath: ./target/monitoring/envoy-proxy-gatekeeper/manifest.yaml
+        includeCRDs: "false"
     - uses: git-commit
       as: commit-all
       config:
