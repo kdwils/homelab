@@ -56,15 +56,15 @@ spec:
         namespace: pocketid
         releaseName: pocketid
         outPath: ./target/apps/pocketid/manifest.yaml
-    - uses: helm-template
-      as: render-excalidraw
-      config:
-        path: ./source/charts/homelab
-        valuesFiles:
-          - ./source/apps/excalidraw/environments/homelab/homelab.yaml
-        namespace: excalidraw
-        releaseName: excalidraw
-        outPath: ./target/apps/excalidraw/manifest.yaml
+    # - uses: helm-template
+    #   as: render-excalidraw
+    #   config:
+    #     path: ./source/charts/homelab
+    #     valuesFiles:
+    #       - ./source/apps/excalidraw/environments/homelab/homelab.yaml
+    #     namespace: excalidraw
+    #     releaseName: excalidraw
+    #     outPath: ./target/apps/excalidraw/manifest.yaml
     - uses: helm-template
       as: render-overseerr
       config:
