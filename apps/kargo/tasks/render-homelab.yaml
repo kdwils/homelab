@@ -135,7 +135,7 @@ spec:
         valuesFiles:
           - ./source/apps/blog/environments/dev/homelab.yaml
         namespace: blog
-        releaseName: blog-dev
+        releaseName: blog
         outPath: ./target/apps/blog-dev/manifest.yaml
     - uses: helm-template
       as: render-blog-prod
@@ -144,7 +144,7 @@ spec:
         valuesFiles:
           - ./source/apps/blog/environments/prod/homelab.yaml
         namespace: blog
-        releaseName: blog-prod
+        releaseName: blog
         outPath: ./target/apps/blog-prod/manifest.yaml
     - uses: helm-template
       as: render-nats
