@@ -178,7 +178,7 @@ spec:
     - uses: helm-template
       as: render-sealedsecrets
       config:
-        path: ./source/charts/homelab
+        path: ./source/charts/sealedsecrets
         valuesFiles:
           - ./source/infra/sealedsecrets/environments/homelab/homelab.yaml
         namespace: kube-system
@@ -187,7 +187,7 @@ spec:
     - uses: helm-template
       as: render-tailscale
       config:
-        path: ./source/charts/homelab
+        path: ./source/charts/tailscale
         valuesFiles:
           - ./source/infra/tailscale/environments/homelab/homelab.yaml
         namespace: tailscale
