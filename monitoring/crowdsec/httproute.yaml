@@ -9,6 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "crowdsec.int.kyledev.co"
+    - "crowdsec.ts.kyledev.co"
   rules:
     - backendRefs:
         - name: crowdsec-service
@@ -25,6 +26,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "appsec.int.kyledev.co"
+    - "appsec.ts.kyledev.co"
   rules:
     - backendRefs:
         - name: crowdsec-appsec-service

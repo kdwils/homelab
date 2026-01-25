@@ -13,6 +13,7 @@ spec:
     - "draw.int.kyledev.co"
     - "draw.ts.kyledev.co"
     - "excalidraw.int.kyledev.co"
+    - "excalidraw.ts.kyledev.co"
   rules:
     - backendRefs:
         - name: excalidraw

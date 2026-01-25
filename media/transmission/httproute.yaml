@@ -9,6 +9,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "transmission.int.kyledev.co"
+    - "transmission.ts.kyledev.co"
   rules:
     - backendRefs:
         - name: transmission

@@ -9,3 +9,6 @@ tailscale:
   oauthSecretVolume:
     secret:
       secretName: operator-oauth
+  operatorConfig:
+    defaultTags:
+      - "tag:k8s-operator"

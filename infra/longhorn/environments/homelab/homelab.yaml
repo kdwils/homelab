@@ -12,6 +12,7 @@ homelab:
     create: true
     hostnames:
       - "longhorn.int.kyledev.co"
+      - "longhorn.ts.kyledev.co"
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
