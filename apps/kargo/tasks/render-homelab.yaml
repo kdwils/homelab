@@ -20,11 +20,6 @@ spec:
             path: ./source
           - branch: ${{ vars.targetBranch }}
             path: ./target
-    - uses: git-pull
-      as: sync-target
-      config:
-        path: ./target
-        branch: ${{ vars.targetBranch }}
     - uses: helm-template
       as: render-mealie
       config:
