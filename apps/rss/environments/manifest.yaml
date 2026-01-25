@@ -85,7 +85,7 @@ spec:
         {}
       containers:
         - name: rss
-          image: "freshrss/freshrss:1.28.0"
+          image: "freshrss/freshrss:1.28.1"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
