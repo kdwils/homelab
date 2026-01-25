@@ -12,9 +12,9 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/sonarr/environments
+    path: media/sonarr
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: media/sonarr/staging
+    targetRevision: homelab
   sources: []
   project: media
   syncPolicy:

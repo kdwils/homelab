@@ -12,9 +12,9 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/overseerr/environments
+    path: media/overseerr
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: media/overseerr/staging
+    targetRevision: homelab
   sources: []
   project: media
   syncPolicy:

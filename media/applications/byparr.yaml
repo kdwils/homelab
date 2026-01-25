@@ -12,9 +12,9 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/byparr/environments
+    path: media/byparr
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: media/byparr/homelab
+    targetRevision: homelab
   sources: []
   project: media
   syncPolicy:

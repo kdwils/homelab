@@ -12,9 +12,9 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/plex/environments
+    path: media/plex
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: media/plex/staging
+    targetRevision: homelab
   sources: []
   project: media
   syncPolicy:
