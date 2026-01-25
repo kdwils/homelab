@@ -10,7 +10,7 @@ rss:
 
     image:
       repository: freshrss/freshrss
-      tag: 1.28.0
+      tag: 1.28.1
       pullPolicy: IfNotPresent
     env:
       CRON_MIN: "13,43"
