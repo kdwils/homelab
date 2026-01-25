@@ -155,7 +155,7 @@ spec:
         namespace: nats
         releaseName: nats
         outPath: ./target/apps/nats/manifest.yaml
-        includeCRDs: "true"
+        includeCRDs: true
     - uses: helm-template
       as: render-cloudflared
       config:
@@ -174,7 +174,7 @@ spec:
         namespace: longhorn-system
         releaseName: longhorn
         outPath: ./target/infra/longhorn/manifest.yaml
-        includeCRDs: "true"
+        includeCRDs: true
     - uses: helm-template
       as: render-sealedsecrets
       config:
