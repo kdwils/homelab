@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: homelab-coordinator
+  name: homelab-project
   labels:
     kargo.akuity.io/project: "true"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
-  name: homelab-coordinator
+  name: homelab-project
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
-  name: homelab-coordinator
-  namespace: homelab-coordinator
+  name: homelab-project
+  namespace: homelab-project
 spec:
   promotionPolicies:
     - stageSelector:
@@ -24,8 +24,8 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
-  name: homelab-coordinator
-  namespace: homelab-coordinator
+  name: homelab-project
+  namespace: homelab-project
 spec:
   subscriptions:
     - git:
@@ -43,12 +43,12 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: deploy
-  namespace: homelab-coordinator
+  namespace: homelab-project
 spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: homelab-coordinator
+        name: homelab-project
       sources:
         direct: true
   promotionTemplate:
