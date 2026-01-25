@@ -56,4 +56,4 @@ spec:
       steps:
         - task:
             name: render-homelab
-            kind: PromotionTask
+            kind: ClusterPromotionTask
