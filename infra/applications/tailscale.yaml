@@ -12,9 +12,9 @@ spec:
     namespace: tailscale
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/tailscale/environments
+    path: infra/tailscale
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: infra/tailscale/homelab
+    targetRevision: homelab
   sources: []
   project: infra
   syncPolicy:

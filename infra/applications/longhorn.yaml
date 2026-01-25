@@ -12,9 +12,9 @@ spec:
     namespace: longhorn-system
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/longhorn/environments
+    path: infra/longhorn
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: infra/longhorn/homelab
+    targetRevision: homelab
   sources: []
   project: infra
   syncPolicy:
