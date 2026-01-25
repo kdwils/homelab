@@ -122,6 +122,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "gatekeeper.int.kyledev.co"
+    - "gatekeeper.ts.kyledev.co"
   rules:
     - backendRefs:
       - group: ""
