@@ -110,15 +110,15 @@ spec:
         namespace: sonarr
         releaseName: sonarr
         outPath: ./target/media/sonarr/manifest.yaml
-    - uses: helm-template
-      as: render-hoarder
-      config:
-        path: ./source/charts/homelab
-        valuesFiles:
-          - ./source/apps/hoarder/environments/homelab/homelab.yaml
-        namespace: hoarder
-        releaseName: hoarder
-        outPath: ./target/apps/hoarder/manifest.yaml
+    # - uses: helm-template
+    #   as: render-hoarder
+    #   config:
+    #     path: ./source/charts/homelab
+    #     valuesFiles:
+    #       - ./source/apps/hoarder/environments/homelab/homelab.yaml
+    #     namespace: hoarder
+    #     releaseName: hoarder
+    #     outPath: ./target/apps/hoarder/manifest.yaml
     - uses: helm-template
       as: render-events
       config:
