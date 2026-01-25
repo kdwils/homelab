@@ -178,7 +178,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "events.int.kyledev.co"
-    - "events.ts.kyldev.co"
+    - "events.ts.kyledev.co"
   rules:
     - backendRefs:
       - group: ""
