@@ -4570,6 +4570,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "longhorn.int.kyledev.co"
+    - "longhorn.ts.kyledev.co"
   rules:
     - backendRefs:
       - name: longhorn-frontend
