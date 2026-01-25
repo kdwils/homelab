@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homelab-project
+  labels:
+    kargo.akuity.io/project: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: homelab-project
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: homelab-project
+  namespace: homelab-project
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: deploy
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: homelab-project
+  namespace: homelab-project
+spec:
+  subscriptions:
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        strictSemvers: false
+        includePaths:
+          - glob:apps/**/*.yaml
+          - glob:infra/**/*.yaml
+          - glob:media/**/*.yaml
+          - glob:monitoring/**/*.yaml
+          - glob:charts/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: deploy
+  namespace: homelab-project
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: homelab-project
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      steps:
+        - task:
+            name: render-homelab
+            kind: PromotionTask

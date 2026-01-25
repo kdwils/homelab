@@ -13,9 +13,6 @@ spec:
     - stageSelector:
         name: main
       autoPromotionEnabled: true
-    - stageSelector:
-        name: homelab
-      autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
@@ -93,38 +90,3 @@ spec:
               value: "Update envoy-proxy-bouncer chart dependencies"
             - name: prDescription
               value: Update envoy-proxy-bouncer chart dependencies
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: homelab
-  namespace: envoy-proxy-bouncer
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: envoy-proxy-bouncer
-      sources:
-        stages:
-          - main
-  promotionTemplate:
-    spec:
-      vars:
-        - name: chartPath
-          value: charts/envoy-proxy-bouncer
-        - name: targetBranch
-          value: monitoring/envoy-proxy-bouncer/homelab
-        - name: projectName
-          value: envoy-proxy-bouncer
-        - name: environmentsPath
-          value: monitoring/envoy-proxy-bouncer/environments/homelab
-        - name: valuesFilePath
-          value: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
-        - name: appName
-          value: envoy-bouncer
-        - name: namespace
-          value: envoy-gateway-system
-      steps:
-        - task:
-            name: render-and-pr-helm
-            kind: ClusterPromotionTask

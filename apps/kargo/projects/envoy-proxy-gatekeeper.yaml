@@ -13,9 +13,6 @@ spec:
     - stageSelector:
         name: main
       autoPromotionEnabled: true
-    - stageSelector:
-        name: homelab
-      autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
@@ -63,37 +60,4 @@ spec:
       steps:
         - task:
             name: update-source-main
-            kind: ClusterPromotionTask
----
-apiVersion: kargo.akuity.io/v1alpha1
-kind: Stage
-metadata:
-  name: homelab
-  namespace: envoy-proxy-gatekeeper
-spec:
-  requestedFreight:
-    - origin:
-        kind: Warehouse
-        name: envoy-proxy-gatekeeper
-      sources:
-        stages:
-          - main
-  promotionTemplate:
-    spec:
-      vars:
-        - name: targetBranch
-          value: monitoring/envoy-proxy-gatekeeper/homelab
-        - name: projectName
-          value: envoy-proxy-gatekeeper
-        - name: environmentsPath
-          value: monitoring/envoy-proxy-gatekeeper/environments/homelab
-        - name: valuesFilePath
-          value: monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
-        - name: appName
-          value: envoy-proxy-gatekeeper
-        - name: namespace
-          value: envoy-gateway-system
-      steps:
-        - task:
-            name: render-and-pr-helm
             kind: ClusterPromotionTask
