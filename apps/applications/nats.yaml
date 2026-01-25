@@ -12,7 +12,7 @@ spec:
     namespace: nats
     server: "https://kubernetes.default.svc"
   source:
-    path: app/nats
+    path: apps/nats
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []
