@@ -10,6 +10,7 @@ homelab:
         dnsNames:
           - nats.kyledev.co
           - nats.int.kyledev.co
+          - nats.ts.kyledev.co
         duration: 2160h
         renewBefore: 360h
 
@@ -20,6 +21,7 @@ homelab:
         namespace: envoy-gateway-system
     hostnames:
       - nats.int.kyledev.co
+      - nats.ts.kyledev.co
       - nats.kyledev.co
     rules:
       - backendRefs:

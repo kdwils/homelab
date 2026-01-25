@@ -25,6 +25,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "argocd.int.kyledev.co"
+    - "argocd.ts.kyledev.co"
   rules:
     - backendRefs:
         - name: argocd-server

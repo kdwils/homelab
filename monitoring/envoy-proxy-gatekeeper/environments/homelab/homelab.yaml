@@ -46,6 +46,7 @@ envoy-proxy-gatekeeper:
     - name: gatekeeper-int
       hostnames:
         - gatekeeper.int.kyledev.co
+        - gatekeeper.ts.kyledev.co
       parentRefs:
         - name: homelab
           namespace: envoy-gateway-system

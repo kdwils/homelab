@@ -80,7 +80,7 @@ events:
     create: true
     hostnames:
       - "events.int.kyledev.co"
-      - "events.ts.kyldev.co"
+      - "events.ts.kyledev.co"
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system

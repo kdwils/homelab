@@ -58,6 +58,7 @@ bluesky:
     hostnames:
       - bluesky.kyledev.co
       - bluesky.int.kyledev.co
+      - bluesky.ts.kyledev.co
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
