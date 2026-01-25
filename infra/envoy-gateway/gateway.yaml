@@ -38,11 +38,18 @@ spec:
           - group: gateway.networking.k8s.io
             kind: HTTPRoute
     - name: nats
-      protocol: TCP
+      protocol: TLS
       port: 4222
+      hostname: "*.kyledev.co"
       allowedRoutes:
         namespaces:
           from: All
         kinds:
           - group: gateway.networking.k8s.io
-            kind: TCPRoute
+            kind: TLSRoute
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kyledev-tls
+            kind: Secret
+            group: ""
