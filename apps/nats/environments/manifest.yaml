@@ -65,11 +65,7 @@ data:
       "lame_duck_grace_period": "10s",
       "pid_file": "/var/run/nats/nats.pid",
       "port": 4222,
-      "server_name": $SERVER_NAME,
-      "tls": {
-        "cert_file": "/etc/nats-certs/nats/tls.crt",
-        "key_file": "/etc/nats-certs/nats/tls.key"
-      }
+      "server_name": $SERVER_NAME
     }
 kind: ConfigMap
 metadata:
@@ -99,7 +95,7 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - appProtocol: tls
+  - appProtocol: tcp
     name: nats
     port: 4222
     targetPort: nats
@@ -132,7 +128,7 @@ metadata:
   namespace: nats
 spec:
   ports:
-  - appProtocol: tls
+  - appProtocol: tcp
     name: nats
     port: 4222
     targetPort: nats
@@ -298,17 +294,11 @@ spec:
           name: pid
         - mountPath: /data
           name: nats-js
-        - mountPath: /etc/nats-certs/nats
-          name: nats-tls
       - args:
         - -pid
         - /var/run/nats/nats.pid
         - -config
         - /etc/nats-config/nats.conf
-        - -config
-        - /etc/nats-certs/nats/tls.crt
-        - -config
-        - /etc/nats-certs/nats/tls.key
         image: natsio/nats-server-config-reloader:0.21.1
         name: reloader
         volumeMounts:
@@ -316,8 +306,6 @@ spec:
           name: pid
         - mountPath: /etc/nats-config
           name: config
-        - mountPath: /etc/nats-certs/nats
-          name: nats-tls
       enableServiceLinks: false
       shareProcessNamespace: true
       terminationGracePeriodSeconds: 60
@@ -327,9 +315,6 @@ spec:
         name: config
       - emptyDir: {}
         name: pid
-      - name: nats-tls
-        secret:
-          secretName: nats-tls-secret
   volumeClaimTemplates:
   - metadata:
       name: nats-js
@@ -364,9 +349,9 @@ spec:
   duration: 2160h
   renewBefore: 360h
 ---
-# Source: nats/charts/homelab/templates/tcproute.yaml
+# Source: nats/charts/homelab/templates/tlsroute.yaml
 apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TCPRoute
+kind: TLSRoute
 metadata:
   name: nats-homelab
   labels:
@@ -379,6 +364,7 @@ spec:
   parentRefs:
     - name: homelab
       namespace: envoy-gateway-system
+      sectionName: nats
   hostnames:
     - "nats.int.kyledev.co"
     - "nats.ts.kyledev.co"
