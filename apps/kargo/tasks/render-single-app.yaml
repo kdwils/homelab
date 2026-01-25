@@ -10,6 +10,7 @@ spec:
     - name: valuesFile
     - name: namespace
     - name: includeCRDs
+      value: "false"
   steps:
     - uses: helm-template
       as: render-manifest

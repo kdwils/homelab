@@ -35,8 +35,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/mealie/environments/homelab/homelab.yaml
         namespace: mealie
-        includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -47,8 +45,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/rss/environments/homelab/homelab.yaml
         namespace: rss
-        includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -59,8 +55,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/bluesky/environments/homelab/homelab.yaml
         namespace: bluesky
-        includeCRDs: "false"
-
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -71,7 +65,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/pocketid/environments/homelab/homelab.yaml
         namespace: pocketid
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -82,7 +75,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/excalidraw/environments/homelab/homelab.yaml
         namespace: excalidraw
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -93,7 +85,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/overseerr/environments/homelab/homelab.yaml
         namespace: overseerr
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -104,7 +95,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/prowlarr/environments/homelab/homelab.yaml
         namespace: prowlarr
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -115,7 +105,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/bazarr/environments/homelab/homelab.yaml
         namespace: bazarr
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -126,7 +115,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/radarr/environments/homelab/homelab.yaml
         namespace: radarr
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -137,7 +125,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/sonarr/environments/homelab/homelab.yaml
         namespace: sonarr
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -148,7 +135,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/hoarder/environments/homelab/homelab.yaml
         namespace: hoarder
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -159,7 +145,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/events/environments/homelab/homelab.yaml
         namespace: events
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -170,7 +155,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/blog/environments/dev/homelab.yaml
         namespace: blog-dev
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -181,7 +165,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: apps/blog/environments/prod/homelab.yaml
         namespace: blog-prod
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -203,7 +186,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: infra/cloudflared/environments/homelab/homelab.yaml
         namespace: cloudflared
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -225,7 +207,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: infra/sealedsecrets/environments/homelab/homelab.yaml
         namespace: kube-system
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -236,7 +217,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: infra/tailscale/environments/homelab/homelab.yaml
         namespace: tailscale
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -247,7 +227,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: media/byparr/environments/homelab/homelab.yaml
         namespace: byparr
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -258,7 +237,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: media/plex/environments/homelab/homelab.yaml
         namespace: plex
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -269,7 +247,6 @@ spec:
         chartPath: charts/envoy-proxy-bouncer
         valuesFile: monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
         namespace: envoy-gateway-system
-        includeCRDs: "false"
     - task:
         name: render-single-app
         kind: ClusterPromotionTask
@@ -280,7 +257,6 @@ spec:
         chartPath: charts/homelab
         valuesFile: monitoring/envoy-proxy-gatekeeper/environments/homelab/homelab.yaml
         namespace: envoy-gateway-system
-        includeCRDs: "false"
     - uses: git-commit
       as: commit-all
       config:
