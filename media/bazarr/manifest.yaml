@@ -1,0 +1,156 @@
+---
+# Source: homelab/charts/bazarr/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: bazarr
+  labels:
+    helm.sh/chart: bazarr-0.1.9
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/bazarr/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bazarr
+  labels:
+    helm.sh/chart: bazarr-0.1.9
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+# Source: homelab/charts/bazarr/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bazarr
+  labels:
+    helm.sh/chart: bazarr-0.1.9
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6767
+      targetPort: 6767
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: bazarr
+---
+# Source: homelab/charts/bazarr/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bazarr
+  labels:
+    helm.sh/chart: bazarr-0.1.9
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bazarr
+      app.kubernetes.io/instance: bazarr
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: bazarr-0.1.9
+        app.kubernetes.io/name: bazarr
+        app.kubernetes.io/instance: bazarr
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: bazarr
+      securityContext:
+        {}
+      containers:
+        - name: bazarr
+          image: "linuxserver/bazarr:1.5.4"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 6767
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            tcpSocket:
+              port: 6767
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            tcpSocket:
+              port: 6767
+            timeoutSeconds: 1
+          volumeMounts:
+            - mountPath: /config
+              name: bazarr
+              subPath: configs/bazarr
+            - mountPath: /movies
+              name: media
+              subPath: movies
+            - mountPath: /tv
+              name: media
+              subPath: tv
+          env:
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TZ
+              value: "UTC"
+      volumes:
+        - name: bazarr
+          persistentVolumeClaim:
+            claimName: bazarr
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+---
+# Source: homelab/charts/bazarr/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: bazarr
+  labels:
+    helm.sh/chart: bazarr-0.1.9
+    app.kubernetes.io/name: bazarr
+    app.kubernetes.io/instance: bazarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "bazarr.ts.kyledev.co"
+    - "bazarr.int.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: bazarr
+        port: 6767
