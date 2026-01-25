@@ -14,8 +14,8 @@ events:
             db:
               file: /data/db.sqlite
             nats:
-              host: nats.nats.svc.cluster.local
-              secure: false
+              host: nats.int.kyledev.co
+              secure: true
               enabled: true
               jetstream:
                 enabled: true

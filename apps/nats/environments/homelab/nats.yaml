@@ -14,12 +14,11 @@ homelab:
         duration: 2160h
         renewBefore: 360h
 
-  tlsroute:
+  tcproute:
     create: true
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
-        sectionName: nats
     hostnames:
       - nats.int.kyledev.co
       - nats.ts.kyledev.co
@@ -151,7 +150,7 @@ nats:
     nats:
       port: 4222
       tls:
-        enabled: false
+        enabled: true
         # set secretName in order to mount an existing secret to dir
         secretName: nats-tls-secret
         dir: /etc/nats-certs/nats
