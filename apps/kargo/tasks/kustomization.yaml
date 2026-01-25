@@ -1,6 +1,5 @@
 resources:
   - update-source-main.yaml
-  - render-single-app.yaml
   - render-homelab.yaml
   - update-helm-charts.yaml
   - git-ops-clone.yaml
