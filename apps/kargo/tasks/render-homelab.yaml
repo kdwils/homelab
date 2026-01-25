@@ -70,46 +70,46 @@ spec:
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/overseerr/environments/homelab/homelab.yaml
+          - ./source/media/overseerr/environments/homelab/homelab.yaml
         namespace: overseerr
         releaseName: overseerr
-        outPath: ./target/apps/overseerr/manifest.yaml
+        outPath: ./target/media/overseerr/manifest.yaml
     - uses: helm-template
       as: render-prowlarr
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/prowlarr/environments/homelab/homelab.yaml
+          - ./source/media/prowlarr/environments/homelab/homelab.yaml
         namespace: prowlarr
         releaseName: prowlarr
-        outPath: ./target/apps/prowlarr/manifest.yaml
+        outPath: ./target/media/prowlarr/manifest.yaml
     - uses: helm-template
       as: render-bazarr
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/bazarr/environments/homelab/homelab.yaml
+          - ./source/media/bazarr/environments/homelab/homelab.yaml
         namespace: bazarr
         releaseName: bazarr
-        outPath: ./target/apps/bazarr/manifest.yaml
+        outPath: ./target/media/bazarr/manifest.yaml
     - uses: helm-template
       as: render-radarr
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/radarr/environments/homelab/homelab.yaml
+          - ./source/media/radarr/environments/homelab/homelab.yaml
         namespace: radarr
         releaseName: radarr
-        outPath: ./target/apps/radarr/manifest.yaml
+        outPath: ./target/media/radarr/manifest.yaml
     - uses: helm-template
       as: render-sonarr
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/sonarr/environments/homelab/homelab.yaml
+          - ./source/media/sonarr/environments/homelab/homelab.yaml
         namespace: sonarr
         releaseName: sonarr
-        outPath: ./target/apps/sonarr/manifest.yaml
+        outPath: ./target/media/sonarr/manifest.yaml
     - uses: helm-template
       as: render-hoarder
       config:
