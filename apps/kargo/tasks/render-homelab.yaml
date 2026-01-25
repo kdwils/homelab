@@ -29,7 +29,6 @@ spec:
         namespace: mealie
         releaseName: mealie
         outPath: ./target/apps/mealie/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-rss
       config:
@@ -39,7 +38,6 @@ spec:
         namespace: rss
         releaseName: rss
         outPath: ./target/apps/rss/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-bluesky
       config:
@@ -49,7 +47,6 @@ spec:
         namespace: bluesky
         releaseName: bluesky
         outPath: ./target/apps/bluesky/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-pocketid
       config:
@@ -59,7 +56,6 @@ spec:
         namespace: pocketid
         releaseName: pocketid
         outPath: ./target/apps/pocketid/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-excalidraw
       config:
@@ -69,7 +65,6 @@ spec:
         namespace: excalidraw
         releaseName: excalidraw
         outPath: ./target/apps/excalidraw/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-overseerr
       config:
@@ -79,7 +74,6 @@ spec:
         namespace: overseerr
         releaseName: overseerr
         outPath: ./target/apps/overseerr/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-prowlarr
       config:
@@ -89,7 +83,6 @@ spec:
         namespace: prowlarr
         releaseName: prowlarr
         outPath: ./target/apps/prowlarr/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-bazarr
       config:
@@ -99,7 +92,6 @@ spec:
         namespace: bazarr
         releaseName: bazarr
         outPath: ./target/apps/bazarr/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-radarr
       config:
@@ -109,7 +101,6 @@ spec:
         namespace: radarr
         releaseName: radarr
         outPath: ./target/apps/radarr/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-sonarr
       config:
@@ -119,7 +110,6 @@ spec:
         namespace: sonarr
         releaseName: sonarr
         outPath: ./target/apps/sonarr/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-hoarder
       config:
@@ -129,7 +119,6 @@ spec:
         namespace: hoarder
         releaseName: hoarder
         outPath: ./target/apps/hoarder/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-events
       config:
@@ -139,7 +128,6 @@ spec:
         namespace: events
         releaseName: events
         outPath: ./target/apps/events/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-blog-dev
       config:
@@ -149,7 +137,6 @@ spec:
         namespace: blog-dev
         releaseName: blog-dev
         outPath: ./target/apps/blog-dev/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-blog-prod
       config:
@@ -159,7 +146,6 @@ spec:
         namespace: blog-prod
         releaseName: blog-prod
         outPath: ./target/apps/blog-prod/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-nats
       config:
@@ -179,7 +165,6 @@ spec:
         namespace: cloudflared
         releaseName: cloudflared
         outPath: ./target/infra/cloudflared/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-longhorn
       config:
@@ -199,7 +184,6 @@ spec:
         namespace: kube-system
         releaseName: sealedsecrets
         outPath: ./target/infra/sealedsecrets/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-tailscale
       config:
@@ -209,7 +193,6 @@ spec:
         namespace: tailscale
         releaseName: tailscale
         outPath: ./target/infra/tailscale/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-byparr
       config:
@@ -219,7 +202,6 @@ spec:
         namespace: byparr
         releaseName: byparr
         outPath: ./target/media/byparr/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-plex
       config:
@@ -229,7 +211,6 @@ spec:
         namespace: plex
         releaseName: plex
         outPath: ./target/media/plex/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-envoy-proxy-bouncer
       config:
@@ -239,7 +220,6 @@ spec:
         namespace: envoy-gateway-system
         releaseName: envoy-proxy-bouncer
         outPath: ./target/monitoring/envoy-proxy-bouncer/manifest.yaml
-        includeCRDs: "false"
     - uses: helm-template
       as: render-envoy-proxy-gatekeeper
       config:
@@ -249,7 +229,6 @@ spec:
         namespace: envoy-gateway-system
         releaseName: envoy-proxy-gatekeeper
         outPath: ./target/monitoring/envoy-proxy-gatekeeper/manifest.yaml
-        includeCRDs: "false"
     - uses: git-commit
       as: commit-all
       config:
