@@ -230,6 +230,15 @@ spec:
         namespace: envoy-gateway-system
         releaseName: envoy-proxy-gatekeeper
         outPath: ./target/monitoring/envoy-proxy-gatekeeper/manifest.yaml
+    - uses: helm-template
+      as: render-clickhouse
+      config:
+        path: ./source/charts/clickhouse
+        valuesFiles:
+          - ./source/apps/clickhouse/environments/homelab/homelab.yaml
+        namespace: clickhouse
+        releaseName: clickhouse
+        outPath: ./target/apps/clickhouse/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:

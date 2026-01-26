@@ -1,0 +1,92 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: clickhouse
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: clickhouse
+  namespace: clickhouse
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: clickhouse
+  namespace: clickhouse
+spec:
+  subscriptions:
+    - chart:
+        repoURL: https://clickhouse.github.io/ClickStack-helm-charts
+        name: clickstack
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/clickhouse/environments/**
+          - glob:charts/clickhouse/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: clickhouse
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: clickhouse
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: clickhouse
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/clickhouse
+            - name: chartRepo
+              value: https://clickhouse.github.io/ClickStack-helm-charts
+            - name: chartName
+              value: clickstack
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/clickhouse
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update clickhouse chart dependencies
+            - name: prTitle
+              value: "Update clickhouse chart dependencies"
+            - name: prDescription
+              value: Update clickhouse chart dependencies

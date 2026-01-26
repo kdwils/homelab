@@ -1,6 +1,7 @@
 resources:
   - blog.yaml
   - bluesky.yaml
+  - clickhouse.yaml
   - events.yaml
   - excalidraw.yaml
   - hoarder.yaml

@@ -1,0 +1,9 @@
+dependencies:
+- name: clickstack
+  repository: https://clickhouse.github.io/ClickStack-helm-charts
+  version: 1.1.0
+- name: homelab-chart
+  repository: https://kdwils.github.io/helm-charts
+  version: 0.1.9
+digest: sha256:6e50b3b824e9f264168ab8ee0d7436823e0ef9fa785bc53fccfe47da45020262
+generated: "2026-01-25T19:28:01.668196-05:00"
