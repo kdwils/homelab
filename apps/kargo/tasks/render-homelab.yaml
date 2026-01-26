@@ -233,11 +233,11 @@ spec:
     - uses: helm-template
       as: render-clickhouse
       config:
-        path: ./source/charts/homelab
+        path: ./source/charts/clickhouse
         valuesFiles:
           - ./source/apps/clickhouse/environments/homelab/homelab.yaml
         namespace: clickhouse
-        releaseName: envoy-proxy-gatekeeper
+        releaseName: clickhouse
         outPath: ./target/apps/clickhouse/manifest.yaml
     - uses: git-commit
       as: commit-all
