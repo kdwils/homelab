@@ -20,7 +20,6 @@ metadata:
   name: clickhouse
   namespace: clickhouse
 spec:
-  interval: "1h0m0s"
   subscriptions:
     - chart:
         repoURL: https://clickhouse.github.io/ClickStack-helm-charts
@@ -31,10 +30,9 @@ spec:
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
-        strictSemvers: false
         includePaths:
-          - glob:infra/clickhouse/environments/**
-          - glob:charts/homelab/**
+          - glob:apps/clickhouse/environments/**
+          - glob:charts/clickhouse/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -51,17 +49,44 @@ spec:
   promotionTemplate:
     spec:
       vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
         - name: targetBranch
           value: main
         - name: warehouse
           value: clickhouse
-        - name: imageRepo
-          value: cloudflare/clickhouse
-        - name: valuesFilePath
-          value: infra/clickhouse/environments/homelab/homelab.yaml
-        - name: imageTagYamlPath
-          value: clickhouse.deployment.image.tag
       steps:
         - task:
-            name: update-source-main
+            name: git-ops-clone
             kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/clickhouse
+            - name: chartRepo
+              value: https://clickhouse.github.io/ClickStack-helm-charts
+            - name: chartName
+              value: clickstack
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/clickhouse
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update clickhouse chart dependencies
+            - name: prTitle
+              value: "Update clickhouse chart dependencies"
+            - name: prDescription
+              value: Update clickhouse chart dependencies
