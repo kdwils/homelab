@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: clickhouse
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: clickhouse
+    server: "https://kubernetes.default.svc"
+  source:
+    path: apps/clickhouse
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: homelab
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

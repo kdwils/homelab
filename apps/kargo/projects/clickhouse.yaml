@@ -1,0 +1,67 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: clickhouse
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: clickhouse
+  namespace: clickhouse
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: clickhouse
+  namespace: clickhouse
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: https://clickhouse.github.io/ClickStack-helm-charts
+        name: clickstack
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        strictSemvers: false
+        includePaths:
+          - glob:infra/clickhouse/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: clickhouse
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: clickhouse
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: clickhouse
+        - name: imageRepo
+          value: cloudflare/clickhouse
+        - name: valuesFilePath
+          value: infra/clickhouse/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: clickhouse.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask

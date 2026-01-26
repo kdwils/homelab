@@ -5,6 +5,7 @@ resources:
   - blog.yaml
   - bluesky.yaml
   - byparr.yaml
+  - clickhouse.yaml
   - cloudflared.yaml
   - envoy-proxy-bouncer.yaml
   - envoy-proxy-gatekeeper.yaml
