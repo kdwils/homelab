@@ -4,10 +4,10 @@ description: Clickhouse helm charts
 version: 0.1.0
 dependencies:
   - name: clickstack
-    version: ^1.0.0
+    version: 1.1.0
     repository: https://clickhouse.github.io/ClickStack-helm-charts
     alias: clickhouse
   - name: homelab-chart
-    version: ^0.1.0
+    version: 0.1.9
     repository: https://kdwils.github.io/helm-charts
     alias: homelab
