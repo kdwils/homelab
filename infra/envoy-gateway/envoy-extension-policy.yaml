@@ -21,7 +21,5 @@ spec:
         webhook_authority: "events.events.svc.cluster.local"
         webhook_path: "/api/v1/events/envoy-gateway/http_request"
         headers:
-          - ":method"
-          - ":path"
           - ":authority"
           - "x-forwarded-for"
