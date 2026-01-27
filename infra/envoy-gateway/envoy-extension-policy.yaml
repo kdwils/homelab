@@ -15,11 +15,10 @@ spec:
       code:
         type: Image
         image:
-          url: ghcr.io/kdwils/envoy-wasm-traffic-plugin:sha-0741bb0b24626890f1bece8dcd8b6659489b527e
+          url: ghcr.io/kdwils/envoy-wasm-traffic-plugin:sha-9dcc7d21306ab77267a57c83452f762d3c58b3ee
       config:
         webhook_cluster: "webhook_cluster"
         webhook_authority: "events.events.svc.cluster.local"
         webhook_path: "/api/v1/events/envoy-gateway/http_request"
-        headers:
-          - ":authority"
-          - "x-forwarded-for"
+        trusted_proxies:
+          - "10.42.0.0/16"
