@@ -41,7 +41,7 @@ events:
 
     image:
       repository: ghcr.io/kdwils/events
-      tag: sha-2cc6bc04fd0473409c3dc99fad12ba34f8c952a6
+      tag: sha-b6a84675f3c94a24264bcb6f3eb19d64831fb43a
       pullPolicy: IfNotPresent
 
     args:
