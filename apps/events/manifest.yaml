@@ -29,7 +29,7 @@ data:
     server:
       port: 8080
     db:
-      file: /data/db.sqlite
+      file: /data/events.duckdb
     nats:
       host: nats.int.kyledev.co
       secure: true
