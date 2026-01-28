@@ -53,7 +53,7 @@ sonarr:
   pvc:
     create: true
     pvcs:
-      - name: sonarr
+      - name: sonarr-pvc
         size: 8Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
