@@ -44,7 +44,7 @@ overseerr:
   pvc:
     create: true
     pvcs:
-      - name: overseerr
+      - name: overseerr-pvc
         size: 1Gi
         storageClassName: ""
         accessMode: ReadWriteOnce

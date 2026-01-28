@@ -23,7 +23,7 @@ radarr:
           claimName: media
       - name: radarr
         persistentVolumeClaim:
-          claimName: radarr
+          claimName: radarr-pvc
     volumeMounts:
       - mountPath: /config
         name: radarr
@@ -54,7 +54,7 @@ radarr:
   pvc:
     create: true
     pvcs:
-      - name: radarr
+      - name: radarr-pvc
         size: 8Gi
         storageClassName: ""
         accessMode: ReadWriteOnce

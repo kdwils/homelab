@@ -20,7 +20,7 @@ sonarr:
     volumes:
       - name: sonarr
         persistentVolumeClaim:
-          claimName: sonarr
+          claimName: sonarr-pvc
       - name: media
         persistentVolumeClaim:
           claimName: media
