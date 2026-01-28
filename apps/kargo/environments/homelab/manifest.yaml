@@ -3,24 +3,12 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: "kargo-cluster-secrets"
+  name: kargo-cluster-secrets
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
----
-# Source: longhorn/charts/kargo/templates/system-resources-namespace/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: "kargo-system-resources"
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: longhorn/charts/kargo/templates/api/service-account.yaml
@@ -30,10 +18,10 @@ metadata:
   name: kargo-api
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 ---
@@ -44,10 +32,10 @@ metadata:
   name: kargo-controller
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 ---
@@ -58,10 +46,10 @@ metadata:
   name: kargo-garbage-collector
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: garbage-collector
 ---
@@ -72,10 +60,10 @@ metadata:
   name: kargo-webhooks-server
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 ---
@@ -86,10 +74,10 @@ metadata:
   name: kargo-management-controller
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: management-controller
 ---
@@ -100,12 +88,11 @@ metadata:
   name: kargo-admin
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
-    rbac.kargo.akuity.io/system-role: "true"
   annotations:
     rbac.kargo.akuity.io/claims: "{\"groups\":[\"admins\"]}"
 ---
@@ -116,12 +103,11 @@ metadata:
   name: kargo-project-creator
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
-    rbac.kargo.akuity.io/system-role: "true"
 ---
 # Source: longhorn/charts/kargo/templates/users/service-accounts.yaml
 apiVersion: v1
@@ -130,12 +116,11 @@ metadata:
   name: kargo-user
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
-    rbac.kargo.akuity.io/system-role: "true"
 ---
 # Source: longhorn/charts/kargo/templates/users/service-accounts.yaml
 apiVersion: v1
@@ -144,12 +129,11 @@ metadata:
   name: kargo-viewer
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
-    rbac.kargo.akuity.io/system-role: "true"
   annotations:
     rbac.kargo.akuity.io/claims: "{\"groups\":[\"friends\"]}"
 ---
@@ -160,10 +144,10 @@ metadata:
   name: kargo-api
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 data:
@@ -171,7 +155,7 @@ data:
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
   SECRET_MANAGEMENT_ENABLED: "true"
-  SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
+  CLUSTER_SECRETS_NAMESPACE: kargo-cluster-secrets
   PERMISSIVE_CORS_POLICY_ENABLED: "false"
   ADMIN_ACCOUNT_ENABLED: "true"
   ADMIN_ACCOUNT_TOKEN_ISSUER: http://kargo.int.kyledev.co
@@ -194,26 +178,23 @@ metadata:
   name: kargo-controller
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 data:
   API_SERVER_BASE_URL: http://kargo.int.kyledev.co
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
-  SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
+  CLUSTER_SECRETS_NAMESPACE: kargo-cluster-secrets
   IS_DEFAULT_CONTROLLER: "true"
-  SHARED_RESOURCES_NAMESPACE: "kargo-cluster-secrets"
+  GLOBAL_CREDENTIALS_NAMESPACES: ""
   ALLOW_CREDENTIALS_OVER_HTTP: "false"
   GITCLIENT_NAME: "Kargo"
   GITCLIENT_EMAIL: "no-reply@kargo.io"
   GITCLIENT_SIGNING_KEY_TYPE: "gpg"
-  CACHE_BY_TAG_POLICY: "Allow"
-  MAX_IMAGE_CACHE_ENTRIES: "100000"
-  IMAGE_REGISTRY_RATE_LIMIT: "20"
   ARGOCD_INTEGRATION_ENABLED: "true"
   ARGOCD_NAMESPACE: argocd
   ARGOCD_WATCH_ARGOCD_NAMESPACE_ONLY: "false"
@@ -232,10 +213,10 @@ metadata:
   name: kargo-garbage-collector
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: garbage-collector
 data:
@@ -254,10 +235,10 @@ metadata:
   name: kargo-webhooks-server
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 data:
@@ -265,7 +246,6 @@ data:
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
   CONTROLPLANE_USER_REGEX: ^system:serviceaccount:kargo:(kargo-api|kargo-controller|kargo-garbage-collector|kargo-management-controller)$
-  CACHE_BY_TAG_POLICY: "Allow"
 ---
 # Source: longhorn/charts/kargo/templates/management-controller/configmap.yaml
 apiVersion: v1
@@ -274,19 +254,16 @@ metadata:
   name: kargo-management-controller
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: management-controller
 data:
   EXTERNAL_WEBHOOK_SERVER_BASE_URL: https://localhost
   KARGO_NAMESPACE: kargo
-  CLUSTER_SECRETS_NAMESPACE: "kargo-cluster-secrets"
-  SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
-  GLOBAL_CREDENTIALS_NAMESPACE: ""
-  SHARED_RESOURCES_NAMESPACE: "kargo-cluster-secrets"
+  CLUSTER_SECRETS_NAMESPACE: kargo-cluster-secrets
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
   MAX_CONCURRENT_NAMESPACE_RECONCILES: "4"
@@ -372,7 +349,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret-token` key whose
                             value is the shared secret used to authenticate the webhook requests sent
@@ -431,7 +408,7 @@ spec:
                             For Project-scoped webhook\nreceivers, the referenced
                             Secret must be in the same namespace as the\nProjectConfig.\n\nFor
                             cluster-scoped webhook receivers, the referenced Secret
-                            must be in the\ndesignated \"system resources\" namespace.\n\nThe
+                            must be in the\ndesignated \"cluster Secrets\" namespace.\n\nThe
                             Secret's data map is expected to contain a `secret` key
                             whose value\ndoes NOT need to be shared directly with
                             Azure when registering a webhook.\nIt is used only by
@@ -467,7 +444,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose
                             value is the shared secret used to authenticate the webhook requests sent
@@ -521,187 +498,6 @@ spec:
                       required:
                       - secretRef
                       type: object
-                    generic:
-                      description: Generic contains the configuration for a generic
-                        webhook receiver.
-                      properties:
-                        actions:
-                          description: Actions is a list of actions to be performed
-                            when a webhook event is received.
-                          items:
-                            description: |-
-                              GenericWebhookAction describes an action to be performed on a resource
-                              and the conditions under which it should be performed.
-                            properties:
-                              action:
-                                description: |-
-                                  ActionType indicates the type of action to be performed. `Refresh` is the
-                                  only currently supported action.
-                                enum:
-                                - Refresh
-                                type: string
-                              parameters:
-                                additionalProperties:
-                                  type: string
-                                description: |-
-                                  Parameters contains additional, action-specific parameters. Values may be
-                                  static or extracted from the request using expressions.
-                                type: object
-                              targetSelectionCriteria:
-                                description: |-
-                                  TargetSelectionCriteria is a list of selection criteria for the resources on which the
-                                  action should be performed.
-                                items:
-                                  description: |-
-                                    GenericWebhookTargetSelectionCriteria describes selection criteria for resources to which some
-                                    action is to be applied. Name, LabelSelector, and IndexSelector are all optional
-                                    however, at least one must be specified. When multiple criteria are specified, the
-                                    results are the combined (logical AND) of the criteria.
-                                  properties:
-                                    indexSelector:
-                                      description: |-
-                                        IndexSelector is a selector used to identify cached target resources by cache key.
-                                        If used with LabelSelector and/or Name, the results are the combined (logical AND) of all the criteria.
-                                      properties:
-                                        matchIndices:
-                                          description: MatchIndices is a list of index
-                                            selector requirements.
-                                          items:
-                                            description: |-
-                                              IndexSelectorRequirement encapsulates a requirement used to select indexes
-                                              based on specific criteria.
-                                            properties:
-                                              key:
-                                                description: Key is the key of the
-                                                  index.
-                                                enum:
-                                                - subscribedURLs
-                                                - receiverPaths
-                                                type: string
-                                              operator:
-                                                description: |-
-                                                  Operator indicates the operation that should be used to evaluate
-                                                  whether the selection requirement is satisfied.
-
-                                                  kubebuilder:validation:Enum=Equal;NotEqual;
-                                                type: string
-                                              value:
-                                                description: |-
-                                                  Value can be a static string or an expression that will be evaluated.
-
-                                                  kubebuilder:validation:Required
-                                                type: string
-                                            required:
-                                            - key
-                                            - operator
-                                            - value
-                                            type: object
-                                          minItems: 1
-                                          type: array
-                                      type: object
-                                    kind:
-                                      description: Kind is the kind of the target
-                                        resource.
-                                      enum:
-                                      - Warehouse
-                                      type: string
-                                    labelSelector:
-                                      description: |-
-                                        LabelSelector is a label selector to identify the target resources.
-                                        If used with IndexSelector and/or Name, the results are the combined (logical AND) of all the criteria.
-                                      properties:
-                                        matchExpressions:
-                                          description: matchExpressions is a list
-                                            of label selector requirements. The requirements
-                                            are ANDed.
-                                          items:
-                                            description: |-
-                                              A label selector requirement is a selector that contains values, a key, and an operator that
-                                              relates the key and values.
-                                            properties:
-                                              key:
-                                                description: key is the label key
-                                                  that the selector applies to.
-                                                type: string
-                                              operator:
-                                                description: |-
-                                                  operator represents a key's relationship to a set of values.
-                                                  Valid operators are In, NotIn, Exists and DoesNotExist.
-                                                type: string
-                                              values:
-                                                description: |-
-                                                  values is an array of string values. If the operator is In or NotIn,
-                                                  the values array must be non-empty. If the operator is Exists or DoesNotExist,
-                                                  the values array must be empty. This array is replaced during a strategic
-                                                  merge patch.
-                                                items:
-                                                  type: string
-                                                type: array
-                                                x-kubernetes-list-type: atomic
-                                            required:
-                                            - key
-                                            - operator
-                                            type: object
-                                          type: array
-                                          x-kubernetes-list-type: atomic
-                                        matchLabels:
-                                          additionalProperties:
-                                            type: string
-                                          description: |-
-                                            matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
-                                            map is equivalent to an element of matchExpressions, whose key field is "key", the
-                                            operator is "In", and the values array contains only "value". The requirements are ANDed.
-                                          type: object
-                                      type: object
-                                      x-kubernetes-map-type: atomic
-                                    name:
-                                      description: |-
-                                        Name is the name of the target resource. If LabelSelector and/or IndexSelectors
-                                        are also specified, the results are the combined (logical AND) of the criteria.
-                                      type: string
-                                  required:
-                                  - kind
-                                  type: object
-                                minItems: 1
-                                type: array
-                              whenExpression:
-                                description: |-
-                                  WhenExpression defines criteria that a request must meet to run this
-                                  action.
-                                type: string
-                            required:
-                            - action
-                            type: object
-                          minItems: 1
-                          type: array
-                        secretRef:
-                          description: |-
-                            SecretRef contains a reference to a Secret. For Project-scoped webhook
-                            receivers, the referenced Secret must be in the same namespace as the
-                            ProjectConfig.
-
-                            For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
-
-                            The Secret's data map is expected to contain a `secret` key whose value
-                            does NOT need to be shared directly with the sender. It is used only by
-                            Kargo to create a complex, hard-to-guess URL, which implicitly serves as a
-                            shared secret.
-                          properties:
-                            name:
-                              default: ""
-                              description: |-
-                                Name of the referent.
-                                This field is effectively required, but due to backwards compatibility is
-                                allowed to be empty. Instances of this type with an empty value here are
-                                almost certainly wrong.
-                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                              type: string
-                          type: object
-                          x-kubernetes-map-type: atomic
-                      required:
-                      - secretRef
-                      type: object
                     gitea:
                       description: |-
                         Gitea contains the configuration for a webhook receiver that is compatible
@@ -714,7 +510,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose value is
                             the shared secret used to authenticate the webhook requests sent by Gitea.
@@ -747,7 +543,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose value is
                             the shared secret used to authenticate the webhook requests sent by GitHub.
@@ -780,7 +576,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The secret is expected to contain a `secret-token` key containing the
                             shared secret specified when registering the webhook in GitLab. For more
@@ -813,7 +609,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The secret is expected to contain an `auth-header` key containing the "auth
                             header" specified when registering the webhook in Harbor. For more
@@ -852,7 +648,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose value
                             does NOT need to be shared directly with Quay when registering a
@@ -1266,44 +1062,6 @@ spec:
               may reject unrecognized values.
               More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
-          artifacts:
-            description: |-
-              Artifacts describes specific versions of artifacts other
-              than Git repository commits, container images, and Helm charts.
-            items:
-              description: ArtifactReference is a reference to a specific version
-                of an artifact.
-              properties:
-                artifactType:
-                  description: |-
-                    ArtifactType specifies the type of artifact this is. Often, but not always,
-                    it will be the media type (MIME type) of the artifact referenced by this
-                    ArtifactReference.
-                  minLength: 1
-                  type: string
-                metadata:
-                  description: |-
-                    Metadata is a JSON object containing a mostly opaque collection of artifact
-                    attributes. (It must be an object. It may not be a list or a scalar value.)
-                    "Mostly" because Kargo may understand how to interpret some documented,
-                    well-known, top-level keys. Those aside, this metadata is only understood
-                    by a corresponding Subscriber implementation that created it.
-                  x-kubernetes-preserve-unknown-fields: true
-                subscriptionName:
-                  description: |-
-                    SubscriptionName is the name of the Subscription that discovered this
-                    artifact.
-                  minLength: 1
-                  type: string
-                version:
-                  description: Version identifies a specific revision of this artifact.
-                  minLength: 1
-                  type: string
-              required:
-              - subscriptionName
-              - version
-              type: object
-            type: array
           charts:
             description: Charts describes specific versions of specific Helm charts.
             items:
@@ -1668,7 +1426,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret-token` key whose
                             value is the shared secret used to authenticate the webhook requests sent
@@ -1727,7 +1485,7 @@ spec:
                             For Project-scoped webhook\nreceivers, the referenced
                             Secret must be in the same namespace as the\nProjectConfig.\n\nFor
                             cluster-scoped webhook receivers, the referenced Secret
-                            must be in the\ndesignated \"system resources\" namespace.\n\nThe
+                            must be in the\ndesignated \"cluster Secrets\" namespace.\n\nThe
                             Secret's data map is expected to contain a `secret` key
                             whose value\ndoes NOT need to be shared directly with
                             Azure when registering a webhook.\nIt is used only by
@@ -1763,7 +1521,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose
                             value is the shared secret used to authenticate the webhook requests sent
@@ -1817,187 +1575,6 @@ spec:
                       required:
                       - secretRef
                       type: object
-                    generic:
-                      description: Generic contains the configuration for a generic
-                        webhook receiver.
-                      properties:
-                        actions:
-                          description: Actions is a list of actions to be performed
-                            when a webhook event is received.
-                          items:
-                            description: |-
-                              GenericWebhookAction describes an action to be performed on a resource
-                              and the conditions under which it should be performed.
-                            properties:
-                              action:
-                                description: |-
-                                  ActionType indicates the type of action to be performed. `Refresh` is the
-                                  only currently supported action.
-                                enum:
-                                - Refresh
-                                type: string
-                              parameters:
-                                additionalProperties:
-                                  type: string
-                                description: |-
-                                  Parameters contains additional, action-specific parameters. Values may be
-                                  static or extracted from the request using expressions.
-                                type: object
-                              targetSelectionCriteria:
-                                description: |-
-                                  TargetSelectionCriteria is a list of selection criteria for the resources on which the
-                                  action should be performed.
-                                items:
-                                  description: |-
-                                    GenericWebhookTargetSelectionCriteria describes selection criteria for resources to which some
-                                    action is to be applied. Name, LabelSelector, and IndexSelector are all optional
-                                    however, at least one must be specified. When multiple criteria are specified, the
-                                    results are the combined (logical AND) of the criteria.
-                                  properties:
-                                    indexSelector:
-                                      description: |-
-                                        IndexSelector is a selector used to identify cached target resources by cache key.
-                                        If used with LabelSelector and/or Name, the results are the combined (logical AND) of all the criteria.
-                                      properties:
-                                        matchIndices:
-                                          description: MatchIndices is a list of index
-                                            selector requirements.
-                                          items:
-                                            description: |-
-                                              IndexSelectorRequirement encapsulates a requirement used to select indexes
-                                              based on specific criteria.
-                                            properties:
-                                              key:
-                                                description: Key is the key of the
-                                                  index.
-                                                enum:
-                                                - subscribedURLs
-                                                - receiverPaths
-                                                type: string
-                                              operator:
-                                                description: |-
-                                                  Operator indicates the operation that should be used to evaluate
-                                                  whether the selection requirement is satisfied.
-
-                                                  kubebuilder:validation:Enum=Equal;NotEqual;
-                                                type: string
-                                              value:
-                                                description: |-
-                                                  Value can be a static string or an expression that will be evaluated.
-
-                                                  kubebuilder:validation:Required
-                                                type: string
-                                            required:
-                                            - key
-                                            - operator
-                                            - value
-                                            type: object
-                                          minItems: 1
-                                          type: array
-                                      type: object
-                                    kind:
-                                      description: Kind is the kind of the target
-                                        resource.
-                                      enum:
-                                      - Warehouse
-                                      type: string
-                                    labelSelector:
-                                      description: |-
-                                        LabelSelector is a label selector to identify the target resources.
-                                        If used with IndexSelector and/or Name, the results are the combined (logical AND) of all the criteria.
-                                      properties:
-                                        matchExpressions:
-                                          description: matchExpressions is a list
-                                            of label selector requirements. The requirements
-                                            are ANDed.
-                                          items:
-                                            description: |-
-                                              A label selector requirement is a selector that contains values, a key, and an operator that
-                                              relates the key and values.
-                                            properties:
-                                              key:
-                                                description: key is the label key
-                                                  that the selector applies to.
-                                                type: string
-                                              operator:
-                                                description: |-
-                                                  operator represents a key's relationship to a set of values.
-                                                  Valid operators are In, NotIn, Exists and DoesNotExist.
-                                                type: string
-                                              values:
-                                                description: |-
-                                                  values is an array of string values. If the operator is In or NotIn,
-                                                  the values array must be non-empty. If the operator is Exists or DoesNotExist,
-                                                  the values array must be empty. This array is replaced during a strategic
-                                                  merge patch.
-                                                items:
-                                                  type: string
-                                                type: array
-                                                x-kubernetes-list-type: atomic
-                                            required:
-                                            - key
-                                            - operator
-                                            type: object
-                                          type: array
-                                          x-kubernetes-list-type: atomic
-                                        matchLabels:
-                                          additionalProperties:
-                                            type: string
-                                          description: |-
-                                            matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels
-                                            map is equivalent to an element of matchExpressions, whose key field is "key", the
-                                            operator is "In", and the values array contains only "value". The requirements are ANDed.
-                                          type: object
-                                      type: object
-                                      x-kubernetes-map-type: atomic
-                                    name:
-                                      description: |-
-                                        Name is the name of the target resource. If LabelSelector and/or IndexSelectors
-                                        are also specified, the results are the combined (logical AND) of the criteria.
-                                      type: string
-                                  required:
-                                  - kind
-                                  type: object
-                                minItems: 1
-                                type: array
-                              whenExpression:
-                                description: |-
-                                  WhenExpression defines criteria that a request must meet to run this
-                                  action.
-                                type: string
-                            required:
-                            - action
-                            type: object
-                          minItems: 1
-                          type: array
-                        secretRef:
-                          description: |-
-                            SecretRef contains a reference to a Secret. For Project-scoped webhook
-                            receivers, the referenced Secret must be in the same namespace as the
-                            ProjectConfig.
-
-                            For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
-
-                            The Secret's data map is expected to contain a `secret` key whose value
-                            does NOT need to be shared directly with the sender. It is used only by
-                            Kargo to create a complex, hard-to-guess URL, which implicitly serves as a
-                            shared secret.
-                          properties:
-                            name:
-                              default: ""
-                              description: |-
-                                Name of the referent.
-                                This field is effectively required, but due to backwards compatibility is
-                                allowed to be empty. Instances of this type with an empty value here are
-                                almost certainly wrong.
-                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
-                              type: string
-                          type: object
-                          x-kubernetes-map-type: atomic
-                      required:
-                      - secretRef
-                      type: object
                     gitea:
                       description: |-
                         Gitea contains the configuration for a webhook receiver that is compatible
@@ -2010,7 +1587,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose value is
                             the shared secret used to authenticate the webhook requests sent by Gitea.
@@ -2043,7 +1620,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose value is
                             the shared secret used to authenticate the webhook requests sent by GitHub.
@@ -2076,7 +1653,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The secret is expected to contain a `secret-token` key containing the
                             shared secret specified when registering the webhook in GitLab. For more
@@ -2109,7 +1686,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The secret is expected to contain an `auth-header` key containing the "auth
                             header" specified when registering the webhook in Harbor. For more
@@ -2148,7 +1725,7 @@ spec:
                             ProjectConfig.
 
                             For cluster-scoped webhook receivers, the referenced Secret must be in the
-                            designated "system resources" namespace.
+                            designated "cluster Secrets" namespace.
 
                             The Secret's data map is expected to contain a `secret` key whose value
                             does NOT need to be shared directly with Quay when registering a
@@ -2726,45 +2303,6 @@ spec:
                 description: Freight is the detail of the piece of freight that was
                   referenced by this promotion.
                 properties:
-                  artifacts:
-                    description: |-
-                      Artifacts describes specific versions of artifacts other
-                      than Git repository commits, container images, and Helm charts.
-                    items:
-                      description: ArtifactReference is a reference to a specific
-                        version of an artifact.
-                      properties:
-                        artifactType:
-                          description: |-
-                            ArtifactType specifies the type of artifact this is. Often, but not always,
-                            it will be the media type (MIME type) of the artifact referenced by this
-                            ArtifactReference.
-                          minLength: 1
-                          type: string
-                        metadata:
-                          description: |-
-                            Metadata is a JSON object containing a mostly opaque collection of artifact
-                            attributes. (It must be an object. It may not be a list or a scalar value.)
-                            "Mostly" because Kargo may understand how to interpret some documented,
-                            well-known, top-level keys. Those aside, this metadata is only understood
-                            by a corresponding Subscriber implementation that created it.
-                          x-kubernetes-preserve-unknown-fields: true
-                        subscriptionName:
-                          description: |-
-                            SubscriptionName is the name of the Subscription that discovered this
-                            artifact.
-                          minLength: 1
-                          type: string
-                        version:
-                          description: Version identifies a specific revision of this
-                            artifact.
-                          minLength: 1
-                          type: string
-                      required:
-                      - subscriptionName
-                      - version
-                      type: object
-                    type: array
                   charts:
                     description: Charts describes specific versions of specific Helm
                       charts.
@@ -2898,45 +2436,6 @@ spec:
                         FreightReference is a simplified representation of a piece of Freight -- not
                         a root resource type.
                       properties:
-                        artifacts:
-                          description: |-
-                            Artifacts describes specific versions of artifacts other
-                            than Git repository commits, container images, and Helm charts.
-                          items:
-                            description: ArtifactReference is a reference to a specific
-                              version of an artifact.
-                            properties:
-                              artifactType:
-                                description: |-
-                                  ArtifactType specifies the type of artifact this is. Often, but not always,
-                                  it will be the media type (MIME type) of the artifact referenced by this
-                                  ArtifactReference.
-                                minLength: 1
-                                type: string
-                              metadata:
-                                description: |-
-                                  Metadata is a JSON object containing a mostly opaque collection of artifact
-                                  attributes. (It must be an object. It may not be a list or a scalar value.)
-                                  "Mostly" because Kargo may understand how to interpret some documented,
-                                  well-known, top-level keys. Those aside, this metadata is only understood
-                                  by a corresponding Subscriber implementation that created it.
-                                x-kubernetes-preserve-unknown-fields: true
-                              subscriptionName:
-                                description: |-
-                                  SubscriptionName is the name of the Subscription that discovered this
-                                  artifact.
-                                minLength: 1
-                                type: string
-                              version:
-                                description: Version identifies a specific revision
-                                  of this artifact.
-                                minLength: 1
-                                type: string
-                            required:
-                            - subscriptionName
-                            - version
-                            type: object
-                          type: array
                         charts:
                           description: Charts describes specific versions of specific
                             Helm charts.
@@ -4015,45 +3514,6 @@ spec:
                   freight:
                     description: Freight is the freight being promoted.
                     properties:
-                      artifacts:
-                        description: |-
-                          Artifacts describes specific versions of artifacts other
-                          than Git repository commits, container images, and Helm charts.
-                        items:
-                          description: ArtifactReference is a reference to a specific
-                            version of an artifact.
-                          properties:
-                            artifactType:
-                              description: |-
-                                ArtifactType specifies the type of artifact this is. Often, but not always,
-                                it will be the media type (MIME type) of the artifact referenced by this
-                                ArtifactReference.
-                              minLength: 1
-                              type: string
-                            metadata:
-                              description: |-
-                                Metadata is a JSON object containing a mostly opaque collection of artifact
-                                attributes. (It must be an object. It may not be a list or a scalar value.)
-                                "Mostly" because Kargo may understand how to interpret some documented,
-                                well-known, top-level keys. Those aside, this metadata is only understood
-                                by a corresponding Subscriber implementation that created it.
-                              x-kubernetes-preserve-unknown-fields: true
-                            subscriptionName:
-                              description: |-
-                                SubscriptionName is the name of the Subscription that discovered this
-                                artifact.
-                              minLength: 1
-                              type: string
-                            version:
-                              description: Version identifies a specific revision
-                                of this artifact.
-                              minLength: 1
-                              type: string
-                          required:
-                          - subscriptionName
-                          - version
-                          type: object
-                        type: array
                       charts:
                         description: Charts describes specific versions of specific
                           Helm charts.
@@ -4194,45 +3654,6 @@ spec:
                         description: Freight is the detail of the piece of freight
                           that was referenced by this promotion.
                         properties:
-                          artifacts:
-                            description: |-
-                              Artifacts describes specific versions of artifacts other
-                              than Git repository commits, container images, and Helm charts.
-                            items:
-                              description: ArtifactReference is a reference to a specific
-                                version of an artifact.
-                              properties:
-                                artifactType:
-                                  description: |-
-                                    ArtifactType specifies the type of artifact this is. Often, but not always,
-                                    it will be the media type (MIME type) of the artifact referenced by this
-                                    ArtifactReference.
-                                  minLength: 1
-                                  type: string
-                                metadata:
-                                  description: |-
-                                    Metadata is a JSON object containing a mostly opaque collection of artifact
-                                    attributes. (It must be an object. It may not be a list or a scalar value.)
-                                    "Mostly" because Kargo may understand how to interpret some documented,
-                                    well-known, top-level keys. Those aside, this metadata is only understood
-                                    by a corresponding Subscriber implementation that created it.
-                                  x-kubernetes-preserve-unknown-fields: true
-                                subscriptionName:
-                                  description: |-
-                                    SubscriptionName is the name of the Subscription that discovered this
-                                    artifact.
-                                  minLength: 1
-                                  type: string
-                                version:
-                                  description: Version identifies a specific revision
-                                    of this artifact.
-                                  minLength: 1
-                                  type: string
-                              required:
-                              - subscriptionName
-                              - version
-                              type: object
-                            type: array
                           charts:
                             description: Charts describes specific versions of specific
                               Helm charts.
@@ -4369,45 +3790,6 @@ spec:
                                 FreightReference is a simplified representation of a piece of Freight -- not
                                 a root resource type.
                               properties:
-                                artifacts:
-                                  description: |-
-                                    Artifacts describes specific versions of artifacts other
-                                    than Git repository commits, container images, and Helm charts.
-                                  items:
-                                    description: ArtifactReference is a reference
-                                      to a specific version of an artifact.
-                                    properties:
-                                      artifactType:
-                                        description: |-
-                                          ArtifactType specifies the type of artifact this is. Often, but not always,
-                                          it will be the media type (MIME type) of the artifact referenced by this
-                                          ArtifactReference.
-                                        minLength: 1
-                                        type: string
-                                      metadata:
-                                        description: |-
-                                          Metadata is a JSON object containing a mostly opaque collection of artifact
-                                          attributes. (It must be an object. It may not be a list or a scalar value.)
-                                          "Mostly" because Kargo may understand how to interpret some documented,
-                                          well-known, top-level keys. Those aside, this metadata is only understood
-                                          by a corresponding Subscriber implementation that created it.
-                                        x-kubernetes-preserve-unknown-fields: true
-                                      subscriptionName:
-                                        description: |-
-                                          SubscriptionName is the name of the Subscription that discovered this
-                                          artifact.
-                                        minLength: 1
-                                        type: string
-                                      version:
-                                        description: Version identifies a specific
-                                          revision of this artifact.
-                                        minLength: 1
-                                        type: string
-                                    required:
-                                    - subscriptionName
-                                    - version
-                                    type: object
-                                  type: array
                                 charts:
                                   description: Charts describes specific versions
                                     of specific Helm charts.
@@ -4718,45 +4100,6 @@ spec:
                           FreightReference is a simplified representation of a piece of Freight -- not
                           a root resource type.
                         properties:
-                          artifacts:
-                            description: |-
-                              Artifacts describes specific versions of artifacts other
-                              than Git repository commits, container images, and Helm charts.
-                            items:
-                              description: ArtifactReference is a reference to a specific
-                                version of an artifact.
-                              properties:
-                                artifactType:
-                                  description: |-
-                                    ArtifactType specifies the type of artifact this is. Often, but not always,
-                                    it will be the media type (MIME type) of the artifact referenced by this
-                                    ArtifactReference.
-                                  minLength: 1
-                                  type: string
-                                metadata:
-                                  description: |-
-                                    Metadata is a JSON object containing a mostly opaque collection of artifact
-                                    attributes. (It must be an object. It may not be a list or a scalar value.)
-                                    "Mostly" because Kargo may understand how to interpret some documented,
-                                    well-known, top-level keys. Those aside, this metadata is only understood
-                                    by a corresponding Subscriber implementation that created it.
-                                  x-kubernetes-preserve-unknown-fields: true
-                                subscriptionName:
-                                  description: |-
-                                    SubscriptionName is the name of the Subscription that discovered this
-                                    artifact.
-                                  minLength: 1
-                                  type: string
-                                version:
-                                  description: Version identifies a specific revision
-                                    of this artifact.
-                                  minLength: 1
-                                  type: string
-                              required:
-                              - subscriptionName
-                              - version
-                              type: object
-                            type: array
                           charts:
                             description: Charts describes specific versions of specific
                               Helm charts.
@@ -4999,45 +4342,6 @@ spec:
                   freight:
                     description: Freight is the freight being promoted.
                     properties:
-                      artifacts:
-                        description: |-
-                          Artifacts describes specific versions of artifacts other
-                          than Git repository commits, container images, and Helm charts.
-                        items:
-                          description: ArtifactReference is a reference to a specific
-                            version of an artifact.
-                          properties:
-                            artifactType:
-                              description: |-
-                                ArtifactType specifies the type of artifact this is. Often, but not always,
-                                it will be the media type (MIME type) of the artifact referenced by this
-                                ArtifactReference.
-                              minLength: 1
-                              type: string
-                            metadata:
-                              description: |-
-                                Metadata is a JSON object containing a mostly opaque collection of artifact
-                                attributes. (It must be an object. It may not be a list or a scalar value.)
-                                "Mostly" because Kargo may understand how to interpret some documented,
-                                well-known, top-level keys. Those aside, this metadata is only understood
-                                by a corresponding Subscriber implementation that created it.
-                              x-kubernetes-preserve-unknown-fields: true
-                            subscriptionName:
-                              description: |-
-                                SubscriptionName is the name of the Subscription that discovered this
-                                artifact.
-                              minLength: 1
-                              type: string
-                            version:
-                              description: Version identifies a specific revision
-                                of this artifact.
-                              minLength: 1
-                              type: string
-                          required:
-                          - subscriptionName
-                          - version
-                          type: object
-                        type: array
                       charts:
                         description: Charts describes specific versions of specific
                           Helm charts.
@@ -5178,45 +4482,6 @@ spec:
                         description: Freight is the detail of the piece of freight
                           that was referenced by this promotion.
                         properties:
-                          artifacts:
-                            description: |-
-                              Artifacts describes specific versions of artifacts other
-                              than Git repository commits, container images, and Helm charts.
-                            items:
-                              description: ArtifactReference is a reference to a specific
-                                version of an artifact.
-                              properties:
-                                artifactType:
-                                  description: |-
-                                    ArtifactType specifies the type of artifact this is. Often, but not always,
-                                    it will be the media type (MIME type) of the artifact referenced by this
-                                    ArtifactReference.
-                                  minLength: 1
-                                  type: string
-                                metadata:
-                                  description: |-
-                                    Metadata is a JSON object containing a mostly opaque collection of artifact
-                                    attributes. (It must be an object. It may not be a list or a scalar value.)
-                                    "Mostly" because Kargo may understand how to interpret some documented,
-                                    well-known, top-level keys. Those aside, this metadata is only understood
-                                    by a corresponding Subscriber implementation that created it.
-                                  x-kubernetes-preserve-unknown-fields: true
-                                subscriptionName:
-                                  description: |-
-                                    SubscriptionName is the name of the Subscription that discovered this
-                                    artifact.
-                                  minLength: 1
-                                  type: string
-                                version:
-                                  description: Version identifies a specific revision
-                                    of this artifact.
-                                  minLength: 1
-                                  type: string
-                              required:
-                              - subscriptionName
-                              - version
-                              type: object
-                            type: array
                           charts:
                             description: Charts describes specific versions of specific
                               Helm charts.
@@ -5353,45 +4618,6 @@ spec:
                                 FreightReference is a simplified representation of a piece of Freight -- not
                                 a root resource type.
                               properties:
-                                artifacts:
-                                  description: |-
-                                    Artifacts describes specific versions of artifacts other
-                                    than Git repository commits, container images, and Helm charts.
-                                  items:
-                                    description: ArtifactReference is a reference
-                                      to a specific version of an artifact.
-                                    properties:
-                                      artifactType:
-                                        description: |-
-                                          ArtifactType specifies the type of artifact this is. Often, but not always,
-                                          it will be the media type (MIME type) of the artifact referenced by this
-                                          ArtifactReference.
-                                        minLength: 1
-                                        type: string
-                                      metadata:
-                                        description: |-
-                                          Metadata is a JSON object containing a mostly opaque collection of artifact
-                                          attributes. (It must be an object. It may not be a list or a scalar value.)
-                                          "Mostly" because Kargo may understand how to interpret some documented,
-                                          well-known, top-level keys. Those aside, this metadata is only understood
-                                          by a corresponding Subscriber implementation that created it.
-                                        x-kubernetes-preserve-unknown-fields: true
-                                      subscriptionName:
-                                        description: |-
-                                          SubscriptionName is the name of the Subscription that discovered this
-                                          artifact.
-                                        minLength: 1
-                                        type: string
-                                      version:
-                                        description: Version identifies a specific
-                                          revision of this artifact.
-                                        minLength: 1
-                                        type: string
-                                    required:
-                                    - subscriptionName
-                                    - version
-                                    type: object
-                                  type: array
                                 charts:
                                   description: Charts describes specific versions
                                     of specific Helm charts.
@@ -5804,7 +5030,381 @@ spec:
                   Subscriptions describes sources of artifacts to be included in Freight
                   produced by this Warehouse.
                 items:
-                  x-kubernetes-preserve-unknown-fields: true
+                  description: |-
+                    RepoSubscription describes a subscription to ONE OF a Git repository, a
+                    container image repository, or a Helm chart repository.
+                  properties:
+                    chart:
+                      description: Chart describes a subscription to a Helm chart
+                        repository.
+                      properties:
+                        discoveryLimit:
+                          default: 20
+                          description: |-
+                            DiscoveryLimit is an optional limit on the number of chart versions that
+                            can be discovered for this subscription. The limit is applied after
+                            filtering charts based on the SemverConstraint field.
+                            When left unspecified, the field is implicitly treated as if its value
+                            were "20". The upper limit for this field is 100.
+                          format: int32
+                          maximum: 100
+                          minimum: 1
+                          type: integer
+                        name:
+                          description: |-
+                            Name specifies the name of a Helm chart to subscribe to within a classic
+                            chart repository specified by the RepoURL field. This field is required
+                            when the RepoURL field points to a classic chart repository and MUST
+                            otherwise be empty.
+                          type: string
+                        repoURL:
+                          description: |-
+                            RepoURL specifies the URL of a Helm chart repository. It may be a classic
+                            chart repository (using HTTP/S) OR a repository within an OCI registry.
+                            Classic chart repositories can contain differently named charts. When this
+                            field points to such a repository, the Name field MUST also be used
+                            to specify the name of the desired chart within that repository. In the
+                            case of a repository within an OCI registry, the URL implicitly points to
+                            a specific chart and the Name field MUST NOT be used. The RepoURL field is
+                            required.
+                          minLength: 1
+                          pattern: ^(((https?)|(oci))://)([\w\d\.\-]+)(:[\d]+)?(/.*)*$
+                          type: string
+                        semverConstraint:
+                          description: |-
+                            SemverConstraint specifies constraints on what new chart versions are
+                            permissible. This field is optional. When left unspecified, there will be
+                            no constraints, which means the latest version of the chart will always be
+                            used. Care should be taken with leaving this field unspecified, as it can
+                            lead to the unanticipated rollout of breaking changes.
+                            More info: https://github.com/masterminds/semver#checking-version-constraints
+                          type: string
+                      required:
+                      - repoURL
+                      type: object
+                    git:
+                      description: Git describes a subscriptions to a Git repository.
+                      properties:
+                        allowTags:
+                          description: |-
+                            AllowTags is a regular expression that can optionally be used to limit the
+                            tags that are considered in determining the newest commit of interest. The
+                            value in this field only has any effect when the CommitSelectionStrategy is
+                            Lexical, NewestTag, or SemVer. This field is optional.
+                          type: string
+                        branch:
+                          description: |-
+                            Branch references a particular branch of the repository. The value in this
+                            field only has any effect when the CommitSelectionStrategy is
+                            NewestFromBranch or left unspecified (which is implicitly the same as
+                            NewestFromBranch). This field is optional. When left unspecified, (and the
+                            CommitSelectionStrategy is NewestFromBranch or unspecified), the
+                            subscription is implicitly to the repository's default branch.
+                          maxLength: 255
+                          minLength: 1
+                          pattern: ^[a-zA-Z0-9]([a-zA-Z0-9._\/-]*[a-zA-Z0-9_-])?$
+                          type: string
+                        commitSelectionStrategy:
+                          default: NewestFromBranch
+                          description: |-
+                            CommitSelectionStrategy specifies the rules for how to identify the newest
+                            commit of interest in the repository specified by the RepoURL field. This
+                            field is optional. When left unspecified, the field is implicitly treated
+                            as if its value were "NewestFromBranch".
+
+                            Accepted values:
+
+                            - "NewestFromBranch": Selects the latest commit on the branch specified
+                              by the Branch field or the default branch if none is specified. This is
+                              the default strategy.
+
+                            - "SemVer": Selects the commit referenced by the semantically greatest
+                              tag. The SemverConstraint field can optionally be used to narrow the set
+                              of tags eligible for selection.
+
+                            - "Lexical": Selects the commit referenced by the lexicographically
+                              greatest tag. Useful when tags embed a _leading_ date or timestamp. The
+                              AllowTags and IgnoreTags fields can optionally be used to narrow the set
+                              of tags eligible for selection.
+
+                            - "NewestTag": Selects the commit referenced by the most recently created
+                              tag. The AllowTags and IgnoreTags fields can optionally be used to
+                              narrow the set of tags eligible for selection.
+                          enum:
+                          - Lexical
+                          - NewestFromBranch
+                          - NewestTag
+                          - SemVer
+                          type: string
+                        discoveryLimit:
+                          default: 20
+                          description: |-
+                            DiscoveryLimit is an optional limit on the number of commits that can be
+                            discovered for this subscription. The limit is applied after filtering
+                            commits based on the AllowTags and IgnoreTags fields.
+                            When left unspecified, the field is implicitly treated as if its value
+                            were "20". The upper limit for this field is 100.
+                          format: int32
+                          maximum: 100
+                          minimum: 1
+                          type: integer
+                        excludePaths:
+                          description: |-
+                            ExcludePaths is a list of selectors that designate paths in the repository
+                            that should NOT trigger the production of new Freight when changes are
+                            detected therein. When specified, changes in the identified paths will not
+                            trigger Freight production. When not specified, paths that should trigger
+                            Freight production will be defined solely by IncludePaths. Selectors may be
+                            defined using:
+                              1. Exact paths to files or directories (ex. "charts/foo")
+                              2. Glob patterns (prefix the pattern with "glob:"; ex. "glob:*.yaml")
+                              3. Regular expressions (prefix the pattern with "regex:" or "regexp:";
+                                 ex. "regexp:^.*\.yaml$")
+                            Paths selected by IncludePaths may be unselected by ExcludePaths. This
+                            is a useful method for including a broad set of paths and then excluding a
+                            subset of them.
+                          items:
+                            type: string
+                          type: array
+                        expressionFilter:
+                          description: "ExpressionFilter is an expression that can
+                            optionally be used to limit\nthe commits or tags that
+                            are considered in determining the newest commit\nof interest
+                            based on their metadata.\n\nFor commit-based strategies
+                            (NewestFromBranch), the filter applies to\ncommits and
+                            has access to commit metadata variables.\nFor tag-based
+                            strategies (Lexical, NewestTag, SemVer), the filter applies\nto
+                            tags and has access to tag metadata variables. The filter
+                            is applied\nafter AllowTags, IgnoreTags, and SemverConstraint
+                            fields.\n\nThe expression should be a valid expr-lang
+                            expression that evaluates to\ntrue or false. When the
+                            expression evaluates to true, the commit/tag is\nincluded
+                            in the set that is considered. When the expression evaluates
+                            to\nfalse, the commit/tag is excluded.\n\nAvailable variables
+                            depend on the CommitSelectionStrategy:\n\nFor NewestFromBranch
+                            (commit filtering):\n  - `id`: The ID (sha) of the commit.\n
+                            \ - `commitDate`: The commit date of the commit.\n  -
+                            `author`: The author of the commit message, in the format
+                            \"Name <email>\".\n  - `committer`: The person who committed
+                            the commit, in the format\n\t   \"Name <email>\".\n  -
+                            `subject`: The subject (first line) of the commit message.\n\nFor
+                            Lexical, NewestTag, SemVer (tag filtering):\n  - `tag`:
+                            The name of the tag.\n  - `id`: The ID (sha) of the commit
+                            associated with the tag.\n  - `creatorDate`: The creation
+                            date of an annotated tag, or the commit\n\t\tdate of a
+                            lightweight tag.\n  - `author`: The author of the commit
+                            message associated with the tag,\n\t   in the format \"Name
+                            <email>\".\n  - `committer`: The person who committed
+                            the commit associated with the\n\t   tag, in the format
+                            \"Name <email>\".\n  - `subject`: The subject (first line)
+                            of the commit message associated\n\t   with the tag.\n\t
+                            - `tagger`: The person who created the tag, in the format
+                            \"Name <email>\".\n\t   Only available for annotated tags.\n\t
+                            - `annotation`: The subject (first line) of the tag annotation.
+                            Only\n\t   available for annotated tags.\n\nRefer to the
+                            expr-lang documentation for more details on syntax and\ncapabilities
+                            of the expression language: https://expr-lang.org."
+                          type: string
+                        ignoreTags:
+                          description: |-
+                            IgnoreTags is a list of tags that must be ignored when determining the
+                            newest commit of interest. No regular expressions or glob patterns are
+                            supported yet. The value in this field only has any effect when the
+                            CommitSelectionStrategy is Lexical, NewestTag, or SemVer. This field is
+                            optional.
+                          items:
+                            type: string
+                          type: array
+                        includePaths:
+                          description: |-
+                            IncludePaths is a list of selectors that designate paths in the repository
+                            that should trigger the production of new Freight when changes are detected
+                            therein. When specified, only changes in the identified paths will trigger
+                            Freight production. When not specified, changes in any path will trigger
+                            Freight production. Selectors may be defined using:
+                              1. Exact paths to files or directories (ex. "charts/foo")
+                              2. Glob patterns (prefix the pattern with "glob:"; ex. "glob:*.yaml")
+                              3. Regular expressions (prefix the pattern with "regex:" or "regexp:";
+                                 ex. "regexp:^.*\.yaml$")
+
+                            Paths selected by IncludePaths may be unselected by ExcludePaths. This
+                            is a useful method for including a broad set of paths and then excluding a
+                            subset of them.
+                          items:
+                            type: string
+                          type: array
+                        insecureSkipTLSVerify:
+                          description: |-
+                            InsecureSkipTLSVerify specifies whether certificate verification errors
+                            should be ignored when connecting to the repository. This should be enabled
+                            only with great caution.
+                          type: boolean
+                        repoURL:
+                          description: URL is the repository's URL. This is a required
+                            field.
+                          minLength: 1
+                          pattern: (?:^(ssh|https?)://(?:([\w-]+)(:(.+))?@)?([\w-]+(?:\.[\w-]+)*)(?::(\d{1,5}))?(/.*)$)|(?:^([\w-]+)@([\w+]+(?:\.[\w-]+)*):(/?.*))
+                          type: string
+                        semverConstraint:
+                          description: |-
+                            SemverConstraint specifies constraints on what new tagged commits are
+                            considered in determining the newest commit of interest. The value in this
+                            field only has any effect when the CommitSelectionStrategy is SemVer. This
+                            field is optional. When left unspecified, there will be no constraints,
+                            which means the latest semantically tagged commit will always be used. Care
+                            should be taken with leaving this field unspecified, as it can lead to the
+                            unanticipated rollout of breaking changes.
+                          type: string
+                        strictSemvers:
+                          default: true
+                          description: |-
+                            StrictSemvers specifies whether only "strict" semver tags should be
+                            considered. A "strict" semver tag is one containing ALL of major, minor,
+                            and patch version components. This is enabled by default, but only has any
+                            effect when the CommitSelectionStrategy is SemVer. This should be disabled
+                            cautiously, as it creates the potential for any tag containing numeric
+                            characters only to be mistaken for a semver string containing the major
+                            version number only.
+                          type: boolean
+                      required:
+                      - repoURL
+                      - strictSemvers
+                      type: object
+                    image:
+                      description: Image describes a subscription to container image
+                        repository.
+                      properties:
+                        allowTags:
+                          description: |-
+                            AllowTags is a regular expression that can optionally be used to limit the
+                            image tags that are considered in determining the newest version of an
+                            image. This field is optional.
+                          type: string
+                        constraint:
+                          description: |-
+                            Constraint specifies constraints on what new image versions are
+                            permissible. Acceptable values for this field vary contextually by
+                            ImageSelectionStrategy. The field is optional and is ignored by some
+                            strategies. When non-empty, the value in this field takes precedence over
+                            the value of the deprecated SemverConstraint field.
+                          type: string
+                        discoveryLimit:
+                          default: 20
+                          description: |-
+                            DiscoveryLimit is an optional limit on the number of image references
+                            that can be discovered for this subscription. The limit is applied after
+                            filtering images based on the AllowTags and IgnoreTags fields.
+                            When left unspecified, the field is implicitly treated as if its value
+                            were "20". The upper limit for this field is 100.
+                          format: int32
+                          maximum: 100
+                          minimum: 1
+                          type: integer
+                        ignoreTags:
+                          description: |-
+                            IgnoreTags is a list of tags that must be ignored when determining the
+                            newest version of an image. No regular expressions or glob patterns are
+                            supported yet. This field is optional.
+                          items:
+                            type: string
+                          type: array
+                        imageSelectionStrategy:
+                          default: SemVer
+                          description: |-
+                            ImageSelectionStrategy specifies the rules for how to identify the newest version
+                            of the image specified by the RepoURL field. This field is optional. When
+                            left unspecified, the field is implicitly treated as if its value were
+                            "SemVer".
+
+                            Accepted values:
+
+                            - "Digest": Selects the image currently referenced by the tag specified
+                              (unintuitively) by the SemverConstraint field.
+
+                            - "Lexical": Selects the image referenced by the lexicographically greatest
+                              tag. Useful when tags embed a leading date or timestamp. The AllowTags
+                              and IgnoreTags fields can optionally be used to narrow the set of tags
+                              eligible for selection.
+
+                            - "NewestBuild": Selects the image that was most recently pushed to the
+                              repository. The AllowTags and IgnoreTags fields can optionally be used
+                              to narrow the set of tags eligible for selection. This is the least
+                              efficient and is likely to cause rate limiting affecting this Warehouse
+                              and possibly others. This strategy should be avoided.
+
+                            - "SemVer": Selects the image with the semantically greatest tag. The
+                              AllowTags and IgnoreTags fields can optionally be used to narrow the set
+                              of tags eligible for selection.
+                          enum:
+                          - Digest
+                          - Lexical
+                          - NewestBuild
+                          - SemVer
+                          type: string
+                        insecureSkipTLSVerify:
+                          description: |-
+                            InsecureSkipTLSVerify specifies whether certificate verification errors
+                            should be ignored when connecting to the repository. This should be enabled
+                            only with great caution.
+                          type: boolean
+                        platform:
+                          description: |-
+                            Platform is a string of the form <os>/<arch> that limits the tags that can
+                            be considered when searching for new versions of an image. This field is
+                            optional. When left unspecified, it is implicitly equivalent to the
+                            OS/architecture of the Kargo controller. Care should be taken to set this
+                            value correctly in cases where the image referenced by this
+                            ImageRepositorySubscription will run on a Kubernetes node with a different
+                            OS/architecture than the Kargo controller. At present this is uncommon, but
+                            not unheard of.
+                          type: string
+                        repoURL:
+                          description: |-
+                            RepoURL specifies the URL of the image repository to subscribe to. The
+                            value in this field MUST NOT include an image tag. This field is required.
+                          minLength: 1
+                          pattern: ^(\w+([\.-]\w+)*(:[\d]+)?/)?(\w+([\.-]\w+)*)(/\w+([\.-]\w+)*)*$
+                          type: string
+                        semverConstraint:
+                          description: |-
+                            SemverConstraint specifies constraints on what new image versions are
+                            permissible. The value in this field only has any effect when the
+                            ImageSelectionStrategy is SemVer or left unspecified (which is implicitly
+                            the same as SemVer). This field is also optional. When left unspecified,
+                            (and the ImageSelectionStrategy is SemVer or unspecified), there will be no
+                            constraints, which means the latest semantically tagged version of an image
+                            will always be used. Care should be taken with leaving this field
+                            unspecified, as it can lead to the unanticipated rollout of breaking
+                            changes.
+                            More info: https://github.com/masterminds/semver#checking-version-constraints
+
+                            Deprecated: Use Constraint instead. This field will be removed in v1.9.0
+                          type: string
+                        strictSemvers:
+                          default: true
+                          description: |-
+                            StrictSemvers specifies whether only "strict" semver tags should be
+                            considered. A "strict" semver tag is one containing ALL of major, minor,
+                            and patch version components. This is enabled by default, but only has any
+                            effect when the ImageSelectionStrategy is SemVer. This should be disabled
+                            cautiously, as it is not uncommon to tag container images with short Git
+                            commit hashes, which have the potential to contain numeric characters only
+                            and could be mistaken for a semver string containing the major version
+                            number only.
+                          type: boolean
+                      required:
+                      - repoURL
+                      - strictSemvers
+                      type: object
+                      x-kubernetes-validations:
+                      - message: semverConstraint and constraint fields are mutually
+                          exclusive
+                        rule: '!(has(self.semverConstraint) && has(self.constraint))'
+                      - message: If imageSelectionStrategy is Digest, either constraint
+                          or semverConstraint must be set
+                        rule: '!(self.imageSelectionStrategy == ''Digest'') || has(self.constraint)
+                          || has(self.semverConstraint)'
+                  type: object
                 minItems: 1
                 type: array
             required:
@@ -6052,63 +5652,6 @@ spec:
                       - repoURL
                       type: object
                     type: array
-                  results:
-                    description: Results holds the artifact references discovered
-                      by the Warehouse.
-                    items:
-                      description: |-
-                        DiscoveryResult represents the result of an artifact discovery operation for
-                        some subscription.
-                      properties:
-                        artifactReferences:
-                          description: |-
-                            ArtifactReferences is a list of references to specific versions of an
-                            artifact.
-                          items:
-                            description: ArtifactReference is a reference to a specific
-                              version of an artifact.
-                            properties:
-                              artifactType:
-                                description: |-
-                                  ArtifactType specifies the type of artifact this is. Often, but not always,
-                                  it will be the media type (MIME type) of the artifact referenced by this
-                                  ArtifactReference.
-                                minLength: 1
-                                type: string
-                              metadata:
-                                description: |-
-                                  Metadata is a JSON object containing a mostly opaque collection of artifact
-                                  attributes. (It must be an object. It may not be a list or a scalar value.)
-                                  "Mostly" because Kargo may understand how to interpret some documented,
-                                  well-known, top-level keys. Those aside, this metadata is only understood
-                                  by a corresponding Subscriber implementation that created it.
-                                x-kubernetes-preserve-unknown-fields: true
-                              subscriptionName:
-                                description: |-
-                                  SubscriptionName is the name of the Subscription that discovered this
-                                  artifact.
-                                minLength: 1
-                                type: string
-                              version:
-                                description: Version identifies a specific revision
-                                  of this artifact.
-                                minLength: 1
-                                type: string
-                            required:
-                            - subscriptionName
-                            - version
-                            type: object
-                          type: array
-                        name:
-                          description: |-
-                            SubscriptionName is the name of the Subscription that discovered these
-                            results.
-                          minLength: 1
-                          type: string
-                      required:
-                      - name
-                      type: object
-                    type: array
                 type: object
               lastFreightID:
                 description: |-
@@ -6142,10 +5685,10 @@ kind: ClusterRole
 metadata:
   name: kargo-api
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 rules:
@@ -6179,6 +5722,7 @@ rules:
       - ""
     resources:
       - configmaps
+      - secrets
     verbs:
       - list
       - get
@@ -6263,10 +5807,10 @@ kind: ClusterRole
 metadata:
   name: kargo-api-rollouts
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 rules:
@@ -6289,10 +5833,10 @@ kind: ClusterRole
 metadata:
   name: kargo-project-admin
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -6331,10 +5875,10 @@ kind: ClusterRole
 metadata:
   name: kargo-project-secrets-reader
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -6352,10 +5896,10 @@ kind: ClusterRole
 metadata:
   name: kargo-controller
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 rules:
@@ -6430,10 +5974,10 @@ kind: ClusterRole
 metadata:
   name: kargo-controller-read-secrets
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 rules:
@@ -6452,10 +5996,10 @@ kind: ClusterRole
 metadata:
   name: kargo-controller-argocd
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 rules:
@@ -6475,10 +6019,10 @@ kind: ClusterRole
 metadata:
   name: kargo-controller-rollouts
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 rules:
@@ -6516,10 +6060,10 @@ kind: ClusterRole
 metadata:
   name: kargo-garbage-collector
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: garbage-collector
 rules:
@@ -6566,10 +6110,10 @@ kind: ClusterRole
 metadata:
   name: kargo-webhooks-server
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 rules:
@@ -6645,10 +6189,10 @@ kind: ClusterRole
 metadata:
   name: kargo-webhooks-server-ns-controller
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 rules:
@@ -6671,10 +6215,10 @@ kind: ClusterRole
 metadata:
   name: kargo-webhooks-server-generic-gc
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 rules:
@@ -6691,10 +6235,10 @@ kind: ClusterRole
 metadata:
   name: kargo-management-controller
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: management-controller
 rules:
@@ -6768,10 +6312,10 @@ kind: ClusterRole
 metadata:
   name: kargo-admin
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -6858,10 +6402,10 @@ kind: ClusterRole
 metadata:
   name: kargo-project-creator
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -6905,10 +6449,10 @@ kind: ClusterRole
 metadata:
   name: kargo-user
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -6944,10 +6488,10 @@ kind: ClusterRole
 metadata:
   name: kargo-viewer
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -7002,10 +6546,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-api
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 roleRef:
@@ -7023,10 +6567,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-api-rollouts
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 roleRef:
@@ -7044,10 +6588,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-controller
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 roleRef:
@@ -7065,10 +6609,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-controller-argocd
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 roleRef:
@@ -7086,10 +6630,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-controller-rollouts
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 roleRef:
@@ -7107,10 +6651,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-garbage-collector
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: garbage-collector
 roleRef:
@@ -7128,10 +6672,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-webhooks-server
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 roleRef:
@@ -7149,10 +6693,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-webhooks-server-ns-controller
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 roleRef:
@@ -7170,10 +6714,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-webhooks-server-generic-gc
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 roleRef:
@@ -7191,10 +6735,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-management-controller
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: management-controller
 roleRef:
@@ -7212,10 +6756,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-admin
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -7232,10 +6776,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-project-creator
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -7252,10 +6796,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-user
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -7272,10 +6816,10 @@ kind: ClusterRoleBinding
 metadata:
   name: kargo-viewer
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -7285,25 +6829,6 @@ subjects:
 - kind: ServiceAccount
   namespace: kargo
   name: kargo-viewer
----
-# Source: longhorn/charts/kargo/templates/api/roles.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: kargo-api
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - "*"
 ---
 # Source: longhorn/charts/kargo/templates/cluster-secrets-namespace/roles.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -7312,10 +6837,10 @@ metadata:
   name: kargo-cluster-secrets-reader
   namespace: kargo-cluster-secrets
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -7334,10 +6859,10 @@ metadata:
   name: kargo-cluster-secrets-admin
   namespace: kargo-cluster-secrets
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 rules:
 - apiGroups:
@@ -7346,87 +6871,6 @@ rules:
   - secrets
   verbs:
   - "*"
----
-# Source: longhorn/charts/kargo/templates/system-resources-namespace/roles.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: kargo-system-resources-reader
-  namespace: kargo-system-resources
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - get
-  - list
-  - watch
----
-# Source: longhorn/charts/kargo/templates/system-resources-namespace/roles.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: kargo-system-resources-admin
-  namespace: kargo-system-resources
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - "*"
----
-# Source: longhorn/charts/kargo/templates/users/roles.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: kargo-admin
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - "*"
----
-# Source: longhorn/charts/kargo/templates/api/role-bindings.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: kargo-api
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: kargo-api
-subjects:
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-api
 ---
 # Source: longhorn/charts/kargo/templates/cluster-secrets-namespace/role-bindings.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -7435,10 +6879,10 @@ metadata:
   name: kargo-cluster-secrets-reader
   namespace: kargo-cluster-secrets
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -7459,86 +6903,15 @@ metadata:
   name: kargo-cluster-secrets-admin
   namespace: kargo-cluster-secrets
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: kargo-cluster-secrets-admin
-subjects:
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-api
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-admin
----
-# Source: longhorn/charts/kargo/templates/system-resources-namespace/role-bindings.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: kargo-system-resources-reader
-  namespace: kargo-system-resources
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: kargo-system-resources-reader
-subjects:
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-controller
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-external-webhooks-server
----
-# Source: longhorn/charts/kargo/templates/system-resources-namespace/role-bindings.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: kargo-system-resources-admin
-  namespace: kargo-system-resources
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: kargo-system-resources-admin
-subjects:
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-api
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-admin
----
-# Source: longhorn/charts/kargo/templates/users/role-bindings.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: kargo-admin
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: kargo-admin
 subjects:
 - kind: ServiceAccount
   namespace: kargo
@@ -7551,10 +6924,10 @@ metadata:
   name: kargo-api
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 spec:
@@ -7575,10 +6948,10 @@ metadata:
   name: kargo-webhooks-server
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 spec:
@@ -7599,10 +6972,10 @@ metadata:
   name: kargo-api
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: api
 spec:
@@ -7617,20 +6990,20 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: kargo-1.8.8
+        helm.sh/chart: kargo-1.8.9
         app.kubernetes.io/name: kargo
         app.kubernetes.io/instance: kargo
-        app.kubernetes.io/version: "v1.8.8"
+        app.kubernetes.io/version: "v1.8.9"
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: api
       annotations:
-        configmap/checksum: 04dcf85d8e0c6f278be0123d5171ecc99994d035a38636b38b742d9e4476aaca
+        configmap/checksum: 344edf549e413e58ccfa69c45dda0a81ce787ee4ab6343a586e6b3c7b6fd3385
         secret/checksum: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
     spec:
       serviceAccount: kargo-api
       containers:
         - name: api
-          image: ghcr.io/akuity/kargo:v1.8.8
+          image: ghcr.io/akuity/kargo:v1.8.9
           imagePullPolicy: IfNotPresent
           command: ["/usr/local/bin/kargo", "api"]
           env:
@@ -7673,10 +7046,10 @@ metadata:
   name: kargo-controller
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 spec:
@@ -7691,19 +7064,19 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: kargo-1.8.8
+        helm.sh/chart: kargo-1.8.9
         app.kubernetes.io/name: kargo
         app.kubernetes.io/instance: kargo
-        app.kubernetes.io/version: "v1.8.8"
+        app.kubernetes.io/version: "v1.8.9"
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: controller
       annotations:
-        configmap/checksum: 9a8b6715b141198c49e833e5847d4967bc80447ab87b1241a884652aef27d0f0
+        configmap/checksum: 5c01f61e10e273b6bf362eac16bc8cbf2283217beb7cfa7cd71d6f2010d72f07
     spec:
       serviceAccount: kargo-controller
       containers:
       - name: controller
-        image: ghcr.io/akuity/kargo:v1.8.8
+        image: ghcr.io/akuity/kargo:v1.8.9
         imagePullPolicy: IfNotPresent
         command: ["/sbin/tini", "--", "/usr/local/bin/kargo"]
         args: ["controller"]
@@ -7739,10 +7112,10 @@ metadata:
   name: kargo-webhooks-server
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: kubernetes-webhooks-server
 spec:
@@ -7757,19 +7130,19 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: kargo-1.8.8
+        helm.sh/chart: kargo-1.8.9
         app.kubernetes.io/name: kargo
         app.kubernetes.io/instance: kargo
-        app.kubernetes.io/version: "v1.8.8"
+        app.kubernetes.io/version: "v1.8.9"
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: kubernetes-webhooks-server
       annotations:
-        configmap/checksum: 684f8a9b3b456f99475addf360d8301682f8153ea448be4428b558dc803f3028
+        configmap/checksum: 3c8f56df54b64ba8341117d66dd5cb356751704782a5334d42fafc1fa3808895
     spec:
       serviceAccount: kargo-webhooks-server
       containers:
       - name: webhooks-server
-        image: ghcr.io/akuity/kargo:v1.8.8
+        image: ghcr.io/akuity/kargo:v1.8.9
         imagePullPolicy: IfNotPresent
         command: ["/sbin/tini", "--", "/usr/local/bin/kargo"]
         args: ["kubernetes-webhooks-server"]
@@ -7812,10 +7185,10 @@ metadata:
   name: kargo-management-controller
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: management-controller
 spec:
@@ -7830,19 +7203,19 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: kargo-1.8.8
+        helm.sh/chart: kargo-1.8.9
         app.kubernetes.io/name: kargo
         app.kubernetes.io/instance: kargo
-        app.kubernetes.io/version: "v1.8.8"
+        app.kubernetes.io/version: "v1.8.9"
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: management-controller
       annotations:
-        configmap/checksum: 9841322b14645e5bc3aab97d214c183b4c915c9e483f88055561268af0cdb132
+        configmap/checksum: 83707ef2a48cbd431192a7f7ace3f82b30784c81ce23b75251f5d23c9f7a28b2
     spec:
       serviceAccount: kargo-management-controller
       containers:
       - name: management-controller
-        image: ghcr.io/akuity/kargo:v1.8.8
+        image: ghcr.io/akuity/kargo:v1.8.9
         imagePullPolicy: IfNotPresent
         command: ["/sbin/tini", "--", "/usr/local/bin/kargo"]
         args: ["management-controller"]
@@ -7872,10 +7245,10 @@ metadata:
   name: kargo-garbage-collector
   namespace: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: garbage-collector
 spec:
@@ -7884,10 +7257,10 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        helm.sh/chart: kargo-1.8.8
+        helm.sh/chart: kargo-1.8.9
         app.kubernetes.io/name: kargo
         app.kubernetes.io/instance: kargo
-        app.kubernetes.io/version: "v1.8.8"
+        app.kubernetes.io/version: "v1.8.9"
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: garbage-collector
       annotations:
@@ -7896,10 +7269,10 @@ spec:
       template:
         metadata:
           labels:
-            helm.sh/chart: kargo-1.8.8
+            helm.sh/chart: kargo-1.8.9
             app.kubernetes.io/name: kargo
             app.kubernetes.io/instance: kargo
-            app.kubernetes.io/version: "v1.8.8"
+            app.kubernetes.io/version: "v1.8.9"
             app.kubernetes.io/managed-by: Helm
             app.kubernetes.io/component: garbage-collector
           annotations:
@@ -7908,7 +7281,7 @@ spec:
           serviceAccountName: kargo-garbage-collector
           containers:
           - name: garbage-collector
-            image: ghcr.io/akuity/kargo:v1.8.8
+            image: ghcr.io/akuity/kargo:v1.8.9
             imagePullPolicy: IfNotPresent
             command: ["/sbin/tini", "--", "/usr/local/bin/kargo"]
             args: ["garbage-collector"]
@@ -7984,10 +7357,10 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   annotations:
@@ -8060,10 +7433,10 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: kargo
   labels:
-    helm.sh/chart: kargo-1.8.8
+    helm.sh/chart: kargo-1.8.9
     app.kubernetes.io/name: kargo
     app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
+    app.kubernetes.io/version: "v1.8.9"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   annotations:
