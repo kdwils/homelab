@@ -28,10 +28,10 @@ spec:
     - name: chartRepo
     - name: chartName
   steps:
-  - uses: helm-update-chart
-    config:
-      path: ./repo/${{ vars.chartPath }}
-      charts:
-      - repository: ${{ vars.chartRepo }}
-        name: ${{ vars.chartName }}
-        version: ${{ chartFrom(vars.chartRepo +  vars.chartName).Version }}
+    - uses: helm-update-chart
+      config:
+        path: ./repo/${{ vars.chartPath }}
+        charts:
+          - repository: ${{ vars.chartRepo }}
+            name: ${{ vars.chartName }}
+            version: ${{ chartFrom(vars.chartRepo + "/" + vars.chartName).Version }}
