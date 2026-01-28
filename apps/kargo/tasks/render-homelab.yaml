@@ -238,7 +238,7 @@ spec:
           - ./source/apps/kargo/environments/homelab/homelab.yaml
         namespace: kargo
         releaseName: kargo
-        outPath: ./target/apps/kargo/manifest.yaml
+        outPath: ./target/apps/kargo/environments/homelab/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:
