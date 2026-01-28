@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: bazarr
+  name: bazarr-pvc
   labels:
     helm.sh/chart: bazarr-0.1.9
     app.kubernetes.io/name: bazarr

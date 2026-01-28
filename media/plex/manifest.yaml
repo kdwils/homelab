@@ -35,7 +35,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: plex
+  name: plex-pvc
   labels:
     helm.sh/chart: plex-0.1.9
     app.kubernetes.io/name: plex
@@ -141,7 +141,7 @@ spec:
             claimName: media
         - name: plex
           persistentVolumeClaim:
-            claimName: plex
+            claimName: plex-pvc
 ---
 # Source: homelab/charts/plex/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
