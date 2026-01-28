@@ -11,167 +11,167 @@ metadata:
     app.kubernetes.io/version: "0.0.1"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
----
-# Source: mediaz/templates/configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: config
-  labels:
-    helm.sh/chart: mediaz-0.1.0
-    app.kubernetes.io/name: mediaz
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "0.0.1"
-    app.kubernetes.io/managed-by: Helm
-data:
-  config.yaml: |
-    configFilePath: /app/config.yaml
-    storage:
-      filePath: /app/data/db.sqlite
-    library:
-      downloadMountDir: "/media"
-      movie: /media/movies
-      tv: /media/tv
-    server:
-      port: 8080
----
-# Source: mediaz/templates/pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mediaz
-  labels:
-    helm.sh/chart: mediaz-0.1.0
-    app.kubernetes.io/name: mediaz
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "0.0.1"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-# Source: mediaz/templates/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: homelab-mediaz
-  labels:
-    helm.sh/chart: mediaz-0.1.0
-    app.kubernetes.io/name: mediaz
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "0.0.1"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  type: ClusterIP
-  ports:
-    - port: 8080
-      targetPort: http
-      protocol: TCP
-      name: http
-  selector:
-    app.kubernetes.io/name: mediaz
-    app.kubernetes.io/instance: homelab
----
-# Source: mediaz/templates/deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: homelab-mediaz
-  labels:
-    helm.sh/chart: mediaz-0.1.0
-    app.kubernetes.io/name: mediaz
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "0.0.1"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: mediaz
-      app.kubernetes.io/instance: homelab
-  template:
-    metadata:
-      labels:
-        helm.sh/chart: mediaz-0.1.0
-        app.kubernetes.io/name: mediaz
-        app.kubernetes.io/instance: homelab
-        app.kubernetes.io/version: "0.0.1"
-        app.kubernetes.io/managed-by: Helm
-    spec:
-      serviceAccountName: homelab-mediaz
-      containers:
-        - name: mediaz
-          image: mediaz
-          imagePullPolicy: IfNotPresent
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-          env:
-            - name: MEDIAZ_CONFIGFILEPATH
-              value: /app/config.yaml
-            - name: LOG_LEVEL
-              value: info
-            - name: MEDIAZ_PROWLARR_APIKEY
-              valueFrom:
-                secretKeyRef:
-                  name: mediaz
-                  key: prowlarrKey
-            - name: MEDIAZ_TMDB_APIKEY
-              valueFrom:
-                secretKeyRef:
-                  name: mediaz
-                  key: tmdbKey
-          volumeMounts:
-            - mountPath: /app/data
-              name: mediaz
-            - mountPath: /app/config.yaml
-              name: config
-              subPath: config.yaml
-            - mountPath: /media
-              name: media
-      volumes:
-        - name: config
-          configMap:
-            name: config
-        - name: mediaz
-          persistentVolumeClaim:
-            claimName: mediaz
-        - name: media
-          persistentVolumeClaim:
-            claimName: media
----
-# Source: mediaz/templates/httproute.yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: mediaz
-  namespace: media
-spec:
-  hostnames:
-    - mediaz.ts.kyledev.co
-    - mediaz.int.kyledev.co
-  parentRefs:
-    - name: homelab
-      namespace: envoy-gateway-system
-  rules:
-    - backendRefs:
-        - name: homelab-mediaz
-          port: 8080
+# ---
+# # Source: mediaz/templates/configmap.yaml
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: config
+#   labels:
+#     helm.sh/chart: mediaz-0.1.0
+#     app.kubernetes.io/name: mediaz
+#     app.kubernetes.io/instance: homelab
+#     app.kubernetes.io/version: "0.0.1"
+#     app.kubernetes.io/managed-by: Helm
+# data:
+#   config.yaml: |
+#     configFilePath: /app/config.yaml
+#     storage:
+#       filePath: /app/data/db.sqlite
+#     library:
+#       downloadMountDir: "/media"
+#       movie: /media/movies
+#       tv: /media/tv
+#     server:
+#       port: 8080
+# ---
+# # Source: mediaz/templates/pvc.yaml
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: mediaz
+#   labels:
+#     helm.sh/chart: mediaz-0.1.0
+#     app.kubernetes.io/name: mediaz
+#     app.kubernetes.io/instance: homelab
+#     app.kubernetes.io/version: "0.0.1"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 1Gi
+# ---
+# # Source: mediaz/templates/service.yaml
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: homelab-mediaz
+#   labels:
+#     helm.sh/chart: mediaz-0.1.0
+#     app.kubernetes.io/name: mediaz
+#     app.kubernetes.io/instance: homelab
+#     app.kubernetes.io/version: "0.0.1"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   type: ClusterIP
+#   ports:
+#     - port: 8080
+#       targetPort: http
+#       protocol: TCP
+#       name: http
+#   selector:
+#     app.kubernetes.io/name: mediaz
+#     app.kubernetes.io/instance: homelab
+# ---
+# # Source: mediaz/templates/deployment.yaml
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: homelab-mediaz
+#   labels:
+#     helm.sh/chart: mediaz-0.1.0
+#     app.kubernetes.io/name: mediaz
+#     app.kubernetes.io/instance: homelab
+#     app.kubernetes.io/version: "0.0.1"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   replicas: 1
+#   strategy:
+#     type: Recreate
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: mediaz
+#       app.kubernetes.io/instance: homelab
+#   template:
+#     metadata:
+#       labels:
+#         helm.sh/chart: mediaz-0.1.0
+#         app.kubernetes.io/name: mediaz
+#         app.kubernetes.io/instance: homelab
+#         app.kubernetes.io/version: "0.0.1"
+#         app.kubernetes.io/managed-by: Helm
+#     spec:
+#       serviceAccountName: homelab-mediaz
+#       containers:
+#         - name: mediaz
+#           image: mediaz
+#           imagePullPolicy: IfNotPresent
+#           ports:
+#             - name: http
+#               containerPort: 8080
+#               protocol: TCP
+#           livenessProbe:
+#             httpGet:
+#               path: /healthz
+#               port: http
+#           readinessProbe:
+#             httpGet:
+#               path: /healthz
+#               port: http
+#           resources:
+#             limits:
+#               cpu: 100m
+#               memory: 128Mi
+#           env:
+#             - name: MEDIAZ_CONFIGFILEPATH
+#               value: /app/config.yaml
+#             - name: LOG_LEVEL
+#               value: info
+#             - name: MEDIAZ_PROWLARR_APIKEY
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: mediaz
+#                   key: prowlarrKey
+#             - name: MEDIAZ_TMDB_APIKEY
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: mediaz
+#                   key: tmdbKey
+#           volumeMounts:
+#             - mountPath: /app/data
+#               name: mediaz
+#             - mountPath: /app/config.yaml
+#               name: config
+#               subPath: config.yaml
+#             - mountPath: /media
+#               name: media
+#       volumes:
+#         - name: config
+#           configMap:
+#             name: config
+#         - name: mediaz
+#           persistentVolumeClaim:
+#             claimName: mediaz
+#         - name: media
+#           persistentVolumeClaim:
+#             claimName: media
+# ---
+# # Source: mediaz/templates/httproute.yaml
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: mediaz
+#   namespace: media
+# spec:
+#   hostnames:
+#     - mediaz.ts.kyledev.co
+#     - mediaz.int.kyledev.co
+#   parentRefs:
+#     - name: homelab
+#       namespace: envoy-gateway-system
+#   rules:
+#     - backendRefs:
+#         - name: homelab-mediaz
+#           port: 8080
