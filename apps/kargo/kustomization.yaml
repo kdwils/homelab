@@ -1,15 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - namespace.yaml
-  # - kargo.yaml
-  # - httproute.yaml
-  # - sealedsecret.yaml
-  # - global-credentials-rolebinding.yaml
+  - global-credentials-rolebinding.yaml
   - tasks
   - projects
-
-# images:
-#   - name: kargo
-#     newName: ghcr.io/akuity/kargo
-#     newTag: v1.8.4
