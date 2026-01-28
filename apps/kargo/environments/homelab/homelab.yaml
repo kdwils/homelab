@@ -59,7 +59,7 @@ kargo:
       ## @param global.sharedResources.namespace designates a namespace where shared resources can be located.
       namespace: kargo-cluster-secrets
       ## @param global.sharedResources.createNamespace Indicates whether the namespace specified by `global.sharedResources.namespace` should be created when installing the chart.
-      createNamespace: true
+      createNamespace: false
 
     ## @param global.labels Labels to add to all resources.
     labels: {}
