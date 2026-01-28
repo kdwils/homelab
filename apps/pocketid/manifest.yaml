@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pocketid-data
+  name: pocketid
   labels:
     helm.sh/chart: pocketid-0.1.9
     app.kubernetes.io/name: pocketid
@@ -97,7 +97,7 @@ spec:
               port: 1411
           volumeMounts:
             - mountPath: /app/data
-              name: pvc-pocketid-data
+              name: pvc-pocketid
               readOnly: false
           env:
             - name: APP_URL
@@ -112,9 +112,9 @@ spec:
             - secretRef:
                 name: pocketid
       volumes:
-        - name: pvc-pocketid-data
+        - name: pvc-pocketid
           persistentVolumeClaim:
-            claimName: pocketid-data
+            claimName: pocketid
 ---
 # Source: homelab/charts/pocketid/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
