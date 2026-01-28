@@ -14,7 +14,7 @@ spec:
   source:
     path: apps/kargo
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: apps
   syncPolicy:
@@ -23,3 +23,25 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kargo-tasks
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: kargo
+    server: "https://kubernetes.default.svc"
+  source:
+    path: apps/kargo
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: HEAD
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
