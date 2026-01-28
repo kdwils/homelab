@@ -6,7 +6,7 @@ resources:
   - cloudflared.yaml
   - envoy-gateway.yaml
   - metallb.yaml
-  - longhorn.yaml
+  # - longhorn.yaml
   - cert-manager.yaml
   - sealed-secrets.yaml
   - tailscale.yaml
