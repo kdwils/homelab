@@ -48,7 +48,7 @@ pocketid:
   pvc:
     create: true
     pvcs:
-      - name: pocketid-data
+      - name: pocketid
         size: 5Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
