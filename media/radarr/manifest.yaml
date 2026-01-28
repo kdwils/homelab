@@ -81,7 +81,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: radarr
-      securityContext: {}
+      securityContext:
+        {}
       containers:
         - name: radarr
           image: "linuxserver/radarr:6.0.4"
@@ -133,7 +134,7 @@ spec:
     - "radarr.int.kyledev.co"
   rules:
     - backendRefs:
-        - group: ""
-          kind: Service
-          name: radarr
-          port: 80
+      - group: ""
+        kind: Service
+        name: radarr
+        port: 80

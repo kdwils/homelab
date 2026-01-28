@@ -100,7 +100,7 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: overseerr-pvc
+            claimName: overseerr
 ---
 # Source: homelab/charts/overseerr/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
