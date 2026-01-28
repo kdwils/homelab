@@ -128,7 +128,7 @@ secrets:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: minio
+  name: minio-pvc
   namespace: "minio"
   labels:
     app.kubernetes.io/instance: minio
@@ -348,7 +348,7 @@ spec:
             secretName: minio
         - name: data
           persistentVolumeClaim:
-            claimName: minio
+            claimName: miniopvc
 ---
 # Source: minio/templates/console/deployment.yaml
 apiVersion: apps/v1
