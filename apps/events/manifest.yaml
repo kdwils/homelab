@@ -129,7 +129,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/events:sha-1d2c013035f9cefc3c6c54bde0dfcce80e0266b8"
+          image: "ghcr.io/kdwils/events:sha-d587b55caaf44eb4aeada510069b29ae6baed656"
           imagePullPolicy: IfNotPresent
           args:
             - serve
