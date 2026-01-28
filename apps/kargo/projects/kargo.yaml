@@ -20,6 +20,7 @@ metadata:
   name: kargo
   namespace: kargo
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - chart:
         repoURL: oci://ghcr.io/akuity/kargo-charts/kargo
@@ -30,6 +31,7 @@ spec:
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
+        strictSemvers: true
         includePaths:
           - glob:apps/kargo/environments/**
           - glob:charts/kargo/**
