@@ -10,7 +10,7 @@ spec:
         annotations:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "homelab-gateway"
-          tailscale.com/tags: "homelab-gateway"
+          tailscale.com/tags: "tag:homelab-gateway"
         loadBalancerClass: "tailscale"
         name: homelab-gateway
   telemetry:
