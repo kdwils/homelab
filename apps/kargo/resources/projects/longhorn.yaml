@@ -2,6 +2,8 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
   name: longhorn-system
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
