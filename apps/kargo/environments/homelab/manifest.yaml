@@ -8120,7 +8120,7 @@ spec:
       - group: ""
         kind: Service
         name: kargo-api
-        port: 443
+        port: 80
 ---
 # Source: longhorn/charts/kargo/templates/common/cert-issuer.yaml
 apiVersion: cert-manager.io/v1
