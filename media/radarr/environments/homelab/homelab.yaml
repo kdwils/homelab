@@ -54,7 +54,7 @@ radarr:
   pvc:
     create: true
     pvcs:
-      - name: radarr-pvc
+      - name: radarr
         size: 8Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
