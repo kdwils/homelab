@@ -19,7 +19,7 @@ overseerr:
     volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: overseerr
+          claimName: overseerr-pvc
     volumeMounts:
       - name: config
         mountPath: /app/config
