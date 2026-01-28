@@ -125,7 +125,7 @@ spec:
       volumes:
         - name: bazarr
           persistentVolumeClaim:
-            claimName: bazarr
+            claimName: bazarr-pvc
         - name: media
           persistentVolumeClaim:
             claimName: media
