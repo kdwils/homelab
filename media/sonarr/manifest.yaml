@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: sonarr
+  name: sonarr-pvc
   labels:
     helm.sh/chart: sonarr-0.1.9
     app.kubernetes.io/name: sonarr

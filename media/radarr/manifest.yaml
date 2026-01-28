@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: radarr
+  name: radarr-pvc
   labels:
     helm.sh/chart: radarr-0.1.9
     app.kubernetes.io/name: radarr
