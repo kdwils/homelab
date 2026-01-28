@@ -1,16 +1,16 @@
-# ---
-# # Source: homelab/charts/radarr/templates/serviceaccount.yaml
-# apiVersion: v1
-# kind: ServiceAccount
-# metadata:
-#   name: radarr
-#   labels:
-#     helm.sh/chart: radarr-0.1.9
-#     app.kubernetes.io/name: radarr
-#     app.kubernetes.io/instance: radarr
-#     app.kubernetes.io/version: "1.16.0"
-#     app.kubernetes.io/managed-by: Helm
-# automountServiceAccountToken: false
+---
+# Source: homelab/charts/radarr/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: radarr
+  labels:
+    helm.sh/chart: radarr-0.1.9
+    app.kubernetes.io/name: radarr
+    app.kubernetes.io/instance: radarr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
 # ---
 # # Source: homelab/charts/radarr/templates/pvc.yaml
 # apiVersion: v1
