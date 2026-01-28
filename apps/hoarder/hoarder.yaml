@@ -31,7 +31,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: data
+  name: hoarder-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -72,7 +72,7 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: data
+            claimName: hoarder-pvc
 ---
 apiVersion: apps/v1
 kind: Deployment
