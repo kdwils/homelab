@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: radarr-pvc
+  name: radarr
   labels:
     helm.sh/chart: radarr-0.1.9
     app.kubernetes.io/name: radarr
@@ -81,7 +81,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: radarr
-      securityContext: {}
+      securityContext:
+        {}
       containers:
         - name: radarr
           image: "linuxserver/radarr:6.0.4"
@@ -111,7 +112,7 @@ spec:
             claimName: media
         - name: radarr
           persistentVolumeClaim:
-            claimName: radarr-pvc
+            claimName: radarr
 ---
 # Source: homelab/charts/radarr/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -133,7 +134,7 @@ spec:
     - "radarr.int.kyledev.co"
   rules:
     - backendRefs:
-        - group: ""
-          kind: Service
-          name: radarr
-          port: 80
+      - group: ""
+        kind: Service
+        name: radarr
+        port: 80
