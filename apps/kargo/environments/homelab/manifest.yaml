@@ -15,7 +15,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: kargo-shared-resources
+  name: kargo-cluster-secrets
   labels:
     helm.sh/chart: kargo-1.8.8
     app.kubernetes.io/name: kargo
@@ -218,7 +218,7 @@ data:
   LOG_FORMAT: "CONSOLE"
   SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
   IS_DEFAULT_CONTROLLER: "true"
-  SHARED_RESOURCES_NAMESPACE: "kargo-shared-resources"
+  SHARED_RESOURCES_NAMESPACE: "kargo-cluster-secrets"
   ALLOW_CREDENTIALS_OVER_HTTP: "false"
   GITCLIENT_NAME: "Kargo"
   GITCLIENT_EMAIL: "no-reply@kargo.io"
@@ -297,7 +297,8 @@ data:
   KARGO_NAMESPACE: kargo
   CLUSTER_SECRETS_NAMESPACE: "kargo-cluster-secrets"
   SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
-  SHARED_RESOURCES_NAMESPACE: "kargo-shared-resources"
+  GLOBAL_CREDENTIALS_NAMESPACE: ""
+  SHARED_RESOURCES_NAMESPACE: "kargo-cluster-secrets"
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
   MAX_CONCURRENT_NAMESPACE_RECONCILES: "4"
@@ -7363,7 +7364,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: kargo-shared-resources-reader
-  namespace: kargo-shared-resources
+  namespace: kargo-cluster-secrets
   labels:
     helm.sh/chart: kargo-1.8.8
     app.kubernetes.io/name: kargo
@@ -7385,7 +7386,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: kargo-shared-resources-admin
-  namespace: kargo-shared-resources
+  namespace: kargo-cluster-secrets
   labels:
     helm.sh/chart: kargo-1.8.8
     app.kubernetes.io/name: kargo
@@ -7535,7 +7536,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: kargo-shared-resources-reader
-  namespace: kargo-shared-resources
+  namespace: kargo-cluster-secrets
   labels:
     helm.sh/chart: kargo-1.8.8
     app.kubernetes.io/name: kargo
@@ -7562,7 +7563,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: kargo-shared-resources-admin
-  namespace: kargo-shared-resources
+  namespace: kargo-cluster-secrets
   labels:
     helm.sh/chart: kargo-1.8.8
     app.kubernetes.io/name: kargo
@@ -7806,7 +7807,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: controller
       annotations:
-        configmap/checksum: deb61802f7280bea63997bec9ceed0d7b3286907ffad5fd14d01407633173716
+        configmap/checksum: 9a8b6715b141198c49e833e5847d4967bc80447ab87b1241a884652aef27d0f0
     spec:
       serviceAccount: kargo-controller
       containers:
@@ -7945,7 +7946,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: management-controller
       annotations:
-        configmap/checksum: cf2c7c4d6b4b06b177bc8d70e19dbb229aa7f4a8997efdbbf77b9d987837eaaf
+        configmap/checksum: 9841322b14645e5bc3aab97d214c183b4c915c9e483f88055561268af0cdb132
     spec:
       serviceAccount: kargo-management-controller
       containers:
