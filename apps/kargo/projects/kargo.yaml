@@ -23,12 +23,12 @@ spec:
   subscriptions:
     - chart:
         repoURL: oci://ghcr.io/akuity/kargo-charts/kargo
-        name: kargo
     - chart:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
+        strictSemvers: false
         branch: main
         includePaths:
           - glob:apps/kargo/environments/**
