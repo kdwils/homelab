@@ -11,129 +11,129 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
----
-# Source: homelab/charts/radarr/templates/pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: radarr-pvc
-  labels:
-    helm.sh/chart: radarr-0.1.9
-    app.kubernetes.io/name: radarr
-    app.kubernetes.io/instance: radarr
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
----
-# Source: homelab/charts/radarr/templates/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: radarr
-  labels:
-    helm.sh/chart: radarr-0.1.9
-    app.kubernetes.io/name: radarr
-    app.kubernetes.io/instance: radarr
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  type: ClusterIP
-  ports:
-    - port: 80
-      targetPort: 7878
-      protocol: TCP
-      name: http
-  selector:
-    app.kubernetes.io/name: radarr
-    app.kubernetes.io/instance: radarr
----
-# Source: homelab/charts/radarr/templates/deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: radarr
-  labels:
-    helm.sh/chart: radarr-0.1.9
-    app.kubernetes.io/name: radarr
-    app.kubernetes.io/instance: radarr
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: radarr
-      app.kubernetes.io/instance: radarr
-  template:
-    metadata:
-      labels:
-        helm.sh/chart: radarr-0.1.9
-        app.kubernetes.io/name: radarr
-        app.kubernetes.io/instance: radarr
-        app.kubernetes.io/version: "1.16.0"
-        app.kubernetes.io/managed-by: Helm
-    spec:
-      serviceAccountName: radarr
-      securityContext: {}
-      containers:
-        - name: radarr
-          image: "linuxserver/radarr:6.0.4"
-          imagePullPolicy: IfNotPresent
-          ports:
-            - name: http
-              containerPort: 7878
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /config
-              name: radarr
-              subPath: configs/radarr
-            - mountPath: /downloads/transmission
-              name: media
-              subPath: downloads/transmission
-            - mountPath: /movies
-              name: media
-              subPath: movies
-          env:
-            - name: PGID
-              value: "0"
-            - name: PUID
-              value: "0"
-      volumes:
-        - name: media
-          persistentVolumeClaim:
-            claimName: media
-        - name: radarr
-          persistentVolumeClaim:
-            claimName: radarr-pvc
----
-# Source: homelab/charts/radarr/templates/httproute.yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: radarr
-  labels:
-    helm.sh/chart: radarr-0.1.9
-    app.kubernetes.io/name: radarr
-    app.kubernetes.io/instance: radarr
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  parentRefs:
-    - name: homelab
-      namespace: envoy-gateway-system
-  hostnames:
-    - "radarr.ts.kyledev.co"
-    - "radarr.int.kyledev.co"
-  rules:
-    - backendRefs:
-        - group: ""
-          kind: Service
-          name: radarr
-          port: 80
+# ---
+# # Source: homelab/charts/radarr/templates/pvc.yaml
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: radarr-pvc
+#   labels:
+#     helm.sh/chart: radarr-0.1.9
+#     app.kubernetes.io/name: radarr
+#     app.kubernetes.io/instance: radarr
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 8Gi
+# ---
+# # Source: homelab/charts/radarr/templates/service.yaml
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: radarr
+#   labels:
+#     helm.sh/chart: radarr-0.1.9
+#     app.kubernetes.io/name: radarr
+#     app.kubernetes.io/instance: radarr
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   type: ClusterIP
+#   ports:
+#     - port: 80
+#       targetPort: 7878
+#       protocol: TCP
+#       name: http
+#   selector:
+#     app.kubernetes.io/name: radarr
+#     app.kubernetes.io/instance: radarr
+# ---
+# # Source: homelab/charts/radarr/templates/deployment.yaml
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: radarr
+#   labels:
+#     helm.sh/chart: radarr-0.1.9
+#     app.kubernetes.io/name: radarr
+#     app.kubernetes.io/instance: radarr
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   replicas: 1
+#   strategy:
+#     type: Recreate
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: radarr
+#       app.kubernetes.io/instance: radarr
+#   template:
+#     metadata:
+#       labels:
+#         helm.sh/chart: radarr-0.1.9
+#         app.kubernetes.io/name: radarr
+#         app.kubernetes.io/instance: radarr
+#         app.kubernetes.io/version: "1.16.0"
+#         app.kubernetes.io/managed-by: Helm
+#     spec:
+#       serviceAccountName: radarr
+#       securityContext: {}
+#       containers:
+#         - name: radarr
+#           image: "linuxserver/radarr:6.0.4"
+#           imagePullPolicy: IfNotPresent
+#           ports:
+#             - name: http
+#               containerPort: 7878
+#               protocol: TCP
+#           volumeMounts:
+#             - mountPath: /config
+#               name: radarr
+#               subPath: configs/radarr
+#             - mountPath: /downloads/transmission
+#               name: media
+#               subPath: downloads/transmission
+#             - mountPath: /movies
+#               name: media
+#               subPath: movies
+#           env:
+#             - name: PGID
+#               value: "0"
+#             - name: PUID
+#               value: "0"
+#       volumes:
+#         - name: media
+#           persistentVolumeClaim:
+#             claimName: media
+#         - name: radarr
+#           persistentVolumeClaim:
+#             claimName: radarr-pvc
+# ---
+# # Source: homelab/charts/radarr/templates/httproute.yaml
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: radarr
+#   labels:
+#     helm.sh/chart: radarr-0.1.9
+#     app.kubernetes.io/name: radarr
+#     app.kubernetes.io/instance: radarr
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   parentRefs:
+#     - name: homelab
+#       namespace: envoy-gateway-system
+#   hostnames:
+#     - "radarr.ts.kyledev.co"
+#     - "radarr.int.kyledev.co"
+#   rules:
+#     - backendRefs:
+#         - group: ""
+#           kind: Service
+#           name: radarr
+#           port: 80
