@@ -16,7 +16,7 @@ automountServiceAccountToken: true
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: freshrss-data-pvc
+  name: rss-pvc
   labels:
     helm.sh/chart: rss-0.1.9
     app.kubernetes.io/name: rss
@@ -108,7 +108,7 @@ spec:
               memory: 64Mi
           volumeMounts:
             - mountPath: /var/www/FreshRSS/data
-              name: pvc-freshrss-data-pvc
+              name: pvc-rss-pvc
               readOnly: false
           env:
             - name: CRON_MIN
@@ -133,9 +133,9 @@ spec:
             - secretRef:
                 name: freshrss-oidc
       volumes:
-        - name: pvc-freshrss-data-pvc
+        - name: pvc-rss-pvc
           persistentVolumeClaim:
-            claimName: freshrss-data-pvc
+            claimName: rss-pvc
 ---
 # Source: homelab/charts/rss/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
