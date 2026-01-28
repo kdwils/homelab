@@ -4,7 +4,7 @@ description: longhorn
 version: 0.1.0
 dependencies:
   - name: longhorn
-    version: 1.10.1
+    version: 1.10.2
     repository: https://charts.longhorn.io
     alias: longhorn
   - name: homelab-chart
