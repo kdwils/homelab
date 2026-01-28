@@ -25,7 +25,7 @@ spec:
     - image:
         repoURL: freshrss/freshrss
         semverConstraint: ^1.0.0
-        strictSemvers: false
+        strictSemvers: true
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
