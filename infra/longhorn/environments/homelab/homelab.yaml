@@ -6,6 +6,8 @@ longhorn:
     defaultReplicaCount: 1
   longhornUI:
     replicas: 1
+  preUpgradeChecker:
+    jobEnabled: false
 
 homelab:
   httproute:
