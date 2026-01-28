@@ -81,8 +81,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: sonarr
-      securityContext:
-        {}
+      securityContext: {}
       containers:
         - name: sonarr
           image: "linuxserver/sonarr:4.0.16"
@@ -109,7 +108,7 @@ spec:
       volumes:
         - name: sonarr
           persistentVolumeClaim:
-            claimName: sonarr
+            claimName: sonarr-pvc
         - name: media
           persistentVolumeClaim:
             claimName: media
@@ -134,7 +133,7 @@ spec:
     - "sonarr.int.kyledev.co"
   rules:
     - backendRefs:
-      - group: ""
-        kind: Service
-        name: sonarr
-        port: 80
+        - group: ""
+          kind: Service
+          name: sonarr
+          port: 80
