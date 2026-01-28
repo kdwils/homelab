@@ -6,7 +6,7 @@ resources:
   - hoarder.yaml
   - kargo.yaml
   - mealie.yaml
-  - minio.yaml
+  # - minio.yaml
   - nats.yaml
   - pocketid.yaml
   - vaultwarden.yaml
