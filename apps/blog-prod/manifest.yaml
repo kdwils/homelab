@@ -7,7 +7,7 @@ metadata:
   labels:
     helm.sh/chart: blog-0.1.9
     app.kubernetes.io/name: blog
-    app.kubernetes.io/instance: blog
+    app.kubernetes.io/instance: blog-prod
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
@@ -20,7 +20,7 @@ metadata:
   labels:
     helm.sh/chart: blog-0.1.9
     app.kubernetes.io/name: blog
-    app.kubernetes.io/instance: blog
+    app.kubernetes.io/instance: blog-prod
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -32,7 +32,7 @@ spec:
       name: http
   selector:
     app.kubernetes.io/name: blog
-    app.kubernetes.io/instance: blog
+    app.kubernetes.io/instance: blog-prod
 ---
 # Source: homelab/charts/blog/templates/deployment.yaml
 apiVersion: apps/v1
@@ -42,7 +42,7 @@ metadata:
   labels:
     helm.sh/chart: blog-0.1.9
     app.kubernetes.io/name: blog
-    app.kubernetes.io/instance: blog
+    app.kubernetes.io/instance: blog-prod
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -52,13 +52,13 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: blog
-      app.kubernetes.io/instance: blog
+      app.kubernetes.io/instance: blog-prod
   template:
     metadata:
       labels:
         helm.sh/chart: blog-0.1.9
         app.kubernetes.io/name: blog
-        app.kubernetes.io/instance: blog
+        app.kubernetes.io/instance: blog-prod
         app.kubernetes.io/version: "1.16.0"
         app.kubernetes.io/managed-by: Helm
     spec:
@@ -114,7 +114,7 @@ metadata:
   labels:
     helm.sh/chart: blog-0.1.9
     app.kubernetes.io/name: blog
-    app.kubernetes.io/instance: blog
+    app.kubernetes.io/instance: blog-prod
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -138,7 +138,7 @@ metadata:
   labels:
     helm.sh/chart: blog-0.1.9
     app.kubernetes.io/name: blog
-    app.kubernetes.io/instance: blog
+    app.kubernetes.io/instance: blog-prod
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:

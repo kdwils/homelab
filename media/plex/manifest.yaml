@@ -197,7 +197,7 @@ apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
   name: plex
-  namespace: media
+  namespace: plex
 spec:
   encryptedData:
     PLEX_CLAIM: AgDIMCWv4S8Q9d9e4ZcIJ2EgWbYvBft7wvKHcuNUSBrk36WJv00rmxt+JAOLojYhWdQn8X8iOfhpzdUuPyRwfVuwA+vVlDGTgVS5DnS78QOk6W+d/6tbK/U1jGbuFbwMFkTU+r8UBWCOGcVYQRe2qiWkeXIwfBssZlyfw60/2CaUIGVMtTmbAruuM+/91XkaYOf30AU1uo3XK2PCO+iAoHu+u4WrW/AilMQEulpFPUDsdenC3e3KlISYfwAVf7csAdnqRmB3gW1gwxWviih7sjEYIGPK8wj0wWnYOWAAoO8DmCmFL8new2Z/bFkVIyXtSUU+RnZaXui7OxxuxVHFjYRVTHxcgr8/Nnv4onvNKFnGMR19EMfRH76WYKP6r9i7OYs0F7tzfkNmTxyM3RW6++ENxo2w0mvrxdBoCJMNXDUkQIc7xfLC5g0Jz6n2CDVFguly9sa7sCKc/eK+e1b7wcvSxtkbtFfzL361GEmHsWsi19MjEZDvyVEMvmTXuDEcG8mm/s1jQ6akZeDPZeQvYuM98AEKXuWSlzFOZAOKBB2LFNb9HnDICBk0UEf1QO6+XvzvEQbkg4CBHiuQdOV40Hn2gGGDKMz7rnOMCWIfuJF2WqmklMWhzhRwkMl/+y/bOzQ7dttKaR8KlSJwzYINijw4uVxOd0aEWHiRsYnab31yWGjPdNttv18l/ubsWhMU4bONfWAnj7T0vWXlZRdZS9VCkpIk0MwQ9kHVlQ==
@@ -205,7 +205,7 @@ spec:
     type: Opaque
     metadata:
       name: plex
-      namespace: media
+      namespace: plex
 ---
 # Source: homelab/charts/plex/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
