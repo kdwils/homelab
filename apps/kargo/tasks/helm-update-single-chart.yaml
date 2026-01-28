@@ -34,4 +34,4 @@ spec:
       charts:
       - repository: ${{ vars.chartRepo }}
         name: ${{ vars.chartName }}
-        version: ${{ chartFrom(${{ vars.chartRepo }} + ${{ vars.chartName }}).Version }}
+        version: ${{ chartFrom(vars.chartRepo +  vars.chartName).Version }}
