@@ -1,0 +1,9 @@
+dependencies:
+- name: kargo
+  repository: oci://ghcr.io/akuity/kargo-charts
+  version: 1.8.8
+- name: homelab-chart
+  repository: https://kdwils.github.io/helm-charts
+  version: 0.1.9
+digest: sha256:8df4b5d4eaabf12b27c8181667d216fdc161eba2d48208c4e3bebb1e704e7bee
+generated: "2026-01-28T03:14:32.499438138Z"
