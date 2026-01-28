@@ -230,6 +230,15 @@ spec:
         namespace: envoy-gateway-system
         releaseName: envoy-proxy-gatekeeper
         outPath: ./target/monitoring/envoy-proxy-gatekeeper/manifest.yaml
+    - uses: helm-template
+      as: render-kargo
+      config:
+        path: ./source/charts/kargo
+        valuesFiles:
+          - ./source/apps/kargo/environments/homelab/homelab.yaml
+        namespace: kargo
+        releaseName: kargo
+        outPath: ./target/apps/kargo/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:

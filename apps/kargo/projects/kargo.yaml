@@ -1,0 +1,92 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: kargo
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: kargo
+  namespace: kargo
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: kargo
+  namespace: kargo
+spec:
+  subscriptions:
+    - chart:
+        repoURL: oci://ghcr.io/akuity/kargo-charts/kargo
+        name: kargo
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/kargo/environments/**
+          - glob:charts/kargo/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: kargo
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: kargo
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: kargo
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/kargo
+            - name: chartRepo
+              value: oci://ghcr.io/akuity/kargo-charts/kargo
+            - name: chartName
+              value: kargo
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/kargo
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update kargo chart dependencies
+            - name: prTitle
+              value: "Update kargo chart dependencies"
+            - name: prDescription
+              value: Update kargo chart dependencies
