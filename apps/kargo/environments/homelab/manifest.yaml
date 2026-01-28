@@ -118,6 +118,8 @@ metadata:
     app.kubernetes.io/version: "v1.8.8"
     app.kubernetes.io/managed-by: Helm
     rbac.kargo.akuity.io/system-role: "true"
+  annotations:
+    rbac.kargo.akuity.io/claims: "{\"groups\":[\"admins\"]}"
 ---
 # Source: longhorn/charts/kargo/templates/users/service-accounts.yaml
 apiVersion: v1
@@ -160,6 +162,8 @@ metadata:
     app.kubernetes.io/version: "v1.8.8"
     app.kubernetes.io/managed-by: Helm
     rbac.kargo.akuity.io/system-role: "true"
+  annotations:
+    rbac.kargo.akuity.io/claims: "{\"groups\":[\"friends\"]}"
 ---
 # Source: longhorn/charts/kargo/templates/api/configmap.yaml
 apiVersion: v1
