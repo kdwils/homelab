@@ -4625,7 +4625,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    # "helm.sh/hook": pre-upgrade
+    "helm.sh/hook": pre-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation,hook-failed
   name: longhorn-pre-upgrade
   namespace: longhorn-system
