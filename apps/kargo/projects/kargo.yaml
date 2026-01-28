@@ -66,7 +66,7 @@ spec:
             - name: chartPath
               value: charts/kargo
             - name: chartRepo
-              value: oci://ghcr.io/akuity/kargo-charts/kargo
+              value: oci://ghcr.io/akuity/kargo-charts
             - name: chartName
               value: kargo
         - task:
