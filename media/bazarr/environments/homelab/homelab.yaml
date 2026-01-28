@@ -77,7 +77,7 @@ bazarr:
   pvc:
     create: true
     pvcs:
-      - name: bazarr
+      - name: bazarr-pvc
         size: 8Gi
         storageClassName: ""
         accessMode: ReadWriteOnce

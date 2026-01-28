@@ -63,7 +63,7 @@ rss:
   pvc:
     create: true
     pvcs:
-      - name: freshrss-data-pvc
+      - name: rss-pvc
         size: 5Gi
         storageClassName: ""
         accessMode: ReadWriteOnce

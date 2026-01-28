@@ -27,7 +27,7 @@ plex:
           claimName: media
       - name: plex
         persistentVolumeClaim:
-          claimName: plex
+          claimName: plex-pvc
     volumeMounts:
       - mountPath: /movies
         name: media
@@ -86,7 +86,7 @@ plex:
         size: 10Ti
         storageClassName: "nfs-client"
         accessMode: ReadWriteMany
-      - name: plex
+      - name: plex-pvc
         size: 35Gi
         accessMode: ReadWriteOnce
 

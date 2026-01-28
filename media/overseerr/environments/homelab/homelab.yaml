@@ -19,7 +19,7 @@ overseerr:
     volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: overseerr-config
+          claimName: overseerr
     volumeMounts:
       - name: config
         mountPath: /app/config
@@ -44,7 +44,7 @@ overseerr:
   pvc:
     create: true
     pvcs:
-      - name: overseerr-config
+      - name: overseerr
         size: 1Gi
         storageClassName: ""
         accessMode: ReadWriteOnce

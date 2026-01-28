@@ -59,7 +59,7 @@ mealie:
   pvc:
     create: true
     pvcs:
-      - name: mealie-data
+      - name: mealie-pvc
         size: 10Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
