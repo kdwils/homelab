@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: kargo
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: kargo:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -19,3 +21,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
