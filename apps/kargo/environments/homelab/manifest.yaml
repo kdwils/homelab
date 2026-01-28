@@ -8119,8 +8119,8 @@ spec:
     - backendRefs:
       - group: ""
         kind: Service
-        name: kargo-homelab
-        port: 0
+        name: kargo-api
+        port: 80
 ---
 # Source: longhorn/charts/kargo/templates/common/cert-issuer.yaml
 apiVersion: cert-manager.io/v1
