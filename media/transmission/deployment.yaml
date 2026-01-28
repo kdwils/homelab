@@ -1,98 +1,98 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   namespace: media
-#   name: transmission
-#   labels:
-#     app: transmission
-# spec:
-#   replicas: 1
-#   strategy:
-#     type: Recreate
-#   selector:
-#     matchLabels:
-#       app: transmission
-#       release: transmission
-#   template:
-#     metadata:
-#       labels:
-#         app: transmission
-#         release: transmission
-#     spec:
-#       volumes:
-#         - name: media
-#           persistentVolumeClaim:
-#             claimName: media
-#         - name: transmission
-#           persistentVolumeClaim:
-#             claimName: transmission
-#       dnsPolicy: None
-#       dnsConfig:
-#         nameservers:
-#           - 8.8.8.8
-#       containers:
-#         - name: transmission
-#           image: transmission
-#           imagePullPolicy: IfNotPresent
-#           env:
-#             - name: OPENVPN_PROVIDER
-#               value: NORDVPN
-#             - name: OPENVPN_USERNAME
-#               valueFrom:
-#                 secretKeyRef:
-#                   key: username
-#                   name: openvpn
-#             - name: OPENVPN_PASSWORD
-#               valueFrom:
-#                 secretKeyRef:
-#                   key: password
-#                   name: openvpn
-#             - name: NORDVPN_PROTOCOL
-#               value: TCP
-#             - name: NORDVPN_COUNTRY
-#               value: US
-#             - name: NORDVPN_CATEGORY
-#               value: P2P
-#             - name: LOCAL_NETWORK
-#               value: 192.168.0.0/24
-#             - name: TRANSMISSION_PEER_PORT
-#               value: "47444"
-#             - name: TRANSMISSION_DOWNLOAD_DIR
-#               value: /downloads/transmission
-#             - name: PUID
-#               value: "1000"
-#             - name: PGID
-#               value: "1000"
-#             - name: TRANSMISSION_INCOMPLETE_DIR
-#               value: /downloads/transmission
-#             - name: TRANSMISSION_HOME
-#               value: /config/transmission-home
-#           ports:
-#             - name: http
-#               containerPort: 9091
-#               protocol: TCP
-#           securityContext:
-#             capabilities:
-#               add:
-#                 - NET_ADMIN
-#             privileged: true
-#           volumeMounts:
-#             - mountPath: /downloads/transmission
-#               name: media
-#               subPath: downloads/transmission
-#             - mountPath: /config/transmission-home
-#               name: transmission
-#               subPath: config/transmission-home
-#           resources: {}
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: transmission
-#   namespace: media
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 8Gi
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: media
+  name: transmission
+  labels:
+    app: transmission
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: transmission
+      release: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+        release: transmission
+    spec:
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: transmission
+          persistentVolumeClaim:
+            claimName: transmission
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+      containers:
+        - name: transmission
+          image: transmission
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: OPENVPN_PROVIDER
+              value: NORDVPN
+            - name: OPENVPN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: openvpn
+            - name: OPENVPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: openvpn
+            - name: NORDVPN_PROTOCOL
+              value: TCP
+            - name: NORDVPN_COUNTRY
+              value: US
+            - name: NORDVPN_CATEGORY
+              value: P2P
+            - name: LOCAL_NETWORK
+              value: 192.168.0.0/24
+            - name: TRANSMISSION_PEER_PORT
+              value: "47444"
+            - name: TRANSMISSION_DOWNLOAD_DIR
+              value: /downloads/transmission
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TRANSMISSION_INCOMPLETE_DIR
+              value: /downloads/transmission
+            - name: TRANSMISSION_HOME
+              value: /config/transmission-home
+          ports:
+            - name: http
+              containerPort: 9091
+              protocol: TCP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+            privileged: true
+          volumeMounts:
+            - mountPath: /downloads/transmission
+              name: media
+              subPath: downloads/transmission
+            - mountPath: /config/transmission-home
+              name: transmission
+              subPath: config/transmission-home
+          resources: {}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
