@@ -178,14 +178,11 @@ data:
   KARGO_NAMESPACE: kargo
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
-  TLS_ENABLED: "true"
-  TLS_CERT_PATH: /etc/kargo/tls.crt
-  TLS_KEY_PATH: /etc/kargo/tls.key
   SECRET_MANAGEMENT_ENABLED: "true"
   SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
   PERMISSIVE_CORS_POLICY_ENABLED: "false"
   ADMIN_ACCOUNT_ENABLED: "true"
-  ADMIN_ACCOUNT_TOKEN_ISSUER: https://kargo.int.kyledev.co
+  ADMIN_ACCOUNT_TOKEN_ISSUER: http://kargo.int.kyledev.co
   ADMIN_ACCOUNT_TOKEN_AUDIENCE: "kargo.int.kyledev.co"
   ADMIN_ACCOUNT_TOKEN_TTL: "24h"
   OIDC_ENABLED: "true"
@@ -212,7 +209,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
 data:
-  API_SERVER_BASE_URL: https://kargo.int.kyledev.co
+  API_SERVER_BASE_URL: http://kargo.int.kyledev.co
   LOG_LEVEL: "INFO"
   LOG_FORMAT: "CONSOLE"
   SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
@@ -7668,7 +7665,7 @@ spec:
   type: ClusterIP
   ports:
   - protocol: TCP
-    port: 443
+    port: 80
     targetPort: 8080
   selector:
     app.kubernetes.io/name: kargo
@@ -7731,7 +7728,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: api
       annotations:
-        configmap/checksum: 65b57173aa4f2688cb253c685325037c1e4f516fadf9e7f2fe50661264cca745
+        configmap/checksum: 04dcf85d8e0c6f278be0123d5171ecc99994d035a38636b38b742d9e4476aaca
         secret/checksum: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
     spec:
       serviceAccount: kargo-api
@@ -7763,38 +7760,15 @@ spec:
               containerPort: 8080
               protocol: TCP
           livenessProbe:
-            exec:
-              command:
-                - /usr/local/bin/grpc_health_probe
-                - -addr=:8080
-                - -tls
-                - -tls-no-verify
+            grpc:
+              port: 8080
             initialDelaySeconds: 10
           readinessProbe:
-            exec:
-              command:
-                - /usr/local/bin/grpc_health_probe
-                - -addr=:8080
-                - -tls
-                - -tls-no-verify
+            grpc:
+              port: 8080
             initialDelaySeconds: 5
-          volumeMounts:
-            - mountPath: /etc/kargo
-              name: config
-              readOnly: true
           resources:
             {}
-      volumes:
-        - name: config
-          projected:
-            sources:
-              - secret:
-                  name: kargo-api-cert
-                  items:
-                    - key: tls.crt
-                      path: tls.crt
-                    - key: tls.key
-                      path: tls.key
 ---
 # Source: longhorn/charts/kargo/templates/controller/deployment.yaml
 apiVersion: apps/v1
@@ -7828,7 +7802,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: controller
       annotations:
-        configmap/checksum: 62f53bb4d84bfb08e7911af1fa8abf81ffbe4f184ae7f636212fed9dc50a4083
+        configmap/checksum: deb61802f7280bea63997bec9ceed0d7b3286907ffad5fd14d01407633173716
     spec:
       serviceAccount: kargo-controller
       containers:
@@ -8062,27 +8036,6 @@ spec:
               {}
           restartPolicy: Never
 ---
-# Source: longhorn/charts/kargo/templates/api/cert.yaml
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: kargo-api
-  namespace: kargo
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: api
-spec:
-  dnsNames:
-  - "kargo.int.kyledev.co"
-  issuerRef:
-    kind: Issuer
-    name: kargo-selfsigned-cert-issuer
-  secretName: kargo-api-cert
----
 # Source: longhorn/charts/kargo/templates/kubernetes-webhooks-server/cert.yaml
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -8117,9 +8070,7 @@ spec:
     - "kargo.ts.kyledev.co"
   rules:
     - backendRefs:
-      - group: ""
-        kind: Service
-        name: kargo-api
+      - name: kargo-api
         port: 80
 ---
 # Source: longhorn/charts/kargo/templates/common/cert-issuer.yaml
