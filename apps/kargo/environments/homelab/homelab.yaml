@@ -381,7 +381,7 @@ kargo:
 
         tls:
           ## @param api.oidc.dex.tls.selfSignedCert Whether to generate a self-signed certificate for use with Dex. If `true`, `cert-manager` CRDs **must** be present in the cluster. The chart will create and use its own namespaced `Issuer`. If `false`, a cert `Secret` with the name specified by `api.oidc.dex.tls.secretName` **must** be provided in the same namespace as Kargo. There is no provision for running Dex without TLS.
-          selfSignedCert: true
+          selfSignedCert: false
           ## @param api.oidc.dex.tls.secretName Name of the cert `Secret` for use with Dex. When `api.oidc.dex.tls.selfSignedCert` is `true`, this will be the name of the generated cert `Secret`. When `api.oidc.dex.tls.selfSignedCert` is `false`, a cert `Secret` with this name **must** be provided in the same namespace as Kargo. There is no provision for running Dex without TLS.
           secretName: kargo-dex-server-cert
 
@@ -468,7 +468,7 @@ kargo:
 
     tls:
       ## @param api.tls.enabled Whether to enable TLS directly on the API server. This is helpful if you do not intend to use an ingress controller or if you require TLS end-to-end. All other settings in this section EXCEPT `terminatedUpstream` will be ignored when this is set to `false`.
-      enabled: true
+      enabled: false
       ## @param api.tls.selfSignedCert Whether to generate a self-signed certificate for use by the API server. If `true`, `cert-manager` CRDs **must** be present in the cluster. The chart will create and use its own namespaced `Issuer`. If `false`, a cert `Secret` with the name specified by `api.tls.secretName` **must** be provided in the same namespace as Kargo. The value in this field has no effect if `api.tls.enabled` is `false`.
       selfSignedCert: true
       ## @param api.tls.secretName Name of the cert `Secret` to use for the API server. When `api.tls.selfSignedCert` is `true`, this will be the name of the generated cert `Secret`. When `api.tls.selfSignedCert` is `false`, a cert `Secret` with this name **must** be provided in the same namespace as Kargo. The value in this field has no effect if `api.tls.enabled` is `false`.
