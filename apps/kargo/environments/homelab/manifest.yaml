@@ -11,18 +11,6 @@ metadata:
     app.kubernetes.io/version: "v1.8.8"
     app.kubernetes.io/managed-by: Helm
 ---
-# Source: longhorn/charts/kargo/templates/shared-resources-namespace/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: kargo-cluster-secrets
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
----
 # Source: longhorn/charts/kargo/templates/system-resources-namespace/namespace.yaml
 apiVersion: v1
 kind: Namespace
@@ -7359,49 +7347,6 @@ rules:
   verbs:
   - "*"
 ---
-# Source: longhorn/charts/kargo/templates/shared-resources-namespace/roles.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: kargo-shared-resources-reader
-  namespace: kargo-cluster-secrets
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  verbs:
-  - get
-  - list
-  - watch
----
-# Source: longhorn/charts/kargo/templates/shared-resources-namespace/roles.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: kargo-shared-resources-admin
-  namespace: kargo-cluster-secrets
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  - configmaps
-  verbs:
-  - "*"
----
 # Source: longhorn/charts/kargo/templates/system-resources-namespace/roles.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -7530,60 +7475,6 @@ subjects:
 - kind: ServiceAccount
   namespace: kargo
   name: kargo-admin
----
-# Source: longhorn/charts/kargo/templates/shared-resources-namespace/role-bindings.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: kargo-shared-resources-reader
-  namespace: kargo-cluster-secrets
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: kargo-shared-resources-reader
-subjects:
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-user
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-viewer
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-project-creator
----
-# Source: longhorn/charts/kargo/templates/shared-resources-namespace/role-bindings.yaml
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: kargo-shared-resources-admin
-  namespace: kargo-cluster-secrets
-  labels:
-    helm.sh/chart: kargo-1.8.8
-    app.kubernetes.io/name: kargo
-    app.kubernetes.io/instance: kargo
-    app.kubernetes.io/version: "v1.8.8"
-    app.kubernetes.io/managed-by: Helm
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: kargo-shared-resources-admin
-subjects:
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-admin
-- kind: ServiceAccount
-  namespace: kargo
-  name: kargo-controller
-- kind: ServiceAccount
-  namespace:  kargo
-  name: kargo-api
 ---
 # Source: longhorn/charts/kargo/templates/system-resources-namespace/role-bindings.yaml
 apiVersion: rbac.authorization.k8s.io/v1

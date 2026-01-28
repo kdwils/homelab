@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mealie-data
+  name: mealie-pvc
   labels:
     helm.sh/chart: mealie-0.1.9
     app.kubernetes.io/name: mealie
@@ -100,7 +100,7 @@ spec:
               memory: 64Mi
           volumeMounts:
             - mountPath: /app/data
-              name: pvc-mealie-data
+              name: pvc-mealie-pvc
               readOnly: false
           env:
             - name: ALLOW_SIGNUP
@@ -133,9 +133,9 @@ spec:
             - secretRef:
                 name: mealie-oidc
       volumes:
-        - name: pvc-mealie-data
+        - name: pvc-mealie-pvc
           persistentVolumeClaim:
-            claimName: mealie-data
+            claimName: mealie-pvc
 ---
 # Source: homelab/charts/mealie/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
