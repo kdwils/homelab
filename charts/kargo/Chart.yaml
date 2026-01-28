@@ -4,7 +4,7 @@ description: kargo
 version: 0.1.0
 dependencies:
   - name: kargo
-    version: 1.8.8
+    version: 1.8.9
     repository: oci://ghcr.io/akuity/kargo-charts
     alias: kargo
   - name: homelab-chart
