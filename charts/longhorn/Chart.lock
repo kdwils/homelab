@@ -1,9 +1,9 @@
 dependencies:
 - name: longhorn
   repository: https://charts.longhorn.io
-  version: 1.10.2
+  version: 1.11.0
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
   version: 0.1.9
-digest: sha256:4dae6cb23a0e4fab7dc2d939170d9fb97fe459ff3c3d8dd1772e8d187b3797c6
-generated: "2026-01-28T09:31:08.131079489Z"
+digest: sha256:b6c038d0879f502b43159767ef96b6e24d09bc9a620736483ffce86b91040d06
+generated: "2026-01-31T05:28:59.749018539Z"
