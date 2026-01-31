@@ -11,7 +11,7 @@ homelab:
       - backendRefs:
           - name: kargo-api
             port: 80
-  sealedSecrets:
+  sealedsecrets:
     - name: kargo
       data:
         ADMIN_ACCOUNT_PASSWORD_HASH: AgAJcO1snqKE2qeZ70qNMrMpxxzo1GuVqY2XZ7360Vu2sALI2hQQYlerTp4uF7xmFx4IjZRmjNJrUAVtUnvdhjt1eL+sT54drmoKs6oMXSOJJn/4tGK/7Wtf7f5yF0MdwHHdO8y9ow0yn63atOfQov3iYREx6HvglSvHGPwTwDxnxVmXcIb4rFlJq2B8OsfqX6Hma2hLx+N/LzcHEjVXtQ1oLfITDigyVjz/YIqrx9KnNOdvmF66uqk/yWvzi0Co0H5r5Y90QMe1SOg3GMzlQMk+P0yRo6ViBQFMrHbzoNO9fjNINaI/rL/hZaI8Xjua4Tx5y+p4oDNAxv1VZBsAWu/dTN2bJtMuKU9m1LGO4XOVV1aP7Y2JCEqemHgwL6LbeZG97W4CWqixdwj7D+jlpzfsXkv+o8DvEwTjWTGlEOLlOxcSQMEraNSUYgsYVvAfdp6DB9eMvgKrbxRL62DJrr+14f6WpHKQuUiyjolvBJ8I6ghLgJpsFPMfN2dX1rg4FtD1r9qqUEJrtihL4HlQjytzhhUp20xSYeHMyQsCvV1xiq78r7uzaM7dz8CWjIlyEgW7v8AZEldKko3ImA1BFMkGCmW+juRjkfWiH2/18hMa/4gbDyST5ZwD9YF0EWZ5LCjGqYArWvXOn7eTjgbG6oyyJtJxb7AgnWTtyYEd6B+fpLixRUKI6RVN9GRzHGB4RB1dLRUNhks6+5+ZdP0g02fBW1qUd2oEQf3cpz1CgoBpYzZSTJibYsTzMasA9iUz4QN/9Wnf0VP6fmM9LNs=
