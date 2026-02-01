@@ -48,6 +48,24 @@ spec:
     requests:
       storage: 10Gi
 ---
+# Source: homelab/charts/openclaw/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tmp
+  labels:
+    helm.sh/chart: openclaw-0.1.11
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: openclaw
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
 # Source: homelab/charts/openclaw/templates/service.yaml
 apiVersion: v1
 kind: Service
@@ -148,6 +166,9 @@ spec:
             - mountPath: /home/node/.openclaw/workspace
               name: pvc-openclaw-workspace-pvc
               readOnly: false
+            - mountPath: /tmp
+              name: pvc-tmp
+              readOnly: false
           env:
             - name: HOME
               value: "/home/node"
@@ -163,6 +184,11 @@ spec:
         - name: pvc-openclaw-workspace-pvc
           persistentVolumeClaim:
             claimName: openclaw-workspace-pvc
+        - name: pvc-tmp
+          persistentVolumeClaim:
+            claimName: tmp
+        - emptyDir: {}
+          name: tmp
 ---
 # Source: homelab/charts/openclaw/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
