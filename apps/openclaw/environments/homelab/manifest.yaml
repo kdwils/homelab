@@ -119,6 +119,8 @@ spec:
           image: "ghcr.io/openclaw/openclaw:2026.1.30"
           imagePullPolicy: IfNotPresent
           args:
+            - node
+            - dist/index.js
             - gateway
             - --bind
             - 0.0.0.0
@@ -179,7 +181,6 @@ spec:
   hostnames:
     - "openclaw.int.kyledev.co"
     - "openclaw.ts.kyledev.co"
-    - "test.int.kyledev.co"
   rules:
     - backendRefs:
       - name: openclaw
