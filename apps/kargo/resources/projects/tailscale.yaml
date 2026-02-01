@@ -22,6 +22,7 @@ metadata:
   name: tailscale
   namespace: tailscale
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - chart:
         repoURL: https://pkgs.tailscale.com/helmcharts

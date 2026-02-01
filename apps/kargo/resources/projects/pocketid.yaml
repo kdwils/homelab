@@ -22,6 +22,7 @@ metadata:
   name: pocketid
   namespace: pocketid
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - image:
         repoURL: ghcr.io/pocket-id/pocket-id

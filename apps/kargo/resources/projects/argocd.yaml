@@ -1,32 +1,32 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
-  name: longhorn-system
+  name: argocd
   annotations:
     kargo.akuity.io/keep-namespace: "true"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
-  name: longhorn-system
-  namespace: longhorn-system
+  name: argocd
+  namespace: argocd
 spec:
   promotionPolicies:
     - stageSelector:
         name: main
-      autoPromotionEnabled: true
+      autoPromotionEnabled: false
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
-  name: longhorn
-  namespace: longhorn-system
+  name: argocd
+  namespace: argocd
 spec:
   interval: "1h0m0s"
   subscriptions:
     - chart:
-        repoURL: https://charts.longhorn.io
-        name: longhorn
+        repoURL: https://argoproj.github.io/argo-helm
+        name: argo-cd
     - chart:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
@@ -34,19 +34,19 @@ spec:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:infra/longhorn/environments/**
-          - glob:charts/longhorn/**
+          - glob:infra/argocd/environments/**
+          - glob:charts/argocd/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: main
-  namespace: longhorn-system
+  namespace: argocd
 spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: longhorn
+        name: argocd
       sources:
         direct: true
   promotionTemplate:
@@ -57,7 +57,7 @@ spec:
         - name: targetBranch
           value: main
         - name: warehouse
-          value: longhorn
+          value: argocd
       steps:
         - task:
             name: git-ops-clone
@@ -67,17 +67,17 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
-              value: charts/longhorn
+              value: charts/argocd
             - name: chartRepo
-              value: https://charts.longhorn.io
+              value: https://argoproj.github.io/argo-helm
             - name: chartName
-              value: longhorn
+              value: argo-cd
         - task:
             name: helm-update-single-chart
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
-              value: charts/longhorn
+              value: charts/argocd
             - name: chartRepo
               value: https://kdwils.github.io/helm-charts
             - name: chartName
@@ -88,8 +88,8 @@ spec:
           vars:
             - name: commitMessage
               value: |
-                Update longhorn chart dependencies
+                Update ArgoCD chart dependencies
             - name: prTitle
-              value: "Update longhorn chart dependencies"
+              value: "Update ArgoCD chart dependencies"
             - name: prDescription
-              value: Update longhorn chart dependencies
+              value: Update ArgoCD chart dependencies (argo-cd + homelab-chart)

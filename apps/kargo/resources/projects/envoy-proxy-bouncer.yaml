@@ -22,6 +22,7 @@ metadata:
   name: envoy-proxy-bouncer
   namespace: envoy-proxy-bouncer
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - chart:
         repoURL: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer

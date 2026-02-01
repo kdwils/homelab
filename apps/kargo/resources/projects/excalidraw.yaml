@@ -22,6 +22,7 @@ metadata:
   name: excalidraw
   namespace: excalidraw
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - image:
         repoURL: excalidraw/excalidraw

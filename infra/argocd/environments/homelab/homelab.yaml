@@ -1,0 +1,92 @@
+argocd:
+  global:
+    domain: argocd.kyledev.co
+
+  configs:
+    cm:
+      url: https://argocd.kyledev.co
+      admin.enabled: "true"
+      accounts.readonly-user: login, apiKey
+      statusbadge.enabled: "true"
+      statusbadge.url: https://argocd.kyledev.co/
+      application.namespaces: "*"
+      oidc.config: |
+        name: PocketID
+        issuer: https://pocketid.kyledev.co
+        clientID: 7e697ce9-a9ae-4fae-9782-bb2f575d65a8
+        clientSecret: $oidc.pocketid.clientSecret
+        requestedScopes: ["openid", "profile", "email", "groups"]
+        requestedIDTokenClaims:
+          groups:
+            essential: true
+      resource.customizations: |
+        apiextensions.k8s.io/CustomResourceDefinition:
+          ignoreDifferences: |
+            jsonPointers:
+            - /status
+        admissionregistration.k8s.io/ValidatingWebhookConfiguration:
+          ignoreDifferences: |
+            jsonPointers:
+            - /webhooks/0/clientConfig/caBundle
+            - /webhooks/1/clientConfig/caBundle
+
+      resource.customizations.ignoreDifferences.all: |
+        managedFieldsManagers:
+          - kube-controller-manager
+        jsonPointers:
+          - /spec/template/spec/containers/0/resources/requests
+          - /spec/template/spec/containers/0/resources/limits
+
+    rbac:
+      policy.csv: |
+        p, role:admin, *, *, *, allow
+        g, admins, role:admin
+        g, friends, role:readonly
+      policy.default: role:readonly
+
+    params:
+      server.insecure: "true"
+
+    secret:
+      createSecret: false
+
+  dex:
+    enabled: false
+
+  server:
+    ingress:
+      enabled: false
+    service:
+      type: ClusterIP
+
+    httproute:
+      enabled: true
+      parentRefs:
+        - name: homelab
+          namespace: envoy-gateway-system
+      hostnames:
+        - argocd.kyledev.co
+        - argocd.int.kyledev.co
+        - argocd.ts.kyledev.co
+
+homelab:
+  sealedsecrets:
+    - name: argocd-secret
+      data:
+        admin.password: AgCwdR1wJ743DzgwsPXNTwh+jS6hBK/XMUzH0KQhCTPBqF5P9VALcEMOiNb/rEkbq6etGcM9ip1iZi/8dnIGlGxe4jdTPRVLgMf/YwMw+IzobMp04Wz5StPJ0V+yQFnjIbt8iCkVARTnu7QBirKR8rYpdpfxbmUD7jWIbpsuLAVU+Jl6el+R9nwoLARDtsd2qHw5QzS6XlnljxhY07EbNIbax+iA6gqdoC5FIicuUYCjhvyiLH3QfE1/khG+J7EmZ5QwIpctR69iH4lPz711dSly0j1BfcVA2S/lcm6s/CgGwCgL2U02DRahOvBkJ+epuYAYnhT9B6mbZEwhLrb2EVnONmpJefgg2zrR4zfRUUUYRC82oeHVo19T5pXDqsypagvxA9IrTQ9iQOehez/SQo1i061CjCr7gWotz2SIBtR9vQBDyIFVzVIVfeCzvAD0jHpCijnbATc6aDK8iVbQQILv0t+UXjshKHatC9BGABvBDm+xf1cXYJx8C2IqLwpPQ9jCBy8ZyNTUDjfzq2o+oOqmffZvJRlVLs4XL5JnGvZrOhS9Q23vtkDXnfqk13NxF3SsuYqRbnWmEzQBLvh4ldQlhVr1oi+/cvlPl+0nvgJAieVXETJRxCnMzbS+l1K+iNFSKu9awFgkmVuTgh0k6vYStU4mf7FLuY7FFIGW/dGUvGaP+5FyKmv7Qb3+8qNNu3l4j9DJ0+QRSW8fRF2002WdGM1e2Hmc9ulApiTJg0lNI0Qry+pQ2ALw5zJLlVQujuVr2CgDOCTyjdLCq7k=
+        admin.passwordMtime: AgAlTE90nEwnQLgml0Ujl0P4EL/dW10BFF8XD57UuZo3LWN6/m/+eaJYxFhPM59CNyQhiS6IMLXgRVjTfSJkEV6gCCkviL8JhLei8nC2NvMjegkfCHfAWY15Cn4bhoWokS90R/4DZv2GSXh95M0jpK/OH2spxFYS6X8TnihYEbFiETVU3mM1nC6vm84fqgVfhPZVcLxSP8KQL4c+eJnhDrfh0rjaBWgCcEiL8k/KYI0ZtSym6S0u041GqekuDMivZgRs7b8owAGH4yao8klo/jMrR33ZTNygPqXYU3ZZMF2rWUPcx3pdMbMB5OahfSYpyJaBWeZCBOoRjuIgya8m3lgrXtOqQurjpxWuleyI4ZDWPouinWDEnB+Hg3GAE8JxppUgzcDtpDaj3q+CSBNouxy/R9h/Cc4xJYXzB8uwNLbTGmswnwGlxqu1d7p8u9zr8Nnfncjt3rLVe3JzJEsAerngrw5OmfkV8hbs7Olcen0HVeLPdt+wwesO15H8WlgVkksffAJXR0QucR+I+sdB59slL6w6cIPOQ4YP3H39oLY/mRTT3s1RsCqu+8nGSGc8QFJjHFAGG8+ooNunvv4Cvz9qXjPxnzGpCZvSwPbOIhTJRmRDyayOajUb3A/MlHf0pp5ROdAw+PX2sk7GFUBYZakzpzhcnGFQvMTzsGgnvOvQYQY325ocJ4IpwYy7XwgewpikRVJeegkRcpoAhno2INH/EXmo0g==
+        oidc.pocketid.clientSecret: AgCxE3vdTZQu8AycBAHxBluWjo3AYJGAF/3JqIBm465a9z5jPt1YClNOisNGT+dY3wbAS4g45sFbbgXJpybfUo+MtLPVZGZA0dOjON1upB7el5v2qGxNNQ8Ry3+Zcwawmpt7kDB3PdUwV7iCV8JVf2wZcg/9niy9gOzvtcylQ7ZCfwvlNq2nDauRqZLeD4U1PMFdBOQAzjyTvpLEUarmRro602YMcrOG44xbQfYa4nDTklGSpapXTzASmK7H+eT7JClYSWK9aHJLAs2FEkVQdGScWdx4MwYeatD/5FFsKQvfI9grqOL4HfUWx+/7JaG8W8ijI63BycvS5RKaxHJgsqZtDJJxxA/SqZ/b8U+WvX+EFo/rTH8sCFOZ43rNTaSJwzLSsDcYtt1c3HMhD+odP0KzEX1u9ouxvwEim6wSPjrg/uWjUsAO+Yy+Xov/3LvpoKn9KM90/FDGqhRh31dJ/xfN5WNMZwpgyWsN0C1R98HdSBZKyHYohuPuIkh9fbq4hIkmonHPMcFITtVXCL5APRxw/nKOLak/WqCgJnUNmW1wtvpXrDc29zrad2cHu+ifhrT7Y42d07oB7vuS0mQ8RKjWy/zIFEkayTruENRp95nnIjvRIhU5NUkkFOrTSpfrO3Hmd3/8KljmWP0Wa7cjbXSveiSDm4R8m033tp1WyENFMnAx/01Fn0EkuUy9oKOgUNqqTDR1QNZBI/eiNnNOv86TQkixpfohALnfNxtP/HMe1A==
+        server.secretkey: AgCKzD0+oKJdYeSia6ASBQt8niSBE6u/NyEsccnOTaCqPExGVF+J0gltyBA+RziVl1Xqoi6Tk8Ggoq2cYMNkDuukk6lFig2YgkTGF9G7Bah1gk4vNfXEEjedR1RCEJJP8esR7ebY3JB8s6k3/IJ4dWTHbXLIahvtV3f56kbo/eJGvQ1oGBa5ZgOXz53DmZQVOuRK3eHVZSb3Ge18jYHHrcY3EDoa5+ZV5Kg2Dq59P3DUtS0F8usOuQzIy6CE1rU82ufjZ22urrf6L6xhdVg9fTn6NrhlgDOoSnIUaI4h9YWAl/XaapqEF10/arQQwveDo0kJtVQzrjn7pfrr3MAA2H5oXjAVGz7854b2DoY/18XKH/2ueI/LdRs9EHu5L8s+EiXtRa0fm4cMgQPSu2UqOcgsO/s1iQUPQn9+IDvpqCRJsYWsWvxpZdtpUrYEzAv5uHQA/rXdFXqcvfEM7PY5t1bp31ixGqB7QuHQ9K8XQO+n64yAPB69NYNvITMnC8twSAEjjpACbCKMbYZO5QrtpSVy5anAprRTnBmRJciOwiHOkPqhPVcC0gWk4W63Ua26xvtbCQvL2QnIz6oyMf1tGidbG8I5roWxe2NQizPjvdb59+4lOxqsT5KPe93PNt9TsecUHcUp7uRLuN1qJ2RaacO7p3oMConxC9FF+tYTmV/vzWOa8fLoKDLRXxUquTDoI4hCgBPa8GpJ7XX3cg4i+yKb3c58BXJa3YjbM7AKuA1IJrLtALuv3ZopJKypVQ==
+    - name: argocd-initial-admin-secret
+      data:
+        password: AgDTbmPt1KLBGyV43nUDDdfvW15FGN+ork9EyOIsxWuOv8GO6LwXii+1cjjvqZZC0sS4AmNpzgDYLMWBQZITuiCLIDoYZSb0LeUkdjoPFQS6joSvt+zByJCE7iiR/upjGG0N50TwCOiNg0aCpwZK1EvqB5J2PAbQq5rrCzmw8vaID6LbJ1MInwlp9XOltoFN4IZpbVZniFwcv9ihASVhEUwsXc58T9knbiDOoU1NGcgPZeR4iOXLSuXcobYnJL9N1MBa/d5/oUHfmgi0OdtwKWqQg3pSWUPyzhpOKvGAd4SP6WrqtE0frNeeJ6zrMXgU8jT1B6fczrMyoZVUd+KQYqTuWUIWBa1S/t8yL0/xiGwdBxQd0eprbkh494QFu0R4flTrSws9hc8qq4Jmf2hnjMGfneysBCMGqpMa+6Bx1X8SUf9bdv0AnLhAUIfHs52PtccPoB8rlDoJ/kAVSGeawZOwoy9aRNBNuYHyb4Dn2AtBSz6Mr43xVwg/RDIUAO2aI36IgOj0MYWmQZ90U4iQeemFXmZG+aswBxJJ/F5kZKAd3jE3gkdJ7z8fh+JUbDV6nh2ZeYoGZtiWxdfrSM7BDs4E473GwlLV/LwCOuG+Ut+LvgFFx9Zw3pM2QeL5ozRUiv7AYYqrlzi9ZOfSHdpTjRF1j9IgJcrqol7fOV3kff+s+pxHD6635P7CAVp2lAYNkQ8kNhti8/vbOZewMeT9liF
+
+  securityPolicy:
+    extAuth:
+      grpc:
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: homelab-envoy-proxy-bouncer
+            namespace: envoy-gateway-system
+            port: 8080

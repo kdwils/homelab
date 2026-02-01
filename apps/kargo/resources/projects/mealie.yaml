@@ -22,6 +22,7 @@ metadata:
   name: mealie
   namespace: mealie
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - image:
         repoURL: ghcr.io/mealie-recipes/mealie

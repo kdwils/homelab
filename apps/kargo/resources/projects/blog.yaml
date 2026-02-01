@@ -22,6 +22,7 @@ metadata:
   name: blog
   namespace: blog
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/blog

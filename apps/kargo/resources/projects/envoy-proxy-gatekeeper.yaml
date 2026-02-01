@@ -22,6 +22,7 @@ metadata:
   name: envoy-proxy-gatekeeper
   namespace: envoy-proxy-gatekeeper
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/envoy-proxy-gatekeeper

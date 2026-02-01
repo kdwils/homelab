@@ -22,6 +22,7 @@ metadata:
   name: overseerr
   namespace: overseerr
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - image:
         repoURL: ghcr.io/sct/overseerr

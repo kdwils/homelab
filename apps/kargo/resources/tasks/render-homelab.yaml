@@ -195,6 +195,16 @@ spec:
         releaseName: tailscale
         outPath: ./target/infra/tailscale/manifest.yaml
     - uses: helm-template
+      as: render-argocd
+      config:
+        path: ./source/charts/argocd
+        valuesFiles:
+          - ./source/infra/argocd/environments/homelab/homelab.yaml
+        namespace: argocd
+        releaseName: argocd
+        outPath: ./target/infra/argocd/environments/homelab/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-byparr
       config:
         path: ./source/charts/homelab

@@ -22,6 +22,7 @@ metadata:
   name: prowlarr
   namespace: prowlarr
 spec:
+  interval: "1h0m0s"
   subscriptions:
     - image:
         repoURL: ghcr.io/linuxserver/prowlarr
