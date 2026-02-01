@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: envoy-proxy-gatekeeper
   labels:
-    helm.sh/chart: envoy-proxy-gatekeeper-0.1.10
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.11
     app.kubernetes.io/name: envoy-proxy-gatekeeper
     app.kubernetes.io/instance: envoy-proxy-gatekeeper
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: Service
 metadata:
   name: envoy-proxy-gatekeeper
   labels:
-    helm.sh/chart: envoy-proxy-gatekeeper-0.1.10
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.11
     app.kubernetes.io/name: envoy-proxy-gatekeeper
     app.kubernetes.io/instance: envoy-proxy-gatekeeper
     app.kubernetes.io/version: "1.16.0"
@@ -44,7 +44,7 @@ kind: Deployment
 metadata:
   name: envoy-proxy-gatekeeper
   labels:
-    helm.sh/chart: envoy-proxy-gatekeeper-0.1.10
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.11
     app.kubernetes.io/name: envoy-proxy-gatekeeper
     app.kubernetes.io/instance: envoy-proxy-gatekeeper
     app.kubernetes.io/version: "1.16.0"
@@ -60,7 +60,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: envoy-proxy-gatekeeper-0.1.10
+        helm.sh/chart: envoy-proxy-gatekeeper-0.1.11
         app.kubernetes.io/name: envoy-proxy-gatekeeper
         app.kubernetes.io/instance: envoy-proxy-gatekeeper
         app.kubernetes.io/version: "1.16.0"
@@ -111,7 +111,7 @@ kind: HTTPRoute
 metadata:
   name: gatekeeper-int
   labels:
-    helm.sh/chart: envoy-proxy-gatekeeper-0.1.10
+    helm.sh/chart: envoy-proxy-gatekeeper-0.1.11
     app.kubernetes.io/name: envoy-proxy-gatekeeper
     app.kubernetes.io/instance: envoy-proxy-gatekeeper
     app.kubernetes.io/version: "1.16.0"

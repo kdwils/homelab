@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: cloudflared
   labels:
-    helm.sh/chart: cloudflared-0.1.10
+    helm.sh/chart: cloudflared-0.1.11
     app.kubernetes.io/name: cloudflared
     app.kubernetes.io/instance: cloudflared
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: ConfigMap
 metadata:
   name: cloudflared
   labels:
-    helm.sh/chart: cloudflared-0.1.10
+    helm.sh/chart: cloudflared-0.1.11
     app.kubernetes.io/name: cloudflared
     app.kubernetes.io/instance: cloudflared
     app.kubernetes.io/version: "1.16.0"
@@ -67,7 +67,7 @@ kind: Deployment
 metadata:
   name: cloudflared
   labels:
-    helm.sh/chart: cloudflared-0.1.10
+    helm.sh/chart: cloudflared-0.1.11
     app.kubernetes.io/name: cloudflared
     app.kubernetes.io/instance: cloudflared
     app.kubernetes.io/version: "1.16.0"
@@ -83,7 +83,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: cloudflared-0.1.10
+        helm.sh/chart: cloudflared-0.1.11
         app.kubernetes.io/name: cloudflared
         app.kubernetes.io/instance: cloudflared
         app.kubernetes.io/version: "1.16.0"
