@@ -3,19 +3,23 @@ kind: Application
 metadata:
   name: argocd
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: argocd-system:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd
+    namespace: argocd-system
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/argocd
+    path: infra/argocd/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: infra
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
