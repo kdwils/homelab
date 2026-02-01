@@ -10,7 +10,7 @@ openclaw:
 
     image:
       repository: ghcr.io/openclaw/openclaw
-      tag: latest
+      tag: 2026.1.30
       pullPolicy: IfNotPresent
 
     env:
