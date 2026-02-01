@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: overseerr
   labels:
-    helm.sh/chart: overseerr-0.1.9
+    helm.sh/chart: overseerr-0.1.10
     app.kubernetes.io/name: overseerr
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: overseerr-pvc
   labels:
-    helm.sh/chart: overseerr-0.1.9
+    helm.sh/chart: overseerr-0.1.10
     app.kubernetes.io/name: overseerr
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: overseerr
   labels:
-    helm.sh/chart: overseerr-0.1.9
+    helm.sh/chart: overseerr-0.1.10
     app.kubernetes.io/name: overseerr
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -58,7 +58,7 @@ kind: Deployment
 metadata:
   name: overseerr
   labels:
-    helm.sh/chart: overseerr-0.1.9
+    helm.sh/chart: overseerr-0.1.10
     app.kubernetes.io/name: overseerr
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -74,7 +74,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: overseerr-0.1.9
+        helm.sh/chart: overseerr-0.1.10
         app.kubernetes.io/name: overseerr
         app.kubernetes.io/instance: overseerr
         app.kubernetes.io/version: "1.16.0"
@@ -108,7 +108,7 @@ kind: HTTPRoute
 metadata:
   name: overseerr
   labels:
-    helm.sh/chart: overseerr-0.1.9
+    helm.sh/chart: overseerr-0.1.10
     app.kubernetes.io/name: overseerr
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -134,7 +134,7 @@ kind: SecurityPolicy
 metadata:
   name: overseerr
   labels:
-    helm.sh/chart: overseerr-0.1.9
+    helm.sh/chart: overseerr-0.1.10
     app.kubernetes.io/name: overseerr
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"

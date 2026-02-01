@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: events
   labels:
-    helm.sh/chart: events-0.1.9
+    helm.sh/chart: events-0.1.10
     app.kubernetes.io/name: events
     app.kubernetes.io/instance: events
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: ConfigMap
 metadata:
   name: config
   labels:
-    helm.sh/chart: events-0.1.9
+    helm.sh/chart: events-0.1.10
     app.kubernetes.io/name: events
     app.kubernetes.io/instance: events
     app.kubernetes.io/version: "1.16.0"
@@ -53,7 +53,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: events-data-pvc
   labels:
-    helm.sh/chart: events-0.1.9
+    helm.sh/chart: events-0.1.10
     app.kubernetes.io/name: events
     app.kubernetes.io/instance: events
     app.kubernetes.io/version: "1.16.0"
@@ -71,7 +71,7 @@ kind: Service
 metadata:
   name: events
   labels:
-    helm.sh/chart: events-0.1.9
+    helm.sh/chart: events-0.1.10
     app.kubernetes.io/name: events
     app.kubernetes.io/instance: events
     app.kubernetes.io/version: "1.16.0"
@@ -93,7 +93,7 @@ kind: Deployment
 metadata:
   name: events
   labels:
-    helm.sh/chart: events-0.1.9
+    helm.sh/chart: events-0.1.10
     app.kubernetes.io/name: events
     app.kubernetes.io/instance: events
     app.kubernetes.io/version: "1.16.0"
@@ -109,7 +109,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: events-0.1.9
+        helm.sh/chart: events-0.1.10
         app.kubernetes.io/name: events
         app.kubernetes.io/instance: events
         app.kubernetes.io/version: "1.16.0"
@@ -167,7 +167,7 @@ kind: HTTPRoute
 metadata:
   name: events
   labels:
-    helm.sh/chart: events-0.1.9
+    helm.sh/chart: events-0.1.10
     app.kubernetes.io/name: events
     app.kubernetes.io/instance: events
     app.kubernetes.io/version: "1.16.0"
