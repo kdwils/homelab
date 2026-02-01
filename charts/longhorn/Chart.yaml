@@ -8,6 +8,6 @@ dependencies:
     repository: https://charts.longhorn.io
     alias: longhorn
   - name: homelab-chart
-    version: 0.1.9
+    version: 0.1.11
     repository: https://kdwils.github.io/helm-charts
     alias: homelab
