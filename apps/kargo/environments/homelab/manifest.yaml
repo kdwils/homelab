@@ -7952,7 +7952,7 @@ kind: HTTPRoute
 metadata:
   name: kargo-homelab
   labels:
-    helm.sh/chart: homelab-0.1.9
+    helm.sh/chart: homelab-0.1.11
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: kargo
     app.kubernetes.io/version: "1.16.0"
