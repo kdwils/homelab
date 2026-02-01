@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: argocd-system
+    namespace: argocd
     server: "https://kubernetes.default.svc"
   source:
     path: infra/argocd/environments/homelab
