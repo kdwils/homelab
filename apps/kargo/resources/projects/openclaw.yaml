@@ -1,0 +1,66 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: openclaw
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: openclaw
+  namespace: openclaw
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: openclaw
+  namespace: openclaw
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/openclaw/openclaw
+        semverConstraint: ^0.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/openclaw/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: openclaw
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: openclaw
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: openclaw
+        - name: imageRepo
+          value: ghcr.io/openclaw/openclaw
+        - name: valuesFilePath
+          value: apps/openclaw/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: openclaw.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask

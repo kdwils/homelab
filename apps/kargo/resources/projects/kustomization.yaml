@@ -16,6 +16,7 @@ resources:
   - longhorn.yaml
   - mealie.yaml
   - nats.yaml
+  - openclaw.yaml
   - overseerr.yaml
   - plex.yaml
   - pocketid.yaml

@@ -67,3 +67,7 @@ dependencies:
     version: ^0.1.0
     repository: https://kdwils.github.io/helm-charts
     alias: events
+  - name: homelab-chart
+    version: ^0.1.0
+    repository: https://kdwils.github.io/helm-charts
+    alias: openclaw
