@@ -1,0 +1,201 @@
+---
+# Source: homelab/charts/openclaw/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kargo-openclaw
+  labels:
+    helm.sh/chart: openclaw-0.1.11
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/openclaw/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openclaw-config-pvc
+  labels:
+    helm.sh/chart: openclaw-0.1.11
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# Source: homelab/charts/openclaw/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openclaw-workspace-pvc
+  labels:
+    helm.sh/chart: openclaw-0.1.11
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+# Source: homelab/charts/openclaw/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kargo-openclaw
+  labels:
+    helm.sh/chart: openclaw-0.1.11
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 18789
+      targetPort: gateway
+      protocol: TCP
+      name: gateway
+    - port: 18790
+      targetPort: bridge
+      protocol: TCP
+      name: bridge
+  selector:
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: kargo
+---
+# Source: homelab/charts/openclaw/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kargo-openclaw
+  labels:
+    helm.sh/chart: openclaw-0.1.11
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openclaw
+      app.kubernetes.io/instance: kargo
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: openclaw-0.1.11
+        app.kubernetes.io/name: openclaw
+        app.kubernetes.io/instance: kargo
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: kargo-openclaw
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: openclaw
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          image: "ghcr.io/openclaw/openclaw:2026.1.30"
+          imagePullPolicy: IfNotPresent
+          args:
+            - gateway
+            - --bind
+            - 0.0.0.0
+            - --port
+            - "18789"
+          ports:
+            - name: gateway
+              containerPort: gateway
+              protocol: TCP
+            - name: bridge
+              containerPort: bridge
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /home/node/.openclaw
+              name: pvc-openclaw-config-pvc
+              readOnly: false
+            - mountPath: /home/node/.openclaw/workspace
+              name: pvc-openclaw-workspace-pvc
+              readOnly: false
+          env:
+            - name: HOME
+              value: "/home/node"
+            - name: TERM
+              value: "xterm-256color"
+          envFrom:
+            - secretRef:
+                name: openclaw-secrets
+      volumes:
+        - name: pvc-openclaw-config-pvc
+          persistentVolumeClaim:
+            claimName: openclaw-config-pvc
+        - name: pvc-openclaw-workspace-pvc
+          persistentVolumeClaim:
+            claimName: openclaw-workspace-pvc
+---
+# Source: homelab/charts/openclaw/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kargo-openclaw
+  labels:
+    helm.sh/chart: openclaw-0.1.11
+    app.kubernetes.io/name: openclaw
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "openclaw.int.kyledev.co"
+    - "openclaw.ts.kyledev.co"
+  rules:
+    - backendRefs:
+      - name: openclaw
+        port: 18789
+---
+# Source: homelab/charts/openclaw/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: openclaw-secrets
+  namespace: kargo
+spec:
+  encryptedData:
+    ANTHROPIC_API_KEY: AgCmsPc64hhZvc80deamHoi/tCwt0v1d9HXMfAh96kOXELXsumFEMROWCw9KGDMcee5NxzONg3PihzbVADuk40mCdAC22WpVaUjemeO9Dejv9Zvvp1x2e/Sn29llMYVbRXgVA+yIFs1WNfvLQFoAfn2/Hr+R0PNxERR2axmj85G3M3/3hXr6CgsDEisecYPxMI6pgZVgcQX88fz+HbCbg/B5WQaeW0DRqD4tYUxGpD5r6rTpAJB6jGOt8PF+a6ChXzg2rOFZYL3ZpUB+gIL7to6oflmrRlzuQXjG0zJeMDecqQe3iLA+tim6U9xf1oMpg8Sm7c55PAjU6yeKskViGWD0EQGKiBl470ICj2MjaINQi6Cw3/idvkBwsC1MfrBaJUHKLRJecr2qVT1WDZMHAQhhBRxh/w5nqVayzeltFuUdt+wht+w0XGLc9rdiDhxUOKvlruPhMW2bZMLFaUrZOt5r3cEQ37GqZFDxbQGxu1ReLTQ9Oyjhoy3btWRC4H2FH/isgdvIwAKkj3VvkhQr5NTBlhzFbWymDND9Qo4IKXO/g+Y7Ee+IAjmXeC/vba1RbdElYN0NKDbdHCyvzWzLJpL5gMtjbWrdILvVCISCO2XsPUmHa6MWaPZL9YNMF9xiHgtZP0dBiEVdwGY7gU/bL5TjhpQjSSocCEffU/lZTg98iUTfdeGzhY4KD5x+EkyAJA9OaDnq4WAyKHxIwK7x0SrzfZT2cAqUA0+OKknC3tlj0193MevReit1KlKPk1Qa8QL9iAcwq/rK9yI/w0lTFCuoXf2QPEtl40noUgrvWoXeML/+1PP0l6B4p7AwlnJDCxUIgGQJnAB4UgwlSRJXUkiAdcHUsQG3zjP3hMlo/On903lCMp4+db6gadPjHwceejo=
+    OPENCLAW_GATEWAY_TOKEN: AgCNc4WBFbadLhtzPv0ivgTn8ep1wAXmVbiRS0m1FOu/fKOlWSN07MzSHHnW52L+k21S97wGZg5QJBbhNnBJmT1LnQXxcct7pD5aBV0Bn7Bvt3bFuNFTP6c9Ege5A8eZq3mPvllDQ5S4yyq/R7M8bo6TgZyUwLPqPSJH1pXmYMMzopabqBqlmiH0fMcNju60+3MUPfS67zN4Wx4zHSlrcaGVUPpnO1QoiRGn4dOSe9koyeb6I297B9q0VzNcQOcWtx3U+IEeVPc8BYnFYFooYSFIYRcSq9h5jWqta7sNdsAj1eG5OhwxgHkc5GHCKpu5Mi4jhYtqRCVXMFdY7hNB1M8KM4hYe/AAxIcO+WZW8DbdHdQq+0HJ27xTNAOcP49jHueeu+kJxgOTPTQrJD/O35/SC54RyabOlgeED8TJ/7ZMLqOnzUrLFol9l3rqrpVj15kYbKTnaITKtKJg7Q3yVBVvHxlyBGrUJU9kZdEeXFbCkNxVv3eMyx9+dYTx3f1EuMIzWwweGQllnBYI5GJxSrjR45z2UrAdeZSDHhyqaU27rvVqIiRhStOY0bUoEc4l2npC4w+HRyBktzEJAaTo+Se9+FgiNVBMH5xQV/j1h6NMwlEGdtqP8taNWXGK/Xnx0oOx7EZ89SJF/iDwq4KDoy5VXUh2LrUhEqD4axgkCDN/UOZ8ykg6RdPnThh6nke8iFwEgd+FlY48TVnRyEWCqS5RtWKqPqv9je84647KhLIATxjnScZv/cRCRzSIHGsg+G8lM1xl9g9rPfb71sL9O9su7PrtwjKSbHYzKEGB0OzOGnccrjNkcGEP
+  template:
+    type: Opaque
+    metadata:
+      name: openclaw-secrets
+      namespace: kargo
