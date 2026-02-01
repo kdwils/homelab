@@ -37,6 +37,10 @@ openclaw:
     volumes:
       - name: tmp
         emptyDir: {}
+    
+    volumesMounts:
+      - name: tmp
+        mountPath: /tmp
 
     resources:
       limits:
