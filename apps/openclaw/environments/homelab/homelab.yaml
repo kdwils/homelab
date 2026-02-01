@@ -37,8 +37,8 @@ openclaw:
     volumes:
       - name: tmp
         emptyDir: {}
-    
-    volumesMounts:
+
+    volumeMounts:
       - name: tmp
         mountPath: /tmp
 
