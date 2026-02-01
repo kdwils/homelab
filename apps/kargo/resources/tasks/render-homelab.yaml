@@ -255,8 +255,8 @@ spec:
         path: ./source/charts/homelab
         valuesFiles:
           - ./source/apps/openclaw/environments/homelab/homelab.yaml
-        namespace: kargo
-        releaseName: kargo
+        namespace: openclaw
+        releaseName: openclaw
         outPath: ./target/apps/openclaw/environments/homelab/manifest.yaml
     - uses: git-commit
       as: commit-all
