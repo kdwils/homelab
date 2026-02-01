@@ -4,7 +4,7 @@ metadata:
   name: argocd
   namespace: argocd
   annotations:
-    kargo.akuity.io/authorized-stage: argocd-system:homelab
+    kargo.akuity.io/authorized-stage: argocd:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
