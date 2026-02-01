@@ -1,9 +1,9 @@
 dependencies:
 - name: nats
   repository: https://nats-io.github.io/k8s/helm/charts/
-  version: 2.12.3
+  version: 2.12.4
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
-digest: sha256:5be5b0505ed77daaf6c533379ad824a3fae9a3eefccdd1677356f04f9c99451c
-generated: "2026-01-23T00:14:58.205606961Z"
+  version: 0.1.11
+digest: sha256:a0497400add2b9b5cd18c82c6cb1a410b921f6fcd14cd601f8076868c556fb5e
+generated: "2026-02-01T18:59:30.730438288Z"
