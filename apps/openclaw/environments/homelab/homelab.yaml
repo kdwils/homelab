@@ -43,6 +43,8 @@ openclaw:
         memory: 128Mi
 
     args:
+      - "node"
+      - "dist/index.js"
       - gateway
       - --bind
       - "0.0.0.0"
@@ -67,7 +69,6 @@ openclaw:
     hostnames:
       - openclaw.int.kyledev.co
       - openclaw.ts.kyledev.co
-      - test.int.kyledev.co
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
