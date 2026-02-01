@@ -63,11 +63,11 @@ spec:
   type: ClusterIP
   ports:
     - port: 18789
-      targetPort: gateway
+      targetPort: 18789
       protocol: TCP
       name: gateway
     - port: 18790
-      targetPort: bridge
+      targetPort: 18790
       protocol: TCP
       name: bridge
   selector:
@@ -126,10 +126,10 @@ spec:
             - "18789"
           ports:
             - name: gateway
-              containerPort: gateway
+              containerPort: 18789
               protocol: TCP
             - name: bridge
-              containerPort: bridge
+              containerPort: 18790
               protocol: TCP
           resources:
             limits:
