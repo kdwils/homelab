@@ -1,51 +1,51 @@
 dependencies:
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
+  version: 0.1.11
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.9
-digest: sha256:49ce11dcc3b6a7c5715f92478e0909adffb07c4eec2246ebb1422de10e9940d4
-generated: "2026-01-22T21:53:04.429149-05:00"
+  version: 0.1.11
+digest: sha256:c751b6788a4fe04482110dcd2d071cd1df44631fc2e4a137c33d3753db872b9a
+generated: "2026-02-01T18:23:06.254994615Z"
