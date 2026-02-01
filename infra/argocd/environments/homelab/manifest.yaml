@@ -27096,7 +27096,9 @@ spec:
     type: Opaque
     metadata:
       name: argocd-secret
-      namespace: argocd---
+      namespace: argocd
+---
+# Source: argocd/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -27117,7 +27119,7 @@ kind: SecurityPolicy
 metadata:
   name: argocd-homelab
   labels:
-    helm.sh/chart: homelab-0.1.10
+    helm.sh/chart: homelab-0.1.11
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: argocd
     app.kubernetes.io/version: "1.16.0"
