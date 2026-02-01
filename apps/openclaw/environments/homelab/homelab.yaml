@@ -34,6 +34,10 @@ openclaw:
         drop:
           - ALL
 
+    volumes:
+      - name: tmp
+        emptyDir: {}
+
     resources:
       limits:
         cpu: 500m
@@ -89,6 +93,8 @@ openclaw:
         size: 10Gi
         accessMode: ReadWriteOnce
         mountPath: /home/node/.openclaw/workspace
+      - name: tmp
+        mountPath: /tmp
 
   sealedsecrets:
     - name: openclaw-secrets
