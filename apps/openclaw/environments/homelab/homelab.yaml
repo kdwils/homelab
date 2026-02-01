@@ -42,14 +42,6 @@ openclaw:
         cpu: 100m
         memory: 128Mi
 
-    ports:
-      - name: gateway
-        containerPort: 18789
-        protocol: TCP
-      - name: bridge
-        containerPort: 18790
-        protocol: TCP
-
     args:
       - gateway
       - --bind
@@ -63,11 +55,11 @@ openclaw:
     ports:
       - name: gateway
         port: 18789
-        targetPort: gateway
+        targetPort: 18789
         protocol: TCP
       - name: bridge
         port: 18790
-        targetPort: bridge
+        targetPort: 18790
         protocol: TCP
 
   httproute:
