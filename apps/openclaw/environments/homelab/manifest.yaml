@@ -123,7 +123,7 @@ spec:
             - dist/index.js
             - gateway
             - --bind
-            - 0.0.0.0
+            - auto
             - --port
             - "18789"
             - --allow-unconfigured
