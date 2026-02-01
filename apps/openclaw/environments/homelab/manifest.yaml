@@ -148,6 +148,8 @@ spec:
             - mountPath: /home/node/.openclaw/workspace
               name: pvc-openclaw-workspace-pvc
               readOnly: false
+            - mountPath: /tmp
+              name: tmp
           env:
             - name: HOME
               value: "/home/node"
@@ -163,6 +165,8 @@ spec:
         - name: pvc-openclaw-workspace-pvc
           persistentVolumeClaim:
             claimName: openclaw-workspace-pvc
+        - emptyDir: {}
+          name: tmp
 ---
 # Source: homelab/charts/openclaw/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
