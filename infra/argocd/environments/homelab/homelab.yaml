@@ -68,10 +68,6 @@ argocd:
         - argocd.kyledev.co
         - argocd.int.kyledev.co
         - argocd.ts.kyledev.co
-      rules:
-        - backendRefs:
-            - name: argocd-server
-              port: 80
 
 homelab:
   sealedsecrets:
