@@ -67,6 +67,7 @@ openclaw:
     hostnames:
       - openclaw.int.kyledev.co
       - openclaw.ts.kyledev.co
+      - test.int.kyledev.co
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
@@ -80,12 +81,10 @@ openclaw:
     pvcs:
       - name: openclaw-config-pvc
         size: 5Gi
-        storageClassName: ""
         accessMode: ReadWriteOnce
         mountPath: /home/node/.openclaw
       - name: openclaw-workspace-pvc
         size: 10Gi
-        storageClassName: ""
         accessMode: ReadWriteOnce
         mountPath: /home/node/.openclaw/workspace
 
