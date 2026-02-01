@@ -210,7 +210,7 @@ spec:
         path: ./source/charts/homelab
         valuesFiles:
           - ./source/media/byparr/environments/homelab/homelab.yaml
-        namespace: media
+        namespace: byparr
         releaseName: byparr
         outPath: ./target/media/byparr/manifest.yaml
     - uses: helm-template
