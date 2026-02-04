@@ -41,7 +41,21 @@ homelab-envoy-proxy-bouncer:
       enabled: false
 
     captcha:
-      enabled: false
+      enabled: true
+      provider: "turnstile"
+      siteKey: "0x4AAAAAAB1bbQbIpIhvAYwl"
+      secretKeySecretRef:
+        name: "envoy-bouncer"
+        key: "secretKey"
+      signingKeySecretRef:
+        name: "envoy-bouncer"
+        key: "signingKey"
+      timeout: "10s"
+      challengeDuration: "15m"
+      sessionDuration: "1h"
+      callbackURL: "https://bouncer.kyledev.co"
+      cookieDomain: ".kyledev.co"
+      secureCookie: true
 
   httproute:
     enabled: true
