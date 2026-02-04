@@ -33485,7 +33485,9 @@ metadata:
     app.kubernetes.io/version: "v3.3.0"
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
   hostnames:
     - argocd.kyledev.co
