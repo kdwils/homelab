@@ -4,7 +4,7 @@ description: ArgoCD GitOps controller
 version: 0.1.0
 dependencies:
   - name: argo-cd
-    version: 9.3.7
+    version: 9.4.0
     repository: https://argoproj.github.io/argo-helm
     alias: argocd
   - name: homelab-chart
