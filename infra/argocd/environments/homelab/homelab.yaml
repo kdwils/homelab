@@ -63,6 +63,8 @@ argocd:
       enabled: true
       parentRefs:
         - name: homelab
+          group: gateway.networking.k8s.io
+          kind: Gateway
           namespace: envoy-gateway-system
       hostnames:
         - argocd.kyledev.co
