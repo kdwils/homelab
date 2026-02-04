@@ -11,9 +11,6 @@ homelab-envoy-proxy-bouncer:
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
 
-  image:
-    tag: "sha-797e1ac3bf06023027b7556c4365312f5b9e59ab"
-
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
@@ -51,11 +48,10 @@ homelab-envoy-proxy-bouncer:
         name: "envoy-bouncer"
         key: "signingKey"
       timeout: "10s"
-      challengeDuration: "15m"
-      sessionDuration: "1h"
+      challengeDuration: "5m"
+      sessionDuration: "3h"
       callbackURL: "https://bouncer.kyledev.co"
       cookieDomain: ".kyledev.co"
-      secureCookie: true
 
   httproute:
     enabled: true
