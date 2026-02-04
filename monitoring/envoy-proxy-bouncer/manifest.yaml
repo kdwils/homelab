@@ -29,6 +29,10 @@ spec:
       targetPort: grpc
       protocol: TCP
       name: grpc
+    - port: 8081
+      targetPort: http
+      protocol: TCP
+      name: http
   selector:
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
@@ -78,6 +82,9 @@ spec:
             - name: grpc
               containerPort: 8080
               protocol: TCP
+            - name: http
+              containerPort: 8081
+              protocol: TCP
           livenessProbe:
             grpc:
               port: 8080
@@ -112,8 +119,36 @@ spec:
               value: "10s"
             - name: ENVOY_BOUNCER_TRUSTEDPROXIES
               value: "10.43.0.0/16,10.42.0.0/16"
+            - name: ENVOY_BOUNCER_CAPTCHA_ENABLED
+              value: "true"
+            - name: ENVOY_BOUNCER_CAPTCHA_PROVIDER
+              value: "turnstile"
+            - name: ENVOY_BOUNCER_CAPTCHA_SITEKEY
+              value: "0x4AAAAAAB1bbQbIpIhvAYwl"
+            - name: ENVOY_BOUNCER_CAPTCHA_SECRETKEY
+              valueFrom:
+                secretKeyRef:
+                  name: "envoy-bouncer"
+                  key: "secretKey"
+            - name: ENVOY_BOUNCER_CAPTCHA_SIGNINGKEY
+              valueFrom:
+                secretKeyRef:
+                  name: "envoy-bouncer"
+                  key: "signingKey"
+            - name: ENVOY_BOUNCER_CAPTCHA_SESSIONDURATION
+              value: "1h"
+            - name: ENVOY_BOUNCER_CAPTCHA_TIMEOUT
+              value: "10s"
+            - name: ENVOY_BOUNCER_CAPTCHA_CALLBACKURL
+              value: "https://bouncer.kyledev.co"
+            - name: ENVOY_BOUNCER_CAPTCHA_COOKIEDOMAIN
+              value: ".kyledev.co"
+            - name: ENVOY_BOUNCER_CAPTCHA_SECURECOOKIE
+              value: "true"
             - name: ENVOY_BOUNCER_SERVER_GRPCPORT
               value: "8080"
+            - name: ENVOY_BOUNCER_SERVER_HTTPPORT
+              value: "8081"
             - name: ENVOY_BOUNCER_SERVER_LOGLEVEL
               value: info
           resources:
@@ -139,6 +174,13 @@ spec:
   hostnames:
     - "bouncer.kyledev.co"
   rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /captcha
+      backendRefs:
+        - name: homelab-envoy-proxy-bouncer
+          port: 8081
     - matches:
         - path:
             type: PathPrefix
