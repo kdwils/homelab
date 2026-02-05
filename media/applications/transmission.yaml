@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: transmission
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: sonarr:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/transmission
+    path: media/transmission/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: media
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
