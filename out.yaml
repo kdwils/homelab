@@ -1,0 +1,146 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: transmission
+  name: transmission
+  namespace: media
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 9091
+  selector:
+    app: transmission
+    release: transmission
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: transmission
+  name: transmission
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transmission
+      release: transmission
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: transmission
+        release: transmission
+    spec:
+      containers:
+      - env:
+        - name: OPENVPN_PROVIDER
+          value: NORDVPN
+        - name: OPENVPN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: openvpn
+        - name: OPENVPN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: openvpn
+        - name: NORDVPN_PROTOCOL
+          value: TCP
+        - name: NORDVPN_COUNTRY
+          value: US
+        - name: NORDVPN_CATEGORY
+          value: P2P
+        - name: LOCAL_NETWORK
+          value: 192.168.0.0/24
+        - name: TRANSMISSION_PEER_PORT
+          value: "47444"
+        - name: TRANSMISSION_DOWNLOAD_DIR
+          value: /downloads/transmission
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TRANSMISSION_INCOMPLETE_DIR
+          value: /downloads/transmission
+        - name: TRANSMISSION_HOME
+          value: /config/transmission-home
+        image: haugene/transmission-openvpn:5.3.2
+        imagePullPolicy: IfNotPresent
+        name: transmission
+        ports:
+        - containerPort: 9091
+          name: http
+          protocol: TCP
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+          privileged: true
+        volumeMounts:
+        - mountPath: /downloads/transmission
+          name: media
+          subPath: downloads/transmission
+        - mountPath: /config/transmission-home
+          name: transmission
+          subPath: config/transmission-home
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: media
+      - name: transmission
+        persistentVolumeClaim:
+          claimName: transmission
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: openvpn
+  namespace: media
+spec:
+  encryptedData:
+    password: AQAJJ1onN10fkWC55/ZbXBI9pmQbRQQhbh8xjJlGJcjklXm3cscjKQnS33hrcO8tq4TYf52L5GcKf1TTaVMNlwRja9dWOLH58J+pRxWk8TIogKx4qUu86VGRSkwHNn5VMxT+GKO1cj3tEFcT2mTk4wmCA6EXfvvNhq90EvRLzMD7ZEZr6wX+n+PaAOIqpLyN70U62o3D52Qz//dm/OlZ0aITOoirPXj0KrYHuy2vBVia9T7vBo8enzVo8rIbK6q/6BUsZKQmVGYDU/ecoRkph8JkPND6VYA2CdLDrCWHJJPHwi5scQT7i/wKXhuHEV3lrCcb8uTMRJhAkYi1K/KQL3tRvW1ngg0qqVIIaku+0ucHG0XfW5bQaEkQqXHkER6JzRlZCrtIESOzNg==
+    username: AQALsK2v00m6/0EWUZ5jkMUysBGzoyTJ7DFr2OGyG7qUMRJhkm/KX+3cfjUp+iQD7uSlDFN7xfA1SE8hbe2wTS2Lls8LpQHDe38Y171jRyJJvtYC1fNYKY91GwxQqFMpUT+i/m2srb9oYrXmlKz0UgjcWszOAqivTQbxzETS9k9C1H0AHiEWhpegm90qcyZVo4rM1v4OMpWLBpBujYmzB3BYJ/EKd42MATaA/buKZhu0MpldXaJPg9mXeTgU10yIrQ2Hy5JJXs+UKHJBNXbj8qQaoE6I5kyOY430eL35nWUBUpMwKCPpY/cWtrQ7J+uxc4iXOfn62xvETJDuzbzNE2XoVnhpk4SbiImUb7mDRqkG32gSCdbWk8P0YjUoct/i8bIfUorjqRgnqw==
+  template:
+    data: null
+    metadata:
+      creationTimestamp: null
+      name: openvpn
+      namespace: media
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: transmission
+  namespace: media
+spec:
+  hostnames:
+  - transmission.int.kyledev.co
+  - transmission.ts.kyledev.co
+  parentRefs:
+  - name: homelab
+    namespace: envoy-gateway-system
+  rules:
+  - backendRefs:
+    - name: transmission
+      port: 80
