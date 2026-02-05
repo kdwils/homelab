@@ -223,6 +223,15 @@ spec:
         releaseName: plex
         outPath: ./target/media/plex/manifest.yaml
     - uses: helm-template
+      as: render-transmission
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/media/transmission/environments/homelab/homelab.yaml
+        namespace: media
+        releaseName: transmission
+        outPath: ./target/media/transmission/manifest.yaml
+    - uses: helm-template
       as: render-envoy-proxy-bouncer
       config:
         path: ./source/charts/envoy-proxy-bouncer

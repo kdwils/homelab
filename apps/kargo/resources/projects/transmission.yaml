@@ -1,0 +1,66 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: transmission
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: transmission
+  namespace: transmission
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: transmission
+  namespace: transmission
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - image:
+        repoURL: haugene/transmission-openvpn
+        constraint: ^5.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/transmission/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: transmission
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: transmission
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: transmission
+        - name: imageRepo
+          value: haugene/transmission-openvpn
+        - name: valuesFilePath
+          value: media/transmission/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: transmission.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask

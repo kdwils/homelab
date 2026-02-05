@@ -26,3 +26,4 @@ resources:
   - sealedsecrets.yaml
   - sonarr.yaml
   - tailscale.yaml
+  - transmission.yaml
