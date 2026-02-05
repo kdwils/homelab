@@ -34,6 +34,7 @@ sonarr:
       - mountPath: /tv
         name: media
         subPath: tv
+
   service:
     create: true
     type: ClusterIP
