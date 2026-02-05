@@ -230,7 +230,7 @@ spec:
           - ./source/media/transmission/environments/homelab/homelab.yaml
         namespace: media
         releaseName: transmission
-        outPath: ./target/media/transmission/manifest.yaml
+        outPath: ./target/media/transmission/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-envoy-proxy-bouncer
       config:
