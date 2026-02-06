@@ -5,6 +5,7 @@ resources:
   - overseerr.yaml
   - bazarr.yaml
   - byparr.yaml
+  - flaresolverr.yaml
   - radarr.yaml
   - sonarr.yaml
   - transmission.yaml

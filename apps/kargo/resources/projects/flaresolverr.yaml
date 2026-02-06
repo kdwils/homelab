@@ -1,0 +1,66 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: flaresolverr
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: flaresolverr
+  namespace: flaresolverr
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: flaresolverr
+  namespace: flaresolverr
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/flaresolverr/flaresolverr
+        constraint: ^3.0.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/flaresolverr/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: flaresolverr
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: flaresolverr
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: flaresolverr
+        - name: imageRepo
+          value: ghcr.io/flaresolverr/flaresolverr
+        - name: valuesFilePath
+          value: media/flaresolverr/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: flaresolverr.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask

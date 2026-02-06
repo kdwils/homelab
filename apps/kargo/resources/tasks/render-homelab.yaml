@@ -214,6 +214,15 @@ spec:
         releaseName: byparr
         outPath: ./target/media/byparr/manifest.yaml
     - uses: helm-template
+      as: render-flaresolverr
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/media/flaresolverr/environments/homelab/homelab.yaml
+        namespace: media
+        releaseName: flaresolverr
+        outPath: ./target/media/flaresolverr/manifest.yaml
+    - uses: helm-template
       as: render-plex
       config:
         path: ./source/charts/homelab

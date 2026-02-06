@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flaresolverr
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: flaresolverr:homelab
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: media
+    server: "https://kubernetes.default.svc"
+  source:
+    path: media/flaresolverr
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: homelab
+  sources: []
+  project: media
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
