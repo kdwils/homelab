@@ -6,6 +6,10 @@ crowdsec:
 
   container_runtime: containerd
 
+  secrets:
+    externalSecret:
+      name: crowdsec-lapi-secrets
+
   config:
     parsers:
       s01-parse:
