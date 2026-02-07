@@ -33538,6 +33538,31 @@ spec:
       name: argocd-initial-admin-secret
       namespace: argocd
 ---
+# Source: argocd/charts/homelab/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: argocd-homelab
+  labels:
+    helm.sh/chart: homelab-0.1.11
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: argocd
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: argocd-homelab
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080
+---
 # Source: argocd/charts/argocd/templates/redis-secret-init/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
