@@ -166,6 +166,7 @@ crowdsec:
       - namespace: envoy-gateway-system
         podName: "envoy-envoy-gateway-system-homelab-*"
         program: envoy
+        poll_without_inotify: true
 
     additionalAcquisition:
       - source: file
@@ -174,6 +175,7 @@ crowdsec:
           - /var/log/messages
         labels:
           type: syslog
+        poll_without_inotify: true
 
     hostVarLog: true
 
