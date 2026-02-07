@@ -12,7 +12,7 @@ spec:
     namespace: crowdsec
     server: "https://kubernetes.default.svc"
   source:
-    path: monitoring/crowdsec
+    path: monitoring/crowdsec/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []
