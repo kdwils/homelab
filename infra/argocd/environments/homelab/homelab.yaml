@@ -83,4 +83,12 @@ homelab:
       data:
         password: AgAXEV0tinFGJth3z1szjtRK1Wor+BP26AdeEGjoz6pWNYRExyln6jNylBngsYGg+A51ZTM8fcDjY+UY6hHXFDFAxt3QfIQ3vd8VAIU/Nb0BhU9Z7VsTdlCQiYjh4AL4mYqazP2b7ElQArH38/ppv1MpC8/vKUxD96UDri4VOuHkujeUZ08felnGIHQBStQnyL3jkacwW9JRgSXcvG59KUR1g9N+PIS4LJLBAiAUp/lABMrrohxsb99G6ZVep95P4CgHT3VNb9QAF6Qba1ybWzwGWgL/A4gOuukMGu15Nqw5B+ufnGf14IOach58f/s6EKDziR6nK+de8c+YVIOkN2W/EKPnzt/E4gI++oNuhHDpVLK1WwKnfo2fkFFHWfFxfe/mvepMtJrEbhBRsnp6lbEbEg90VHjjg8pahCngt1jZCCIh643UCIIljoiVMfSV79fJ+LfAbJXBa7bVJk0IVIS2SB9JmN06WwVKr9jCwaLy5JrF74zFZLp0UDQS+jq3CRVhFAOpdm5fGKshzn/i4NAWaYi0zCX6xgQOxSLvqaQH0GXdRjuC4EZsnwqBSSRWGwkhuGxxUZoMWrN2bZqF6DYZcWGRLaNZVba5OmgHMZJVLrCf0rdIHDNuCxIlql1RrC1TfZ9wU5tzu8XamJ3F6fSNLecQf/jowR4tpqjSu2Vx62YF2usRBy5cPqPGJ+sGgRMV+1m2Ic9mBLGRuBWhhFAg
 
-g
+  securityPolicy:
+    extAuth:
+      grpc:
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: homelab-envoy-proxy-bouncer
+            namespace: envoy-gateway-system
+            port: 8080
