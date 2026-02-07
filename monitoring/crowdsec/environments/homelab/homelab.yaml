@@ -20,21 +20,21 @@ crowdsec:
           filter: "evt.Parsed.program == 'envoy'"
           statics:
             - parsed: json_data
-              expression: UnmarshalJSON(evt.Line.Raw, evt.Unmarshaled)
+              expression: UnmarshalJSON(evt.Line.Raw, evt.Unmarshaled, "log")
             - meta: log_type
               expression: '"http_access-log"'
             - meta: source_ip
-              expression: 'evt.Unmarshaled.client_ip'
+              expression: 'evt.Unmarshaled.log.client_ip'
             - meta: http_status
-              expression: 'evt.Unmarshaled.response_code'
+              expression: 'evt.Unmarshaled.log.response_code'
             - meta: http_path
-              expression: 'evt.Unmarshaled["x-envoy-origin-path"]'
+              expression: 'evt.Unmarshaled.log["x-envoy-origin-path"]'
             - meta: http_verb
-              expression: 'evt.Unmarshaled.method'
+              expression: 'evt.Unmarshaled.log.method'
             - meta: http_user_agent
-              expression: 'evt.Unmarshaled["user-agent"]'
+              expression: 'evt.Unmarshaled.log["user-agent"]'
             - meta: target_fqdn
-              expression: 'evt.Unmarshaled[":authority"]'
+              expression: 'evt.Unmarshaled.log[":authority"]'
 
     config.yaml.local: |
       api:
