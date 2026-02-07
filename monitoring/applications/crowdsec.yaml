@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: crowdsec
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: crowdsec:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,10 +14,12 @@ spec:
   source:
     path: monitoring/crowdsec
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: monitoring
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
