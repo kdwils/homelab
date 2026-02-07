@@ -145,10 +145,6 @@ crowdsec:
     enabled: true
 
     env:
-      - name: PARSERS
-        value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
-      - name: COLLECTIONS
-        value: "crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit"
       - name: DISABLE_LOCAL_API
         value: "true"
       - name: DISABLE_ONLINE_API
