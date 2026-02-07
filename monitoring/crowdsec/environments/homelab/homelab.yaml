@@ -52,31 +52,6 @@ crowdsec:
               - 10.43.0.0/16
               - 10.42.0.0/16
 
-    profiles.yaml: |
-      name: appsec_ip_remediation
-      filters:
-       - Alert.GetScope() == "Ip" && (Alert.GetScenario() contains "appsec" || Alert.GetScenario() contains "vpatch" || Alert.GetScenario() contains "generic-")
-      decisions:
-       - type: ban
-         duration: 4h
-      on_success: break
-      ---
-      name: default_ip_remediation
-      filters:
-       - Alert.Remediation == true && Alert.GetScope() == "Ip"
-      decisions:
-       - type: ban
-         duration: 4h
-      on_success: break
-      ---
-      name: default_range_remediation
-      filters:
-       - Alert.Remediation == true && Alert.GetScope() == "Range"
-      decisions:
-       - type: ban
-         duration: 4h
-      on_success: break
-
   lapi:
     enabled: true
     replicas: 1
@@ -172,15 +147,6 @@ crowdsec:
       - namespace: envoy-gateway-system
         podName: "envoy-envoy-gateway-system-homelab-*"
         program: envoy
-        poll_without_inotify: true
-
-    additionalAcquisition:
-      - source: file
-        filenames:
-          - /var/log/secure
-          - /var/log/messages
-        labels:
-          type: syslog
         poll_without_inotify: true
 
     hostVarLog: true
