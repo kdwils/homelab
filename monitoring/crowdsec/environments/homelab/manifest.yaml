@@ -35,21 +35,21 @@ data:
     filter: "evt.Parsed.program == 'envoy'"
     statics:
       - parsed: json_data
-        expression: UnmarshalJSON(evt.Line.Raw, evt.Unmarshaled)
+        expression: UnmarshalJSON(evt.Line.Raw, evt.Unmarshaled, "log")
       - meta: log_type
         expression: '"http_access-log"'
       - meta: source_ip
-        expression: 'evt.Unmarshaled.client_ip'
+        expression: 'evt.Unmarshaled.log.client_ip'
       - meta: http_status
-        expression: 'evt.Unmarshaled.response_code'
+        expression: 'evt.Unmarshaled.log.response_code'
       - meta: http_path
-        expression: 'evt.Unmarshaled["x-envoy-origin-path"]'
+        expression: 'evt.Unmarshaled.log["x-envoy-origin-path"]'
       - meta: http_verb
-        expression: 'evt.Unmarshaled.method'
+        expression: 'evt.Unmarshaled.log.method'
       - meta: http_user_agent
-        expression: 'evt.Unmarshaled["user-agent"]'
+        expression: 'evt.Unmarshaled.log["user-agent"]'
       - meta: target_fqdn
-        expression: 'evt.Unmarshaled[":authority"]'
+        expression: 'evt.Unmarshaled.log[":authority"]'
 ---
 # Source: crowdsec/charts/crowdsec/templates/docker-start-configmap.yaml
 apiVersion: v1
@@ -586,7 +586,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/agent-configmap: 41515602eafb440cff1bbbd425aa1f083777356cc222adc384b6b7ac8cbfb1ee
+        checksum/agent-configmap: 4be7ca78131125d4deca6a49b9da38d04f924ade2b8c7cbda56433929691724d
         checksum/acquis-configmap: ff1faf254acd4c902c22efa048255c28d78cca0eb79b703fc76e36ced6eaa604
       labels:
         k8s-app: crowdsec
