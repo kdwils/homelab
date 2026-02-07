@@ -11,6 +11,12 @@ crowdsec:
       name: crowdsec-lapi-secrets
 
   config:
+    console.yaml: |
+      share_manual_decisions: true
+      share_tainted: true
+      share_custom: true
+      share_context: true
+      console_management: true
     parsers:
       s01-parse:
         envoy-logs.yaml: |
