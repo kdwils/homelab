@@ -15,7 +15,7 @@ spec:
       code:
         type: Image
         image:
-          url: ghcr.io/kdwils/envoy-wasm-traffic-plugin:sha-9d5045a71e9c019c11bf1dbef802d8d67ca0b40e
+          url: ghcr.io/kdwils/envoy-wasm-traffic-plugin:sha-b0f48529fa6411c9c0de8e6cf382304f43f01a19
       config:
         webhook_cluster: "webhook_cluster"
         webhook_authority: "events.events.svc.cluster.local"
