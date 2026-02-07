@@ -643,6 +643,10 @@ spec:
           # agent - lapi authentication, with TLS or password
           - name: LOCAL_API_URL
             value: "http://crowdsec-service.crowdsec:8080"
+          - name: PARSERS
+            value: crowdsecurity/cri-logs crowdsecurity/k8s-audit
+          - name: COLLECTIONS
+            value: crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit
           - name: DISABLE_LOCAL_API
             value: "true"
           - name: DISABLE_ONLINE_API
@@ -822,11 +826,7 @@ spec:
           - name: LOCAL_API_URL
             value: http://localhost:8080
           - name: DISABLE_AGENT
-            value: "false"
-          - name: COLLECTIONS
-            value: crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit
-          - name: PARSERS
-            value: crowdsecurity/cri-logs crowdsecurity/k8s-audit
+            value: "true"
           - name: GID
             value: "1000"
           - name: INSECURE_SKIP_VERIFY
