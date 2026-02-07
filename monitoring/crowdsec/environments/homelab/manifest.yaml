@@ -962,10 +962,8 @@ spec:
     - "crowdsec.ts.kyledev.co"
   rules:
     - backendRefs:
-      - group: ""
-        kind: Service
-        name: crowdsec-homelab
-        port: 0
+      - name: crowdsec-service
+        port: 8080
 ---
 # Source: crowdsec/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
