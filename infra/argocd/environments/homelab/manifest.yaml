@@ -33469,41 +33469,31 @@ spec:
             path: profiler.enabled
       dnsPolicy: ClusterFirst
 ---
-# Source: argocd/charts/argocd/templates/argocd-server/httproute.yaml
+# Source: argocd/charts/homelab/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: argocd-server
-  namespace: argocd
+  name: argocd-homelab
   labels:
-    helm.sh/chart: argocd-9.4.0
-    app.kubernetes.io/name: argocd-server
+    helm.sh/chart: homelab-0.1.11
+    app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: argocd
-    app.kubernetes.io/component: server
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/part-of: argocd
-    app.kubernetes.io/version: "v3.3.0"
 spec:
   parentRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
+    - name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - argocd.kyledev.co
-    - argocd.int.kyledev.co
-    - argocd.ts.kyledev.co
+    - "argocd.kyledev.co"
+    - "argocd.int.kyledev.co"
+    - "argocd.ts.kyledev.co"
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
-        - group: ''
-          kind: Service
-          name: argocd-server
-          port: 80
-          weight: 1
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: argocd-homelab
+        port: 0
 ---
 # Source: argocd/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
