@@ -8,6 +8,6 @@ dependencies:
     repository: oci://ghcr.io/akuity/kargo-charts
     alias: kargo
   - name: homelab-chart
-    version: 0.1.11
+    version: 0.1.12
     repository: https://kdwils.github.io/helm-charts
     alias: homelab
