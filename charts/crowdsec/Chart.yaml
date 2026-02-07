@@ -1,0 +1,12 @@
+apiVersion: v2
+name: crowdsec
+description: CrowdSec security platform with homelab chart for HTTPRoute and SealedSecrets
+version: 0.1.0
+dependencies:
+  - name: crowdsec
+    version: "1.15.2"
+    repository: https://crowdsecurity.github.io/helm-charts
+  - name: homelab-chart
+    version: "0.1.12"
+    repository: https://kdwils.github.io/helm-charts
+    alias: homelab
