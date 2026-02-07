@@ -10,7 +10,7 @@ data:
     filenames:
       - /var/log/containers/envoy-envoy-gateway-system-homelab-*_envoy-gateway-system_*.log
     force_inotify: true
-    poll_without_inotify: false
+    poll_without_inotify: true
     labels:
       type: containerd
       program: envoy
@@ -20,6 +20,7 @@ data:
     - /var/log/messages
     labels:
       type: syslog
+    poll_without_inotify: true
     source: file
 ---
 # Source: crowdsec/charts/crowdsec/templates/agent-configmap.yaml
@@ -587,7 +588,7 @@ spec:
     metadata:
       annotations:
         checksum/agent-configmap: 9938de001d205fdea476ce7926e774a3d1d48dc714898436f0a979c07a716ccf
-        checksum/acquis-configmap: ff1faf254acd4c902c22efa048255c28d78cca0eb79b703fc76e36ced6eaa604
+        checksum/acquis-configmap: 1ff19a4d9f074d7c6a9081c5bf88271474e22fafd92ad2be3f473539f86f8752
       labels:
         k8s-app: crowdsec
         type: agent
