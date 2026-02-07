@@ -19,22 +19,22 @@ crowdsec:
           description: "Parse Envoy Gateway JSON access logs"
           filter: "evt.Parsed.program == 'envoy'"
           statics:
-            - parsed: json
-              expression: JsonExtract(evt.Line.Raw, "json")
+            - parsed: json_data
+              expression: UnmarshalJSON(evt.Line.Raw, evt.Unmarshaled)
             - meta: log_type
               expression: '"http_access-log"'
             - meta: source_ip
-              expression: 'evt.Parsed.json.client_ip'
+              expression: 'evt.Unmarshaled.client_ip'
             - meta: http_status
-              expression: 'evt.Parsed.json.response_code'
+              expression: 'evt.Unmarshaled.response_code'
             - meta: http_path
-              expression: 'evt.Parsed.json["x-envoy-origin-path"]'
+              expression: 'evt.Unmarshaled["x-envoy-origin-path"]'
             - meta: http_verb
-              expression: 'evt.Parsed.json.method'
+              expression: 'evt.Unmarshaled.method'
             - meta: http_user_agent
-              expression: 'evt.Parsed.json["user-agent"]'
+              expression: 'evt.Unmarshaled["user-agent"]'
             - meta: target_fqdn
-              expression: 'evt.Parsed.json[":authority"]'
+              expression: 'evt.Unmarshaled[":authority"]'
 
     config.yaml.local: |
       api:
