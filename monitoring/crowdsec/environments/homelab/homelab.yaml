@@ -119,13 +119,11 @@ crowdsec:
     persistentVolume:
       data:
         enabled: true
-        existingClaim: crowdsec-db-pvc
         size: 1Gi
         accessModes:
           - ReadWriteMany
       config:
         enabled: true
-        existingClaim: crowdsec-config-pvc
         size: 100Mi
         accessModes:
           - ReadWriteMany
@@ -193,7 +191,6 @@ crowdsec:
     persistentVolume:
       config:
         enabled: true
-        existingClaim: crowdsec-agent-config-pvc
         size: 100Mi
         accessModes:
           - ReadWriteOnce
