@@ -1,0 +1,95 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: crowdsec
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: crowdsec
+  namespace: crowdsec
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: crowdsec
+  namespace: crowdsec
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: https://crowdsecurity.github.io/helm-charts
+        name: crowdsec
+    - chart:
+        repoURL: https://kdwils.github.io/helm-charts
+        name: homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:monitoring/crowdsec/environments/**
+          - glob:charts/crowdsec/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: crowdsec
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: crowdsec
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: crowdsec
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/crowdsec
+            - name: chartRepo
+              value: https://crowdsecurity.github.io/helm-charts
+            - name: chartName
+              value: crowdsec
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/crowdsec
+            - name: chartRepo
+              value: https://kdwils.github.io/helm-charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update crowdsec chart dependencies
+            - name: prTitle
+              value: "Update crowdsec chart dependencies"
+            - name: prDescription
+              value: Update crowdsec chart dependencies

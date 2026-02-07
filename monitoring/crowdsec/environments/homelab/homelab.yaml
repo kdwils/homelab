@@ -1,0 +1,221 @@
+crowdsec:
+  image:
+    repository: crowdsecurity/crowdsec
+    tag: "v1.7.3"
+    pullPolicy: IfNotPresent
+
+  container_runtime: containerd
+
+  config:
+    parsers:
+      s01-parse:
+        envoy-logs.yaml: |
+          onsuccess: next_stage
+          name: crowdsecurity/envoy-logs
+          description: "Parse Envoy Gateway JSON access logs"
+          filter: "evt.Parsed.program == 'envoy'"
+          statics:
+            - parsed: json
+              expression: JsonExtract(evt.Line.Raw, "json")
+            - meta: log_type
+              expression: '"http_access-log"'
+            - meta: source_ip
+              expression: 'evt.Parsed.json.client_ip'
+            - meta: http_status
+              expression: 'evt.Parsed.json.response_code'
+            - meta: http_path
+              expression: 'evt.Parsed.json["x-envoy-origin-path"]'
+            - meta: http_verb
+              expression: 'evt.Parsed.json.method'
+            - meta: http_user_agent
+              expression: 'evt.Parsed.json["user-agent"]'
+            - meta: target_fqdn
+              expression: 'evt.Parsed.json[":authority"]'
+
+    config.yaml.local: |
+      api:
+        server:
+          auto_registration:
+            enabled: true
+            token: "${REGISTRATION_TOKEN}"
+            allowed_ranges:
+              - 10.43.0.0/16
+              - 10.42.0.0/16
+
+    profiles.yaml: |
+      name: appsec_ip_remediation
+      filters:
+       - Alert.GetScope() == "Ip" && (Alert.GetScenario() contains "appsec" || Alert.GetScenario() contains "vpatch" || Alert.GetScenario() contains "generic-")
+      decisions:
+       - type: ban
+         duration: 4h
+      on_success: break
+      ---
+      name: default_ip_remediation
+      filters:
+       - Alert.Remediation == true && Alert.GetScope() == "Ip"
+      decisions:
+       - type: ban
+         duration: 4h
+      on_success: break
+      ---
+      name: default_range_remediation
+      filters:
+       - Alert.Remediation == true && Alert.GetScope() == "Range"
+      decisions:
+       - type: ban
+         duration: 4h
+      on_success: break
+
+  lapi:
+    enabled: true
+    replicas: 1
+
+    env:
+      - name: ENROLL_INSTANCE_NAME
+        value: homelab
+      - name: ENROLL_TAGS
+        value: homelab
+      - name: ENROLL_KEY
+        valueFrom:
+          secretKeyRef:
+            name: crowdsec-lapi-secrets
+            key: enrollmentKey
+      - name: LOCAL_API_URL
+        value: http://localhost:8080
+      - name: DISABLE_AGENT
+        value: "true"
+      - name: GID
+        value: "1000"
+      - name: INSECURE_SKIP_VERIFY
+        value: "false"
+      - name: CS_LAPI_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: crowdsec-lapi-secrets
+            key: csLapiSecret
+      - name: REGISTRATION_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: crowdsec-lapi-secrets
+            key: registrationToken
+      - name: CUSTOM_HOSTNAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+
+    resources:
+      limits:
+        cpu: 500m
+        memory: 500Mi
+      requests:
+        cpu: 500m
+        memory: 500Mi
+
+    persistentVolume:
+      data:
+        enabled: true
+        size: 1Gi
+        accessModes:
+          - ReadWriteMany
+      config:
+        enabled: true
+        size: 100Mi
+        accessModes:
+          - ReadWriteMany
+
+    service:
+      type: ClusterIP
+
+    strategy:
+      type: Recreate
+
+    metrics:
+      enabled: true
+
+  agent:
+    enabled: true
+
+    env:
+      - name: PARSERS
+        value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
+      - name: COLLECTIONS
+        value: "crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit"
+      - name: DISABLE_LOCAL_API
+        value: "true"
+      - name: DISABLE_ONLINE_API
+        value: "false"
+      - name: LOCAL_API_URL
+        value: "http://crowdsec-service:8080"
+      - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
+        value: "true"
+
+    resources:
+      limits:
+        cpu: 500m
+        memory: 250Mi
+      requests:
+        cpu: 500m
+        memory: 250Mi
+
+    acquisition:
+      - namespace: envoy-gateway-system
+        podName: "envoy-envoy-gateway-system-homelab-*"
+        program: envoy
+
+    additionalAcquisition:
+      - source: file
+        filenames:
+          - /var/log/secure
+          - /var/log/messages
+        labels:
+          type: syslog
+
+    hostVarLog: true
+
+    extraVolumes:
+      - name: varlog-pods
+        hostPath:
+          path: /var/log/pods
+          type: Directory
+
+    extraVolumeMounts:
+      - name: varlog-pods
+        mountPath: /var/log/pods
+        readOnly: true
+
+    persistentVolume:
+      config:
+        enabled: true
+        size: 100Mi
+        accessModes:
+          - ReadWriteOnce
+
+    metrics:
+      enabled: true
+
+    service:
+      type: ClusterIP
+
+  appsec:
+    enabled: false
+
+homelab:
+  sealedsecrets:
+    - name: crowdsec-lapi-secrets
+      data:
+        csLapiSecret: AgBwvf9+c0j/BMxgDd0Bx8Mru84/ODIB22HSbj/m94VvIviiV5ErSi8thGwKhGdewNjlypPytg7LxynYUvNQDH6HvzPNWC1ata2LPBKK+jn4gNXJKeKVJRa73RNKgXe8K2zlfhS91N32jo65GZnFSJJhA9oUosQ25HzsNlJPF65Zmc6gIVtSe2EBsUcmnup+GEqVI2qNaE6nAj0h5dj8OfpOVuYNDRtT3iQxRXJt6VLEOU+TmwvbkP+XB5HlDdvkR63zDjrOK29HYDkAikyZU884Sj7wEwGw8HanJwpgneLONpBaMjTQXChauu6qimSdKZAmQ2P61AFFG6fB5Y1FYugj3Mj1zMPkJLg+1kthQI9cnEd0+3EFnIUENkGZ/Nq92pTPLoLmL9pNRqb6YMKgYUrHuxFVmnn6jFpZVmLV4Oy6IOBSh51AsG2N97C/SYkSyggyVHKZU6HS3tGQ6l1eNNL9xc0QgiXP078K78taB6lCRLaaUeAZRPuumej2kgacGO698qpOZvjmycmMAPm66iAis8noeJSEdZci6p0EDSZNxwmAS5ieoliqv14JDeh9roT9ny6N/ra4jb/uaa4zcQRAEbtwfEl39yNPUCMTh35c8v+oLkW8I1Q3H7JmgA7eicC8cRZBtMHxL3Ot194WZdYF/3q4cLsZSeFdxniRhMKdc3TeeaWT22ZqN/6SDBi15haHYVKt4jLx9akZCWRDmW/jqFSLTkNk3vcs7uShg4zcE6AuYonUpzzyAe7bmp2c63ArIwpitiOXi9ss2Kg2jYvI
+        enrollmentKey: AgCBWsytntT7bB6PUvES5fMS1PbGyvRM+L8pRvDYJCUvgBF0FvkcWhUu2AUfxK1aYUWGhSmNlsTB7eLHUcYdGTg8Ky1XhsaTI3eRyRqBE8Acsbl1PYGsTY5USjtnnx7OU+y/fCasUMMnahqPNl/EOzcZ23uYQyENcj3ifQnjc+IVWNIAxVzjcYnlj3EWy8NIiW4IzY6FoB7Y+XFEIhwukI2ipORe0LljrhFFkptwXaAnBvcfz3uxybJC5jwDMb2s+J4krqLp8Hcovf2vMq6dJPOSdaKfqg15scEZ2ASBDt4Mz6qmMtLEaDhR/u9Mm7nnvpevE6dxZjtsjeliEIH8GXGF8A6EerLSAiR1zqnsZoAf3kk3X1v4exAkxgONMIJRCV/jUa9OGK4gPGiS0KHFiWP6jb2tQpKp8TvOSt5D65RSScgtvap6apXkFXtsc0MPl4CCR6FqXrPY3mYUN4WVQXUDpOCwXM2oNq9P4iOYkZepr4tkg3B1VkSqagfO0KIp9FzaSN9QxOSQNs1LMy77T40V9CaZi7B9I//WgvbNYUzkGxn6kqoiN+VhlK/hZdsp2WXFF5ewlTpDWX5abA8NIrv81wTGON5/LUcmJgfK686dhUWuDp0Szk0FEkl+ovZf9fZZh2ianenU5kZjNGh+QpBeVP0uvohK9wdfdKr122wugA7aT2RUNUwQ+6ZefvBV6EbhLXns5SaGb0vF6Qgm6F7j0msk8hHXPr0Y
+        registrationToken: AgB8jxbRE8Z1ymz6xyFLt9XDjPjzWJhn3SnaKU5oZp9sZKAYaIqEP97vJ3T4rLZxM99J3BJdHZnYFCSBurGrvRlA28vrAmteG6NAJupuJ9bjpqWOfcyLDYXbNegDPXkGzl9upBIz+O+ndlZQ2522CPGTbeJVOVsBEySk+zMa5g9nvV2rqcWB2h5Q0R6emOy47tJTrgveFU/+YGElYiN5bJJYxx1kawB0RNLvc0w+fe30W3mWGH1I14llg2eawS+O20cXHMdFQpi8g2A4BdRVX/mPkgzOsNQEWNiTQwmDMRmAWrc9400r0xy72OM05KSwmRnjyyxJ05UuCK64V9NKPH9250bgU/WxGTnVKjXSb1IwMHRzkUWOruZccZgv4Lys/Se6FT/dc/HxfW9PAyg3VhcigT+nWC7D+4lGMb8A9z85AGvQDy4Re0WcyrIxeW8wW/2XdToBCcx57xiJXdjl48w/gQc7gN3/LZ7eRUJc2fPx3+HNIQ0nIMBdnbviFSWgo9cNhhhjUhqFMVZOqz6Jf5yBy1AoQZQRGZDjZsdKWhCoMgptZJNwygiHY7Cf3AFiQiOEwpzXhiLQXE1dOKzPNu8N958u1Whrb1/PhkHs81LePidqS4UE6g799RBqF55di72+oCJdMEWNDs/1nAIx2oxSOhrJvU1+30XloEBCXyU0Nykx3VSZCv3F7KdpV+sUqm46A8rVFbtxsKEpWZoAGG7ZyFKZNzm+wnpJU2HE/+puUiwxfpBwNUNZF5Q/zRA02TU=
+
+  httproute:
+    create: true
+    hostnames:
+      - crowdsec.int.kyledev.co
+      - crowdsec.ts.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+    backendRefs:
+      - name: crowdsec-service
+        port: 8080
