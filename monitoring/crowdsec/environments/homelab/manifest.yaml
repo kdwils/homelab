@@ -468,6 +468,19 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: crowdsec-console
+data:
+  console.yaml: |
+    share_manual_decisions: true
+    share_tainted: true
+    share_custom: true
+    share_context: true
+    console_management: true
+---
+# Source: crowdsec/charts/crowdsec/templates/lapi-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: crowdsec-config-local
 data:
   config.yaml.local: |
@@ -783,7 +796,7 @@ spec:
     metadata:
       annotations:
         checksum/lapi-secret: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        checksum/lapi-configmap: c9c6b29257fd19509d63af1a1ff92eabedd65c7301d6b5ebc9d024747cdf8702
+        checksum/lapi-configmap: 12465676f1da5676cd5cdfaa3aaa941927520ebda2cfba5ab5cf1bab83f32141
       labels:
         k8s-app: crowdsec
         type: lapi
@@ -912,6 +925,10 @@ spec:
             subPath: profiles.yaml
           
           
+          - name: crowdsec-console-volume
+            mountPath: /etc/crowdsec_data/console.yaml
+            subPath: console.yaml
+          
           
           
           - name: crowdsec-config-local-volume
@@ -934,6 +951,9 @@ spec:
         configMap:
           name: crowdsec-profiles
       
+      - name: crowdsec-console-volume
+        configMap:
+          name: crowdsec-console
       
       
       - name: crowdsec-config-local-volume
