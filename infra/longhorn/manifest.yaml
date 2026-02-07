@@ -4647,7 +4647,7 @@ kind: HTTPRoute
 metadata:
   name: longhorn-homelab
   labels:
-    helm.sh/chart: homelab-0.1.11
+    helm.sh/chart: homelab-0.1.12
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: longhorn
     app.kubernetes.io/version: "1.16.0"
