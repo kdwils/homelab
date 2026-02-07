@@ -479,6 +479,54 @@ data:
             - 10.43.0.0/16
             - 10.42.0.0/16
 ---
+# Source: crowdsec/charts/crowdsec/templates/agent-persistentVolume.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-agent-config-pvc
+  labels:
+    k8s-app: crowdsec
+    type: agent
+    version: v1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "100Mi"
+---
+# Source: crowdsec/charts/crowdsec/templates/lapi-persistentVolume.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-db-pvc
+  labels:
+    k8s-app: crowdsec
+    type: lapi
+    version: v1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: "1Gi"
+---
+# Source: crowdsec/charts/crowdsec/templates/lapi-persistentVolume.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-config-pvc
+  labels:
+    k8s-app: crowdsec
+    type: lapi
+    version: v1
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: "100Mi"
+---
 # Source: crowdsec/charts/crowdsec/templates/agent-service.yaml
 apiVersion: v1
 kind: Service
