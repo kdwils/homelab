@@ -193,7 +193,7 @@ crowdsec:
         enabled: true
         size: 100Mi
         accessModes:
-          - ReadWriteOnce
+          - ReadWriteMany
 
     metrics:
       enabled: true
