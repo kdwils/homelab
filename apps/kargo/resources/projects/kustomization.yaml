@@ -10,7 +10,6 @@ resources:
   - crowdsec.yaml
   - envoy-proxy-bouncer.yaml
   - flaresolverr.yaml
-  - envoy-proxy-gatekeeper.yaml
   - events.yaml
   - kargo.yaml
   - homelab-project.yaml
