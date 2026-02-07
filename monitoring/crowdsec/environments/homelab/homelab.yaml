@@ -88,7 +88,11 @@ crowdsec:
       - name: LOCAL_API_URL
         value: http://localhost:8080
       - name: DISABLE_AGENT
-        value: "true"
+        value: "false"
+      - name: COLLECTIONS
+        value: "crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit"
+      - name: PARSERS
+        value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
       - name: GID
         value: "1000"
       - name: INSECURE_SKIP_VERIFY
