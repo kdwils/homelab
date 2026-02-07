@@ -60,18 +60,19 @@ argocd:
       type: ClusterIP
 
     httproute:
-      enabled: true
-      parentRefs:
-        - name: homelab
-          group: gateway.networking.k8s.io
-          kind: Gateway
-          namespace: envoy-gateway-system
-      hostnames:
-        - argocd.kyledev.co
-        - argocd.int.kyledev.co
-        - argocd.ts.kyledev.co
+      enabled: false
 
 homelab:
+  httproute:
+    create: true
+    hostnames:
+      - argocd.kyledev.co
+      - argocd.int.kyledev.co
+      - argocd.ts.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
   sealedsecrets:
     - name: argocd-secret
       data:
