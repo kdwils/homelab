@@ -14,6 +14,14 @@ data:
     labels:
       type: containerd
       program: envoy
+    ---
+    filenames:
+    - /var/log/secure
+    - /var/log/messages
+    labels:
+      type: syslog
+    poll_without_inotify: true
+    source: file
 ---
 # Source: crowdsec/charts/crowdsec/templates/agent-configmap.yaml
 apiVersion: v1
@@ -429,6 +437,37 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: crowdsec-profiles
+data:
+  profiles.yaml: |
+    name: appsec_ip_remediation
+    filters:
+     - Alert.GetScope() == "Ip" && (Alert.GetScenario() contains "appsec" || Alert.GetScenario() contains "vpatch" || Alert.GetScenario() contains "generic-")
+    decisions:
+     - type: ban
+       duration: 4h
+    on_success: break
+    ---
+    name: default_ip_remediation
+    filters:
+     - Alert.Remediation == true && Alert.GetScope() == "Ip"
+    decisions:
+     - type: ban
+       duration: 4h
+    on_success: break
+    ---
+    name: default_range_remediation
+    filters:
+     - Alert.Remediation == true && Alert.GetScope() == "Range"
+    decisions:
+     - type: ban
+       duration: 4h
+    on_success: break
+---
+# Source: crowdsec/charts/crowdsec/templates/lapi-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: crowdsec-console
 data:
   console.yaml: |
@@ -562,7 +601,7 @@ spec:
     metadata:
       annotations:
         checksum/agent-configmap: 9938de001d205fdea476ce7926e774a3d1d48dc714898436f0a979c07a716ccf
-        checksum/acquis-configmap: cffc3155c0cebdf99501d556c5ea08d8a5a2143de21e9bcb5c148551338cc969
+        checksum/acquis-configmap: 1ff19a4d9f074d7c6a9081c5bf88271474e22fafd92ad2be3f473539f86f8752
       labels:
         k8s-app: crowdsec
         type: agent
@@ -757,7 +796,7 @@ spec:
     metadata:
       annotations:
         checksum/lapi-secret: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        checksum/lapi-configmap: a29cd715a40eaed12f1c0884ac839178d0c28793d6485f3e6484bcdca1f2d84f
+        checksum/lapi-configmap: 12465676f1da5676cd5cdfaa3aaa941927520ebda2cfba5ab5cf1bab83f32141
       labels:
         k8s-app: crowdsec
         type: lapi
@@ -881,6 +920,10 @@ spec:
           - name: crowdsec-config
             mountPath: /etc/crowdsec_data
           
+          - name: crowdsec-profiles-volume
+            mountPath: /etc/crowdsec_data/profiles.yaml
+            subPath: profiles.yaml
+          
           
           - name: crowdsec-console-volume
             mountPath: /etc/crowdsec_data/console.yaml
@@ -904,6 +947,9 @@ spec:
         persistentVolumeClaim:
           claimName: crowdsec-config-pvc
       
+      - name: crowdsec-profiles-volume
+        configMap:
+          name: crowdsec-profiles
       
       - name: crowdsec-console-volume
         configMap:
