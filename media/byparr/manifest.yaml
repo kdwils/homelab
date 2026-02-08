@@ -67,7 +67,7 @@ spec:
         {}
       containers:
         - name: byparr
-          image: "ghcr.io/thephaseless/byparr:2.0.1"
+          image: "ghcr.io/thephaseless/byparr:2.1.0"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
