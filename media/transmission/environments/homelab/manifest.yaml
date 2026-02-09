@@ -1,0 +1,179 @@
+---
+# Source: homelab/charts/transmission/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: transmission
+  labels:
+    helm.sh/chart: transmission-0.1.12
+    app.kubernetes.io/name: transmission
+    app.kubernetes.io/instance: transmission
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/transmission/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: transmission
+  labels:
+    helm.sh/chart: transmission-0.1.12
+    app.kubernetes.io/name: transmission
+    app.kubernetes.io/instance: transmission
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
+# Source: homelab/charts/transmission/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: transmission
+  labels:
+    helm.sh/chart: transmission-0.1.12
+    app.kubernetes.io/name: transmission
+    app.kubernetes.io/instance: transmission
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 9091
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: transmission
+    app.kubernetes.io/instance: transmission
+---
+# Source: homelab/charts/transmission/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+  labels:
+    helm.sh/chart: transmission-0.1.12
+    app.kubernetes.io/name: transmission
+    app.kubernetes.io/instance: transmission
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: transmission
+      app.kubernetes.io/instance: transmission
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: transmission-0.1.12
+        app.kubernetes.io/name: transmission
+        app.kubernetes.io/instance: transmission
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: transmission
+      securityContext:
+        {}
+      containers:
+        - name: transmission
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+            privileged: true
+          image: "haugene/transmission-openvpn:5.3.2"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9091
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /downloads/transmission
+              name: media
+              subPath: downloads/transmission
+            - mountPath: /config/transmission-home
+              name: transmission
+              subPath: config/transmission-home
+          env:
+            - name: LOCAL_NETWORK
+              value: "192.168.0.0/24"
+            - name: NORDVPN_CATEGORY
+              value: "P2P"
+            - name: NORDVPN_COUNTRY
+              value: "US"
+            - name: NORDVPN_PROTOCOL
+              value: "TCP"
+            - name: OPENVPN_PROVIDER
+              value: "NORDVPN"
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TRANSMISSION_DOWNLOAD_DIR
+              value: "/downloads/transmission"
+            - name: TRANSMISSION_HOME
+              value: "/config/transmission-home"
+            - name: TRANSMISSION_INCOMPLETE_DIR
+              value: "/downloads/transmission"
+            - name: TRANSMISSION_PEER_PORT
+              value: "47444"
+          envFrom:
+            - secretRef:
+                name: openvpn
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+        - name: transmission
+          persistentVolumeClaim:
+            claimName: transmission
+---
+# Source: homelab/charts/transmission/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: transmission
+  labels:
+    helm.sh/chart: transmission-0.1.12
+    app.kubernetes.io/name: transmission
+    app.kubernetes.io/instance: transmission
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "transmission.int.kyledev.co"
+    - "transmission.ts.kyledev.co"
+  rules:
+    - backendRefs:
+      - group: ""
+        kind: Service
+        name: transmission
+        port: 80
+---
+# Source: homelab/charts/transmission/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: openvpn
+  namespace: media
+spec:
+  encryptedData:
+    OPENVPN_PASSWORD: AgB80hLJJoQv0OELniLsC0HNIoPFK9XDJyAH6nFCADRxmITOEdU7Kn2FvItRtYkW57Lznuh4eaFiUNouMn/ihave89ZrdGSxsSrt+jvgFeOgk71PMj/00/tPfudJc+FVgXGnWKSaf37RXn98hEaa82da1zB4oPhQYRzR0b7D7cHEJOHYGL+IBh+cO05ajWJ0RMvoEl8Ax4s//sNGT0rmQ9LTxemDaGWxxc6sZD2FvAs9s5cwS7gQ16Dz7yJiWs6F3R9B1l0F9gDwJ2g+LU8z2dmBR03uTZTm+zOWkuLwu7Z9dhAYzbIGnZEPOTBIBd2nlWLCVr4YbI9YayMPgIZon74vOPkRBJJU9i9E9gngY953MvoAEnJ9CccMCVbgoEz06oFCcM3ldTm+hNpNfGHz7YqIntTcWvzFHNJ2uzm7QkNK+qIyuZL7h2SOX9o1iQj+fjO8tn7oEc5086ccKpUm2ecXaisxcQ4YBnhcMq0381/0xWwaE9xKqApunLD86cbaCi0P5h4P7Ml/uzAUkJRsGA1J9w6dXni/G55A9PuKG3BIhbmZRn/bnAUFFRUIlD1U9qypWVdmaI75fDBGgPcHThkRxTx1DOOu+gAg956MgEnz/GiH61kLychTEaPeVEVuzvWqO+KrKPO4jUBD0SCTytlYn1dRIEU7XXZqG9FPbihZ+Mu6J/LROImq5xv4TAHLTYVGIS4YoKqzj9Ejpz75klpZW/2dssXGTNs=
+    OPENVPN_USERNAME: AgAYGOZK5HVf15Go3YRT6BQ702U1tLfu6YO6AX+Y3F/p2ID24d1EAJ00mH7j9hWG5XjlhiBXmL6b/R39rSwHe4omrNYUGqLSo3I0zUC4UKOTuzZukCaIC5kLFV7yukzf/4tRTPlZc/Jyv+3xrW3ttyZ5J49NaXP9nyRCbN2TpWBgw3IsI4K5WyMsRnRs7e13awmbOeEDwr+RA9LJSMFKD3Xs8K6tZFoxFHV6ZsGX06hlo3ZmxaYDPUUnJ/QYbZlwjCXrgSvoQ4HS/41YcjY7aMXZd0qFKtYAIIwdHQ7NMWiqkGMZM+jJkBObX+tvIZ7B9vbzIRHOeQhe2NwlNCycYJnXEk4LnrmTVB/Op2efwOytMzN/sIIerzMj1Dg+25Lvo00JIZ31e4PngnbxmiWj/M4m+LKil7LpLbS3qyNOgyybd+GAxxnBtaRfF+UiaDSX7n46QVO7+RF1FcxTAaT2PGnd4PccYu7me7LFVF71c6H6dn+A4cdpV6LXUNnDrUYQyDe28/kLz4sTb+9FntpKE9KXDvVPiXwDh5UT/3Is+n/4WjnUfEu+onMQLX6fGGs1x4g0Wprsn1kCdVtMbrZFe2NVGxVTXUWDz0GTkK7Nlnv46rFZ8Nn5vWzMiWsfaOp8n/NUmCDtTtsVwGK/IqG94hyh+6V4NZzS9ebSw3YfIwvNYLbXD1GDm/uyB1ho4QmJVHHMIc6uGSqbAPL4gnEQIZgFO1sz6KKGE64=
+  template:
+    type: Opaque
+    metadata:
+      name: openvpn
+      namespace: media
