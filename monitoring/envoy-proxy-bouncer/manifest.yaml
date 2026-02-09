@@ -78,7 +78,13 @@ data:
       signingKeySecretRef:
         key: ""
         name: ""
-      subscriptions: []
+      subscriptions:
+      - events:
+        - request_blocked
+        - captcha_required
+        - captcha_verified
+        - request_allowed
+        url: https://events.int.kyledev.co/api/v1/events/envoy-proxy-bouncer/test
       timeout: 5s
 ---
 # Source: envoy-proxy-bouncer/templates/service.yaml
