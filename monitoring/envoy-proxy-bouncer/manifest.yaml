@@ -38,7 +38,7 @@ data:
       callbackURL: https://bouncer.kyledev.co
       challengeDuration: 5m
       cookieDomain: .kyledev.co
-      cookieName: ""
+      cookieName: "session"
       enabled: true
       provider: turnstile
       secretKey: ""
