@@ -970,7 +970,7 @@ kind: HTTPRoute
 metadata:
   name: crowdsec-homelab
   labels:
-    helm.sh/chart: homelab-0.1.12
+    helm.sh/chart: homelab-0.1.13
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: crowdsec
     app.kubernetes.io/version: "1.16.0"

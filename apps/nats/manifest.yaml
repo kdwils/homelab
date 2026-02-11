@@ -347,7 +347,7 @@ metadata:
   name: nats-tls
   namespace: nats
   labels:
-    helm.sh/chart: homelab-0.1.12
+    helm.sh/chart: homelab-0.1.13
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: nats
     app.kubernetes.io/version: "1.16.0"
@@ -370,7 +370,7 @@ kind: TCPRoute
 metadata:
   name: nats-homelab
   labels:
-    helm.sh/chart: homelab-0.1.12
+    helm.sh/chart: homelab-0.1.13
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: nats
     app.kubernetes.io/version: "1.16.0"
