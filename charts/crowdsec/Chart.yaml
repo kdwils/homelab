@@ -7,6 +7,6 @@ dependencies:
     version: 0.22.0
     repository: https://crowdsecurity.github.io/helm-charts
   - name: homelab-chart
-    version: "0.1.12"
+    version: 0.1.13
     repository: https://kdwils.github.io/helm-charts
     alias: homelab
