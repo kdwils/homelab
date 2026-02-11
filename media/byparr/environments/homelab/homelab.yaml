@@ -22,3 +22,11 @@ byparr:
     port: 8191
     targetPort: 8191
     name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - byparr.int.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
