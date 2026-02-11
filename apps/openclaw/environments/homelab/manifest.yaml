@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: openclaw
   labels:
-    helm.sh/chart: openclaw-0.1.12
+    helm.sh/chart: openclaw-0.1.13
     app.kubernetes.io/name: openclaw
     app.kubernetes.io/instance: openclaw
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: openclaw-config-pvc
   labels:
-    helm.sh/chart: openclaw-0.1.12
+    helm.sh/chart: openclaw-0.1.13
     app.kubernetes.io/name: openclaw
     app.kubernetes.io/instance: openclaw
     app.kubernetes.io/version: "1.16.0"
@@ -36,7 +36,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: openclaw-workspace-pvc
   labels:
-    helm.sh/chart: openclaw-0.1.12
+    helm.sh/chart: openclaw-0.1.13
     app.kubernetes.io/name: openclaw
     app.kubernetes.io/instance: openclaw
     app.kubernetes.io/version: "1.16.0"
@@ -54,7 +54,7 @@ kind: Service
 metadata:
   name: openclaw
   labels:
-    helm.sh/chart: openclaw-0.1.12
+    helm.sh/chart: openclaw-0.1.13
     app.kubernetes.io/name: openclaw
     app.kubernetes.io/instance: openclaw
     app.kubernetes.io/version: "1.16.0"
@@ -80,7 +80,7 @@ kind: Deployment
 metadata:
   name: openclaw
   labels:
-    helm.sh/chart: openclaw-0.1.12
+    helm.sh/chart: openclaw-0.1.13
     app.kubernetes.io/name: openclaw
     app.kubernetes.io/instance: openclaw
     app.kubernetes.io/version: "1.16.0"
@@ -96,7 +96,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: openclaw-0.1.12
+        helm.sh/chart: openclaw-0.1.13
         app.kubernetes.io/name: openclaw
         app.kubernetes.io/instance: openclaw
         app.kubernetes.io/version: "1.16.0"
@@ -116,7 +116,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/openclaw/openclaw:2026.2.6"
+          image: "ghcr.io/openclaw/openclaw:2026.2.9"
           imagePullPolicy: IfNotPresent
           args:
             - node
@@ -174,7 +174,7 @@ kind: HTTPRoute
 metadata:
   name: openclaw
   labels:
-    helm.sh/chart: openclaw-0.1.12
+    helm.sh/chart: openclaw-0.1.13
     app.kubernetes.io/name: openclaw
     app.kubernetes.io/instance: openclaw
     app.kubernetes.io/version: "1.16.0"
