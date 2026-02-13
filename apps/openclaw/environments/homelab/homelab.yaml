@@ -10,7 +10,7 @@ openclaw:
 
     image:
       repository: ghcr.io/openclaw/openclaw
-      tag: 2026.2.9
+      tag: 2026.2.12
       pullPolicy: IfNotPresent
 
     env:
