@@ -1,57 +1,54 @@
 dependencies:
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
+  version: 0.1.13
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
-- name: homelab-chart
-  repository: https://kdwils.github.io/helm-charts
-  version: 0.1.12
-digest: sha256:76050f2b4570485789bf0e5e2fe69f5dd0fd07aac037cef3129284fe916d5ff0
-generated: "2026-02-06T05:14:09.910478591Z"
+  version: 0.1.13
+digest: sha256:cfb3848cf74049ea6a22b937b2181d3125b19e4d276c3414b7e3fec254dad360
+generated: "2026-02-11T05:35:35.472825761Z"
