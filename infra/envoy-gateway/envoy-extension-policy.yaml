@@ -8,17 +8,17 @@ spec:
     - group: gateway.networking.k8s.io
       kind: Gateway
       name: homelab
-  wasm:
-    - name: traffic-plugin
-      failOpen: true
-      rootID: envoy-events
-      code:
-        type: Image
-        image:
-          url: ghcr.io/kdwils/envoy-wasm-traffic-plugin:sha-872c9653ca84341e3b102192f406b16711d1a1e2
-      config:
-        webhook_cluster: "webhook_cluster"
-        webhook_authority: "events.events.svc.cluster.local"
-        webhook_path: "/api/v1/events/envoy-gateway/http_request"
-        trusted_proxies:
-          - "10.42.0.0/16"
+  # wasm:
+  #   - name: traffic-plugin
+  #     failOpen: true
+  #     rootID: envoy-events
+  #     code:
+  #       type: Image
+  #       image:
+  #         url: ghcr.io/kdwils/envoy-wasm-traffic-plugin:sha-872c9653ca84341e3b102192f406b16711d1a1e2
+  #     config:
+  #       webhook_cluster: "webhook_cluster"
+  #       webhook_authority: "events.events.svc.cluster.local"
+  #       webhook_path: "/api/v1/events/envoy-gateway/http_request"
+  #       trusted_proxies:
+  #         - "10.42.0.0/16"
