@@ -1,6 +1,5 @@
 seerr-chart:
   image:
-    repository: ghcr.io/seerr-team/seerr
     pullPolicy: IfNotPresent
 
   service:
