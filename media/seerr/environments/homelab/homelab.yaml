@@ -1,0 +1,54 @@
+seerr-chart:
+  image:
+    repository: ghcr.io/seerr-team/seerr
+    tag: 2.2.0
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  persistence:
+    enabled: true
+    existingClaim: overseerr-pvc
+
+  securityContext:
+    runAsUser: 1000
+    runAsNonRoot: true
+    readOnlyRootFilesystem: false
+
+homelab:
+  pvc:
+    create: true
+    pvcs:
+      - name: overseerr-pvc
+        size: 1Gi
+        storageClassName: ""
+        accessMode: ReadWriteOnce
+
+  httproute:
+    create: true
+    hostnames:
+      - "seerr.kyledev.co"
+      - "seerr.int.kyledev.co"
+      - "seerr.ts.kyledev.co"
+      - "overseerr.kyledev.co"
+      - "overseerr.int.kyledev.co"
+      - "overseerr.ts.kyledev.co"
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+    rules:
+      - backendRefs:
+          - name: seerr-chart
+            port: 80
+
+  securityPolicy:
+    extAuth:
+      grpc:
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: homelab-envoy-proxy-bouncer
+            namespace: envoy-gateway-system
+            port: 8080

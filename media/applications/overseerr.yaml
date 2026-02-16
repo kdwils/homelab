@@ -12,7 +12,7 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/overseerr
+    path: media/seerr/environments
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []
