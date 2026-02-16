@@ -1,0 +1,219 @@
+---
+# Source: seerr/charts/seerr-chart/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: overseerr-seerr-chart
+  labels:
+    helm.sh/chart: seerr-chart-3.1.0
+    app.kubernetes.io/name: seerr-chart
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "v3.0.1"
+    app.kubernetes.io/part-of: seerr-chart
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: seerr/charts/homelab/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: overseerr-pvc
+  labels:
+    helm.sh/chart: homelab-0.1.13
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# Source: seerr/charts/seerr-chart/templates/persistentvolumeclaim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: overseerr-seerr-chart-config
+  labels:
+    helm.sh/chart: seerr-chart-3.1.0
+    app.kubernetes.io/name: seerr-chart
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "v3.0.1"
+    app.kubernetes.io/part-of: seerr-chart
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "5Gi"
+---
+# Source: seerr/charts/seerr-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: overseerr-seerr-chart
+  labels:
+    helm.sh/chart: seerr-chart-3.1.0
+    app.kubernetes.io/name: seerr-chart
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "v3.0.1"
+    app.kubernetes.io/part-of: seerr-chart
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: seerr-chart
+    app.kubernetes.io/instance: overseerr
+  ipFamilyPolicy: PreferDualStack
+---
+# Source: seerr/charts/seerr-chart/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: overseerr-seerr-chart
+  labels:
+    helm.sh/chart: seerr-chart-3.1.0
+    app.kubernetes.io/name: seerr-chart
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "v3.0.1"
+    app.kubernetes.io/part-of: seerr-chart
+    app.kubernetes.io/managed-by: Helm
+spec:
+  serviceName: overseerr-seerr-chart
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: seerr-chart
+      app.kubernetes.io/instance: overseerr
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: seerr-chart-3.1.0
+        app.kubernetes.io/name: seerr-chart
+        app.kubernetes.io/instance: overseerr
+        app.kubernetes.io/version: "v3.0.1"
+        app.kubernetes.io/part-of: seerr-chart
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: overseerr-seerr-chart
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: seerr-chart
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          image: "ghcr.io/ghcr.io/seerr-team/seerr:2.2.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5055
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: overseerr-seerr-chart-config
+---
+# Source: seerr/charts/homelab/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: overseerr-homelab
+  labels:
+    helm.sh/chart: homelab-0.1.13
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "seerr.kyledev.co"
+    - "seerr.int.kyledev.co"
+    - "seerr.ts.kyledev.co"
+    - "overseerr.kyledev.co"
+    - "overseerr.int.kyledev.co"
+    - "overseerr.ts.kyledev.co"
+  rules:
+    - backendRefs:
+      - name: seerr-chart
+        port: 80
+---
+# Source: seerr/charts/homelab/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: overseerr-homelab
+  labels:
+    helm.sh/chart: homelab-0.1.13
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: overseerr-homelab
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080
+---
+# Source: seerr/charts/seerr-chart/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "overseerr-seerr-chart-test-connection"
+  labels:
+    helm.sh/chart: seerr-chart-3.1.0
+    app.kubernetes.io/name: seerr-chart
+    app.kubernetes.io/instance: overseerr
+    app.kubernetes.io/version: "v3.0.1"
+    app.kubernetes.io/part-of: seerr-chart
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['overseerr-seerr-chart:80']
+  restartPolicy: Never
