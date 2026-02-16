@@ -25,8 +25,7 @@ spec:
   interval: "1h0m0s"
   subscriptions:
     - chart:
-        repoURL: oci://ghcr.io/seerr-team/seerr
-        name: seerr-chart
+        repoURL: oci://ghcr.io/seerr-team/seerr/seerr-chart
     - chart:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
@@ -69,7 +68,7 @@ spec:
             - name: chartPath
               value: charts/seerr
             - name: chartRepo
-              value: oci://ghcr.io/seerr-team/seerr
+              value: oci://ghcr.io/seerr-team/seerr/seerr-chart
             - name: chartName
               value: seerr-chart
         - task:
