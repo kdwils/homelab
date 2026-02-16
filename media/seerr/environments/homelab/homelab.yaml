@@ -8,9 +8,9 @@ seerr-chart:
     type: ClusterIP
     port: 80
 
-  persistence:
-    enabled: true
-    existingClaim: overseerr-pvc
+  config:
+    persistence:
+      existingClaim: overseerr-pvc
 
   securityContext:
     runAsUser: 1000
