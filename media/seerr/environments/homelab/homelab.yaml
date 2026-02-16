@@ -40,7 +40,7 @@ homelab:
         namespace: envoy-gateway-system
     rules:
       - backendRefs:
-          - name: seerr-chart
+          - name: overseerr-seerr-chart
             port: 80
 
   securityPolicy:
