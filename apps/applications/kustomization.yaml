@@ -7,7 +7,6 @@ resources:
   - kargo.yaml
   - mealie.yaml
   - nats.yaml
-  # - openclaw.yaml
   - pocketid.yaml
   - vaultwarden.yaml
   - rss.yaml

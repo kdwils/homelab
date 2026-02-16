@@ -267,15 +267,6 @@ spec:
         namespace: kargo
         releaseName: kargo
         outPath: ./target/apps/kargo/environments/homelab/manifest.yaml
-    - uses: helm-template
-      as: render-openclaw
-      config:
-        path: ./source/charts/homelab
-        valuesFiles:
-          - ./source/apps/openclaw/environments/homelab/homelab.yaml
-        namespace: openclaw
-        releaseName: openclaw
-        outPath: ./target/apps/openclaw/environments/homelab/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:
