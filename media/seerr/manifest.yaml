@@ -13,24 +13,24 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
-# Source: seerr/charts/homelab/templates/pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: overseerr-pvc
-  labels:
-    helm.sh/chart: homelab-0.1.14
-    app.kubernetes.io/name: homelab
-    app.kubernetes.io/instance: overseerr
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  accessModes:
-    - ReadWriteOnce
-  volumeName: "overseerr"
-  resources:
-    requests:
-      storage: 1Gi
+# # Source: seerr/charts/homelab/templates/pvc.yaml
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: overseerr-pvc
+#   labels:
+#     helm.sh/chart: homelab-0.1.14
+#     app.kubernetes.io/name: homelab
+#     app.kubernetes.io/instance: overseerr
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   volumeName: "overseerr"
+#   resources:
+#     requests:
+#       storage: 1Gi
 ---
 # Source: seerr/charts/seerr-chart/templates/service.yaml
 apiVersion: v1
@@ -56,75 +56,75 @@ spec:
     app.kubernetes.io/instance: overseerr
   ipFamilyPolicy: PreferDualStack
 ---
-# Source: seerr/charts/seerr-chart/templates/statefulset.yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: overseerr-seerr-chart
-  labels:
-    helm.sh/chart: seerr-chart-3.3.0
-    app.kubernetes.io/name: seerr-chart
-    app.kubernetes.io/instance: overseerr
-    app.kubernetes.io/version: "v3.1.0"
-    app.kubernetes.io/part-of: seerr-chart
-    app.kubernetes.io/managed-by: Helm
-spec:
-  serviceName: overseerr-seerr-chart
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: seerr-chart
-      app.kubernetes.io/instance: overseerr
-  template:
-    metadata:
-      labels:
-        helm.sh/chart: seerr-chart-3.3.0
-        app.kubernetes.io/name: seerr-chart
-        app.kubernetes.io/instance: overseerr
-        app.kubernetes.io/version: "v3.1.0"
-        app.kubernetes.io/part-of: seerr-chart
-        app.kubernetes.io/managed-by: Helm
-    spec:
-      serviceAccountName: overseerr-seerr-chart
-      securityContext:
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-      containers:
-        - name: seerr-chart
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            privileged: false
-            readOnlyRootFilesystem: false
-            runAsGroup: 1000
-            runAsNonRoot: true
-            runAsUser: 1000
-            seccompProfile:
-              type: RuntimeDefault
-          image: "ghcr.io/seerr-team/seerr:v3.1.0"
-          imagePullPolicy: IfNotPresent
-          ports:
-            - name: http
-              containerPort: 5055
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {}
-          volumeMounts:
-            - name: config
-              mountPath: /app/config
-      volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: overseerr-pvc
+# # Source: seerr/charts/seerr-chart/templates/statefulset.yaml
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: overseerr-seerr-chart
+#   labels:
+#     helm.sh/chart: seerr-chart-3.3.0
+#     app.kubernetes.io/name: seerr-chart
+#     app.kubernetes.io/instance: overseerr
+#     app.kubernetes.io/version: "v3.1.0"
+#     app.kubernetes.io/part-of: seerr-chart
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   serviceName: overseerr-seerr-chart
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: seerr-chart
+#       app.kubernetes.io/instance: overseerr
+#   template:
+#     metadata:
+#       labels:
+#         helm.sh/chart: seerr-chart-3.3.0
+#         app.kubernetes.io/name: seerr-chart
+#         app.kubernetes.io/instance: overseerr
+#         app.kubernetes.io/version: "v3.1.0"
+#         app.kubernetes.io/part-of: seerr-chart
+#         app.kubernetes.io/managed-by: Helm
+#     spec:
+#       serviceAccountName: overseerr-seerr-chart
+#       securityContext:
+#         fsGroup: 1000
+#         fsGroupChangePolicy: OnRootMismatch
+#       containers:
+#         - name: seerr-chart
+#           securityContext:
+#             allowPrivilegeEscalation: false
+#             capabilities:
+#               drop:
+#               - ALL
+#             privileged: false
+#             readOnlyRootFilesystem: false
+#             runAsGroup: 1000
+#             runAsNonRoot: true
+#             runAsUser: 1000
+#             seccompProfile:
+#               type: RuntimeDefault
+#           image: "ghcr.io/seerr-team/seerr:v3.1.0"
+#           imagePullPolicy: IfNotPresent
+#           ports:
+#             - name: http
+#               containerPort: 5055
+#               protocol: TCP
+#           livenessProbe:
+#             httpGet:
+#               path: /
+#               port: http
+#           readinessProbe:
+#             httpGet:
+#               path: /
+#               port: http
+#           resources:
+#             {}
+#           volumeMounts:
+#             - name: config
+#               mountPath: /app/config
+#       volumes:
+#         - name: config
+#           persistentVolumeClaim:
+#             claimName: overseerr-pvc
 ---
 # Source: seerr/charts/homelab/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
