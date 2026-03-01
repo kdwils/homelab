@@ -55,6 +55,10 @@ data:
         service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
         originRequest:
           originServerName: overseerr.kyledev.co
+      - hostname: seerr.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: seerr.kyledev.co
       - hostname: bouncer.kyledev.co
         service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
         originRequest:
