@@ -47,5 +47,6 @@ prowlarr:
     pvcs:
       - name: prowlarr-pvc
         size: 10Gi
+        volumeName: prowlarr
         storageClassName: ""
         accessMode: ReadWriteOnce
