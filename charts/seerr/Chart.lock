@@ -4,6 +4,6 @@ dependencies:
   version: 3.3.0
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
-digest: sha256:337fdc468506ae9d42ef29223398fe4b0af0f34c41ab67b750f602089c2969ff
-generated: "2026-02-28T05:49:39.894937502Z"
+  version: 0.1.14
+digest: sha256:4c434424537c29f0f9981dc9b2b572d2eab2e7fb12660c50af97e2735180cbcd
+generated: "2026-03-01T19:13:12.640952767Z"
