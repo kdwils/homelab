@@ -20,6 +20,7 @@ homelab:
     create: true
     pvcs:
       - name: overseerr-pvc
+        volumeName: overseerr
         size: 1Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
