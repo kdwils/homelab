@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.13
+    helm.sh/chart: bluesky-0.1.14
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: bluesky-pvc
   labels:
-    helm.sh/chart: bluesky-0.1.13
+    helm.sh/chart: bluesky-0.1.14
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -26,6 +26,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  volumeName: "bluesky-pv"
   resources:
     requests:
       storage: 20Gi
@@ -36,7 +37,7 @@ kind: Service
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.13
+    helm.sh/chart: bluesky-0.1.14
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -58,7 +59,7 @@ kind: Deployment
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.13
+    helm.sh/chart: bluesky-0.1.14
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -74,7 +75,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: bluesky-0.1.13
+        helm.sh/chart: bluesky-0.1.14
         app.kubernetes.io/name: bluesky
         app.kubernetes.io/instance: bluesky
         app.kubernetes.io/version: "1.16.0"
@@ -91,7 +92,7 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - ALL
+              - ALL
             readOnlyRootFilesystem: true
           image: "ghcr.io/bluesky-social/pds:0.4.208"
           imagePullPolicy: IfNotPresent
@@ -139,7 +140,7 @@ kind: HTTPRoute
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.13
+    helm.sh/chart: bluesky-0.1.14
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -154,10 +155,10 @@ spec:
     - "bluesky.ts.kyledev.co"
   rules:
     - backendRefs:
-        - group: ""
-          kind: Service
-          name: bluesky
-          port: 3000
+      - group: ""
+        kind: Service
+        name: bluesky
+        port: 3000
 ---
 # Source: homelab/charts/bluesky/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
@@ -184,7 +185,7 @@ kind: SecurityPolicy
 metadata:
   name: bluesky
   labels:
-    helm.sh/chart: bluesky-0.1.13
+    helm.sh/chart: bluesky-0.1.14
     app.kubernetes.io/name: bluesky
     app.kubernetes.io/instance: bluesky
     app.kubernetes.io/version: "1.16.0"
@@ -197,8 +198,8 @@ spec:
   extAuth:
     grpc:
       backendRefs:
-        - group: ""
-          kind: Service
-          name: homelab-envoy-proxy-bouncer
-          namespace: envoy-gateway-system
-          port: 8080
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080

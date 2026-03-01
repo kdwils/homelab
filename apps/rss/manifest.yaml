@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: rss
   labels:
-    helm.sh/chart: rss-0.1.13
+    helm.sh/chart: rss-0.1.14
     app.kubernetes.io/name: rss
     app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: rss-pvc
   labels:
-    helm.sh/chart: rss-0.1.13
+    helm.sh/chart: rss-0.1.14
     app.kubernetes.io/name: rss
     app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
@@ -26,6 +26,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  volumeName: "rss"
   resources:
     requests:
       storage: 5Gi
@@ -36,7 +37,7 @@ kind: Service
 metadata:
   name: rss
   labels:
-    helm.sh/chart: rss-0.1.13
+    helm.sh/chart: rss-0.1.14
     app.kubernetes.io/name: rss
     app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
@@ -58,7 +59,7 @@ kind: Deployment
 metadata:
   name: rss
   labels:
-    helm.sh/chart: rss-0.1.13
+    helm.sh/chart: rss-0.1.14
     app.kubernetes.io/name: rss
     app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
@@ -74,7 +75,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: rss-0.1.13
+        helm.sh/chart: rss-0.1.14
         app.kubernetes.io/name: rss
         app.kubernetes.io/instance: rss
         app.kubernetes.io/version: "1.16.0"
@@ -143,7 +144,7 @@ kind: HTTPRoute
 metadata:
   name: rss
   labels:
-    helm.sh/chart: rss-0.1.13
+    helm.sh/chart: rss-0.1.14
     app.kubernetes.io/name: rss
     app.kubernetes.io/instance: rss
     app.kubernetes.io/version: "1.16.0"
