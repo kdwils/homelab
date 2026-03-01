@@ -9,7 +9,6 @@ resources:
   - hoarder.yaml
   - kargo.yaml
   - mealie.yaml
-  - monitoring.yaml
   - nats.yaml
   - pocketid.yaml
   - rss.yaml
