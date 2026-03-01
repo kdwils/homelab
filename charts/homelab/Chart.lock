@@ -1,54 +1,48 @@
 dependencies:
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
+  version: 0.1.14
 - name: homelab-chart
   repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
-- name: homelab-chart
-  repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
-- name: homelab-chart
-  repository: https://kdwils.github.io/helm-charts
-  version: 0.1.13
-digest: sha256:cfb3848cf74049ea6a22b937b2181d3125b19e4d276c3414b7e3fec254dad360
-generated: "2026-02-11T05:35:35.472825761Z"
+  version: 0.1.14
+digest: sha256:ded80bcd2583f64ed3687fd300e2c23c49829843125348277e26407e795ca3d5
+generated: "2026-03-01T18:52:56.17271645Z"
