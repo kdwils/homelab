@@ -85,6 +85,7 @@ plex:
         storageClassName: "nfs-client"
         accessMode: ReadWriteMany
       - name: plex-pvc
+        volumeName: plex-pv
         size: 35Gi
         accessMode: ReadWriteOnce
 

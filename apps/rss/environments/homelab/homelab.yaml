@@ -64,6 +64,7 @@ rss:
     create: true
     pvcs:
       - name: rss-pvc
+        volumeName: rss
         size: 5Gi
         storageClassName: ""
         accessMode: ReadWriteOnce

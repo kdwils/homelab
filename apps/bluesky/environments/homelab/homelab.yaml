@@ -67,6 +67,7 @@ bluesky:
     create: true
     pvcs:
       - name: bluesky-pvc
+        volumeName: bluesky-pv
         size: 20Gi
         storageClassName: ""
         accessMode: ReadWriteOnce

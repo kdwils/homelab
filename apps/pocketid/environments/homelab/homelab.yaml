@@ -49,6 +49,7 @@ pocketid:
     create: true
     pvcs:
       - name: pocketid
+        volumeName: pocketid
         size: 5Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
