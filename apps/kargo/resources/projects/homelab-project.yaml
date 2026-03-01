@@ -9,6 +9,8 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
   name: homelab-project
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
