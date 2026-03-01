@@ -11,127 +11,127 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: false
-# ---
-# # Source: homelab/charts/bluesky/templates/pvc.yaml
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: bluesky-pvc
-#   labels:
-#     helm.sh/chart: bluesky-0.1.13
-#     app.kubernetes.io/name: bluesky
-#     app.kubernetes.io/instance: bluesky
-#     app.kubernetes.io/version: "1.16.0"
-#     app.kubernetes.io/managed-by: Helm
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 20Gi
-# ---
-# # Source: homelab/charts/bluesky/templates/service.yaml
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: bluesky
-#   labels:
-#     helm.sh/chart: bluesky-0.1.13
-#     app.kubernetes.io/name: bluesky
-#     app.kubernetes.io/instance: bluesky
-#     app.kubernetes.io/version: "1.16.0"
-#     app.kubernetes.io/managed-by: Helm
-# spec:
-#   type: ClusterIP
-#   ports:
-#     - port: 3000
-#       targetPort: 3000
-#       protocol: TCP
-#       name: pds-port
-#   selector:
-#     app.kubernetes.io/name: bluesky
-#     app.kubernetes.io/instance: bluesky
-# ---
-# # Source: homelab/charts/bluesky/templates/deployment.yaml
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: bluesky
-#   labels:
-#     helm.sh/chart: bluesky-0.1.13
-#     app.kubernetes.io/name: bluesky
-#     app.kubernetes.io/instance: bluesky
-#     app.kubernetes.io/version: "1.16.0"
-#     app.kubernetes.io/managed-by: Helm
-# spec:
-#   replicas: 0
-#   strategy:
-#     type: Recreate
-#   selector:
-#     matchLabels:
-#       app.kubernetes.io/name: bluesky
-#       app.kubernetes.io/instance: bluesky
-#   template:
-#     metadata:
-#       labels:
-#         helm.sh/chart: bluesky-0.1.13
-#         app.kubernetes.io/name: bluesky
-#         app.kubernetes.io/instance: bluesky
-#         app.kubernetes.io/version: "1.16.0"
-#         app.kubernetes.io/managed-by: Helm
-#     spec:
-#       serviceAccountName: bluesky
-#       securityContext:
-#         fsGroup: 2000
-#         runAsNonRoot: true
-#         runAsUser: 1000
-#       containers:
-#         - name: bluesky
-#           securityContext:
-#             allowPrivilegeEscalation: false
-#             capabilities:
-#               drop:
-#               - ALL
-#             readOnlyRootFilesystem: true
-#           image: "ghcr.io/bluesky-social/pds:0.4.208"
-#           imagePullPolicy: IfNotPresent
-#           ports:
-#             - name: pds-port
-#               containerPort: 3000
-#               protocol: TCP
-#           resources:
-#             limits:
-#               cpu: 100m
-#               memory: 128Mi
-#             requests:
-#               cpu: 100m
-#               memory: 128Mi
-#           volumeMounts:
-#             - mountPath: /pds
-#               name: pvc-bluesky-pvc
-#               readOnly: false
-#           env:
-#             - name: LOG_ENABLED
-#               value: "true"
-#             - name: PDS_BLOBSTORE_DISK_LOCATION
-#               value: "/pds/blocks"
-#             - name: PDS_BSKY_APP_VIEW_DID
-#               value: "did:web:api.bsky.app"
-#             - name: PDS_BSKY_APP_VIEW_URL
-#               value: "https://api.bsky.app"
-#             - name: PDS_CRAWLERS
-#               value: "https://bsky.network"
-#             - name: PDS_DATA_DIRECTORY
-#               value: "/pds"
-#             - name: PDS_HOSTNAME
-#               value: "bluesky.kyledev.co"
-#           envFrom:
-#             - secretRef:
-#                 name: bluesky
-#       volumes:
-#         - name: pvc-bluesky-pvc
-#           persistentVolumeClaim:
-#             claimName: bluesky-pvc
+---
+# Source: homelab/charts/bluesky/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bluesky-pvc
+  labels:
+    helm.sh/chart: bluesky-0.1.13
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+# Source: homelab/charts/bluesky/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.13
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: pds-port
+  selector:
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+---
+# Source: homelab/charts/bluesky/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.13
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: bluesky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 0
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bluesky
+      app.kubernetes.io/instance: bluesky
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: bluesky-0.1.13
+        app.kubernetes.io/name: bluesky
+        app.kubernetes.io/instance: bluesky
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: bluesky
+      securityContext:
+        fsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: bluesky
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+          image: "ghcr.io/bluesky-social/pds:0.4.208"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: pds-port
+              containerPort: 3000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /pds
+              name: pvc-bluesky-pvc
+              readOnly: false
+          env:
+            - name: LOG_ENABLED
+              value: "true"
+            - name: PDS_BLOBSTORE_DISK_LOCATION
+              value: "/pds/blocks"
+            - name: PDS_BSKY_APP_VIEW_DID
+              value: "did:web:api.bsky.app"
+            - name: PDS_BSKY_APP_VIEW_URL
+              value: "https://api.bsky.app"
+            - name: PDS_CRAWLERS
+              value: "https://bsky.network"
+            - name: PDS_DATA_DIRECTORY
+              value: "/pds"
+            - name: PDS_HOSTNAME
+              value: "bluesky.kyledev.co"
+          envFrom:
+            - secretRef:
+                name: bluesky
+      volumes:
+        - name: pvc-bluesky-pvc
+          persistentVolumeClaim:
+            claimName: bluesky-pvc
 ---
 # Source: homelab/charts/bluesky/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -154,10 +154,10 @@ spec:
     - "bluesky.ts.kyledev.co"
   rules:
     - backendRefs:
-      - group: ""
-        kind: Service
-        name: bluesky
-        port: 3000
+        - group: ""
+          kind: Service
+          name: bluesky
+          port: 3000
 ---
 # Source: homelab/charts/bluesky/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
@@ -197,8 +197,8 @@ spec:
   extAuth:
     grpc:
       backendRefs:
-      - group: ""
-        kind: Service
-        name: homelab-envoy-proxy-bouncer
-        namespace: envoy-gateway-system
-        port: 8080
+        - group: ""
+          kind: Service
+          name: homelab-envoy-proxy-bouncer
+          namespace: envoy-gateway-system
+          port: 8080
