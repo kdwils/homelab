@@ -94,7 +94,7 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - ALL
+              - ALL
             privileged: false
             readOnlyRootFilesystem: false
             runAsGroup: 1000
@@ -116,7 +116,8 @@ spec:
             httpGet:
               path: /
               port: http
-          resources: {}
+          resources:
+            {}
           volumeMounts:
             - name: config
               mountPath: /app/config
@@ -149,8 +150,8 @@ spec:
     - "overseerr.ts.kyledev.co"
   rules:
     - backendRefs:
-        - name: overseerr-seerr-chart
-          port: 80
+      - name: overseerr-seerr-chart
+        port: 80
 ---
 # Source: seerr/charts/homelab/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
@@ -171,11 +172,11 @@ spec:
   extAuth:
     grpc:
       backendRefs:
-        - group: ""
-          kind: Service
-          name: homelab-envoy-proxy-bouncer
-          namespace: envoy-gateway-system
-          port: 8080
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: envoy-gateway-system
+        port: 8080
 ---
 # Source: seerr/charts/seerr-chart/templates/tests/test-connection.yaml
 apiVersion: v1
@@ -195,6 +196,6 @@ spec:
   containers:
     - name: wget
       image: busybox
-      command: ["wget"]
-      args: ["overseerr-seerr-chart:80"]
+      command: ['wget']
+      args: ['overseerr-seerr-chart:80']
   restartPolicy: Never
