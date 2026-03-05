@@ -655,10 +655,6 @@ spec:
           - name: COLLECTIONS
             value: crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit
               crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching
-          - name: DISABLE_LOCAL_API
-            value: "true"
-          - name: DISABLE_ONLINE_API
-            value: "false"
           - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
             value: "true"
         resources:
@@ -842,14 +838,8 @@ spec:
               secretKeyRef:
                 key: enrollmentKey
                 name: crowdsec-lapi-secrets
-          - name: LOCAL_API_URL
-            value: https://localhost:8080
-          - name: DISABLE_AGENT
-            value: "true"
           - name: GID
             value: "1000"
-          - name: INSECURE_SKIP_VERIFY
-            value: "false"
           - name: CS_LAPI_SECRET
             valueFrom:
               secretKeyRef:
