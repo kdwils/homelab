@@ -37,6 +37,18 @@ spec:
         kinds:
           - group: gateway.networking.k8s.io
             kind: HTTPRoute
+    - name: tls-passthrough
+      protocol: TLS
+      port: 8443
+      hostname: "*.kyledev.co"
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: TLSRoute
+      tls:
+        mode: Passthrough
     - name: nats
       protocol: TCP
       port: 4222
