@@ -72,5 +72,5 @@ pocketid:
           - group: ""
             kind: Service
             name: homelab-envoy-proxy-bouncer
-            namespace: envoy-gateway-system
+            namespace: crowdsec
             port: 8080
