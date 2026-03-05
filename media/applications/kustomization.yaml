@@ -12,4 +12,3 @@ resources:
   - plex.yaml
   - prowlarr.yaml
   - mediaz.yaml
-  - securitypolicy.yaml

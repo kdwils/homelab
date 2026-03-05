@@ -2,14 +2,27 @@ homelab:
   sealedsecrets:
     - name: envoy-bouncer
       data:
-        apiKey: AgAm1s0/aV5z6IrfE8IOVkfJLhNGnfN3iJZ0SkOKRoJ+Z61JjEN2+rtga3HG5l508mNQ4RTnk7L93FtxRi0js9oE5tJq6p4NBtxOUXv4mlE3p4CTM9JT9+rExnpdWU8qENlV/LhNRfHSfLy7ETL3YQpVAQU7m2zLL8EgRC/OKO9nvcjuxZGtqdm5iXP30laNNKslarp65/GtcvLaWOfzBaTy0lMnvHEOW0t85oedQn7s16+u/0uCsWxHTRdn3KxEZJuiyDchsyI+jcKeDFT/Y8Q+KENlu5E4frRe7sE3NjXR6EO9Dtrclvp8WAl7rLzg9tMeWvnwT0XCz7t3cW+kn53pFCLzDONG4tFDdHJxAKn9umtjq06PxDaJ/Z8xVIIcjzMhjD0ZeV9srfrkQcsOMUFjz1iKeC8cy/ndQVYIlpZVRtnBbjnK4N64QMU9hh1/4kqgI03pRvcw1xDAQ81pspMLnbYpx3++c2ZxkyAZ9vZEafTIn4SSS0ZuryGdlXfAz6bpcP7DGeZ1xpPLAFzUZURhpFFTYfBrmg0xn4lscrmfLqhewT1B00Nx8a5mh0+TAYbPbMK6shxNvpzaCNYKr+WPNe22T2iTxdia33fkLWFEx7gbhmPFxJfr43GcuHxXG0P++zuDXoYvNeNbsiQBpFgSJT23KaXggTmf+UcV6na9r/zDmqmLEumCVA3dkPO+3CH4F8k+H03O+Rbky16knI3uvstJ9GxtSMH+ycC/aKOdq6AWXoSZu5nlL2RQ
-        secretKey: AgAR4Sc3pmeeTCG/alU3WMpUqZVjSsrlfiH99zicgq6EKRYeRTAPU07pzMi1ctnzR4hasxey/TxgLZYLubRhLM5K7ZiBWyarIJjZef2xAR9HTiTL7EC3vuOHJfjSMBsol2eKJXWd0+6/b0Ggk2bcY2YvXtMvAyUA5PEhinA6hX/4n46vlSl1bmN306U2KC1n4R+zazTDVwwxbFnK1SeXEzt+S6HlaNJA91igUr7EIVnsrALk4EIqsx4C2zUMzj0f8nLp180h9qXCM0LH9FpbKa5dVK8qfuT+QraM+VpUF1wZh4iKSP/0D4su5SsogLr5TlP5X62ZHZZoUpQbn4+KjyfTY2+GyXNo7FT8H9199bnjC6/MEHD4v4/HHjIGLu7O4bYudIAhm8HT5r+fvAlDUmBSgwMNy0CPB01ZiQ9mEwfQcZHMqUrbmCfMXUH0Z9knCQEPVAm/6SNSg13VE4vQ4u8bdveoa9CgqB4fg0EtPsFfXcCm4kwhzoiFXhIdTlBK77m/7KHt0tCInPlQA/gay52y/pe7F6CTXUWNDBsw6tFHVB1ueoeVKFIE+EBFgTAsrs0UwizbAzhDyBvfbx+UoEx2Bf14CKQLiBZ9ufarebgTs72fhJJCAuwGUv/SPaQ+YgP+b/oM3RnV3hJpiMbb59DX1NdSprDyCMgEetpxqihnAxhe+eTcd79r8Z7GFKmijgyhoZbupO+x2V3Aiy4kZbn7CzB8dKotvVaSXDNIpxS2hLOHjg==
-        signingKey: AgBO1Rqn5GPyx8k0EKDhwqIDnt87LSE/fH+38JzR7fIjlWOylVVd0ZelD8A/1WOnSd2L0pQ3ovLJxGjauDYL/c0cANCWge/wF9CWlNc9fafEfzu93s8zdUpDUnaMIUsd3deAF7uNmF7nB5HNk7vrgE3YYsy7UC00/B1bPQccD0WilIW2/vyxq89MJ2epEhdTDNh6TxTeqvl4wvqTqan3x8hpXz/6ssUY4htst0X10DPPIuzRT58/fUvfYvTIOlorlyvfNkXGqv+BIrD89JmbqNmZAAq6os97aiKWFAQLsQlssr28/W9DVKfDDaaRw3SWYEBA6RaNeUpAHvHxzm3eszcnyvX0N4YI1TeJzScCvlSUb4MAHie1jOTE0NeXXNZRw2sIE78Bkln1iCyqPH6RCzuMCIZr5Ck3Pz+oySTUJEaeKzsnmbpxM3y2qwD1P57qidOFMmhSLeRa35fP8kpPvuf7PmJ0zRaOdB24qYqJbnQ9kQjziTgqYRvemFKxXXwHd3tb6MNBPEJnyZmDcT1cUNVwfbJfV5eb6kT8n31vxuEWj72WA+gml6wdvrWOxEdR5fB1gteXArsjMREyRrMXeBh8nMQMwQtGy2cI3M2aIIT7wfQg8Bf3ICFHgbQ7/xEfZkWFBDW6/wAE69wRLA7vtiQVH3ld4y2wqUU9nd0wNzDR2DffZhoZ1QiqN9dBp+5ncDiij60DDtU6C9U371MlahWe3R4vcAs9MHASgm0Hs7gZdQ1/RrevCQUy3Zzez3/uQIRMyEpeGywlyrzR+2R3vCd3
+        apiKey: AgAmpbldnxUnUddFtmZYThncAS/f4dP2iGSeTBTum8Ojs83gcFw7Kma0moD0o79bX4R03ZlFoRBGTBzZhZpuWrgNc+MVbaRK8vRwfnUQhUhhbb9IoyrIYppbdygyaFl78/STAh/W4km1bjMkgJJsrR/w2C8oBWH69VjyHQ1Q8xyAz2GriQgNxrIGMby1MldXmbIwROanwUsM1jjXMXcc0mXYFWe5HEfFU6Rfqhl1234J4MO3mV1UX7kKHmdi8jJpuGv3cZ9pZiTWGiB/Sbj57auzRBigs3j5DnOS3L669BdIsbBmEVGOCZVZS/CK4uXjOaulp+Jz1jQEQ+xHVZ7ps6QzeXXohyZZXKGfc/SWx52vZqRgeQazzZTnY5HLeQ21aqK0MiyeGYaWo78Z1W9ibR/ifreQFN+UrGE/u1mBcyJFTi5A00kGjwXSKsg5bcCRChLmeYfIEsf9wxBr7u5dZ+D4npFpQQRUd7b1R9snVCR3FsLqT+7Pted1cliU6UCx40L1QS0bV9U3hCRRKb82LBPOI8YQOvbvursIJFY6aKUG/TqOCELfhMMvA9BV2xG3exrJY4g5EDf+6YAMYQVYrYLJMLGUcBx2ihdgxYVaTHmFpcBcDosetyqpRTV3dpiX9M/V3UOM/jop72Xdt3ZkxJWLnlO9xWyXDDbkz3r6/R64pvOg5DNyZX3tXT2oxitWWvXGzuYG/SynrxMlzSLWl6HYH8yb4CECwY8ipAmjDjCqTHjA6UKb2X5kQojN
+        secretKey: AgBY5r3mGml1Q0T+xDAGHLvEIHkP8jriaqLckNjUpcCQpJn6VAw2zx3svOpYtx2dvotR32n55DGsdTMwNYkaOFY5PFNxb6qO3pD6lXuWZBlGh+VKuS6/1sfO6rs76R/daPq+YmBvSLHvgsVXvMggpR8pZtFeyKzLtBr+qQ5c70rvs3IZ+9PZ2nl2F2QxjKEOBDr2zpWqmL7crrUnXFF/fDhNVbPDlZzdnanUQuViOW32e1aY7jYCF4HuW2dZAPELQRGAD+bcXRPvgI58dJCz+42dIbpzHGWVonsiSVn1YOTKeQsbUZ+Gt+Qhtk2omonUw6r3Rj7Oh+oK9v+wfN0VOIZ+DRiewXm34tQ7bHJKKvImKP1N48Z7CPzTOdwl9UBje8b7nz75WkRisW0IhSV/BBggQpDU0GPXLkE1qEmtvXsMuZVffFfqLFrtmCODl3dTwfQCJzoAglqSE7wbvU49W9VH1hOIG171Vs/2eCWDfOnxHpp1zfgxdUPaYGh+OpY2RYcZzi2P8/EhWLteY5IQgJCjja+skRmTwSQV8IobGZRlF11BZiTRMbJXXoVvVLvPQfOsRP0G5pwQaqwJc4UAe51bWGBcC4LMrW/s7cqFLkmhIt1j6fxGfaZwYiXL3ac80mxjqtF3cMSjqZOr1OgIwfCwuUq0+uDseJcbyaUfa4OsJj935KODnuEWS8gooeFVufCEU7cYVho0SWaP7+n4zummqhDX5fK4/18Jbw4fYtCjzS0zeg==
+        signingKey: AgCOxZjLkqCNDp2+6jT8XozGGZ67P2Qnd0pmu7wHB1Br5hH+Tp8Nc8GqTmgZ+XkTmfSg4OAPPYyGtued0Rd3hnKP9ebHScDrglMOZwWeSBAc10xKB2Ss4ueNrsGQlgAW81yzv6r082JbPM8BS+IXqdbolfDAGixhn/TbzB1ZKLZgX2xmj/zS3RpKo8MK+AT9Wblh0ATSX4jymSiSZ/H90EK8F8s6qCyQsy8IeuFAlu5gT3XhyvgleZukmOVSh7H/GkxqSHdmkVUiW5peyx3JA/gXEWBCMarsZhCuKPGgL88JacfsRd+tC2QdhoMfAphNBMijJSJJT3NBh2GBKxQg/sMYG6iQdycczDeowPLpXEksXA6xLLmTQExc3/dIaU7uSBjFhTNNfzPx5vypYqB5xgRJIbh/Yav/MJX8blgFf2ltMFFdeboqkkzLzBiJXqBz9owXZnXnjbYPqdJlBD6d7W/rcOfgWNLPNSHFkWIuCI0bG0NELILIU4kk00iPuovc8AklBZMwXy8o662y0l8ADkjCmmB3cikjZIPg0oe2ls1ASA/41KkaoTU+/COLy80cjv+ihUT6GAUAr3ce7FVzsVO5rRe65WW64gtLTPo3DJe6Oi3lfgc7Mt7ydHW7C534yqjMVij8N17YPLVXuTBsn/f3bY6PF3rPjU3PTaNAr4QznV4Fg5sPLktGPMM3NCZk5a8C5VZPxcemn1Ez1IrRiqmmzDcl/CKirmRjaYSgjamA+aYkDxX15O1WFJRuoGGCpKYU1CYx8HSnst4yS0KbFLnW
 
 homelab-envoy-proxy-bouncer:
   replicaCount: 2
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
+
+  image:
+    tag: sha-dc5e8fa978ffc5814e8a553ce73489d42e80c8fc
+
+  deployment:
+    volumes:
+      - name: crowdsec-tls
+        secret:
+          secretName: crowdsec-bouncer-tls
+    volumeMounts:
+      - name: crowdsec-tls
+        mountPath: /etc/ssl/crowdsec
+        readOnly: true
 
   securityContext:
     allowPrivilegeEscalation: false
@@ -33,11 +46,15 @@ homelab-envoy-proxy-bouncer:
       enabled: true
       metrics: true
       metricsInterval: "10m"
-      lapiURL: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
+      lapiURL: "https://crowdsec-service.crowdsec.svc.cluster.local:8080"
       tickerInterval: "10s"
-      apiKeySecretRef:
-        name: "envoy-bouncer"
-        key: "apiKey"
+      tls:
+        certPath: /etc/ssl/crowdsec/tls.crt
+        keyPath: /etc/ssl/crowdsec/tls.key
+        caPath: /etc/ssl/crowdsec/ca.crt
+      # apiKeySecretRef:
+      #   name: "envoy-bouncer"
+      #   key: "apiKey"
 
     waf:
       enabled: false
@@ -76,3 +93,4 @@ homelab-envoy-proxy-bouncer:
       - media
       - pocketid
       - vaultwarden
+      - envoy-gateway-system

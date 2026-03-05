@@ -15,4 +15,4 @@ spec:
           kind: Service
           name: homelab-envoy-proxy-bouncer
           port: 8080
-          namespace: envoy-gateway-system
+          namespace: crowdsec

@@ -237,7 +237,7 @@ spec:
         path: ./source/charts/envoy-proxy-bouncer
         valuesFiles:
           - ./source/monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
-        namespace: envoy-gateway-system
+        namespace: crowdsec
         releaseName: envoy-proxy-bouncer
         outPath: ./target/monitoring/envoy-proxy-bouncer/manifest.yaml
     - uses: helm-template
