@@ -758,7 +758,7 @@ metadata:
     type: lapi
     version: v1
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       k8s-app: crowdsec
