@@ -160,28 +160,3 @@ spec:
     metadata:
       name: pocketid
       namespace: pocketid
----
-# Source: homelab/charts/pocketid/templates/securitypolicy.yaml
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: SecurityPolicy
-metadata:
-  name: pocketid
-  labels:
-    helm.sh/chart: pocketid-0.1.14
-    app.kubernetes.io/name: pocketid
-    app.kubernetes.io/instance: pocketid
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: pocketid
-  extAuth:
-    grpc:
-      backendRefs:
-      - group: ""
-        kind: Service
-        name: homelab-envoy-proxy-bouncer
-        namespace: crowdsec
-        port: 8080

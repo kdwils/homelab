@@ -177,10 +177,16 @@ spec:
             - name: bouncer-config
               mountPath: /app/config
               readOnly: true
+            - mountPath: /etc/ssl/crowdsec
+              name: crowdsec-tls
+              readOnly: true
       volumes:
         - name: bouncer-config
           configMap:
             name: homelab-envoy-proxy-bouncer-config
+        - name: crowdsec-tls
+          secret:
+            secretName: crowdsec-bouncer-tls
 ---
 # Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
