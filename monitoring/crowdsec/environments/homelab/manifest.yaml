@@ -1084,6 +1084,29 @@ spec:
       name: crowdsec-lapi-secrets
       namespace: crowdsec
 ---
+# Source: crowdsec/charts/homelab/templates/tlsroute.yaml
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TLSRoute
+metadata:
+  name: crowdsec-homelab
+  labels:
+    helm.sh/chart: homelab-0.1.14
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: crowdsec
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+      sectionName: tls-passthrough
+  hostnames:
+    - "crowdsec.ts.kyledev.co"
+  rules:
+    - backendRefs:
+      - name: crowdsec-service
+        port: 8080
+---
 # Source: crowdsec/charts/crowdsec/templates/tests/test_agent_up.yaml
 apiVersion: v1
 kind: Pod
