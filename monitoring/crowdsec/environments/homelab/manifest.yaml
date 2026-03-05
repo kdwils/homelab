@@ -468,19 +468,6 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: crowdsec-console
-data:
-  console.yaml: |
-    share_manual_decisions: true
-    share_tainted: true
-    share_custom: true
-    share_context: true
-    console_management: true
----
-# Source: crowdsec/charts/crowdsec/templates/lapi-configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
   name: crowdsec-config-local
 data:
   config.yaml.local: |
@@ -488,6 +475,7 @@ data:
       server:
         auto_registration:
           enabled: false
+          # token: "${REGISTRATION_TOKEN}"
 ---
 # Source: crowdsec/charts/crowdsec/templates/agent-persistentVolume.yaml
 apiVersion: v1
@@ -770,7 +758,7 @@ metadata:
     type: lapi
     version: v1
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       k8s-app: crowdsec
@@ -781,7 +769,7 @@ spec:
     metadata:
       annotations:
         checksum/lapi-secret: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        checksum/lapi-configmap: b8c55aff66072723c4fe4ab3e8ab53486529fc10876f22cc4fe79a07971dce4c
+        checksum/lapi-configmap: 627043f8426f2e161a00127cade184a6c36573336aa1c03a7d0321ed3949d0d0
       labels:
         k8s-app: crowdsec
         type: lapi
@@ -920,10 +908,6 @@ spec:
             subPath: profiles.yaml
           
           
-          - name: crowdsec-console-volume
-            mountPath: /etc/crowdsec_data/console.yaml
-            subPath: console.yaml
-          
           
           
           - name: crowdsec-config-local-volume
@@ -946,9 +930,6 @@ spec:
         configMap:
           name: crowdsec-profiles
       
-      - name: crowdsec-console-volume
-        configMap:
-          name: crowdsec-console
       
       
       - name: crowdsec-config-local-volume
