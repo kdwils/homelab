@@ -175,7 +175,7 @@ spec:
       - group: ""
         kind: Service
         name: homelab-envoy-proxy-bouncer
-        namespace: envoy-gateway-system
+        namespace: crowdsec
         port: 8080
 ---
 # Source: seerr/charts/seerr-chart/templates/tests/test-connection.yaml

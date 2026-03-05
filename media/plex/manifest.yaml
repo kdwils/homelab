@@ -212,7 +212,7 @@ spec:
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
-  name: plex-public
+  name: plex
   labels:
     helm.sh/chart: plex-0.1.14
     app.kubernetes.io/name: plex
@@ -230,5 +230,5 @@ spec:
       - group: ""
         kind: Service
         name: homelab-envoy-proxy-bouncer
-        namespace: envoy-gateway-system
+        namespace: crowdsec
         port: 8080
