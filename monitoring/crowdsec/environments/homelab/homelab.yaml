@@ -53,11 +53,7 @@ crowdsec:
       api:
         server:
           auto_registration:
-            enabled: true
-            token: "${REGISTRATION_TOKEN}"
-            allowed_ranges:
-              - 10.43.0.0/16
-              - 10.42.0.0/16
+            enabled: false
 
     profiles.yaml: |
       name: appsec_ip_remediation
