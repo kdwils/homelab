@@ -14,15 +14,6 @@ homelab-envoy-proxy-bouncer:
   image:
     tag: sha-dc5e8fa978ffc5814e8a553ce73489d42e80c8fc
 
-  volumes:
-    - name: crowdsec-tls
-      secret:
-        secretName: crowdsec-bouncer-tls
-  volumeMounts:
-    - name: crowdsec-tls
-      mountPath: /etc/ssl/crowdsec
-      readOnly: true
-
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
@@ -38,22 +29,20 @@ homelab-envoy-proxy-bouncer:
         - url: "http://events.events.svc.cluster.local:8080/api/v1/events/envoy-bouncer/request_blocked"
           events:
             - request_blocked
+
     trustedProxies:
       - 10.43.0.0/16
       - 10.42.0.0/16
+
     bouncer:
       enabled: true
       metrics: true
       metricsInterval: "10m"
-      lapiURL: "https://crowdsec-service.crowdsec.svc.cluster.local:8080"
+      lapiURL: "http://crowdsec-service.crowdsec.svc.cluster.local:8080"
       tickerInterval: "10s"
-      tls:
-        certPath: /etc/ssl/crowdsec/tls.crt
-        keyPath: /etc/ssl/crowdsec/tls.key
-        caPath: /etc/ssl/crowdsec/ca.crt
-      # apiKeySecretRef:
-      #   name: "envoy-bouncer"
-      #   key: "apiKey"
+      apiKeySecretRef:
+        name: "envoy-bouncer"
+        key: "apiKey"
 
     waf:
       enabled: false

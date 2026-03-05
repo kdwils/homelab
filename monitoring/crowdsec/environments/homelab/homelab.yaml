@@ -217,15 +217,3 @@ homelab:
       - backendRefs:
           - name: crowdsec-service
             port: 8080
-  tlsroute:
-    create: true
-    hostnames:
-      - crowdsec.ts.kyledev.co
-    parentRefs:
-      - name: homelab
-        namespace: envoy-gateway-system
-        sectionName: tls-passthrough
-    rules:
-      - backendRefs:
-          - name: crowdsec-service
-            port: 8080
