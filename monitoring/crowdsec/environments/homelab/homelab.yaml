@@ -1,11 +1,4 @@
 crowdsec:
-  tls:
-    enabled: true
-    certManager:
-      enabled: true
-    agent:
-      tlsClientAuth: true
-
   image:
     repository: crowdsecurity/crowdsec
     tag: "v1.7.6"
@@ -47,8 +40,11 @@ crowdsec:
       api:
         server:
           auto_registration:
-            enabled: false
-            # token: "${REGISTRATION_TOKEN}"
+            enabled: true
+            token: "${REGISTRATION_TOKEN}"
+            allowed_ranges:
+              - 10.43.0.0/16
+              - 10.42.0.0/16
 
     profiles.yaml: |
       name: appsec_ip_remediation
@@ -89,8 +85,14 @@ crowdsec:
           secretKeyRef:
             name: crowdsec-lapi-secrets
             key: enrollmentKey
+      - name: LOCAL_API_URL
+        value: http://localhost:8080
+      - name: DISABLE_AGENT
+        value: "true"
       - name: GID
         value: "1000"
+      - name: INSECURE_SKIP_VERIFY
+        value: "false"
       - name: CS_LAPI_SECRET
         valueFrom:
           secretKeyRef:
@@ -143,6 +145,12 @@ crowdsec:
         value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
       - name: COLLECTIONS
         value: "crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching"
+      - name: DISABLE_LOCAL_API
+        value: "true"
+      - name: DISABLE_ONLINE_API
+        value: "false"
+      - name: LOCAL_API_URL
+        value: "http://crowdsec-service:8080"
       - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
         value: "true"
 
