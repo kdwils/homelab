@@ -487,11 +487,7 @@ data:
     api:
       server:
         auto_registration:
-          enabled: true
-          token: "${REGISTRATION_TOKEN}"
-          allowed_ranges:
-            - 10.43.0.0/16
-            - 10.42.0.0/16
+          enabled: false
 ---
 # Source: crowdsec/charts/crowdsec/templates/agent-persistentVolume.yaml
 apiVersion: v1
@@ -785,7 +781,7 @@ spec:
     metadata:
       annotations:
         checksum/lapi-secret: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        checksum/lapi-configmap: 12465676f1da5676cd5cdfaa3aaa941927520ebda2cfba5ab5cf1bab83f32141
+        checksum/lapi-configmap: b8c55aff66072723c4fe4ab3e8ab53486529fc10876f22cc4fe79a07971dce4c
       labels:
         k8s-app: crowdsec
         type: lapi
