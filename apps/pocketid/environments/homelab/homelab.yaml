@@ -51,6 +51,7 @@ pocketid:
       - name: pocketid
         size: 5Gi
         storageClassName: ""
+        volumeName: pocketid
         accessMode: ReadWriteOnce
         mountPath: /app/data
 
