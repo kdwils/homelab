@@ -78,7 +78,6 @@ crowdsec:
   lapi:
     enabled: true
     replicas: 1
-    storeCAPICredentialsInSecret: true
 
     env:
       - name: ENROLL_INSTANCE_NAME
