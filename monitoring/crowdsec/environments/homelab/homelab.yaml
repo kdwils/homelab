@@ -1,4 +1,11 @@
 crowdsec:
+  tls:
+    enabled: true
+    certManager:
+      enabled: true
+    agent:
+      tlsClientAuth: true
+
   image:
     repository: crowdsecurity/crowdsec
     tag: "v1.7.6"
@@ -156,7 +163,7 @@ crowdsec:
       - name: DISABLE_ONLINE_API
         value: "false"
       - name: LOCAL_API_URL
-        value: "http://crowdsec-service:8080"
+        value: "https://crowdsec-service:8080"
       - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
         value: "true"
 
