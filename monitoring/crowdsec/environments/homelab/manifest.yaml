@@ -608,10 +608,10 @@ spec:
         version: v1
     spec:
       initContainers:
-      - name: wait-for-lapi-and-register
-        image: "crowdsecurity/crowdsec:v1.7.6"
+      - name: wait-for-lapi
+        image: "busybox:1.28"
         imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', 'until nc "$LAPI_HOST" "$LAPI_PORT" -z; do echo waiting for lapi to start; sleep 5; done; ln -s /staging/etc/crowdsec /etc/crowdsec && cscli lapi register --machine "$USERNAME" -u "$LAPI_URL" --token "$REGISTRATION_TOKEN" && cp /etc/crowdsec/local_api_credentials.yaml /tmp_config/local_api_credentials.yaml']
+        command: ['sh', '-c', 'until nc "$LAPI_HOST" "$LAPI_PORT" -z; do echo waiting for lapi to start; sleep 5; done']
         resources:
           limits:
             memory: 50Mi
@@ -621,21 +621,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           privileged: false
-        volumeMounts:
-          - name: crowdsec-config
-            mountPath: /tmp_config
         env:
-          - name: REGISTRATION_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: crowdsec-lapi-secrets
-                key: registrationToken
-          - name: USERNAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: LAPI_URL
-            value: "http://crowdsec-service.crowdsec:8080"
           - name: LAPI_HOST
             value: "crowdsec-service.crowdsec"
           - name: LAPI_PORT
@@ -644,7 +630,7 @@ spec:
       - name: crowdsec-agent
         image: "crowdsecurity/crowdsec:v1.7.6"
         imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', 'cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh']
+        command: ['sh', '-c', 'mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh']
         env:
           - name: DISABLE_LOCAL_API
             value: "true"
@@ -655,7 +641,15 @@ spec:
 
           # agent - lapi authentication, with TLS or password
           - name: LOCAL_API_URL
-            value: "http://crowdsec-service.crowdsec:8080"
+            value: "https://crowdsec-service.crowdsec:8080"
+          - name: USE_TLS
+            value: "true"
+          - name: CLIENT_CERT_FILE
+            value: /etc/ssl/crowdsec-agent/tls.crt
+          - name: CLIENT_KEY_FILE
+            value: /etc/ssl/crowdsec-agent/tls.key
+          - name: CACERT_FILE
+            value: /etc/ssl/crowdsec-agent/ca.crt
           - name: PARSERS
             value: crowdsecurity/cri-logs crowdsecurity/k8s-audit
           - name: COLLECTIONS
@@ -666,7 +660,7 @@ spec:
           - name: DISABLE_ONLINE_API
             value: "false"
           - name: LOCAL_API_URL
-            value: http://crowdsec-service:8080
+            value: https://crowdsec-service:8080
           - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
             value: "true"
         resources:
@@ -725,8 +719,6 @@ spec:
           privileged: false
 
         volumeMounts:
-          - name: crowdsec-config
-            mountPath: /tmp_config
           - name: crowdsec-agent-config
             mountPath: /etc/crowdsec_data
           
@@ -741,6 +733,8 @@ spec:
           - name: varlog
             mountPath: /var/log
             readOnly: true
+          - name: crowdsec-agent-tls
+            mountPath: /etc/ssl/crowdsec-agent
           
           - mountPath: /var/log/pods
             name: varlog-pods
@@ -751,8 +745,6 @@ spec:
       - name: acquis-config-volume
         configMap:
           name: acquis-configmap
-      - name: crowdsec-config
-        emptyDir: {}
       - name: varlog
         hostPath:
           path: /var/log
@@ -768,6 +760,9 @@ spec:
       
       
       
+      - name: crowdsec-agent-tls
+        secret:
+          secretName: crowdsec-agent-tls
       
       
       - hostPath:
@@ -808,9 +803,21 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
           - name: LOCAL_API_URL
-            value: http://localhost:8080
+            value: https://localhost:8080
           - name: DISABLE_AGENT
             value: "true"
+          - name: USE_TLS
+            value: "true"
+          - name: LAPI_CERT_FILE
+            value: /etc/ssl/crowdsec-lapi/tls.crt
+          - name: LAPI_KEY_FILE
+            value: /etc/ssl/crowdsec-lapi/tls.key
+          - name: CLIENT_CERT_FILE
+            value: /etc/ssl/crowdsec-agent/tls.crt
+          - name: CLIENT_KEY_FILE
+            value: /etc/ssl/crowdsec-agent/tls.key
+          - name: CACERT_FILE
+            value: /etc/ssl/crowdsec-lapi/ca.crt
           - name: INSECURE_SKIP_VERIFY
             value: "false"
           
@@ -875,7 +882,7 @@ spec:
           httpGet:
             path: /health
             port: lapi
-            scheme: HTTP
+            scheme: HTTPS
         readinessProbe:
           failureThreshold: 3
           periodSeconds: 10
@@ -884,7 +891,7 @@ spec:
           httpGet:
             path: /health
             port: lapi
-            scheme: HTTP
+            scheme: HTTPS
         startupProbe:
           failureThreshold: 30
           periodSeconds: 10
@@ -893,7 +900,7 @@ spec:
           httpGet:
             path: /health
             port: lapi
-            scheme: HTTP
+            scheme: HTTPS
 
         securityContext:
           allowPrivilegeEscalation: false
@@ -913,6 +920,10 @@ spec:
           - name: crowdsec-docker-start-script
             mountPath: /docker_start.sh
             subPath: docker_start.sh
+          - name: crowdsec-lapi-tls
+            mountPath: /etc/ssl/crowdsec-lapi
+          - name: crowdsec-agent-tls
+            mountPath: /etc/ssl/crowdsec-agent
           
           - name: crowdsec-db
             mountPath: /var/lib/crowdsec/data
@@ -959,10 +970,104 @@ spec:
       - name: crowdsec-config-local-volume
         configMap:
           name: crowdsec-config-local
+      - name: crowdsec-lapi-tls
+        secret:
+          secretName: crowdsec-lapi-tls
+      - name: crowdsec-agent-tls
+        secret:
+          secretName: crowdsec-agent-tls
       priorityClassName:
 ---
 # Source: crowdsec/charts/crowdsec/templates/agent-configmap.yaml
 ---
+---
+# Source: crowdsec/charts/crowdsec/templates/tls/agent-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: crowdsec-agent
+  namespace: crowdsec
+spec:
+  commonName: CrowdSec Agent
+  secretName: crowdsec-agent-tls
+  duration: 2160h
+  renewBefore: 720h
+  secretTemplate:
+    
+    
+  issuerRef:
+    
+    name: crowdsec-ca-issuer
+    
+  subject:
+    organizationalUnits:
+      - agent-ou
+---
+# Source: crowdsec/charts/crowdsec/templates/tls/bouncer-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: crowdsec-bouncer
+  namespace: crowdsec
+spec:
+  commonName: CrowdSec Bouncer
+  secretName: crowdsec-bouncer-tls
+  duration: 2160h
+  renewBefore: 720h
+  secretTemplate:
+    
+    
+  issuerRef:
+    
+    name: crowdsec-ca-issuer
+    
+  subject:
+    organizationalUnits:
+      - bouncer-ou
+---
+# Source: crowdsec/charts/crowdsec/templates/tls/ca-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: crowdsec-ca
+  namespace: crowdsec
+spec:
+  isCA: true
+  commonName: crowdsec-ca
+  secretName: crowdsec-root-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: crowdsec-root-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# Source: crowdsec/charts/crowdsec/templates/tls/lapi-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: crowdsec-lapi
+  namespace: crowdsec
+spec:
+  dnsNames:
+    - crowdsec-service.crowdsec
+    - crowdsec-service.crowdsec.svc.cluster.local
+    - localhost
+  secretName: crowdsec-lapi-tls
+  duration: 2160h
+  renewBefore: 720h
+  issuerRef:
+    
+    name: crowdsec-ca-issuer
+---
+# Source: crowdsec/charts/crowdsec/templates/tls/crowdsec-clusterIssuer.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: crowdsec-root-issuer
+spec:
+  selfSigned: {}
 ---
 # Source: crowdsec/charts/homelab/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -986,6 +1091,16 @@ spec:
     - backendRefs:
       - name: crowdsec-service
         port: 8080
+---
+# Source: crowdsec/charts/crowdsec/templates/tls/ca-issuer.yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: crowdsec-ca-issuer
+  namespace: crowdsec
+spec:
+  ca:
+    secretName: crowdsec-root-secret
 ---
 # Source: crowdsec/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
