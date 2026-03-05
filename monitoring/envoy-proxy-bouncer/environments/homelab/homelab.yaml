@@ -14,15 +14,14 @@ homelab-envoy-proxy-bouncer:
   image:
     tag: sha-dc5e8fa978ffc5814e8a553ce73489d42e80c8fc
 
-  deployment:
-    volumes:
-      - name: crowdsec-tls
-        secret:
-          secretName: crowdsec-bouncer-tls
-    volumeMounts:
-      - name: crowdsec-tls
-        mountPath: /etc/ssl/crowdsec
-        readOnly: true
+  volumes:
+    - name: crowdsec-tls
+      secret:
+        secretName: crowdsec-bouncer-tls
+  volumeMounts:
+    - name: crowdsec-tls
+      mountPath: /etc/ssl/crowdsec
+      readOnly: true
 
   securityContext:
     allowPrivilegeEscalation: false
