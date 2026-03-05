@@ -99,7 +99,7 @@ crowdsec:
             name: crowdsec-lapi-secrets
             key: enrollmentKey
       - name: LOCAL_API_URL
-        value: http://localhost:8080
+        value: https://localhost:8080
       - name: DISABLE_AGENT
         value: "true"
       - name: GID
