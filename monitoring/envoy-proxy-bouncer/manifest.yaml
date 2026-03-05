@@ -25,15 +25,14 @@ metadata:
 data:
   config.yaml: |
     bouncer:
+      apiKeySecretRef:
+        key: apiKey
+        name: envoy-bouncer
       enabled: true
-      lapiURL: https://crowdsec-service.crowdsec.svc.cluster.local:8080
+      lapiURL: http://crowdsec-service.crowdsec.svc.cluster.local:8080
       metrics: true
       metricsInterval: 10m
       tickerInterval: 10s
-      tls:
-        caPath: /etc/ssl/crowdsec/ca.crt
-        certPath: /etc/ssl/crowdsec/tls.crt
-        keyPath: /etc/ssl/crowdsec/tls.key
     captcha:
       callbackURL: https://bouncer.kyledev.co
       challengeDuration: 5m
@@ -159,6 +158,11 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
           env:
+            - name: ENVOY_BOUNCER_BOUNCER_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: "envoy-bouncer"
+                  key: "apiKey"
             - name: ENVOY_BOUNCER_CAPTCHA_SECRETKEY
               valueFrom:
                 secretKeyRef:
@@ -177,16 +181,10 @@ spec:
             - name: bouncer-config
               mountPath: /app/config
               readOnly: true
-            - mountPath: /etc/ssl/crowdsec
-              name: crowdsec-tls
-              readOnly: true
       volumes:
         - name: bouncer-config
           configMap:
             name: homelab-envoy-proxy-bouncer-config
-        - name: crowdsec-tls
-          secret:
-            secretName: crowdsec-bouncer-tls
 ---
 # Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
