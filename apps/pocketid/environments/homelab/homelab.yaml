@@ -10,7 +10,7 @@ pocketid:
 
     image:
       repository: ghcr.io/pocket-id/pocket-id
-      tag: v2.3.0
+      tag: v2.2.0
       pullPolicy: IfNotPresent
 
     env:
@@ -49,7 +49,6 @@ pocketid:
     create: true
     pvcs:
       - name: pocketid
-        volumeName: pocketid
         size: 5Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
@@ -65,12 +64,12 @@ pocketid:
         SMTP_PORT: AgCJl5gmGYFgFfcTfZmxe3TqXMRV1JnnCojmz4s4GG/junp0SP9+SrQdI8OCXrqSSJVAu2urvo1WwSvWUCwVJ52XfBvdRGmAMdn8+Chzxd3F+yApUAKBbB56GkVzmnx+GeEBch+LYkEyxPmA6SRkVvXilY06RSfm4wl31ZLau0RpbYCqsNlqfPPrgXdkt3DsabOnzpryTWa82QsZINHm9cn5cW7nHKtVqBu3bzKEolTiVtsX0NRqqchdqHZ9Xzw/vYe3yB6wAyh9YkO1ALhKBlWLsWXWkYHuDtMukeMaKK+LhnGXi+v/w7FM7Nj+EjuQ6eTqzuBcRj2FarWNvlyHHecxj2ZO2z0rDNCGlNXoliufwBorld5/bcn81ilubqrAvVC9JB0OZyZKoAb0A/C8YiKhQahbenUEtM+keEb24H/8mkvHj5nBLxN4To/of39ZV88iC0k3vdPhmyZk/AL5mk1010Iafoh60lPrxhxxMh6E+F4vtncR6o7TIpTpW/MQWY68FNZ5kqVTDoBq37xOYIZI2X8TZWjR4U9ZYcwjRrNEL5PG4Bn2fEnKJClPevTe8jrXqlDkDYG1Zt5xo0v1aK+ZSc17sPYE3HFMQxbRTsZ8aKBMd8ECBEnNQTvKrn7gJw1zLs8lkyJ7Qbq441JgsZzh7kHO/5qFqNuEcODtWayqOK1yjALyuO919R6EtANrgaGwr/s=
         SMTP_USER: AgB9c9EeC/gsmDS+kq+IPE+lVxkUvQBf9UQYt9uDPOADZ/ujWycTx3Kae/a9WTwA5lQIoqsjO9t31T4aF3rZ6lFbm1aMNAUUgDT1tAORoW28/Bf8oD4+bjGUeHeIIhppZMe86GhAc+O9ra127DRE77D5zwkDvZK4uLf27yIxVnMrtjsw5tWQB7Mpu0Y8kCz1h4dQL0tosSbhl8fCaq7rDntYW5/Re2xqCrnSV95dXb+lw+QBx0wvAgWSyjYIWMZ4uYc1230a9CGHg8flfW6Qsap2RMNbp8gIn4TiTUxe1FOe2qaSPK6i8OOv52mAkBzy20xHeyA/2sDlX1H1nm9kYWoUG9CrWrxaz2DXi39OLpAekiDIt/helEVE4Wt6fjQ+n888MWU8OsweYCTY81m0FU005dWU+DbbwcABiDWFR8tTvCL3FZ/GytJ6X/tjNOQ2t0EQtauxf2ELYR3oXD0FN02LrcFQZfwXBRYIZFSeP6YU2vyakHqiIPK9wVGIo3MO+OjYocaYZYi7TxsNVqD5HFRIizA1aMmOwDalfR52QoJehU+slruUK7FxIN4vBwPhhz1667wRbO3bSnZBQOqJfJD/TNe4iDFQdq0WFwOMgRAUr+Lq4xb/Qb9xFI9+K1FB3hO813qR14zZA3zVNWp9kgtm/R8tZpueiK553zo1DfVCqMCJzDDVafZnq5vFKg7r8tdaXm7ZlQl0cSdZtdyQEW8iFPI1JZYC
 
-  # securityPolicy:
-  #   extAuth:
-  #     grpc:
-  #       backendRefs:
-  #         - group: ""
-  #           kind: Service
-  #           name: homelab-envoy-proxy-bouncer
-  #           namespace: crowdsec
-  #           port: 8080
+  securityPolicy:
+    extAuth:
+      grpc:
+        backendRefs:
+          - group: ""
+            kind: Service
+            name: homelab-envoy-proxy-bouncer
+            namespace: envoy-gateway-system
+            port: 8080
