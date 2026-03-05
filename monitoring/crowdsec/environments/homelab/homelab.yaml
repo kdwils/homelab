@@ -54,6 +54,7 @@ crowdsec:
         server:
           auto_registration:
             enabled: false
+            # token: "${REGISTRATION_TOKEN}"
 
     profiles.yaml: |
       name: appsec_ip_remediation
@@ -83,6 +84,7 @@ crowdsec:
   lapi:
     enabled: true
     replicas: 1
+    storeCAPICredentialsInSecret: true
 
     env:
       - name: ENROLL_INSTANCE_NAME
