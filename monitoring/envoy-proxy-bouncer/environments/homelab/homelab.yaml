@@ -11,9 +11,6 @@ homelab-envoy-proxy-bouncer:
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
 
-  image:
-    tag: sha-dc5e8fa978ffc5814e8a553ce73489d42e80c8fc
-
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
