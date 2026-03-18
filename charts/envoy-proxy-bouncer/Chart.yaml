@@ -5,7 +5,7 @@ version: 0.1.0
 dependencies:
   - name: envoy-proxy-bouncer
     version: 0.5.4
-    repository: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
+    repository: oci://ghcr.io/kdwils/charts
     alias: homelab-envoy-proxy-bouncer
   - name: homelab-chart
     version: 0.1.14

@@ -25,8 +25,7 @@ spec:
   interval: "1h0m0s"
   subscriptions:
     - chart:
-        repoURL: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
-        name: envoy-proxy-bouncer
+        repoURL: oci://ghcr.io/kdwils/charts/envoy-proxy-bouncer
     - chart:
         repoURL: https://kdwils.github.io/helm-charts
         name: homelab-chart
@@ -63,13 +62,13 @@ spec:
             name: git-ops-clone
             kind: ClusterPromotionTask
         - task:
-            name: helm-update-single-chart
+            name: helm-update-single-oci-chart
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
               value: charts/envoy-proxy-bouncer
             - name: chartRepo
-              value: https://kdwils.github.io/envoy-proxy-crowdsec-bouncer
+              value: oci://ghcr.io/kdwils/charts
             - name: chartName
               value: envoy-proxy-bouncer
         - task:
