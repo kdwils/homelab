@@ -28,8 +28,7 @@ spec:
         repoURL: https://charts.longhorn.io
         name: longhorn
     - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -73,13 +72,13 @@ spec:
             - name: chartName
               value: longhorn
         - task:
-            name: helm-update-single-chart
+            name: helm-update-single-oci-chart
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
               value: charts/longhorn
             - name: chartRepo
-              value: https://kdwils.github.io/helm-charts
+              value: oci://ghcr.io/kdwils/charts
             - name: chartName
               value: homelab-chart
         - task:

@@ -1,0 +1,12 @@
+vpa:
+  admissionController:
+    replicas: 1
+    certGen:
+      enabled: true
+    podDisruptionBudget:
+      enabled: false
+  recommender:
+    enabled: true
+  updater:
+    enabled: true
+    replicas: 1
