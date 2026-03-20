@@ -28,8 +28,7 @@ spec:
         repoURL: oci://ghcr.io/akuity/kargo-charts/kargo
         semverConstraint: 1.9.3
     - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -74,13 +73,13 @@ spec:
             - name: chartName
               value: kargo
         - task:
-            name: helm-update-single-chart
+            name: helm-update-single-oci-chart
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
               value: charts/kargo
             - name: chartRepo
-              value: https://kdwils.github.io/helm-charts
+              value: oci://ghcr.io/kdwils/charts
             - name: chartName
               value: homelab-chart
         - task:

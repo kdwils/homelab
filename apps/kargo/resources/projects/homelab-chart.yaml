@@ -24,8 +24,7 @@ metadata:
 spec:
   subscriptions:
     - chart:
-        repoURL: https://kdwils.github.io/helm-charts
-        name: homelab-chart
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage

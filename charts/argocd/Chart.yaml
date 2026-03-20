@@ -9,5 +9,5 @@ dependencies:
     alias: argocd
   - name: homelab-chart
     version: 0.1.11
-    repository: https://kdwils.github.io/helm-charts
+    repository: oci://ghcr.io/kdwils/charts
     alias: homelab

@@ -1,15 +1,15 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
-  name: envoy-proxy-bouncer
+  name: vpa
   annotations:
     kargo.akuity.io/keep-namespace: "true"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
-  name: envoy-proxy-bouncer
-  namespace: envoy-proxy-bouncer
+  name: vpa
+  namespace: vpa
 spec:
   promotionPolicies:
     - stageSelector:
@@ -19,32 +19,31 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
-  name: envoy-proxy-bouncer
-  namespace: envoy-proxy-bouncer
+  name: vpa
+  namespace: vpa
 spec:
   interval: "1h0m0s"
   subscriptions:
     - chart:
-        repoURL: oci://ghcr.io/kdwils/charts/envoy-proxy-bouncer
-    - chart:
-        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
+        repoURL: https://kubernetes.github.io/autoscaler
+        name: vertical-pod-autoscaler
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:monitoring/envoy-proxy-bouncer/environments/**
-          - glob:charts/envoy-proxy-bouncer/**
+          - glob:monitoring/vpa/environments/**
+          - glob:charts/vpa/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: main
-  namespace: envoy-proxy-bouncer
+  namespace: vpa
 spec:
   requestedFreight:
     - origin:
         kind: Warehouse
-        name: envoy-proxy-bouncer
+        name: vpa
       sources:
         direct: true
   promotionTemplate:
@@ -55,39 +54,29 @@ spec:
         - name: targetBranch
           value: main
         - name: warehouse
-          value: envoy-proxy-bouncer
+          value: vpa
       steps:
         - task:
             name: git-ops-clone
             kind: ClusterPromotionTask
         - task:
-            name: helm-update-single-oci-chart
+            name: helm-update-single-chart
             kind: ClusterPromotionTask
           vars:
             - name: chartPath
-              value: charts/envoy-proxy-bouncer
+              value: charts/vpa
             - name: chartRepo
-              value: oci://ghcr.io/kdwils/charts
+              value: https://kubernetes.github.io/autoscaler
             - name: chartName
-              value: envoy-proxy-bouncer
-        - task:
-            name: helm-update-single-oci-chart
-            kind: ClusterPromotionTask
-          vars:
-            - name: chartPath
-              value: charts/envoy-proxy-bouncer
-            - name: chartRepo
-              value: oci://ghcr.io/kdwils/charts
-            - name: chartName
-              value: homelab-chart
+              value: vertical-pod-autoscaler
         - task:
             name: git-ops-commit-pr
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
               value: |
-                Update envoy-proxy-bouncer chart dependencies
+                Update vpa chart dependencies
             - name: prTitle
-              value: "Update envoy-proxy-bouncer chart dependencies"
+              value: "Update vpa chart dependencies"
             - name: prDescription
-              value: Update envoy-proxy-bouncer chart dependencies
+              value: Update vpa chart dependencies

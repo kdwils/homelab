@@ -250,6 +250,16 @@ spec:
         releaseName: crowdsec
         outPath: ./target/monitoring/crowdsec/environments/homelab/manifest.yaml
     - uses: helm-template
+      as: render-vpa
+      config:
+        path: ./source/charts/vpa
+        valuesFiles:
+          - ./source/monitoring/vpa/environments/homelab/homelab.yaml
+        namespace: kube-system
+        releaseName: vpa
+        outPath: ./target/monitoring/vpa/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-kargo
       config:
         path: ./source/charts/kargo
