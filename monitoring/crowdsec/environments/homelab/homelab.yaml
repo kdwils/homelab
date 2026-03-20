@@ -162,13 +162,14 @@ crowdsec:
         cpu: 500m
         memory: 250Mi
 
-    acquisition:
-      - namespace: envoy-gateway-system
-        podName: "envoy-envoy-gateway-system-homelab-*"
-        program: envoy
-        poll_without_inotify: true
-
     additionalAcquisition:
+      - source: file
+        filenames:
+          - /var/log/containers/envoy-envoy-gateway-system-homelab-*_envoy-gateway-system_*.log
+        labels:
+          type: containerd
+          program: envoy
+        poll_without_inotify: true
       - source: file
         filenames:
           - /var/log/secure
