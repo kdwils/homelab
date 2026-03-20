@@ -8,12 +8,12 @@ data:
   acquis.yaml: |-
     ---
     filenames:
-      - /var/log/containers/envoy-envoy-gateway-system-homelab-*_envoy-gateway-system_*.log
-    force_inotify: true
-    poll_without_inotify: true
+    - /var/log/containers/envoy-envoy-gateway-system-homelab-*_envoy-gateway-system_*.log
     labels:
-      type: containerd
       program: envoy
+      type: containerd
+    poll_without_inotify: true
+    source: file
     ---
     filenames:
     - /var/log/secure
@@ -588,7 +588,7 @@ spec:
     metadata:
       annotations:
         checksum/agent-configmap: 9938de001d205fdea476ce7926e774a3d1d48dc714898436f0a979c07a716ccf
-        checksum/acquis-configmap: 1ff19a4d9f074d7c6a9081c5bf88271474e22fafd92ad2be3f473539f86f8752
+        checksum/acquis-configmap: 6426bfe2d7822062eb1f925efc0f6dc12699a75dace6e097287b679edc2494c9
       labels:
         k8s-app: crowdsec
         type: agent
