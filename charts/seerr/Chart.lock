@@ -3,7 +3,7 @@ dependencies:
   repository: oci://ghcr.io/seerr-team/seerr
   version: 3.3.0
 - name: homelab-chart
-  repository: https://kdwils.github.io/helm-charts
-  version: 0.1.14
-digest: sha256:4c434424537c29f0f9981dc9b2b572d2eab2e7fb12660c50af97e2735180cbcd
-generated: "2026-03-01T19:13:12.640952767Z"
+  repository: oci://ghcr.io/kdwils/charts
+  version: 0.1.15
+digest: sha256:4652d19d462f25ee2f21a3b3f2e387b89925a4d94b5e857ccb640651689fce59
+generated: "2026-03-20T23:57:00.804765814Z"
