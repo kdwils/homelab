@@ -3,3 +3,4 @@ secrets/
 secret.yaml
 values.yaml
 .DS_Store
+*.tgz
