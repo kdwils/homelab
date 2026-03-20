@@ -3,7 +3,7 @@ dependencies:
   repository: https://pkgs.tailscale.com/helmcharts
   version: 1.94.2
 - name: homelab-chart
-  repository: https://kdwils.github.io/helm-charts
-  version: 0.1.14
-digest: sha256:41b8bb760d874d6f8313fa344bad162d22313185b198dd551883323e17b31bd6
-generated: "2026-03-01T19:20:40.838067151Z"
+  repository: oci://ghcr.io/kdwils/charts
+  version: 0.1.15
+digest: sha256:a89d19c3455d42f2f88abc15e3d4e008052db377f4d53e1dcbf461f57b796e52
+generated: "2026-03-20T23:59:18.963772929Z"
