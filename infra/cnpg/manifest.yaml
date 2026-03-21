@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
 data:
-  OPERATOR_DEPLOYMENT_NAME: cnpg-cloudnative-pg
+  OPERATOR_DEPLOYMENT_NAME: cnpg
 ---
 # Source: cnpg/charts/cnpg/templates/monitoring-configmap.yaml
 apiVersion: v1
@@ -19368,7 +19368,7 @@ spec:
     metadata:
       annotations:
         checksum/rbac: dee32ec8ade4efc792a331cab0afc8905051c77de048c8c9bcde5f6be3c431a0
-        checksum/config: e067331241ca1f691cc9bf9702797189397804375fb3981184c8fb646dacbb6b
+        checksum/config: 5c03f219add6854ad836e03b3fbb8a33b4c5772d6a4d1151d02853c6963f31ae
         checksum/monitoring-config: 6b6f50a77062fe551ed9d1caa472663cdedf8cab52d9c1cb8f0663ad0a069b99
       labels:
         app.kubernetes.io/name: cnpg
