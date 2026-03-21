@@ -1,18 +1,18 @@
 ---
-# Source: cnpg/charts/cnpg/templates/rbac.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/rbac.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: cnpg
+  name: cnpg-cloudnative-pg
   namespace: cnpg
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
 ---
-# Source: cnpg/charts/cnpg/templates/config.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/config.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -37,23 +37,23 @@ metadata:
   name: cnpg-controller-manager-config
   namespace: cnpg
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
 data:
-  OPERATOR_DEPLOYMENT_NAME: cnpg
+  {}
 ---
-# Source: cnpg/charts/cnpg/templates/monitoring-configmap.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/monitoring-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: cnpg-default-monitoring
   namespace: cnpg
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
@@ -545,7 +545,7 @@ data:
         target_databases:
           - '*'
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -1009,7 +1009,7 @@ spec:
     subresources:
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -1092,7 +1092,7 @@ spec:
     storage: true
     subresources: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -8332,7 +8332,7 @@ spec:
         statusReplicasPath: .status.instances
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -8928,7 +8928,7 @@ spec:
     subresources:
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -9007,7 +9007,7 @@ spec:
     subresources:
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -9089,7 +9089,7 @@ spec:
     storage: true
     subresources: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -18459,7 +18459,7 @@ spec:
         statusReplicasPath: .status.instances
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -18656,7 +18656,7 @@ spec:
     subresources:
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -18849,7 +18849,7 @@ spec:
     subresources:
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/crds/crds.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/crds/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -19000,14 +19000,14 @@ spec:
     subresources:
       status: {}
 ---
-# Source: cnpg/charts/cnpg/templates/rbac.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: cnpg
+  name: cnpg-cloudnative-pg
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
@@ -19240,14 +19240,14 @@ rules:
   - patch
   - watch
 ---
-# Source: cnpg/charts/cnpg/templates/rbac.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: cnpg-view
+  name: cnpg-cloudnative-pg-view
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
@@ -19271,14 +19271,14 @@ rules:
   - list
   - watch
 ---
-# Source: cnpg/charts/cnpg/templates/rbac.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: cnpg-edit
+  name: cnpg-cloudnative-pg-edit
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
@@ -19304,35 +19304,35 @@ rules:
   - patch
   - update
 ---
-# Source: cnpg/charts/cnpg/templates/rbac.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: cnpg
+  name: cnpg-cloudnative-pg
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cnpg
+  name: cnpg-cloudnative-pg
 subjects:
 - kind: ServiceAccount
-  name: cnpg
+  name: cnpg-cloudnative-pg
   namespace: cnpg
 ---
-# Source: cnpg/charts/cnpg/templates/service.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: cnpg-webhook-service
   namespace: cnpg
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
@@ -19343,18 +19343,18 @@ spec:
     targetPort: webhook-server
     name: webhook-server
   selector:
-    app.kubernetes.io/name: cnpg
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
 ---
-# Source: cnpg/charts/cnpg/templates/deployment.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cnpg
+  name: cnpg-cloudnative-pg
   namespace: cnpg
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
@@ -19362,16 +19362,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: cnpg
+      app.kubernetes.io/name: cloudnative-pg
       app.kubernetes.io/instance: cnpg
   template:
     metadata:
       annotations:
-        checksum/rbac: dee32ec8ade4efc792a331cab0afc8905051c77de048c8c9bcde5f6be3c431a0
-        checksum/config: 5c03f219add6854ad836e03b3fbb8a33b4c5772d6a4d1151d02853c6963f31ae
-        checksum/monitoring-config: 6b6f50a77062fe551ed9d1caa472663cdedf8cab52d9c1cb8f0663ad0a069b99
+        checksum/rbac: 1a6f5da907b8a4bebeb74a74d28b9c54d1dc9b2a5b9d658ddcda7a9c3e056a6e
+        checksum/config: b02a4bb5a450ffe4e4f13b4aa856f69b3a1ddaf07dd39fe930b22d540cc1581a
+        checksum/monitoring-config: 7b38f2a507f801ae26d4e8e4b5be6e85139229880e0b41389f51d71316608b6c
       labels:
-        app.kubernetes.io/name: cnpg
+        app.kubernetes.io/name: cloudnative-pg
         app.kubernetes.io/instance: cnpg
     spec:
       containers:
@@ -19442,7 +19442,7 @@ spec:
         runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
-      serviceAccountName: cnpg
+      serviceAccountName: cnpg-cloudnative-pg
       terminationGracePeriodSeconds: 10
       volumes:
       - emptyDir: {}
@@ -19453,7 +19453,7 @@ spec:
           optional: true
           secretName: cnpg-webhook-cert
 ---
-# Source: cnpg/charts/cnpg/templates/deployment.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/deployment.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -19473,7 +19473,7 @@ spec:
 # SPDX-License-Identifier: Apache-2.0
 #
 ---
-# Source: cnpg/charts/cnpg/templates/monitoring-configmap.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/monitoring-configmap.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -19493,7 +19493,7 @@ spec:
 # SPDX-License-Identifier: Apache-2.0
 #
 ---
-# Source: cnpg/charts/cnpg/templates/mutatingwebhookconfiguration.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/mutatingwebhookconfiguration.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -19513,7 +19513,7 @@ spec:
 # SPDX-License-Identifier: Apache-2.0
 #
 ---
-# Source: cnpg/charts/cnpg/templates/podmonitor.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/podmonitor.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -19533,7 +19533,7 @@ spec:
 # SPDX-License-Identifier: Apache-2.0
 #
 ---
-# Source: cnpg/charts/cnpg/templates/rbac.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/rbac.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -19553,7 +19553,7 @@ spec:
 # SPDX-License-Identifier: Apache-2.0
 #
 ---
-# Source: cnpg/charts/cnpg/templates/service.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/service.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -19573,7 +19573,7 @@ spec:
 # SPDX-License-Identifier: Apache-2.0
 #
 ---
-# Source: cnpg/charts/cnpg/templates/validatingwebhookconfiguration.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/validatingwebhookconfiguration.yaml
 #
 # Copyright © contributors to CloudNativePG, established as
 # CloudNativePG a Series of LF Projects, LLC.
@@ -19593,14 +19593,14 @@ spec:
 # SPDX-License-Identifier: Apache-2.0
 #
 ---
-# Source: cnpg/charts/cnpg/templates/mutatingwebhookconfiguration.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/mutatingwebhookconfiguration.yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: cnpg-mutating-webhook-configuration
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
@@ -19690,14 +19690,14 @@ webhooks:
     - scheduledbackups
   sideEffects: None
 ---
-# Source: cnpg/charts/cnpg/templates/validatingwebhookconfiguration.yaml
+# Source: cnpg/charts/cloudnative-pg/templates/validatingwebhookconfiguration.yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: cnpg-validating-webhook-configuration
   labels:
-    helm.sh/chart: cnpg-0.27.1
-    app.kubernetes.io/name: cnpg
+    helm.sh/chart: cloudnative-pg-0.27.1
+    app.kubernetes.io/name: cloudnative-pg
     app.kubernetes.io/instance: cnpg
     app.kubernetes.io/version: "1.28.1"
     app.kubernetes.io/managed-by: Helm
