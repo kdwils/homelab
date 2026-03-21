@@ -4,6 +4,6 @@ description: CloudNativePG operator
 version: 0.1.0
 dependencies:
   - name: cloudnative-pg
-    version: 0.23.0
+    version: 0.27.1
     repository: oci://ghcr.io/cloudnative-pg/charts
     alias: cnpg
