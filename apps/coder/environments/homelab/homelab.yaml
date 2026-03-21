@@ -22,21 +22,6 @@ coder:
         value: openid,profile,email,groups
       - name: CODER_ACCESS_URL
         value: https://coder.int.kyledev.co
-      - name: CODER_FIRST_USER_EMAIL
-        valueFrom:
-          secretKeyRef:
-            name: coder-admin
-            key: FIRST_USER_EMAIL
-      - name: CODER_FIRST_USER_USERNAME
-        valueFrom:
-          secretKeyRef:
-            name: coder-admin
-            key: FIRST_USER_USERNAME
-      - name: CODER_FIRST_USER_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: coder-admin
-            key: FIRST_USER_PASSWORD
     service:
       type: ClusterIP
     ingress:
@@ -56,11 +41,6 @@ homelab:
           - name: coder
             port: 80
   sealedsecrets:
-    - name: coder-admin
-      data:
-        FIRST_USER_EMAIL: AgB3REPR/Xq4x194+cdODL+qV+IvTQXN2Ax09Otyz3m5ztwZZf6UdA2XV/tzZI3nSl8AejtC8wiqpySyLbDP62lp1Y/qhUg50W6loK9HLAFmMbYoCBQ436I1DByuevvaIa+ilO/Y/meHY8XeOWWmZnND+kqVQsL8JsOSf5ywQtMGqXj9UxidJkjlotB0LjH3D1vmwNwgQsaZ+7qgpUDeHGd30hzJS5vqajdBh8ZvfACJW090NWKobo41wnYIgr9yjcP2L7/I0fL3CvjWlPrzY9AHNR8XeTWJ6baRZnTX/ZzWnmIU48uYL/+/6c3SdFPatSquJNnFGZia2B3FnbWCpS1XbpiLk9o4N8MFk2Cg6lCDKVeGEER8xSdhGXOH4g5UUUvQohz+uvMX3TSjLOrNKW9bEdXMtgHzbc5d5EAAe38msMhLfa1kv58RNWFLG2o22ZfmlrMna8gFhy8zQpaUGO3P5f+2bwrRtqR7idfQntq6bbGQbjllnP7BFU2yidvRTPpMbSP5PdRzGEFfFZTS5o8R8R7lv3s6x8QQFy+We2drC3ORI/2AJNdJoSLaFg9ex7wfn5WfjBUAGKryTcyWisWmBSEUv3AL6HeXq5LEdHH+D6ikRDDqSGEl9f/LEoqCz2JsNrElaycek1G6bp19Hx1l6BRqHabAjUP3tqW6R2k/bvR8dpyCxridzMZzW800y61iBe+FC2SUqIM/CpZ2S5mH+WiVqkc=
-        FIRST_USER_PASSWORD: AgAqfR5QNcBvGzIEYgYB9+7hBVWdQkhge5uNx8HHreFTH6tOiigIdp9z9IRyvFnHL9tGtEdVrdqYfVfI2j2F1Sx/2rIQIJanTL3XMKvlumhm/Tp57/r+Zdcfe0EI9RMcR0s+gqnCVrFv6qmrmy7emfakxpGyNr4CUGlDKWxEU7NcteHXOC8MQnrroIlR1920vC6phoi7FqPN5g4E3jzP6w4HkIpgTPogLskgDmucU3xKVMIiQhVRm6zo8GbA1Os85okg7/GsZU7CavHPT/KyH/7Cf/nMlfTMEjtbxyKXbMoPq5QYASexykFn+3DEQGLESlsw3NdNDC0c0ybI+iNrsjSoiXZjORtXoIFQWQsVd/4HkNrqwRSb8+/JFNPG18cTdpUZ9/xt1kzF4Zw5cf5CQt4eYnt1VIKr+WNE53nPflq4NqVEEP443etzf1TJwPVrKxdEX3uMG5o/R8mkri0fkV8neD6D8XRjjunTNrI9Ljngt/BCvMmLB/v9c6Hick8DO+itK9KqjvNJyopjyxdqjsO63qR9z00cAjLC7dmLEN7pLo81sjUqkoWCQmkFVRCMWkT1tlei1sroYYSXLcSmIhYHzSeJGsNO0kwsolXCyMbBni3fUU+C5klQrQQLZqQLiq8gDV7lcCipxZnXddtMv+pe/cjpFTBkrZARKRJj/Ud8FvwZFdus23aRoVttPp8oVXSSgiRBtMjApxI=
-        FIRST_USER_USERNAME: AgCqkExJY+LidGRe0yjS7vItvgDSQd45CyBf82eX6quIXyY5PftEZHcLgjMuim5UI2MYSeJkF2UYaH+J1u9K0H0cOdcAVyIXb3Ji16S5KJiOHOs6+JpG5DWFT2E/1k5eR4OXZpmkympDQG3Bn/Tq+z/UacVuz48S/7R9tDhEzG6JgoQ6PoBbeLZfIM3wpRaLBdi2irkn3uDHMFBsLsZrya9OWbL33qOEHH8p7mN1Hpf9cqugB35bfVL4fOge0IZNO8rvt4cJbC/CL3PQKzv8hqc1IvVxvokqN1kjeIdpFfKjL8n74ohr+nU+cQN/GPZrnK62qH2Z47U/RaseBK0s/3LWOATFFSdoHVhCxTQmOefMi4FeY6d7sMNjPPo2sBtJdFWShjjyPRXlfzfxi5IU4wn/PH9WSKSTiwCnri8DBYY/rRAYT0AMXJad6wVW6CtKOKxRf+exxBanP0L1SreA0SQiO0f33NtlpDbJ17CPvSfunKywsBJ649979bGq1BUgZs+guMjDQh8l65aqzuhC7gAACSNrPxH3OBBwY+3S8M6mL7SeQGPauRT0hEz7Uj8EX+i+gmhT0qYYoHXFg3lbwnBjpM6QSpi7aNMs8AbpKsaOPZiUjTYTLuEi7ZsMKg4DTIjTv19HEyFkUusHQxk4/fLo8UmdWuckgwiOlYFwJNT3uRaQbFkRx1Zfj6hqfLKR6pMvHK7i+do=
     - name: coder-oidc
       data:
         OIDC_CLIENT_ID: AgBFitAQtbtPReZQFxbQB9BFSn6bJ4Zerclv4dLIw/YzUve2+91EnyXwkSb6RfOknfVkDpwaZ3TtjJ7VfP6jNU3hCGLfMOHkCOZN6CB++WW4GEo0XdxzDdZMbbvJ2+/uTAVbX7H7O663eCAzSZK/5/+ceshvTSIKVvy8fnpgrHoRtH01UxJ7SOXRNnYQepdHSbpUKM62vybcCp/2CRNx4jPpaTABPFTVu9z2Db35kA0pMFRWib5y+qlw+9ii68IE1LmWn/ZDqc7ZgqLwgIYoMW3ZhbyQjC5E635zAeLESP6ss5Avhg4ChWOhZTpCAHmrUjPMZwKWwFrA9q/+ghH95dsEtWltBOVM8q4GhHmz7HLfiljp5ersLGHXc1xO9xme95/PYS0k5Ej8ukhr55/fJLJk5R5mTG5WrT/UTtop3MVTVc3Ha3uf/Dt62wk+qOjpfkJ9pVhEe4/RGqNeGgPwVQok9V1ds4L+YbhBBVAoQRxeTxN/lU2KKZCNw+XFi9GWRE2koRdDacG+u5RP0Js/bvxDdy+AWrI0omgeKFvGYWLYZC3yn6KhAfNupQENb9vDbhAjxgECdMum4Q8CsT038PSoPGt/F2RU0BCFQoubevEPBAiP6S7fvwbcmLLdWPi3nnrAGklksTcDhVX7rLxDJnxpkz5faUp1njgZGjkaHKw6EDmA58YUUTOMPjTXSOazPNz834dcvDCUZB8qM+fzaCa2B/+mA9PH8NnpvcYfhz/Zmuf+kTI=
