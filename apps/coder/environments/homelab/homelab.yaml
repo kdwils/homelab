@@ -18,6 +18,8 @@ coder:
           secretKeyRef:
             name: coder-oidc
             key: OIDC_CLIENT_SECRET
+      - name: CODER_OIDC_EMAIL_DOMAIN
+        value: kyledev.co
       - name: CODER_OIDC_SCOPES
         value: openid,profile,email,groups
       - name: CODER_ACCESS_URL
