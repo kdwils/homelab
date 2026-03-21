@@ -10,3 +10,4 @@ spec:
       name: coder-homelab
   httpUpgrade:
     - type: "derp"
+    - type: "websocket"
