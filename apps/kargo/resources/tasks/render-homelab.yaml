@@ -268,6 +268,25 @@ spec:
         namespace: kargo
         releaseName: kargo
         outPath: ./target/apps/kargo/environments/homelab/manifest.yaml
+    - uses: helm-template
+      as: render-cnpg
+      config:
+        path: ./source/charts/cnpg
+        valuesFiles:
+          - ./source/infra/cnpg/environments/homelab/homelab.yaml
+        namespace: cnpg-system
+        releaseName: cnpg
+        outPath: ./target/infra/cnpg/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
+      as: render-coder
+      config:
+        path: ./source/charts/coder
+        valuesFiles:
+          - ./source/apps/coder/environments/homelab/homelab.yaml
+        namespace: coder
+        releaseName: coder
+        outPath: ./target/apps/coder/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:

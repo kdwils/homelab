@@ -1,0 +1,94 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: coder
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: coder
+  namespace: coder
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: coder
+  namespace: coder
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: https://helm.coder.com/v2
+        name: coder
+    - chart:
+        repoURL: oci://ghcr.io/kdwils/charts
+        name: homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/coder/environments/**
+          - glob:charts/coder/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: coder
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: coder
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: coder
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/coder
+            - name: chartRepo
+              value: https://helm.coder.com/v2
+            - name: chartName
+              value: coder
+        - task:
+            name: helm-update-single-oci-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/coder
+            - name: chartRepo
+              value: oci://ghcr.io/kdwils/charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: "Update coder chart dependencies"
+            - name: prTitle
+              value: "Update coder chart dependencies"
+            - name: prDescription
+              value: "Update coder + homelab-chart dependency versions"

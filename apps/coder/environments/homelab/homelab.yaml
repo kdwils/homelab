@@ -1,0 +1,42 @@
+coder:
+  env:
+    - name: CODER_PG_CONNECTION_URL
+      valueFrom:
+        secretKeyRef:
+          name: coder-db-app
+          key: uri
+    - name: CODER_OIDC_ISSUER_URL
+      value: https://pocketid.kyledev.co
+    - name: CODER_OIDC_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: coder-oidc
+          key: OIDC_CLIENT_ID
+    - name: CODER_OIDC_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: coder-oidc
+          key: OIDC_CLIENT_SECRET
+    - name: CODER_OIDC_SCOPES
+      value: openid,profile,email,groups
+    - name: CODER_ACCESS_URL
+      value: https://coder.ts.kyledev.co
+  service:
+    type: ClusterIP
+  ingress:
+    enable: false
+
+homelab:
+  httproute:
+    create: true
+    hostnames:
+      - coder.int.kyledev.co
+      - coder.ts.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+  sealedsecrets:
+    - name: coder-oidc
+      data:
+        OIDC_CLIENT_ID: AgBFitAQtbtPReZQFxbQB9BFSn6bJ4Zerclv4dLIw/YzUve2+91EnyXwkSb6RfOknfVkDpwaZ3TtjJ7VfP6jNU3hCGLfMOHkCOZN6CB++WW4GEo0XdxzDdZMbbvJ2+/uTAVbX7H7O663eCAzSZK/5/+ceshvTSIKVvy8fnpgrHoRtH01UxJ7SOXRNnYQepdHSbpUKM62vybcCp/2CRNx4jPpaTABPFTVu9z2Db35kA0pMFRWib5y+qlw+9ii68IE1LmWn/ZDqc7ZgqLwgIYoMW3ZhbyQjC5E635zAeLESP6ss5Avhg4ChWOhZTpCAHmrUjPMZwKWwFrA9q/+ghH95dsEtWltBOVM8q4GhHmz7HLfiljp5ersLGHXc1xO9xme95/PYS0k5Ej8ukhr55/fJLJk5R5mTG5WrT/UTtop3MVTVc3Ha3uf/Dt62wk+qOjpfkJ9pVhEe4/RGqNeGgPwVQok9V1ds4L+YbhBBVAoQRxeTxN/lU2KKZCNw+XFi9GWRE2koRdDacG+u5RP0Js/bvxDdy+AWrI0omgeKFvGYWLYZC3yn6KhAfNupQENb9vDbhAjxgECdMum4Q8CsT038PSoPGt/F2RU0BCFQoubevEPBAiP6S7fvwbcmLLdWPi3nnrAGklksTcDhVX7rLxDJnxpkz5faUp1njgZGjkaHKw6EDmA58YUUTOMPjTXSOazPNz834dcvDCUZB8qM+fzaCa2B/+mA9PH8NnpvcYfhz/Zmuf+kTI=
+        OIDC_CLIENT_SECRET: AgAI8SwqNTM26aQgICNz8GJAKaeZdWs5jKyJvAUZnMvZnlRkYKCKVEKAUkZPJw8KHINkVCgw+X3+BFzTp2oiuZKtxdbw+TUYfkCAYXYL4qjyTPfI6x9wL3Ie6WGvWMEJsR3YgM7gQrxRbqKAp8mllFBIeMYWJXxxJnFrQxJcXKTdSam7LpAFJRx3RvH73CSZDPqHSTAH/nCGu2flx9MGF3dVvUOQ6CThg2QS5Y1AWq1DWVIWDjd26ootANEO7r0BpMxegPEDRDUSH5/Jd6L3PUtBuDDS3XnOO7+X48VAHT6b3OkIr5vtSJP2L7+Msm3k6TQHFMFEtah5l85D5fC8yE7uls7RAwF0kYVJrCby0aBUzaMq13z24JIGyM//q1O3ID/eA702W+KcTe/xq/dit9PpPFuLFb5EMpW2BZrPlAi9d21qeC1oZDDnP9CGy34t7H3ZdO98GCzvP8j1J1JuBHRRA7TA44Un+cLXQ3He/4v9ZGQifTzD/JP4XT09+r6C8pu50AKduXX1NBzkuy3mEwdTViieKvYMZi4HApqe8ECoYsUnMDz3vP3b3eRL/JxAObvuDNsnLIyqqfsQEt3jiZX8si9h7oirFGnklCxeKX5W0iKnhpS0P9ceKJi+SDooJK8ix3vEBDwNl6KOaeb5dZ33RkzOgfDDO/up/6YgjQFGyAh3W2G6txDhhn22Lc4CqZksT9dqTHBWgr75x2BbSHQLdWc41KypjYp/VfmAUG//wg==

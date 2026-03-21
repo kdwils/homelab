@@ -7,6 +7,8 @@ resources:
   - bluesky.yaml
   - byparr.yaml
   - cloudflared.yaml
+  - cnpg.yaml
+  - coder.yaml
   - crowdsec.yaml
   - envoy-proxy-bouncer.yaml
   - flaresolverr.yaml

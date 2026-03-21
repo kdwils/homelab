@@ -1,0 +1,9 @@
+apiVersion: v2
+name: cnpg
+description: CloudNativePG operator
+version: 0.1.0
+dependencies:
+  - name: cloudnative-pg
+    version: 0.23.0
+    repository: oci://ghcr.io/cloudnative-pg/charts
+    alias: cnpg

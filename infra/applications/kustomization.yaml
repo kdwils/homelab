@@ -8,6 +8,7 @@ resources:
   - metallb.yaml
   - longhorn.yaml
   - cert-manager.yaml
+  - cnpg.yaml
   - sealed-secrets.yaml
   - tailscale.yaml
   - nfs-provisioner.yaml
