@@ -9,7 +9,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: cnpg
-  namespace: cnpg-system
+  namespace: cnpg
 spec:
   promotionPolicies:
     - stageSelector:
@@ -20,13 +20,12 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
 metadata:
   name: cnpg
-  namespace: cnpg-system
+  namespace: cnpg
 spec:
   interval: "1h0m0s"
   subscriptions:
     - chart:
-        repoURL: oci://ghcr.io/cloudnative-pg/charts
-        name: cloudnative-pg
+        repoURL: oci://ghcr.io/cloudnative-pg/charts/cloudnative-pg
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -38,7 +37,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: main
-  namespace: cnpg-system
+  namespace: cnpg
 spec:
   requestedFreight:
     - origin:

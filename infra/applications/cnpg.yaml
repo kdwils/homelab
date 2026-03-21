@@ -9,7 +9,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: cnpg-system
+    namespace: cnpg
     server: "https://kubernetes.default.svc"
   source:
     path: infra/cnpg

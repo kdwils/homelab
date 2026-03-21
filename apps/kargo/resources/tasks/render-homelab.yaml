@@ -274,7 +274,7 @@ spec:
         path: ./source/charts/cnpg
         valuesFiles:
           - ./source/infra/cnpg/environments/homelab/homelab.yaml
-        namespace: cnpg-system
+        namespace: cnpg
         releaseName: cnpg
         outPath: ./target/infra/cnpg/manifest.yaml
         includeCRDs: true

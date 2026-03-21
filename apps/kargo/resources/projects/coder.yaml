@@ -28,8 +28,7 @@ spec:
         repoURL: https://helm.coder.com/v2
         name: coder
     - chart:
-        repoURL: oci://ghcr.io/kdwils/charts
-        name: homelab-chart
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
