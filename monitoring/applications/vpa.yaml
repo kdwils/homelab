@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: vpa
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: vpa:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,11 +12,14 @@ spec:
     namespace: kube-system
     server: "https://kubernetes.default.svc"
   source:
-    repoURL: https://github.com/kdwils/homelab.git
-    targetRevision: HEAD
     path: monitoring/vpa
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: homelab
+  sources: []
   project: monitoring
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
