@@ -228,6 +228,7 @@ spec:
       name: coder-homelab
   httpUpgrade:
     - type: "derp"
+    - type: "websocket"
 ---
 # Source: coder/templates/postgres-cluster.yaml
 apiVersion: postgresql.cnpg.io/v1
