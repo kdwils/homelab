@@ -1,4 +1,3 @@
-cnpg:
-  config:
-    data:
-      OPERATOR_DEPLOYMENT_NAME: cnpg
+config:
+  data:
+    OPERATOR_DEPLOYMENT_NAME: cnpg

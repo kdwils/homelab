@@ -6,4 +6,3 @@ dependencies:
   - name: cloudnative-pg
     version: 0.27.1
     repository: oci://ghcr.io/cloudnative-pg/charts
-    alias: cnpg
