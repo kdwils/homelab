@@ -225,6 +225,9 @@ spec:
   instances: 1
   storage:
     size: 10Gi
+    pvcTemplate:
+      accessModes:
+        - ReadWriteMany
   bootstrap:
     initdb:
       database: coder
