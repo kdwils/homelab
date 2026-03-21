@@ -215,6 +215,20 @@ spec:
       terminationGracePeriodSeconds: 60
       volumes: []
 ---
+# Source: coder/templates/backend-traffic-policy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: coder-http-upgrade
+  namespace: coder
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: coder-homelab
+  httpUpgrade:
+    - type: "derp"
+---
 # Source: coder/templates/postgres-cluster.yaml
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
