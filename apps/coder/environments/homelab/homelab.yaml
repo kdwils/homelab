@@ -1,30 +1,31 @@
 coder:
-  env:
-    - name: CODER_PG_CONNECTION_URL
-      valueFrom:
-        secretKeyRef:
-          name: coder-db-app
-          key: uri
-    - name: CODER_OIDC_ISSUER_URL
-      value: https://pocketid.kyledev.co
-    - name: CODER_OIDC_CLIENT_ID
-      valueFrom:
-        secretKeyRef:
-          name: coder-oidc
-          key: OIDC_CLIENT_ID
-    - name: CODER_OIDC_CLIENT_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: coder-oidc
-          key: OIDC_CLIENT_SECRET
-    - name: CODER_OIDC_SCOPES
-      value: openid,profile,email,groups
-    - name: CODER_ACCESS_URL
-      value: https://coder.ts.kyledev.co
-  service:
-    type: ClusterIP
-  ingress:
-    enable: false
+  coder:
+    env:
+      - name: CODER_PG_CONNECTION_URL
+        valueFrom:
+          secretKeyRef:
+            name: coder-db-app
+            key: uri
+      - name: CODER_OIDC_ISSUER_URL
+        value: https://pocketid.kyledev.co
+      - name: CODER_OIDC_CLIENT_ID
+        valueFrom:
+          secretKeyRef:
+            name: coder-oidc
+            key: OIDC_CLIENT_ID
+      - name: CODER_OIDC_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: coder-oidc
+            key: OIDC_CLIENT_SECRET
+      - name: CODER_OIDC_SCOPES
+        value: openid,profile,email,groups
+      - name: CODER_ACCESS_URL
+        value: https://coder.int.kyledev.co
+    service:
+      type: ClusterIP
+    ingress:
+      enable: false
 
 homelab:
   httproute:
@@ -35,6 +36,10 @@ homelab:
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
+    rules:
+      - backendRefs:
+          - name: coder
+            port: 80
   sealedsecrets:
     - name: coder-oidc
       data:
