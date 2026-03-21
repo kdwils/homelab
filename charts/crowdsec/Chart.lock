@@ -3,7 +3,7 @@ dependencies:
   repository: https://crowdsecurity.github.io/helm-charts
   version: 0.22.1
 - name: homelab-chart
-  repository: https://kdwils.github.io/helm-charts
-  version: 0.1.14
-digest: sha256:9e6f4fd8d9511fa19efd91a72dee28c53f61158afaa018051dcc2fc83794574c
-generated: "2026-03-05T16:22:26.45065226Z"
+  repository: oci://ghcr.io/kdwils/charts
+  version: 0.1.15
+digest: sha256:6cf2887a04ed131f62e0eea1a2bf0176ca4c33fd84f1e023f6dc8789b39b96cd
+generated: "2026-03-20T20:04:55.687454-04:00"
