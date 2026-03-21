@@ -87,15 +87,13 @@ metadata:
   annotations:
     {}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   sessionAffinity: None
   ports:
     - name: "http"
       port: 80
       targetPort: "http"
       protocol: TCP
-      nodePort: 
-  externalTrafficPolicy: "Cluster"
   selector:
     app.kubernetes.io/name: coder
     app.kubernetes.io/instance: coder
@@ -156,14 +154,33 @@ spec:
           value: 0.0.0.0:2112
         - name: CODER_PPROF_ADDRESS
           value: 0.0.0.0:6060
-        - name: CODER_ACCESS_URL
-          value: http://coder.coder.svc.cluster.local
         - name: KUBE_POD_IP
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
         - name: CODER_DERP_SERVER_RELAY_URL
           value: http://$(KUBE_POD_IP):8080
+        - name: CODER_PG_CONNECTION_URL
+          valueFrom:
+            secretKeyRef:
+              key: uri
+              name: coder-db-app
+        - name: CODER_OIDC_ISSUER_URL
+          value: https://pocketid.kyledev.co
+        - name: CODER_OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              key: OIDC_CLIENT_ID
+              name: coder-oidc
+        - name: CODER_OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: OIDC_CLIENT_SECRET
+              name: coder-oidc
+        - name: CODER_OIDC_SCOPES
+          value: openid,profile,email,groups
+        - name: CODER_ACCESS_URL
+          value: https://coder.int.kyledev.co
         image: ghcr.io/coder/coder:v2.31.5
         imagePullPolicy: IfNotPresent
         lifecycle: {}
@@ -233,10 +250,8 @@ spec:
     - "coder.ts.kyledev.co"
   rules:
     - backendRefs:
-      - group: ""
-        kind: Service
-        name: coder-homelab
-        port: 0
+      - name: coder
+        port: 80
 ---
 # Source: coder/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
