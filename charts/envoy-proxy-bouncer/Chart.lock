@@ -3,7 +3,7 @@ dependencies:
   repository: oci://ghcr.io/kdwils/charts
   version: 0.5.5
 - name: homelab-chart
-  repository: https://kdwils.github.io/helm-charts
-  version: 0.1.14
-digest: sha256:ed79fb3fb4e0e13ee88790f09a934a988c91e31d57e6e4c000fca81afbfba2cb
-generated: "2026-03-18T14:34:41.895218527Z"
+  repository: oci://ghcr.io/kdwils/charts
+  version: 0.1.15
+digest: sha256:e6861c69ad8b1d7b424636634f361a8c5d6da8d059d9dd576c4b0efd04b80756
+generated: "2026-03-20T20:02:31.02389-04:00"
