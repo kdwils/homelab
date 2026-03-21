@@ -6,4 +6,4 @@ dependencies:
   repository: oci://ghcr.io/kdwils/charts
   version: 0.1.15
 digest: sha256:08708dd5fec3e925f3568784e3ba645e37443dcd65810e0bcf0383390014aee7
-generated: "2026-03-20T20:02:59.964742-04:00"
+generated: "2026-03-20T20:04:54.05391-04:00"

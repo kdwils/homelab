@@ -3,4 +3,4 @@ dependencies:
   repository: https://bitnami-labs.github.io/sealed-secrets
   version: 2.18.4
 digest: sha256:d93e1902e248290b16fc6bade2094ab28108f7f4c2ba53f3f10602b1307b7c3b
-generated: "2026-03-12T14:39:07.610893991Z"
+generated: "2026-03-20T20:05:07.580332-04:00"
