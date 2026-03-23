@@ -4,6 +4,17 @@ longhorn:
     defaultClassReplicaCount: 1
   defaultSettings:
     defaultReplicaCount: 1
+    taintToleration: "node-role.kubernetes.io/control-plane=:NoSchedule"
+  longhornManager:
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+  longhornDriver:
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
   longhornUI:
     replicas: 1
 
