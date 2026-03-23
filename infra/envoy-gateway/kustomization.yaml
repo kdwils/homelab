@@ -1,9 +1,0 @@
-resources:
-  - gatewayclass.yaml
-  - gateway.yaml
-  - proxy.yaml
-  - certificate.yaml
-  - policy.yaml
-  - metallb.yaml
-  - envoy-patch-policy.yaml
-  - envoy-extension-policy.yaml

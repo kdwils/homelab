@@ -141,7 +141,7 @@ crowdsec:
 
   agent:
     enabled: true
-    lapiURL: "https://crowdsec-service:8080"
+    lapiURL: "http://crowdsec-service:8080"
 
     tolerations:
       - key: node-role.kubernetes.io/master
@@ -221,7 +221,7 @@ crowdsec:
 
   appsec:
     enabled: true
-    lapiURL: "https://crowdsec-service:8080"
+    lapiURL: "http://crowdsec-service:8080"
 
     env:
       - name: COLLECTIONS
