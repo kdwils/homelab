@@ -23,10 +23,14 @@ crowdsec:
               expression: UnmarshalJSON(evt.Parsed.message, evt.Unmarshaled, "envoy")
             - meta: log_type
               value: http_access-log
+            - meta: service
+              value: http
             - meta: source_ip
               expression: evt.Unmarshaled.envoy.client_ip
             - parsed: http_status
               expression: string(evt.Unmarshaled.envoy.response_code)
+            - parsed: request
+              expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
             - parsed: file_name
               expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
             - parsed: verb
