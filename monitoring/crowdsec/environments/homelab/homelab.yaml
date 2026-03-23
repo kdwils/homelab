@@ -17,26 +17,26 @@ crowdsec:
           onsuccess: next_stage
           name: crowdsecurity/envoy-logs
           description: "Parse Envoy Gateway JSON access logs"
-          filter: |
-            evt.Parsed.program == 'envoy' &&
-            UnmarshalJSON(evt.Parsed.message, evt.Unmarshaled, "envoy") in ["", nil]
+          filter: "evt.Parsed.program == 'envoy'"
           statics:
+            - parsed: envoy_parsed
+              expression: UnmarshalJSON(evt.Parsed.message, evt.Unmarshaled, "envoy")
             - meta: log_type
-              expression: '"http_access-log"'
+              value: http_access-log
             - meta: source_ip
-              expression: 'evt.Unmarshaled.envoy.client_ip'
+              expression: evt.Unmarshaled.envoy.client_ip
             - parsed: http_status
-              expression: 'string(evt.Unmarshaled.envoy.response_code)'
+              expression: string(evt.Unmarshaled.envoy.response_code)
             - parsed: file_name
-              expression: 'evt.Unmarshaled.envoy["x-envoy-origin-path"]'
+              expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
             - parsed: verb
-              expression: 'evt.Unmarshaled.envoy.method'
+              expression: evt.Unmarshaled.envoy.method
             - parsed: http_user_agent
-              expression: 'evt.Unmarshaled.envoy["user-agent"]'
+              expression: evt.Unmarshaled.envoy["user-agent"]
             - parsed: target_fqdn
-              expression: 'evt.Unmarshaled.envoy[":authority"]'
+              expression: evt.Unmarshaled.envoy[":authority"]
             - parsed: static_ressource
-              expression: '"false"'
+              value: 'false'
 
     config.yaml.local: |
       api:
