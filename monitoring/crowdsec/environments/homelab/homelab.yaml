@@ -144,9 +144,9 @@ crowdsec:
 
     env:
       - name: PARSERS
-        value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit"
+        value: "crowdsecurity/cri-logs crowdsecurity/k8s-audit crowdsecurity/syslog-logs crowdsecurity/sshd-logs"
       - name: COLLECTIONS
-        value: "crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching"
+        value: "crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux"
       - name: DISABLE_LOCAL_API
         value: "true"
       - name: DISABLE_ONLINE_API
@@ -178,6 +178,19 @@ crowdsec:
         labels:
           type: containerd
         poll_without_inotify: true
+      - source: file
+        filenames:
+          - /var/log/syslog
+          - /var/log/auth.log
+        labels:
+          type: syslog
+        poll_without_inotify: true
+      - source: file
+        filenames:
+          - /var/log/kubernetes/audit/audit.log
+        labels:
+          type: k8s-audit
+        poll_without_inotify: true
 
     hostVarLog: true
 
@@ -186,10 +199,17 @@ crowdsec:
         hostPath:
           path: /var/log/pods
           type: Directory
+      - name: varlog-kubernetes
+        hostPath:
+          path: /var/log/kubernetes
+          type: DirectoryOrCreate
 
     extraVolumeMounts:
       - name: varlog-pods
         mountPath: /var/log/pods
+        readOnly: true
+      - name: varlog-kubernetes
+        mountPath: /var/log/kubernetes
         readOnly: true
 
     persistentVolume:
