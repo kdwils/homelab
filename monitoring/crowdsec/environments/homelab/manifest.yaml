@@ -42,15 +42,15 @@ data:
         value: http
       - meta: source_ip
         expression: evt.Unmarshaled.envoy.client_ip
-      - meta: http_status
+      - parsed: http_status
         expression: string(evt.Unmarshaled.envoy.response_code)
-      - meta: http_path
+      - parsed: request
         expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
-      - meta: http_verb
+      - parsed: verb
         expression: evt.Unmarshaled.envoy.method
-      - meta: http_user_agent
+      - parsed: http_user_agent
         expression: evt.Unmarshaled.envoy["user-agent"]
-      - meta: target_fqdn
+      - parsed: target_fqdn
         expression: evt.Unmarshaled.envoy[":authority"]
 ---
 # Source: crowdsec/charts/crowdsec/templates/docker-start-configmap.yaml
@@ -588,7 +588,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/agent-configmap: df0dd4aea8c7bbba0f64e2052ef38079d2de1b4efaad0acb1daba201889591ef
+        checksum/agent-configmap: 7d968b330d2e4ebffb85e474295a1aca74cb88581a968d2af663e7f43132266a
         checksum/acquis-configmap: c21a72bc26449e2210d6405fe9af6f4c91345709957d19778a503ac360bb7461
       labels:
         k8s-app: crowdsec
