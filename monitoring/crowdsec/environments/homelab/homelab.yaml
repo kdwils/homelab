@@ -27,15 +27,15 @@ crowdsec:
               value: http
             - meta: source_ip
               expression: evt.Unmarshaled.envoy.client_ip
-            - parsed: http_status
+            - meta: http_status
               expression: string(evt.Unmarshaled.envoy.response_code)
-            - parsed: request
+            - meta: http_path
               expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
-            - parsed: verb
+            - meta: http_verb
               expression: evt.Unmarshaled.envoy.method
-            - parsed: http_user_agent
+            - meta: http_user_agent
               expression: evt.Unmarshaled.envoy["user-agent"]
-            - parsed: target_fqdn
+            - meta: target_fqdn
               expression: evt.Unmarshaled.envoy[":authority"]
 
     config.yaml.local: |
@@ -174,10 +174,9 @@ crowdsec:
         poll_without_inotify: true
       - source: file
         filenames:
-          - /var/log/secure
-          - /var/log/messages
+          - /var/log/pods/*/*/*.log
         labels:
-          type: syslog
+          type: containerd
         poll_without_inotify: true
 
     hostVarLog: true
