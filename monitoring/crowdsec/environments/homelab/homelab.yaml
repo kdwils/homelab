@@ -230,7 +230,7 @@ crowdsec:
         value: "true"
       - name: DISABLE_ONLINE_API
         value: "true"
-      - name: LOCAL_API_URL
+      - name: API_URL
         value: "http://crowdsec-service:8080"
       - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
         value: "true"
