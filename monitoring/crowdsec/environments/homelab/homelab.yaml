@@ -141,6 +141,7 @@ crowdsec:
 
   agent:
     enabled: true
+    lapiURL: "https://crowdsec-service:8080"
 
     tolerations:
       - key: node-role.kubernetes.io/master
@@ -159,8 +160,6 @@ crowdsec:
         value: "true"
       - name: DISABLE_ONLINE_API
         value: "false"
-      - name: API_URL
-        value: "http://crowdsec-service:8080"
       - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
         value: "true"
 
@@ -222,6 +221,7 @@ crowdsec:
 
   appsec:
     enabled: true
+    lapiURL: "https://crowdsec-service:8080"
 
     env:
       - name: COLLECTIONS
@@ -230,8 +230,6 @@ crowdsec:
         value: "true"
       - name: DISABLE_ONLINE_API
         value: "true"
-      - name: API_URL
-        value: "http://crowdsec-service:8080"
       - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
         value: "true"
 
