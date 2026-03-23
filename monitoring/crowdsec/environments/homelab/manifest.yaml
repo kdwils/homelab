@@ -21,6 +21,14 @@ data:
       type: containerd
     poll_without_inotify: true
     source: file
+    ---
+    filenames:
+    - /var/log/syslog
+    - /var/log/auth.log
+    labels:
+      type: syslog
+    poll_without_inotify: true
+    source: file
 ---
 # Source: crowdsec/charts/crowdsec/templates/agent-configmap.yaml
 apiVersion: v1
@@ -589,12 +597,19 @@ spec:
     metadata:
       annotations:
         checksum/agent-configmap: 7d968b330d2e4ebffb85e474295a1aca74cb88581a968d2af663e7f43132266a
-        checksum/acquis-configmap: c21a72bc26449e2210d6405fe9af6f4c91345709957d19778a503ac360bb7461
+        checksum/acquis-configmap: 8185100a34568e9b69ae4e88595862f34ad4c353b3e35c727ea80d83230a46d0
       labels:
         k8s-app: crowdsec
         type: agent
         version: v1
     spec:
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
       initContainers:
       - name: wait-for-lapi-and-register
         image: "crowdsecurity/crowdsec:v1.7.6"
@@ -645,10 +660,10 @@ spec:
           - name: LOCAL_API_URL
             value: "http://crowdsec-service.crowdsec:8080"
           - name: PARSERS
-            value: crowdsecurity/cri-logs crowdsecurity/k8s-audit
+            value: crowdsecurity/cri-logs crowdsecurity/syslog-logs crowdsecurity/sshd-logs
           - name: COLLECTIONS
-            value: crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/k8s-audit
-              crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching
+            value: crowdsecurity/base-http-scenarios crowdsecurity/http-cve crowdsecurity/appsec-generic-rules
+              crowdsecurity/appsec-virtual-patching crowdsecurity/linux
           - name: DISABLE_LOCAL_API
             value: "true"
           - name: DISABLE_ONLINE_API
