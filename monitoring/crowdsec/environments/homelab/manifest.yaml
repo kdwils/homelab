@@ -677,7 +677,7 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           - name: LAPI_URL
-            value: "http://crowdsec-service.crowdsec:8080"
+            value: "https://crowdsec-service:8080"
           - name: LAPI_HOST
             value: "crowdsec-service.crowdsec"
           - name: LAPI_PORT
@@ -697,7 +697,7 @@ spec:
 
           # agent - lapi authentication, with TLS or password
           - name: LOCAL_API_URL
-            value: "http://crowdsec-service.crowdsec:8080"
+            value: "https://crowdsec-service:8080"
           - name: PARSERS
             value: crowdsecurity/cri-logs crowdsecurity/syslog-logs crowdsecurity/sshd-logs
           - name: COLLECTIONS
@@ -707,8 +707,6 @@ spec:
             value: "true"
           - name: DISABLE_ONLINE_API
             value: "false"
-          - name: API_URL
-            value: http://crowdsec-service:8080
           - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
             value: "true"
         resources:
@@ -871,7 +869,7 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           - name: LAPI_URL
-            value: "http://crowdsec-service.crowdsec:8080"
+            value: "https://crowdsec-service:8080"
           - name: SSL_CERT_FILE
             value: /etc/ssl/crowdsec-appsec-client/ca.crt
           - name: LAPI_HOST
@@ -893,15 +891,13 @@ spec:
 
           # appsec - lapi authentication, with TLS or password
           - name: LOCAL_API_URL
-            value: "http://crowdsec-service.crowdsec:8080"
+            value: "https://crowdsec-service:8080"
           - name: COLLECTIONS
             value: crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
           - name: DISABLE_LOCAL_API
             value: "true"
           - name: DISABLE_ONLINE_API
             value: "true"
-          - name: API_URL
-            value: http://crowdsec-service:8080
           - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
             value: "true"
         resources:
