@@ -1,0 +1,31 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyPatchPolicy
+metadata:
+  name: webhook-cluster-patch
+  namespace: envoy-gateway-system
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: homelab
+  type: JSONPatch
+  jsonPatches:
+    - type: "type.googleapis.com/envoy.config.cluster.v3.Cluster"
+      name: webhook_cluster
+      operation:
+        op: add
+        path: ""
+        value:
+          name: webhook_cluster
+          type: STRICT_DNS
+          connect_timeout: 5s
+          lb_policy: ROUND_ROBIN
+          load_assignment:
+            cluster_name: webhook_cluster
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: events.events.svc.cluster.local
+                          port_value: 8080

@@ -148,6 +148,16 @@ spec:
         outPath: ./target/apps/nats/manifest.yaml
         includeCRDs: true
     - uses: helm-template
+      as: render-envoy-gateway
+      config:
+        path: ./source/charts/envoy-gateway
+        valuesFiles:
+          - ./source/infra/envoy-gateway/environments/homelab/homelab.yaml
+        namespace: envoy-gateway-system
+        releaseName: envoy-gateway
+        outPath: ./target/infra/envoy-gateway/homelab/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-cloudflared
       config:
         path: ./source/charts/homelab

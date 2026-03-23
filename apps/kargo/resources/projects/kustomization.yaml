@@ -10,6 +10,7 @@ resources:
   - cnpg.yaml
   - coder.yaml
   - crowdsec.yaml
+  - envoy-gateway.yaml
   - envoy-proxy-bouncer.yaml
   - flaresolverr.yaml
   - events.yaml

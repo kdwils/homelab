@@ -1,0 +1,93 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: envoy-gateway-system
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: envoy-gateway-system
+  namespace: envoy-gateway-system
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: envoy-gateway-system
+  namespace: envoy-gateway-system
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: oci://docker.io/envoyproxy/gateway-helm
+    - chart:
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:infra/envoy-gateway/environments/**
+          - glob:charts/envoy-gateway/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: envoy-gateway-system
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: envoy-gateway-system
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: envoy-gateway-system
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-oci-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/envoy-gateway
+            - name: chartRepo
+              value: oci://docker.io/envoyproxy
+            - name: chartName
+              value: gateway-helm
+        - task:
+            name: helm-update-single-oci-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/envoy-gateway
+            - name: chartRepo
+              value: oci://ghcr.io/kdwils/charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update envoy-gateway chart dependencies
+            - name: prTitle
+              value: "Update envoy-gateway chart dependencies"
+            - name: prDescription
+              value: Update envoy-gateway chart dependencies

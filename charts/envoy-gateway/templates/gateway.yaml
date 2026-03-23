@@ -1,0 +1,48 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: homelab
+  namespace: envoy-gateway-system
+spec:
+  gatewayClassName: envoy-gateway-class
+  infrastructure:
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
+      name: tailscale-proxy
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.kyledev.co"
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: kyledev-tls
+            kind: Secret
+            group: ""
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "*.kyledev.co"
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
+    - name: nats
+      protocol: TCP
+      port: 4222
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: TCPRoute

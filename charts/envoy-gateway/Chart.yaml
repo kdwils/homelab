@@ -1,0 +1,12 @@
+apiVersion: v2
+name: envoy-gateway
+description: Envoy Gateway
+version: 0.1.0
+dependencies:
+  - name: gateway-helm
+    version: v1.7.1
+    repository: oci://docker.io/envoyproxy/gateway-helm
+  - name: homelab-chart
+    version: 0.1.15
+    repository: oci://ghcr.io/kdwils/charts
+    alias: homelab
