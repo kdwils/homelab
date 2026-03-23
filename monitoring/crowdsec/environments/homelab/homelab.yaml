@@ -27,15 +27,15 @@ crowdsec:
               value: http
             - meta: source_ip
               expression: evt.Unmarshaled.envoy.client_ip
-            - meta: http_status
+            - parsed: http_status
               expression: string(evt.Unmarshaled.envoy.response_code)
-            - meta: http_path
+            - parsed: request
               expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
-            - meta: http_verb
+            - parsed: verb
               expression: evt.Unmarshaled.envoy.method
-            - meta: http_user_agent
+            - parsed: http_user_agent
               expression: evt.Unmarshaled.envoy["user-agent"]
-            - meta: target_fqdn
+            - parsed: target_fqdn
               expression: evt.Unmarshaled.envoy[":authority"]
 
     config.yaml.local: |
