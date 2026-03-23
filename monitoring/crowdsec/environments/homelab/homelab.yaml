@@ -31,16 +31,12 @@ crowdsec:
               expression: string(evt.Unmarshaled.envoy.response_code)
             - parsed: request
               expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
-            - parsed: file_name
-              expression: evt.Unmarshaled.envoy["x-envoy-origin-path"]
             - parsed: verb
               expression: evt.Unmarshaled.envoy.method
             - parsed: http_user_agent
               expression: evt.Unmarshaled.envoy["user-agent"]
             - parsed: target_fqdn
               expression: evt.Unmarshaled.envoy[":authority"]
-            - parsed: static_ressource
-              value: 'false'
 
     config.yaml.local: |
       api:
