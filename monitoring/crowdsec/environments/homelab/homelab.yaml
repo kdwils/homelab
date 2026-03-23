@@ -21,19 +21,19 @@ crowdsec:
             evt.Parsed.program == 'envoy' &&
             UnmarshalJSON(evt.Parsed.message, evt.Unmarshaled, "envoy") in ["", nil]
           statics:
-            - meta: log_type
+            - parsed: log_type
               expression: '"http_access-log"'
-            - meta: source_ip
+            - parsed: source_ip
               expression: 'evt.Unmarshaled.envoy.client_ip'
-            - meta: http_status
-              expression: 'evt.Unmarshaled.envoy.response_code'
-            - meta: http_path
+            - parsed: http_status
+              expression: 'string(evt.Unmarshaled.envoy.response_code)'
+            - parsed: http_path
               expression: 'evt.Unmarshaled.envoy["x-envoy-origin-path"]'
-            - meta: http_verb
+            - parsed: http_verb
               expression: 'evt.Unmarshaled.envoy.method'
-            - meta: http_user_agent
+            - parsed: http_user_agent
               expression: 'evt.Unmarshaled.envoy["user-agent"]'
-            - meta: target_fqdn
+            - parsed: target_fqdn
               expression: 'evt.Unmarshaled.envoy[":authority"]'
 
     config.yaml.local: |
