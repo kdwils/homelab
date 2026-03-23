@@ -3,25 +3,18 @@ kind: Application
 metadata:
   name: envoy-gateway
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: envoy-gateway-system:main
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: envoy-gateway-system
     server: "https://kubernetes.default.svc"
-  sources:
-    - repoURL: "oci://docker.io/envoyproxy/gateway-helm"
-      chart: gateway-helm
-      targetRevision: v1.6.2
-      helm:
-        valuesObject:
-          config:
-            envoyGateway:
-              extensionApis:
-                enableEnvoyPatchPolicy: true
-    - repoURL: "https://github.com/kdwils/homelab"
-      path: infra/envoy-gateway
-      targetRevision: HEAD
+  source:
+    repoURL: "https://github.com/kdwils/homelab"
+    path: infra/envoy-gateway/homelab
+    targetRevision: homelab
   project: infra
   syncPolicy:
     automated:
@@ -29,3 +22,4 @@ spec:
       selfHeal: true
     syncOptions:
       - ServerSideApply=true
+      - CreateNamespace=true
