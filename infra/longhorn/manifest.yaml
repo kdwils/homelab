@@ -84,6 +84,7 @@ metadata:
 data:
   default-setting.yaml: |-
     default-replica-count: "1"
+    taint-toleration: "node-role.kubernetes.io/control-plane=:NoSchedule"
     priority-class: "longhorn-critical"
     disable-revision-counter: "{\"v1\":\"true\"}"
 ---
@@ -4489,6 +4490,10 @@ spec:
           secretName: longhorn-grpc-tls
           optional: true
       priorityClassName: "longhorn-critical"
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
       serviceAccountName: longhorn-service-account
   updateStrategy:
     rollingUpdate:
@@ -4564,6 +4569,10 @@ spec:
             value: "docker.io/longhornio/livenessprobe:v2.18.0"
           
       priorityClassName: "longhorn-critical"
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
       serviceAccountName: longhorn-service-account
       securityContext:
         runAsUser: 0
@@ -4708,6 +4717,10 @@ spec:
       restartPolicy: OnFailure
       priorityClassName: "longhorn-critical"
       serviceAccountName: longhorn-service-account
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
 ---
 # Source: longhorn/charts/longhorn/templates/preupgrade-job.yaml
 apiVersion: batch/v1
@@ -4761,6 +4774,10 @@ spec:
           path: /proc/
       restartPolicy: OnFailure
       serviceAccountName: longhorn-service-account
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
 ---
 # Source: longhorn/charts/longhorn/templates/uninstall-job.yaml
 apiVersion: batch/v1
@@ -4807,3 +4824,7 @@ spec:
       restartPolicy: Never
       priorityClassName: "longhorn-critical"
       serviceAccountName: longhorn-service-account
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Exists
