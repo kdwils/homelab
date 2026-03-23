@@ -221,7 +221,7 @@ crowdsec:
       type: ClusterIP
 
   appsec:
-    enabled: false
+    enabled: true
 
 homelab:
   sealedsecrets:
