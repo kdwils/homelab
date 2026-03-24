@@ -52784,7 +52784,7 @@ spec:
       port: 80
       allowedRoutes:
         namespaces:
-          from: All
+          from: Same
         kinds:
           - group: gateway.networking.k8s.io
             kind: HTTPRoute
