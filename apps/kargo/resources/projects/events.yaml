@@ -52,8 +52,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: events
         - name: imageRepo

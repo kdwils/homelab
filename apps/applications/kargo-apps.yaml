@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-kargo
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: bluesky
+            namespace: bluesky
+            path: apps/bluesky
+            kargoStage: "bluesky:homelab"
+          - name: coder
+            namespace: coder
+            path: apps/coder
+            kargoStage: "coder:homelab"
+          - name: events
+            namespace: events
+            path: apps/events
+            kargoStage: "events:homelab"
+          - name: mealie
+            namespace: mealie
+            path: apps/mealie
+            kargoStage: "mealie:homelab"
+          - name: nats
+            namespace: nats
+            path: apps/nats
+            kargoStage: "nats:homelab"
+          - name: pocketid
+            namespace: pocketid
+            path: apps/pocketid
+            kargoStage: "pocketid:homelab"
+          - name: rss
+            namespace: rss
+            path: apps/rss
+            kargoStage: "rss:homelab"
+  template:
+    metadata:
+      name: "{{name}}"
+      namespace: argocd
+      annotations:
+        kargo.akuity.io/authorized-stage: "{{kargoStage}}"
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: "{{namespace}}"
+        server: "https://kubernetes.default.svc"
+      source:
+        path: "{{path}}"
+        repoURL: "https://github.com/kdwils/homelab"
+        targetRevision: homelab
+      project: apps
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

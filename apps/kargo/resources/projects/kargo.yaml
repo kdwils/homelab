@@ -52,10 +52,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: kargo
       steps:
@@ -87,9 +83,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update kargo chart dependencies
-            - name: prTitle
               value: "Update kargo chart dependencies"
-            - name: prDescription
-              value: Update kargo chart dependencies

@@ -50,10 +50,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: envoy-proxy-bouncer
       steps:
@@ -85,9 +81,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update envoy-proxy-bouncer chart dependencies
-            - name: prTitle
               value: "Update envoy-proxy-bouncer chart dependencies"
-            - name: prDescription
-              value: Update envoy-proxy-bouncer chart dependencies

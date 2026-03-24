@@ -49,10 +49,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: vpa
       steps:
@@ -74,9 +70,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update vpa chart dependencies
-            - name: prTitle
               value: "Update vpa chart dependencies"
-            - name: prDescription
-              value: Update vpa chart dependencies

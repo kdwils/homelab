@@ -48,10 +48,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: cnpg
       steps:
@@ -74,7 +70,3 @@ spec:
           vars:
             - name: commitMessage
               value: "Update cloudnative-pg chart"
-            - name: prTitle
-              value: "Update cloudnative-pg chart"
-            - name: prDescription
-              value: "Update cloudnative-pg chart dependency"

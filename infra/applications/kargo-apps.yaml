@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: infra-kargo
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: cloudflared
+            namespace: cloudflared
+            path: infra/cloudflared
+            kargoStage: "cloudflared:homelab"
+          - name: longhorn
+            namespace: longhorn-system
+            path: infra/longhorn
+            kargoStage: "longhorn-system:homelab"
+          - name: sealedsecrets
+            namespace: kube-system
+            path: infra/sealedsecrets
+            kargoStage: "sealedsecrets:homelab"
+          - name: tailscale
+            namespace: tailscale
+            path: infra/tailscale
+            kargoStage: "tailscale:homelab"
+  template:
+    metadata:
+      name: "{{name}}"
+      namespace: argocd
+      annotations:
+        kargo.akuity.io/authorized-stage: "{{kargoStage}}"
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: "{{namespace}}"
+        server: "https://kubernetes.default.svc"
+      source:
+        path: "{{path}}"
+        repoURL: "https://github.com/kdwils/homelab"
+        targetRevision: homelab
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

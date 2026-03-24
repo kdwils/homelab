@@ -2,15 +2,7 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
-  - bluesky.yaml
+  - kargo-apps.yaml
+  - static-apps.yaml
   - blog.yaml
-  - coder.yaml
-  - events.yaml
-  - excalidraw.yaml
-  - hoarder.yaml
   - kargo.yaml
-  - mealie.yaml
-  - nats.yaml
-  - pocketid.yaml
-  - rss.yaml
-  - vaultwarden.yaml

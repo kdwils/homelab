@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-static
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: excalidraw
+            namespace: excalidraw
+            path: apps/excalidraw
+          - name: hoarder
+            namespace: hoarder
+            path: apps/hoarder
+          - name: vaultwarden
+            namespace: vaultwarden
+            path: apps/vaultwarden
+  template:
+    metadata:
+      name: "{{name}}"
+      namespace: argocd
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: "{{namespace}}"
+        server: "https://kubernetes.default.svc"
+      source:
+        path: "{{path}}"
+        repoURL: "https://github.com/kdwils/homelab"
+        targetRevision: HEAD
+      project: apps
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

@@ -2,13 +2,5 @@ kind: Kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 
 resources:
-  - overseerr.yaml
-  - bazarr.yaml
-  - byparr.yaml
-  - flaresolverr.yaml
-  - radarr.yaml
-  - sonarr.yaml
-  - transmission.yaml
-  - plex.yaml
-  - prowlarr.yaml
+  - kargo-apps.yaml
   - mediaz.yaml

@@ -51,10 +51,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: crowdsec
       steps:
@@ -86,9 +82,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update crowdsec chart dependencies
-            - name: prTitle
               value: "Update crowdsec chart dependencies"
-            - name: prDescription
-              value: Update crowdsec chart dependencies

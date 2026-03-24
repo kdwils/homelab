@@ -5,7 +5,9 @@ metadata:
 spec:
   vars:
     - name: gitRepo
+      value: https://github.com/kdwils/homelab
     - name: targetBranch
+      value: main
   steps:
     - uses: git-clone
       as: clone-repo

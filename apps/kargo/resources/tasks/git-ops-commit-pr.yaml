@@ -5,10 +5,10 @@ metadata:
 spec:
   vars:
     - name: gitRepo
+      value: https://github.com/kdwils/homelab
     - name: targetBranch
+      value: main
     - name: commitMessage
-    - name: prTitle
-    - name: prDescription
   steps:
     - uses: git-commit
       as: commit-updates
@@ -28,8 +28,8 @@ spec:
         sourceBranch: ${{ task.outputs['push-feature-branch'].branch }}
         targetBranch: ${{ vars.targetBranch }}
         createTargetBranch: false
-        title: ${{ vars.prTitle }}
-        description: ${{ vars.prDescription }}
+        title: ${{ vars.commitMessage }}
+        description: ${{ vars.commitMessage }}
     - uses: git-wait-for-pr
       as: wait-pr-approval
       if: ${{ status('open-pr') == 'Succeeded' }}

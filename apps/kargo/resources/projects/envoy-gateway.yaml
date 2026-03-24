@@ -50,10 +50,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: envoy-gateway-system
       steps:
@@ -85,9 +81,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update envoy-gateway chart dependencies
-            - name: prTitle
               value: "Update envoy-gateway chart dependencies"
-            - name: prDescription
-              value: Update envoy-gateway chart dependencies

@@ -1,0 +1,59 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: media-kargo
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: bazarr
+            path: media/bazarr
+            kargoStage: "bazarr:homelab"
+          - name: byparr
+            path: media/byparr
+            kargoStage: "byparr:homelab"
+          - name: flaresolverr
+            path: media/flaresolverr
+            kargoStage: "flaresolverr:homelab"
+          - name: overseerr
+            path: media/seerr
+            kargoStage: "overseerr:homelab"
+          - name: plex
+            path: media/plex
+            kargoStage: "plex:homelab"
+          - name: prowlarr
+            path: media/prowlarr
+            kargoStage: "prowlarr:homelab"
+          - name: radarr
+            path: media/radarr
+            kargoStage: "radarr:homelab"
+          - name: sonarr
+            path: media/sonarr
+            kargoStage: "sonarr:homelab"
+          - name: transmission
+            path: media/transmission/environments/homelab
+            kargoStage: "transmission:homelab"
+  template:
+    metadata:
+      name: "{{name}}"
+      namespace: argocd
+      annotations:
+        kargo.akuity.io/authorized-stage: "{{kargoStage}}"
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: media
+        server: "https://kubernetes.default.svc"
+      source:
+        path: "{{path}}"
+        repoURL: "https://github.com/kdwils/homelab"
+        targetRevision: homelab
+      project: media
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -50,10 +50,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: overseerr
       steps:
@@ -85,9 +81,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update seerr chart dependencies
-            - name: prTitle
               value: "Update seerr chart dependencies"
-            - name: prDescription
-              value: Update seerr chart dependencies

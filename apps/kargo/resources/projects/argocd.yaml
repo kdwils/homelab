@@ -51,10 +51,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: argocd
       steps:
@@ -86,9 +82,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update ArgoCD chart dependencies
-            - name: prTitle
               value: "Update ArgoCD chart dependencies"
-            - name: prDescription
-              value: Update ArgoCD chart dependencies (argo-cd + homelab-chart)

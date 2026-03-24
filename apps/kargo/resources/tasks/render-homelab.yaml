@@ -28,7 +28,7 @@ spec:
           - ./source/apps/mealie/environments/homelab/homelab.yaml
         namespace: mealie
         releaseName: mealie
-        outPath: ./target/apps/mealie/manifest.yaml
+        outPath: ./target/apps/mealie/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-rss
       config:
@@ -37,7 +37,7 @@ spec:
           - ./source/apps/rss/environments/homelab/homelab.yaml
         namespace: rss
         releaseName: rss
-        outPath: ./target/apps/rss/manifest.yaml
+        outPath: ./target/apps/rss/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-bluesky
       config:
@@ -46,7 +46,7 @@ spec:
           - ./source/apps/bluesky/environments/homelab/homelab.yaml
         namespace: bluesky
         releaseName: bluesky
-        outPath: ./target/apps/bluesky/manifest.yaml
+        outPath: ./target/apps/bluesky/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-pocketid
       config:
@@ -55,7 +55,7 @@ spec:
           - ./source/apps/pocketid/environments/homelab/homelab.yaml
         namespace: pocketid
         releaseName: pocketid
-        outPath: ./target/apps/pocketid/manifest.yaml
+        outPath: ./target/apps/pocketid/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-seerr
       config:
@@ -64,7 +64,7 @@ spec:
           - ./source/media/seerr/environments/homelab/homelab.yaml
         namespace: media
         releaseName: overseerr
-        outPath: ./target/media/seerr/manifest.yaml
+        outPath: ./target/media/seerr/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-prowlarr
       config:
@@ -73,7 +73,7 @@ spec:
           - ./source/media/prowlarr/environments/homelab/homelab.yaml
         namespace: media
         releaseName: prowlarr
-        outPath: ./target/media/prowlarr/manifest.yaml
+        outPath: ./target/media/prowlarr/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-bazarr
       config:
@@ -82,7 +82,7 @@ spec:
           - ./source/media/bazarr/environments/homelab/homelab.yaml
         namespace: media
         releaseName: bazarr
-        outPath: ./target/media/bazarr/manifest.yaml
+        outPath: ./target/media/bazarr/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-radarr
       config:
@@ -91,7 +91,7 @@ spec:
           - ./source/media/radarr/environments/homelab/homelab.yaml
         namespace: radarr
         releaseName: radarr
-        outPath: ./target/media/radarr/manifest.yaml
+        outPath: ./target/media/radarr/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-sonarr
       config:
@@ -100,16 +100,7 @@ spec:
           - ./source/media/sonarr/environments/homelab/homelab.yaml
         namespace: media
         releaseName: sonarr
-        outPath: ./target/media/sonarr/manifest.yaml
-    # - uses: helm-template
-    #   as: render-hoarder
-    #   config:
-    #     path: ./source/charts/homelab
-    #     valuesFiles:
-    #       - ./source/apps/hoarder/environments/homelab/homelab.yaml
-    #     namespace: hoarder
-    #     releaseName: hoarder
-    #     outPath: ./target/apps/hoarder/manifest.yaml
+        outPath: ./target/media/sonarr/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-events
       config:
@@ -118,7 +109,7 @@ spec:
           - ./source/apps/events/environments/homelab/homelab.yaml
         namespace: events
         releaseName: events
-        outPath: ./target/apps/events/manifest.yaml
+        outPath: ./target/apps/events/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-blog-dev
       config:
@@ -127,7 +118,7 @@ spec:
           - ./source/apps/blog/environments/dev/homelab.yaml
         namespace: blog
         releaseName: blog
-        outPath: ./target/apps/blog-dev/manifest.yaml
+        outPath: ./target/apps/blog/environments/dev/manifest.yaml
     - uses: helm-template
       as: render-blog-prod
       config:
@@ -136,7 +127,7 @@ spec:
           - ./source/apps/blog/environments/prod/homelab.yaml
         namespace: blog
         releaseName: blog
-        outPath: ./target/apps/blog-prod/manifest.yaml
+        outPath: ./target/apps/blog/environments/prod/manifest.yaml
     - uses: helm-template
       as: render-nats
       config:
@@ -145,7 +136,7 @@ spec:
           - ./source/apps/nats/environments/homelab/nats.yaml
         namespace: nats
         releaseName: nats
-        outPath: ./target/apps/nats/manifest.yaml
+        outPath: ./target/apps/nats/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
       as: render-envoy-gateway
@@ -155,7 +146,7 @@ spec:
           - ./source/infra/envoy-gateway/environments/homelab/homelab.yaml
         namespace: envoy-gateway-system
         releaseName: envoy-gateway
-        outPath: ./target/infra/envoy-gateway/homelab/manifest.yaml
+        outPath: ./target/infra/envoy-gateway/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
       as: render-cloudflared
@@ -165,7 +156,7 @@ spec:
           - ./source/infra/cloudflared/environments/homelab/homelab.yaml
         namespace: cloudflared
         releaseName: cloudflared
-        outPath: ./target/infra/cloudflared/manifest.yaml
+        outPath: ./target/infra/cloudflared/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-longhorn
       config:
@@ -174,7 +165,7 @@ spec:
           - ./source/infra/longhorn/environments/homelab/homelab.yaml
         namespace: longhorn-system
         releaseName: longhorn
-        outPath: ./target/infra/longhorn/manifest.yaml
+        outPath: ./target/infra/longhorn/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
       as: render-sealedsecrets
@@ -184,7 +175,7 @@ spec:
           - ./source/infra/sealedsecrets/environments/homelab/homelab.yaml
         namespace: kube-system
         releaseName: sealedsecrets
-        outPath: ./target/infra/sealedsecrets/manifest.yaml
+        outPath: ./target/infra/sealedsecrets/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
       as: render-tailscale
@@ -194,7 +185,7 @@ spec:
           - ./source/infra/tailscale/environments/homelab/homelab.yaml
         namespace: tailscale
         releaseName: tailscale
-        outPath: ./target/infra/tailscale/manifest.yaml
+        outPath: ./target/infra/tailscale/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-argocd
       config:
@@ -213,7 +204,7 @@ spec:
           - ./source/media/byparr/environments/homelab/homelab.yaml
         namespace: media
         releaseName: byparr
-        outPath: ./target/media/byparr/manifest.yaml
+        outPath: ./target/media/byparr/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-flaresolverr
       config:
@@ -222,7 +213,7 @@ spec:
           - ./source/media/flaresolverr/environments/homelab/homelab.yaml
         namespace: media
         releaseName: flaresolverr
-        outPath: ./target/media/flaresolverr/manifest.yaml
+        outPath: ./target/media/flaresolverr/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-plex
       config:
@@ -231,7 +222,7 @@ spec:
           - ./source/media/plex/environments/homelab/homelab.yaml
         namespace: media
         releaseName: plex
-        outPath: ./target/media/plex/manifest.yaml
+        outPath: ./target/media/plex/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-transmission
       config:
@@ -249,7 +240,7 @@ spec:
           - ./source/monitoring/envoy-proxy-bouncer/environments/homelab/homelab.yaml
         namespace: crowdsec
         releaseName: envoy-proxy-bouncer
-        outPath: ./target/monitoring/envoy-proxy-bouncer/manifest.yaml
+        outPath: ./target/monitoring/envoy-proxy-bouncer/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-crowdsec
       config:
@@ -267,7 +258,7 @@ spec:
           - ./source/monitoring/vpa/environments/homelab/homelab.yaml
         namespace: kube-system
         releaseName: vpa
-        outPath: ./target/monitoring/vpa/manifest.yaml
+        outPath: ./target/monitoring/vpa/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
       as: render-kargo
@@ -286,7 +277,7 @@ spec:
           - ./source/infra/cnpg/environments/homelab/homelab.yaml
         namespace: cnpg
         releaseName: cnpg
-        outPath: ./target/infra/cnpg/manifest.yaml
+        outPath: ./target/infra/cnpg/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
       as: render-coder
@@ -296,7 +287,7 @@ spec:
           - ./source/apps/coder/environments/homelab/homelab.yaml
         namespace: coder
         releaseName: coder
-        outPath: ./target/apps/coder/manifest.yaml
+        outPath: ./target/apps/coder/environments/homelab/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:

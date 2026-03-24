@@ -5,6 +5,7 @@ metadata:
 spec:
   vars:
     - name: gitRepo
+      value: https://github.com/kdwils/homelab
     - name: targetBranch
       value: main
     - name: chartPath

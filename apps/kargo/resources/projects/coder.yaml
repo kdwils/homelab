@@ -51,10 +51,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: coder
       steps:
@@ -87,7 +83,3 @@ spec:
           vars:
             - name: commitMessage
               value: "Update coder chart dependencies"
-            - name: prTitle
-              value: "Update coder chart dependencies"
-            - name: prDescription
-              value: "Update coder + homelab-chart dependency versions"

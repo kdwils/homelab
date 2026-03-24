@@ -51,10 +51,6 @@ spec:
   promotionTemplate:
     spec:
       vars:
-        - name: gitRepo
-          value: https://github.com/kdwils/homelab
-        - name: targetBranch
-          value: main
         - name: warehouse
           value: nats
       steps:
@@ -86,9 +82,4 @@ spec:
             kind: ClusterPromotionTask
           vars:
             - name: commitMessage
-              value: |
-                Update nats chart dependencies
-            - name: prTitle
               value: "Update nats chart dependencies"
-            - name: prDescription
-              value: Update nats chart dependencies

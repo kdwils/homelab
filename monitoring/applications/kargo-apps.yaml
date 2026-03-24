@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: monitoring-kargo
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: crowdsec
+            namespace: crowdsec
+            path: monitoring/crowdsec/environments/homelab
+            kargoStage: "crowdsec:homelab"
+          - name: envoy-bouncer
+            namespace: crowdsec
+            path: monitoring/envoy-proxy-bouncer
+            kargoStage: "envoy-proxy-bouncer:homelab"
+          - name: vpa
+            namespace: kube-system
+            path: monitoring/vpa
+            kargoStage: "vpa:homelab"
+  template:
+    metadata:
+      name: "{{name}}"
+      namespace: argocd
+      annotations:
+        kargo.akuity.io/authorized-stage: "{{kargoStage}}"
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      destination:
+        namespace: "{{namespace}}"
+        server: "https://kubernetes.default.svc"
+      source:
+        path: "{{path}}"
+        repoURL: "https://github.com/kdwils/homelab"
+        targetRevision: homelab
+      project: monitoring
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
