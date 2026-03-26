@@ -10,7 +10,7 @@ transmission:
 
     image:
       repository: haugene/transmission-openvpn
-      tag: 5.4.0
+      tag: 5.4.1
       pullPolicy: IfNotPresent
 
     env:
