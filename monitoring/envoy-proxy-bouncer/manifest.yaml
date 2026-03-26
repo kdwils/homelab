@@ -140,15 +140,14 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
-      securityContext:
-        {}
+      securityContext: {}
       containers:
         - name: homelab-envoy-proxy-bouncer
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-              - all
+                - all
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
@@ -255,51 +254,34 @@ metadata:
   name: homelab-envoy-proxy-bouncer
 spec:
   from:
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: argocd
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: blog
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: bluesky
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: mealie
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: media
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: pocketid
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: vaultwarden
-  - group: gateway.envoyproxy.io
-    kind: SecurityPolicy
-    namespace: envoy-gateway-system
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: argocd
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: blog
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: bluesky
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: mealie
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: media
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: pocketid
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: vaultwarden
+    - group: gateway.envoyproxy.io
+      kind: SecurityPolicy
+      namespace: envoy-gateway-system
   to:
-  - group: ""
-    kind: Service
-    name: homelab-envoy-proxy-bouncer
----
-# Source: envoy-proxy-bouncer/charts/homelab/templates/sealedsecret.yaml
-apiVersion: bitnami.com/v1alpha1
-kind: SealedSecret
-metadata:
-  name: envoy-bouncer
-  namespace: default
-spec:
-  encryptedData:
-    apiKey: AgBGUUT7/2o8C+sSWLOq4mnQhTHRWSZTETFbmn/+JbFHguYly1aTSdCMgz1H9we5Hs2SBD+23TS7t3o6a8i5AqBylq8bfXCOAm6NB52dS6Thec+JbaUWCLQssOdz0g7l+w2+oz6iQJGhp7TYui2o7AO8tjnKbrckO2bcd0QhjQYAij+5MHUWYzo8i/yK+5ULP+dQ70+xvoWfhW30eDcL6uqm7pCRJ6y/M5ZcpL/5SrbB1SDP47YWhB9iEA5eexpEH+wzKz/Btj48lnzQOCoB0LhbPiteUHWjw3b7f47Bs418lrM2GWhbU40grLX4THvg8d5/7LOzJkR8BpM/k7htI9eMGPNstCgGRTASmAhCT2uKUS/nYfwoc4gXThiMBRz0cHeqrxnTbzqIOP1aw/a40bq+IjaVEHQmzvyz8i417gfoSnDRhmTjYQ0Yz80VxcMJepDSWSg/WufXGL7QkoKxJ+OW3U0tJVfJlSBuY4tgQ/Z0rOpCXAPvJ1caVczkkaq96kgXS1LOkYXZ5gTTJJQFWrgULaf5vPy42L0C27C1msoYdDZgyf0LYs/1Vw2x9MMBlDwyefgroEkC1yePQZ2brKJ78yf2jeJjlMcOa32sVo39NEZRqNWV7QiniJlXi/ZUcElV0gEaC25JUJbTZSTgKbhcxry7VjjsC4XZDTIDEiFVuykjWmx3mAt6+hh6D1MTbaYXg8pvQbYwhbtQ14OPpd8gvxaME4A+nDOmUOfaRgMQeaovcsbe09Xq5daU
-    secretKey: AgBSJgWvlm1iypgzOq5UCOUrEjCrGLfOpFj9KU3VRoXMkROpjibP7MJpDm195CrSayWIS9XI5vJlRKsCfdB4UUhClmTMx87IDCRMuoYCvr1qX8IaaM2S5jGpBjPd+2Yr3IerMzEk8w9StC2HIh++QgQn3F+9aS+8RUVkUHiPULayGLRiWiO6R97plz1Pq+GeuiPM1X6flxTUGAVtVXTonsXG1ZhLQKucTJCsXHcB60Jtbq9AS58bGmmu/uv8Jgs+67p6STNOrxitsJluPRNAkdtBI0tJQ8zLGO2WeTB5O+pW3zhsaAGkxLOJjij3IPPkIiNFuqm3ImcIygl5XfEVlGC/ZG4N13qBYaHeIxExQ65SgVAzBitgJit4hXPfESAK6tAFDAVVRfK1Qa1n98OwuUEazp7BysPA7hg+6NcevH4PQFV3PHp7vS/sYiWflQrBODllTWeRLRp+KHJJAX5kumfDaLcOadbGSNMsTHejT4HWCtywL88YDKpplSrQfAcMMqcfuhOPt3uuERN9eON7WwMLME/015iF64gko1xnzPo/x9zi3yW810IFRGFCLDGexonuiwxMsWgs4Xoh8TSZQCudrd1SwWdmxe5ISJ+dkCQkz9rUBUifv8/eOZDybTJDm+LozXmzikMtCuhTb4li/hq0d49aG5o1mKGSEaIW1ZVuD/NhLH3LsBXV6CFBONKzb0EG21R1VpyvcGx+zDkPzws2aCytCUiEDHhZoRRFy8hstR7iVw==
-    signingKey: AgBXOYMOmWRgNGg1ge/RWFJ881FYAKA8SutWC4iSsB1D/0i4R3kRHgw/HJf95x35ErRpn1woxc6/nt8y7BPgt0KcjggsGgECqyNzazvjjxxZskEI7vziGzb3gl76OYVjUG2pzzXRB1oUASscr2ssQk6/aeWq2N7NZgSrnnbL6bG2IaDkmXXfO4iBg8zb9QURIj4LnYCWkW/lCDYLnBwVQSe0VxQC5ifKM5AayKX4Fg+kV6DzOycJ2QEi8+TACrhth9Kx/1mMIxHfQOHBWCg1/gSxySw9d0C4TzUawh+iEuKTm+ixhgRiQAWEl0BV4mWHbe32+zZw0/1cJKvi8rVdJy4U5XYn9ZG62xIbJWttNX4yzWfavEUbJ56ChAlW6vT8uT1HC1uvhTSA6A9lRW7AQe+4+/MhcRQ0IXjlmLen5PJTbbbvNoAmIJjZ/wGbiQoKureiiGl+ZG39RRv4gE8UwQh19lTulSNzpCgm1o01xCHZZcxCABwClB/Dh+Z0QDTe5Xp29NQH8WoKiHQh2u4wVpGOnriM9W+2LIcnrY1I8Z2x8jl5GfSHAokScIcZ/k0B/qJL7QKRlDChUL3hkKeBVNatT2MU9m5wInSuoMeg9Uk5+Yv9+7phs207a3jiOzENnqrHpH0cildf+ZS9CFrMvFF/gfIQecrjPcRaS7azOr1fRKoQp+Fwty1V5w58E7IOzHS+TPZciHvBh5MJqJRhzJXY1DO1QvlAk5fIM00+AgGo4S1Bh8yVYEvueW1bTh71MBHA5QyBFJ9FWK2F1q3R5UCF
-  template:
-    type: Opaque
-    metadata:
-      name: envoy-bouncer
-      namespace: default
+    - group: ""
+      kind: Service
+      name: homelab-envoy-proxy-bouncer
 ---
 # Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
 apiVersion: monitoring.coreos.com/v1
@@ -323,3 +305,20 @@ spec:
       path: /metrics
       interval: 30s
       scrapeTimeout: 10s
+---
+# Source: envoy-proxy-bouncer/charts/homelab/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: envoy-bouncer
+  namespace: crowdsec
+spec:
+  encryptedData:
+    apiKey: AgBGUUT7/2o8C+sSWLOq4mnQhTHRWSZTETFbmn/+JbFHguYly1aTSdCMgz1H9we5Hs2SBD+23TS7t3o6a8i5AqBylq8bfXCOAm6NB52dS6Thec+JbaUWCLQssOdz0g7l+w2+oz6iQJGhp7TYui2o7AO8tjnKbrckO2bcd0QhjQYAij+5MHUWYzo8i/yK+5ULP+dQ70+xvoWfhW30eDcL6uqm7pCRJ6y/M5ZcpL/5SrbB1SDP47YWhB9iEA5eexpEH+wzKz/Btj48lnzQOCoB0LhbPiteUHWjw3b7f47Bs418lrM2GWhbU40grLX4THvg8d5/7LOzJkR8BpM/k7htI9eMGPNstCgGRTASmAhCT2uKUS/nYfwoc4gXThiMBRz0cHeqrxnTbzqIOP1aw/a40bq+IjaVEHQmzvyz8i417gfoSnDRhmTjYQ0Yz80VxcMJepDSWSg/WufXGL7QkoKxJ+OW3U0tJVfJlSBuY4tgQ/Z0rOpCXAPvJ1caVczkkaq96kgXS1LOkYXZ5gTTJJQFWrgULaf5vPy42L0C27C1msoYdDZgyf0LYs/1Vw2x9MMBlDwyefgroEkC1yePQZ2brKJ78yf2jeJjlMcOa32sVo39NEZRqNWV7QiniJlXi/ZUcElV0gEaC25JUJbTZSTgKbhcxry7VjjsC4XZDTIDEiFVuykjWmx3mAt6+hh6D1MTbaYXg8pvQbYwhbtQ14OPpd8gvxaME4A+nDOmUOfaRgMQeaovcsbe09Xq5daU
+    secretKey: AgBSJgWvlm1iypgzOq5UCOUrEjCrGLfOpFj9KU3VRoXMkROpjibP7MJpDm195CrSayWIS9XI5vJlRKsCfdB4UUhClmTMx87IDCRMuoYCvr1qX8IaaM2S5jGpBjPd+2Yr3IerMzEk8w9StC2HIh++QgQn3F+9aS+8RUVkUHiPULayGLRiWiO6R97plz1Pq+GeuiPM1X6flxTUGAVtVXTonsXG1ZhLQKucTJCsXHcB60Jtbq9AS58bGmmu/uv8Jgs+67p6STNOrxitsJluPRNAkdtBI0tJQ8zLGO2WeTB5O+pW3zhsaAGkxLOJjij3IPPkIiNFuqm3ImcIygl5XfEVlGC/ZG4N13qBYaHeIxExQ65SgVAzBitgJit4hXPfESAK6tAFDAVVRfK1Qa1n98OwuUEazp7BysPA7hg+6NcevH4PQFV3PHp7vS/sYiWflQrBODllTWeRLRp+KHJJAX5kumfDaLcOadbGSNMsTHejT4HWCtywL88YDKpplSrQfAcMMqcfuhOPt3uuERN9eON7WwMLME/015iF64gko1xnzPo/x9zi3yW810IFRGFCLDGexonuiwxMsWgs4Xoh8TSZQCudrd1SwWdmxe5ISJ+dkCQkz9rUBUifv8/eOZDybTJDm+LozXmzikMtCuhTb4li/hq0d49aG5o1mKGSEaIW1ZVuD/NhLH3LsBXV6CFBONKzb0EG21R1VpyvcGx+zDkPzws2aCytCUiEDHhZoRRFy8hstR7iVw==
+    signingKey: AgBXOYMOmWRgNGg1ge/RWFJ881FYAKA8SutWC4iSsB1D/0i4R3kRHgw/HJf95x35ErRpn1woxc6/nt8y7BPgt0KcjggsGgECqyNzazvjjxxZskEI7vziGzb3gl76OYVjUG2pzzXRB1oUASscr2ssQk6/aeWq2N7NZgSrnnbL6bG2IaDkmXXfO4iBg8zb9QURIj4LnYCWkW/lCDYLnBwVQSe0VxQC5ifKM5AayKX4Fg+kV6DzOycJ2QEi8+TACrhth9Kx/1mMIxHfQOHBWCg1/gSxySw9d0C4TzUawh+iEuKTm+ixhgRiQAWEl0BV4mWHbe32+zZw0/1cJKvi8rVdJy4U5XYn9ZG62xIbJWttNX4yzWfavEUbJ56ChAlW6vT8uT1HC1uvhTSA6A9lRW7AQe+4+/MhcRQ0IXjlmLen5PJTbbbvNoAmIJjZ/wGbiQoKureiiGl+ZG39RRv4gE8UwQh19lTulSNzpCgm1o01xCHZZcxCABwClB/Dh+Z0QDTe5Xp29NQH8WoKiHQh2u4wVpGOnriM9W+2LIcnrY1I8Z2x8jl5GfSHAokScIcZ/k0B/qJL7QKRlDChUL3hkKeBVNatT2MU9m5wInSuoMeg9Uk5+Yv9+7phs207a3jiOzENnqrHpH0cildf+ZS9CFrMvFF/gfIQecrjPcRaS7azOr1fRKoQp+Fwty1V5w58E7IOzHS+TPZciHvBh5MJqJRhzJXY1DO1QvlAk5fIM00+AgGo4S1Bh8yVYEvueW1bTh71MBHA5QyBFJ9FWK2F1q3R5UCF
+  template:
+    type: Opaque
+    metadata:
+      name: envoy-bouncer
+      namespace: crowdsec
