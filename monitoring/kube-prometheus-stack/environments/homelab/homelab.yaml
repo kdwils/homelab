@@ -65,7 +65,7 @@ kube-prometheus-stack:
       storageSpec:
         volumeClaimTemplate:
           spec:
-            storageClassName: ""
+            storageClassName: "longhorn"
             accessModes:
               - ReadWriteOnce
             resources:
