@@ -294,7 +294,7 @@ metadata:
     app.kubernetes.io/instance: envoy-proxy-bouncer
     app.kubernetes.io/version: "v0.5.5"
     app.kubernetes.io/managed-by: Helm
-    release: prometheus
+    release: "kube-prometheus-stack"
 spec:
   selector:
     matchLabels:
