@@ -67,7 +67,7 @@ kube-prometheus-stack:
           spec:
             storageClassName: ""
             accessModes:
-              - ReadWriteMany
+              - ReadWriteOnce
             resources:
               requests:
                 storage: 20Gi
