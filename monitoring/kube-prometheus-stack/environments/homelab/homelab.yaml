@@ -3,19 +3,7 @@ kube-prometheus-stack:
     enabled: true
 
   alertmanager:
-    ingress:
-      enabled: false
-    
-    alertmanagerSpec:
-      storage:
-        volumeClaimTemplate:
-          spec:
-            storageClassName: ""
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 2Gi
+    enabled: false
 
   grafana:
     enabled: true
