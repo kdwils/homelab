@@ -90,7 +90,7 @@ spec:
               add:
               - NET_ADMIN
             privileged: true
-          image: "haugene/transmission-openvpn:5.4.0"
+          image: "haugene/transmission-openvpn:5.4.1"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
