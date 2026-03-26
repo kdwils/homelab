@@ -63,6 +63,8 @@ data:
       grpcPort: 8080
       httpPort: 8081
       logLevel: info
+    templates:
+      showDeniedPage: true
     trustedProxies:
     - 10.43.0.0/16
     - 10.42.0.0/16
@@ -103,6 +105,10 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: 9090
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
   selector:
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
@@ -146,7 +152,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-4db4bff9b4795a83ec4461eb30f0ea58e6abbcfb"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-0705407824f855bdfc620216c23b598edfc0563b"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
@@ -155,6 +161,9 @@ spec:
               protocol: TCP
             - name: http
               containerPort: 8081
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
               protocol: TCP
           livenessProbe:
             grpc:
@@ -280,7 +289,7 @@ apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
   name: envoy-bouncer
-  namespace: crowdsec
+  namespace: default
 spec:
   encryptedData:
     apiKey: AgBGUUT7/2o8C+sSWLOq4mnQhTHRWSZTETFbmn/+JbFHguYly1aTSdCMgz1H9we5Hs2SBD+23TS7t3o6a8i5AqBylq8bfXCOAm6NB52dS6Thec+JbaUWCLQssOdz0g7l+w2+oz6iQJGhp7TYui2o7AO8tjnKbrckO2bcd0QhjQYAij+5MHUWYzo8i/yK+5ULP+dQ70+xvoWfhW30eDcL6uqm7pCRJ6y/M5ZcpL/5SrbB1SDP47YWhB9iEA5eexpEH+wzKz/Btj48lnzQOCoB0LhbPiteUHWjw3b7f47Bs418lrM2GWhbU40grLX4THvg8d5/7LOzJkR8BpM/k7htI9eMGPNstCgGRTASmAhCT2uKUS/nYfwoc4gXThiMBRz0cHeqrxnTbzqIOP1aw/a40bq+IjaVEHQmzvyz8i417gfoSnDRhmTjYQ0Yz80VxcMJepDSWSg/WufXGL7QkoKxJ+OW3U0tJVfJlSBuY4tgQ/Z0rOpCXAPvJ1caVczkkaq96kgXS1LOkYXZ5gTTJJQFWrgULaf5vPy42L0C27C1msoYdDZgyf0LYs/1Vw2x9MMBlDwyefgroEkC1yePQZ2brKJ78yf2jeJjlMcOa32sVo39NEZRqNWV7QiniJlXi/ZUcElV0gEaC25JUJbTZSTgKbhcxry7VjjsC4XZDTIDEiFVuykjWmx3mAt6+hh6D1MTbaYXg8pvQbYwhbtQ14OPpd8gvxaME4A+nDOmUOfaRgMQeaovcsbe09Xq5daU
@@ -290,4 +299,27 @@ spec:
     type: Opaque
     metadata:
       name: envoy-bouncer
-      namespace: crowdsec
+      namespace: default
+---
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: homelab-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.5.6
+    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.5.5"
+    app.kubernetes.io/managed-by: Helm
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
+      app.kubernetes.io/instance: envoy-proxy-bouncer
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
