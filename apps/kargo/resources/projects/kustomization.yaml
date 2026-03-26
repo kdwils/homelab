@@ -15,6 +15,7 @@ resources:
   - flaresolverr.yaml
   - events.yaml
   - kargo.yaml
+  - kube-prometheus-stack.yaml
   - homelab-project.yaml
   - homelab-chart.yaml
   - longhorn.yaml

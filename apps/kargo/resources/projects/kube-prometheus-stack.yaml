@@ -1,0 +1,94 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: kube-prometheus-stack
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: kube-prometheus-stack
+  namespace: kube-prometheus-stack
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: kube-prometheus-stack
+  namespace: kube-prometheus-stack
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: https://prometheus-community.github.io/helm-charts
+        name: kube-prometheus-stack
+    - chart:
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:monitoring/kube-prometheus-stack/environments/**
+          - glob:charts/kube-prometheus-stack/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: kube-prometheus-stack
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: kube-prometheus-stack
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: kube-prometheus-stack
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/kube-prometheus-stack
+            - name: chartRepo
+              value: https://prometheus-community.github.io/helm-charts
+            - name: chartName
+              value: kube-prometheus-stack
+        - task:
+            name: helm-update-single-oci-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/kube-prometheus-stack
+            - name: chartRepo
+              value: oci://ghcr.io/kdwils/charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update kube-prometheus-stack chart dependencies
+            - name: prTitle
+              value: "Update kube-prometheus-stack chart dependencies"
+            - name: prDescription
+              value: Update kube-prometheus-stack chart dependencies

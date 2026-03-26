@@ -279,6 +279,16 @@ spec:
         releaseName: kargo
         outPath: ./target/apps/kargo/environments/homelab/manifest.yaml
     - uses: helm-template
+      as: render-kube-prometheus-stack
+      config:
+        path: ./source/charts/kube-prometheus-stack
+        valuesFiles:
+          - ./source/monitoring/kube-prometheus-stack/environments/homelab/homelab.yaml
+        namespace: monitoring
+        releaseName: kube-prometheus-stack
+        outPath: ./target/monitoring/kube-prometheus-stack/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-cnpg
       config:
         path: ./source/charts/cnpg

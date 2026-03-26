@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - envoy-bouncer.yaml
+  - kube-prometheus-stack.yaml
   - namespace.yaml
   - crowdsec.yaml
   - vpa.yaml
