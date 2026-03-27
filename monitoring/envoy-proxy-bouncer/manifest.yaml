@@ -59,6 +59,15 @@ data:
         name: envoy-bouncer
       siteKey: 0x4AAAAAAB1bbQbIpIhvAYwl
       timeout: 10s
+    prometheus:
+      enabled: true
+      port: 9090
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+        prometheusMatchLabels:
+          release: prometheus
+        scrapeTimeout: 10s
     server:
       grpcPort: 8080
       httpPort: 8081
@@ -283,29 +292,6 @@ spec:
       kind: Service
       name: homelab-envoy-proxy-bouncer
 ---
-# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: homelab-envoy-proxy-bouncer
-  labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.5.6
-    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.5.5"
-    app.kubernetes.io/managed-by: Helm
-    release: "kube-prometheus-stack"
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-      app.kubernetes.io/instance: envoy-proxy-bouncer
-  endpoints:
-    - port: metrics
-      path: /metrics
-      interval: 30s
-      scrapeTimeout: 10s
----
 # Source: envoy-proxy-bouncer/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
@@ -322,3 +308,26 @@ spec:
     metadata:
       name: envoy-bouncer
       namespace: crowdsec
+---
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: homelab-envoy-proxy-bouncer
+  labels:
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.5.6
+    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.5.5"
+    app.kubernetes.io/managed-by: Helm
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
+      app.kubernetes.io/instance: envoy-proxy-bouncer
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
