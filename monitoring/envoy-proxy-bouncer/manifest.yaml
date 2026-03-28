@@ -59,21 +59,10 @@ data:
         name: envoy-bouncer
       siteKey: 0x4AAAAAAB1bbQbIpIhvAYwl
       timeout: 10s
-    prometheus:
-      enabled: true
-      port: 9090
-      serviceMonitor:
-        enabled: true
-        interval: 30s
-        prometheusMatchLabels:
-          release: prometheus
-        scrapeTimeout: 10s
     server:
       grpcPort: 8080
       httpPort: 8081
       logLevel: info
-    templates:
-      showDeniedPage: true
     trustedProxies:
     - 10.43.0.0/16
     - 10.42.0.0/16
@@ -114,10 +103,6 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-    - port: 9090
-      targetPort: metrics
-      protocol: TCP
-      name: metrics
   selector:
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
@@ -149,14 +134,15 @@ spec:
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
-      securityContext: {}
+      securityContext:
+        {}
       containers:
         - name: homelab-envoy-proxy-bouncer
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - all
+              - all
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
@@ -169,9 +155,6 @@ spec:
               protocol: TCP
             - name: http
               containerPort: 8081
-              protocol: TCP
-            - name: metrics
-              containerPort: 9090
               protocol: TCP
           livenessProbe:
             grpc:
@@ -263,34 +246,34 @@ metadata:
   name: homelab-envoy-proxy-bouncer
 spec:
   from:
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: argocd
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: blog
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: bluesky
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: mealie
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: media
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: pocketid
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: vaultwarden
-    - group: gateway.envoyproxy.io
-      kind: SecurityPolicy
-      namespace: envoy-gateway-system
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: argocd
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: blog
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: bluesky
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: mealie
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: media
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: pocketid
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: vaultwarden
+  - group: gateway.envoyproxy.io
+    kind: SecurityPolicy
+    namespace: envoy-gateway-system
   to:
-    - group: ""
-      kind: Service
-      name: homelab-envoy-proxy-bouncer
+  - group: ""
+    kind: Service
+    name: homelab-envoy-proxy-bouncer
 ---
 # Source: envoy-proxy-bouncer/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
@@ -308,26 +291,3 @@ spec:
     metadata:
       name: envoy-bouncer
       namespace: crowdsec
----
-# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: homelab-envoy-proxy-bouncer
-  labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.5.6
-    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.5.5"
-    app.kubernetes.io/managed-by: Helm
-    release: kube-prometheus-stack
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-      app.kubernetes.io/instance: envoy-proxy-bouncer
-  endpoints:
-    - port: metrics
-      path: /metrics
-      interval: 30s
-      scrapeTimeout: 10s
