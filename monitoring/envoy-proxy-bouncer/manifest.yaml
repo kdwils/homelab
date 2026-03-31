@@ -24,8 +24,6 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
-    templates:
-      showDeniedPage: false
     bouncer:
       apiKeySecretRef:
         key: apiKey
@@ -76,7 +74,7 @@ data:
       httpPort: 8081
       logLevel: info
     templates:
-      showDeniedPage: true
+      showDeniedPage: false
     trustedProxies:
     - 10.43.0.0/16
     - 10.42.0.0/16
