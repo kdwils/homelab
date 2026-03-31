@@ -24,6 +24,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
+    templates:
+      showDeniedPage: false
     bouncer:
       apiKeySecretRef:
         key: apiKey
@@ -44,6 +46,7 @@ data:
         certKey: tls.crt
         keyKey: tls.key
     captcha:
+      disableChallengeReplayProtection: true
       callbackURL: https://bouncer.kyledev.co
       challengeDuration: 5m
       cookieDomain: .kyledev.co
