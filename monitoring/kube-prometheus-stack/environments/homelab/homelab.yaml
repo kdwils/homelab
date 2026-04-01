@@ -21,7 +21,7 @@ kube-prometheus-stack:
       storageClassName: ""
       accessModes:
         - ReadWriteOnce
-      size: 5Gi
+      size: 10Gi
 
     service:
       type: ClusterIP
@@ -60,7 +60,7 @@ kube-prometheus-stack:
       port: 9090
 
     prometheusSpec:
-      retention: 30d
+      retention: 3d
 
       storageSpec:
         volumeClaimTemplate:
