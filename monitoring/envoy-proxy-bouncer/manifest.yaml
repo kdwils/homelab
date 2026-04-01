@@ -161,7 +161,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-907f365f448f06c64da5a5425e20b99a94f30c6d"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-22add34b510fac1fd1ea416d4901a92e60ed76f8"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
@@ -1033,7 +1033,7 @@ data:
               "refId": "B"
             }
           ],
-          "title": "Component Duration p95 / p99",
+          "title": "Component Latency",
           "type": "timeseries"
         },
         {
