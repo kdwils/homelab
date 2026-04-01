@@ -24,14 +24,12 @@ homelab-envoy-proxy-bouncer:
     enabled: true
 
   config:
-
-  # enable endpoint for prometheus metrics scraping on the configured port
-  prometheus:
-    enabled: true
-    serviceMonitor:
+    prometheus:
       enabled: true
-      prometheusMatchLabels:
-        release: kube-prometheus-stack
+      serviceMonitor:
+        enabled: true
+        prometheusMatchLabels:
+          release: kube-prometheus-stack
 
     webhook:
       subscriptions:
