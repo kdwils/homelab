@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: media
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -37,7 +37,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: plex-pvc
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -56,7 +56,7 @@ kind: Service
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -82,7 +82,7 @@ kind: Deployment
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
@@ -98,7 +98,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: plex-0.1.15
+        helm.sh/chart: plex-0.1.18
         app.kubernetes.io/name: plex
         app.kubernetes.io/instance: plex
         app.kubernetes.io/version: "1.16.0"
@@ -150,24 +150,31 @@ kind: HTTPRoute
 metadata:
   name: plex-int
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
   hostnames:
     - "plex.ts.kyledev.co"
     - "plex.int.kyledev.co"
   rules:
-    - backendRefs:
-      - group: ""
-        kind: Service
-        name: plex
-        port: 32400
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: plex
+          port: 32400
+          weight: 1
 ---
 # Source: homelab/charts/plex/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
@@ -175,23 +182,30 @@ kind: HTTPRoute
 metadata:
   name: plex-public
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
   hostnames:
     - "plex.kyledev.co"
   rules:
-    - backendRefs:
-      - group: ""
-        kind: Service
-        name: plex
-        port: 32400
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: plex
+          port: 32400
+          weight: 1
 ---
 # Source: homelab/charts/plex/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
@@ -214,7 +228,7 @@ kind: SecurityPolicy
 metadata:
   name: plex
   labels:
-    helm.sh/chart: plex-0.1.15
+    helm.sh/chart: plex-0.1.18
     app.kubernetes.io/name: plex
     app.kubernetes.io/instance: plex
     app.kubernetes.io/version: "1.16.0"
