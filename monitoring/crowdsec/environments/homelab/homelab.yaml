@@ -125,7 +125,7 @@ crowdsec:
         enabled: true
         size: 1Gi
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
       config:
         enabled: true
         size: 100Mi
