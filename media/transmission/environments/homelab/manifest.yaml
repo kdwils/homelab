@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: transmission
   labels:
-    helm.sh/chart: transmission-0.1.15
+    helm.sh/chart: transmission-0.1.18
     app.kubernetes.io/name: transmission
     app.kubernetes.io/instance: transmission
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: transmission
   labels:
-    helm.sh/chart: transmission-0.1.15
+    helm.sh/chart: transmission-0.1.18
     app.kubernetes.io/name: transmission
     app.kubernetes.io/instance: transmission
     app.kubernetes.io/version: "1.16.0"
@@ -36,7 +36,7 @@ kind: Service
 metadata:
   name: transmission
   labels:
-    helm.sh/chart: transmission-0.1.15
+    helm.sh/chart: transmission-0.1.18
     app.kubernetes.io/name: transmission
     app.kubernetes.io/instance: transmission
     app.kubernetes.io/version: "1.16.0"
@@ -58,7 +58,7 @@ kind: Deployment
 metadata:
   name: transmission
   labels:
-    helm.sh/chart: transmission-0.1.15
+    helm.sh/chart: transmission-0.1.18
     app.kubernetes.io/name: transmission
     app.kubernetes.io/instance: transmission
     app.kubernetes.io/version: "1.16.0"
@@ -74,7 +74,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: transmission-0.1.15
+        helm.sh/chart: transmission-0.1.18
         app.kubernetes.io/name: transmission
         app.kubernetes.io/instance: transmission
         app.kubernetes.io/version: "1.16.0"
@@ -143,24 +143,31 @@ kind: HTTPRoute
 metadata:
   name: transmission
   labels:
-    helm.sh/chart: transmission-0.1.15
+    helm.sh/chart: transmission-0.1.18
     app.kubernetes.io/name: transmission
     app.kubernetes.io/instance: transmission
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
   hostnames:
     - "transmission.int.kyledev.co"
     - "transmission.ts.kyledev.co"
   rules:
-    - backendRefs:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
       - group: ""
         kind: Service
         name: transmission
         port: 80
+        weight: 1
 ---
 # Source: homelab/charts/transmission/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
