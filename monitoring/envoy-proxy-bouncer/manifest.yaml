@@ -1,26 +1,26 @@
 ---
-# Source: envoy-proxy-bouncer/templates/serviceaccount.yaml
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.6.0
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.6.0-rc.1"
     app.kubernetes.io/managed-by: Helm
 ---
-# Source: envoy-proxy-bouncer/templates/configmap-config.yaml
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/configmap-config.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: homelab-envoy-proxy-bouncer-config
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.6.0
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.6.0-rc.1"
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
@@ -74,7 +74,7 @@ data:
       httpPort: 8081
       logLevel: info
     templates:
-      showDeniedPage: true
+      showDeniedPage: false
     trustedProxies:
     - 10.43.0.0/16
     - 10.42.0.0/16
@@ -93,16 +93,16 @@ data:
         url: http://events.events.svc.cluster.local:8080/api/v1/events/envoy-bouncer/request_blocked
       timeout: 5s
 ---
-# Source: envoy-proxy-bouncer/templates/configmap-dashboard.yaml
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/configmap-dashboard.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: homelab-envoy-proxy-bouncer-dashboard
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.6.0
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.6.0-rc.1"
     app.kubernetes.io/managed-by: Helm
     grafana_dashboard: "1"
 data:
@@ -1464,16 +1464,16 @@ data:
       "version": 2
     }
 ---
-# Source: envoy-proxy-bouncer/templates/service.yaml
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.6.0
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.6.0-rc.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -1492,39 +1492,39 @@ spec:
       name: metrics
   selector:
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
+    app.kubernetes.io/instance: envoy-proxy-bouncer
 ---
-# Source: envoy-proxy-bouncer/templates/deployment.yaml
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.6.0
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.6.0-rc.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-      app.kubernetes.io/instance: homelab
+      app.kubernetes.io/instance: envoy-proxy-bouncer
   template:
     metadata:
       labels:
-        helm.sh/chart: envoy-proxy-bouncer-0.6.0
+        helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
         app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-        app.kubernetes.io/instance: homelab
-        app.kubernetes.io/version: "v0.6.0"
+        app.kubernetes.io/instance: envoy-proxy-bouncer
+        app.kubernetes.io/version: "v0.6.0-rc.1"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
       securityContext:
         {}
       containers:
-        - name: envoy-proxy-bouncer
+        - name: homelab-envoy-proxy-bouncer
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -1533,7 +1533,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-9532470eab731fa4acb78be62a758eec0e4a4535"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.6.0-rc.1"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
@@ -1596,16 +1596,16 @@ spec:
           configMap:
             name: homelab-envoy-proxy-bouncer-config
 ---
-# Source: envoy-proxy-bouncer/templates/httproute.yaml
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.6.0
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.6.0"
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.6.0-rc.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
@@ -1629,7 +1629,7 @@ spec:
         - name: homelab-envoy-proxy-bouncer
           port: 8080
 ---
-# Source: envoy-proxy-bouncer/templates/referencegrant.yaml
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/referencegrant.yaml
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
@@ -1665,30 +1665,7 @@ spec:
     kind: Service
     name: homelab-envoy-proxy-bouncer
 ---
-# Source: envoy-proxy-bouncer/templates/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: homelab-envoy-proxy-bouncer
-  namespace: crowdsec
-  labels:
-    helm.sh/chart: envoy-proxy-bouncer-0.6.0
-    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: homelab
-    app.kubernetes.io/version: "v0.6.0"
-    app.kubernetes.io/managed-by: Helm
-    release: kube-prometheus-stack
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-      app.kubernetes.io/instance: homelab
-  endpoints:
-    - port: metrics
-      path: /metrics
-      interval: 30s
-      scrapeTimeout: 10s
----
+# Source: envoy-proxy-bouncer/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -1700,7 +1677,31 @@ spec:
     secretKey: AgBASAITbBGkl8QTNGNlycUpIpML2PdLCDfVvB2ipaACkhllajF8TRfIeGTm4V6UpIqSXeUaHA7rwWRhwJoflLZBBy6mC9Xohl8Vi7I4k7n+uhbmvKJHGFKcL72ne4EZxKFuZmGl8VQydnx5yVx+i0e2FynAmPKrCG6lGdE5W8+Q7kvt9u4M3QaITq7y4Hbb4nOvn2U7g1dP7YUvHkugbAO2o62MFFPLWCXrulgZM3e05nRvlVko16adxsyv1iu9RnTbAI294Z+st54ygq0QVOBUegZU9wrzSPl2OYxdEnoMBeVix6tkzvjg92fn9AMRvJPVh/emdPvgEXfDG/A75dlezdk20oUfwQPvr1PggJaf6VRT11UVJ6//89akoQ9SmiVsO4TtpLx869kHt+Qmf7nhFU0QeviEN9CBGiUubQn5qVu/axyeWPI34NMJOi17UlJZFPufZlACC6SfyCsDWT3iW/9lp9+OFRU8XqDdl6x/G2OiFpGsIjhKV9bLv4Eu0qUn3Hx5oF5XDS/Asd/JPa4UNzlZHsOo5EgV/7ZiZah+GH8ER9AW6ZeTGPlp5D2VMUUlxySOYbck/xmfSxKBot00FXsLvBSb7rj14XlIy6vsYcybF059a7VQlHmZGw055MzKAngfxY1b8dGaZBMtixyozyVAtrJdOhkXnv5VSE5iy9bSHJwIGLnsZjZ3vANGW5Qsa9rDynfjwBWr/tMx53q+y88k5CF4nv6zvDOqzlwck1+S+w==
     signingKey: AgCQfonucPWTiLSaBZE/GgGikZHcRWMTHq9zCFENZ8W6enlY0C0esvT/JdmYUsaMFvsrQb0DEkcGLG1TPkjmr2hGtq+aJVUi5nztvDTFlVqPjiJrKAfe0rFCAVyqAseT5QzeJ1kprnzI3XEzOfOILMZYFlPMVolXO4bCiXoxFeYmgAJLwsUL4hSLgwcXATCY0b8k8chNoA6CJ+Kc7s8Llns6eFhlhGR2QpM80u0+pUDaXlXovHfqNZNw1reAiE9VMP9Zo0/hbgNIhVGBayZizkHnrip/xDDcTWIZpYSl5TEkz+jObPGqE9dWH7rVeLjzs25AMFoZga6cC5752MGId3yh0NhiBMXVZYqRUTFsO9hAkl4bIc7gxr2UxbY6qGZ0ho3MxOx7EnWx/y2sIoqoC/LhEXZXEUvY74ZMR35XsYVg4ij8+Lrh/QCTxO8lSWIVy4Iw8yoDWvjb8bMC8n+6U6kevuIFyK+0ElbIpZK3MOn9yVor9VgNJrcNeYULYqd/ejKDqCeeMsk1FgcP9Kp1mRtUf5HpojIG1bOPEnL16sRMzZ8svUbc8g7m2qAib4Us4KtnvUJs8zXXxLQmLR94sXDsxvRwFCmEQb8J//nnLzxc2aAA5k2U+9iFNrzV73I9pwcwqFbFxPdVu7Bb2JLG7bcX04Sn13fdk8lAaPD2nNnL+DyOz9D+1qSEV8hZLfGdxPRS0aOXLI9iz/NPjASTLiUvULhVRaQtFVqLsHRwOxGI5xu4aBKWdIsfhq+xuL+YuskEEIo++VBltlaWm0IftWes
   template:
+    type: Opaque
     metadata:
       name: envoy-bouncer
       namespace: crowdsec
-    type: Opaque
+---
+# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: homelab-envoy-proxy-bouncer
+  namespace: crowdsec
+  labels:
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.0-rc.1
+    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
+    app.kubernetes.io/instance: envoy-proxy-bouncer
+    app.kubernetes.io/version: "v0.6.0-rc.1"
+    app.kubernetes.io/managed-by: Helm
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
+      app.kubernetes.io/instance: envoy-proxy-bouncer
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s
