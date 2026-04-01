@@ -11,9 +11,6 @@ homelab-envoy-proxy-bouncer:
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
 
-  image:
-    tag: sha-5f38ced0b3c07d8fd59424331ec8e8084259ed2d
-
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
@@ -23,7 +20,19 @@ homelab-envoy-proxy-bouncer:
     runAsNonRoot: true
     runAsUser: 1000
 
+  grafana:
+    enabled: true
+
   config:
+
+  # enable endpoint for prometheus metrics scraping on the configured port
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      prometheusMatchLabels:
+        release: kube-prometheus-stack
+
     webhook:
       subscriptions:
         - url: "http://events.events.svc.cluster.local:8080/api/v1/events/envoy-bouncer/request_blocked"
