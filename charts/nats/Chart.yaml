@@ -8,6 +8,6 @@ dependencies:
     repository: https://nats-io.github.io/k8s/helm/charts/
     alias: nats
   - name: homelab-chart
-    version: 0.1.15
+    version: 0.1.16
     repository: oci://ghcr.io/kdwils/charts
     alias: homelab
