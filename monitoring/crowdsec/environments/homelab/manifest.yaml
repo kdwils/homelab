@@ -998,7 +998,7 @@ spec:
     metadata:
       annotations:
         checksum/lapi-secret: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        checksum/lapi-configmap: c9c6b29257fd19509d63af1a1ff92eabedd65c7301d6b5ebc9d024747cdf8702
+        checksum/lapi-configmap: 4ad50c1d724f9850a9beb52a046e282d6d7b0c5075fa46a5cd2bfd0154ef1fac
       labels:
         k8s-app: crowdsec
         type: lapi
