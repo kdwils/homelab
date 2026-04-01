@@ -4,6 +4,6 @@ dependencies:
   version: 1.7.1
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.15
-digest: sha256:ea35a176422cce8ae60c11b75b8e3594cb59026cdfd3c5c11e39c9c2875b3452
-generated: "2026-03-23T18:29:00.772435445Z"
+  version: 0.1.18
+digest: sha256:477b4db847b799205249e4cd1dfbdcce6d081f73637a1ced29b7b55f6189172e
+generated: "2026-04-01T16:47:38.460458941Z"
