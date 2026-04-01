@@ -21,7 +21,8 @@ homelab-envoy-proxy-bouncer:
     runAsUser: 1000
 
   grafana:
-    enabled: true
+    dashboard:
+      enabled: true
 
   config:
     prometheus:
