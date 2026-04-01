@@ -16,7 +16,7 @@ events:
             nats:
               host: nats.int.kyledev.co
               secure: true
-              enabled: true
+              enabled: false
               jetstream:
                 enabled: true
                 streams:
