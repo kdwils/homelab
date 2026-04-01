@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.1.15
+    helm.sh/chart: mealie-0.1.16
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mealie-pvc
   labels:
-    helm.sh/chart: mealie-0.1.15
+    helm.sh/chart: mealie-0.1.16
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -37,7 +37,7 @@ kind: Service
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.1.15
+    helm.sh/chart: mealie-0.1.16
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -59,7 +59,7 @@ kind: Deployment
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.1.15
+    helm.sh/chart: mealie-0.1.16
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
@@ -75,7 +75,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: mealie-0.1.15
+        helm.sh/chart: mealie-0.1.16
         app.kubernetes.io/name: mealie
         app.kubernetes.io/instance: mealie
         app.kubernetes.io/version: "1.16.0"
@@ -144,14 +144,16 @@ kind: HTTPRoute
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.1.15
+    helm.sh/chart: mealie-0.1.16
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
   hostnames:
     - "mealie.kyledev.co"
@@ -163,6 +165,7 @@ spec:
         kind: Service
         name: mealie
         port: 9925
+        weight: 1
 ---
 # Source: homelab/charts/mealie/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
@@ -185,7 +188,7 @@ kind: SecurityPolicy
 metadata:
   name: mealie
   labels:
-    helm.sh/chart: mealie-0.1.15
+    helm.sh/chart: mealie-0.1.16
     app.kubernetes.io/name: mealie
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/version: "1.16.0"
