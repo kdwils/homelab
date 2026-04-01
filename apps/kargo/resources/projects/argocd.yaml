@@ -14,7 +14,7 @@ spec:
   promotionPolicies:
     - stageSelector:
         name: main
-      autoPromotionEnabled: false
+      autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Warehouse
