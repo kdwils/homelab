@@ -30,6 +30,9 @@ homelab-envoy-proxy-bouncer:
           events:
             - request_blocked
 
+    templates:
+      showDeniedPage: false
+
     trustedProxies:
       - 10.43.0.0/16
       - 10.42.0.0/16
@@ -67,6 +70,7 @@ homelab-envoy-proxy-bouncer:
       sessionDuration: "3h"
       callbackURL: "https://bouncer.kyledev.co"
       cookieDomain: ".kyledev.co"
+      disableChallengeReplayProtection: true
 
   httproute:
     enabled: true
