@@ -1533,7 +1533,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-5f38ced0b3c07d8fd59424331ec8e8084259ed2d"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-6fd47ada77638dbe524e4d0077c466300cd066b9"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
