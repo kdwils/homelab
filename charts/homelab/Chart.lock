@@ -1,48 +1,48 @@
 dependencies:
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
+  version: 0.1.17
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.16
-digest: sha256:a5ee266fe304bc2b59a87a756e86a2fbed6a1057e2bed1bde92c80e75217ef20
-generated: "2026-04-01T15:58:05.711733813Z"
+  version: 0.1.17
+digest: sha256:14af255f0a2e6f4b947d04a340f891355c783533d88b465d9964536d0a26c3a8
+generated: "2026-04-01T16:33:13.943898924Z"
