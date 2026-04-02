@@ -10,7 +10,7 @@ radarr:
 
     image:
       repository: linuxserver/radarr
-      tag: 6.0.4
+      tag: 6.1.1
       pullPolicy: IfNotPresent
 
     env:
