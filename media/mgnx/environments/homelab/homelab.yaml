@@ -15,8 +15,7 @@ mgnx:
             key: uri
     args:
       - "serve"
-      - "--config"
-      - "config.yaml"
+      - --config=/app/config.yaml
 
     podSecurityContext:
       runAsNonRoot: true
