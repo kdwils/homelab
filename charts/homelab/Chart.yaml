@@ -63,3 +63,7 @@ dependencies:
     version: ^0.1.0
     repository: oci://ghcr.io/kdwils/charts
     alias: transmission
+  - name: homelab-chart
+    version: ^0.1.0
+    repository: oci://ghcr.io/kdwils/charts
+    alias: mgnx

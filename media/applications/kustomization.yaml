@@ -12,3 +12,4 @@ resources:
   - plex.yaml
   - prowlarr.yaml
   - mediaz.yaml
+  - mgnx.yaml

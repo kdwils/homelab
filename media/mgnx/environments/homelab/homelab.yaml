@@ -1,0 +1,163 @@
+mgnx:
+  serviceAccount:
+    create: true
+
+  deployment:
+    create: true
+    replicas: 1
+    image:
+      repository: ghcr.io/kdwils/mgnx
+      tag: sha-c2840763786bdb8c738d07e7c95974c4a7bfe65c
+      pullPolicy: IfNotPresent
+
+    imagePullSecrets:
+      - name: ghcr-secret
+
+    env:
+      - name: MGNX_DATABASE_URI
+        valueFrom:
+          secretKeyRef:
+            name: mgnx-db-app
+            key: uri
+
+    args:
+      - "--config"
+      - "config.yaml"
+
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 2000
+
+  service:
+    create: true
+
+  httproute:
+    create: true
+    hostnames:
+      - mgnx.int.kyledev.co
+      - mgnx.ts.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  postgres:
+    clusters:
+      - name: mgnx
+        size: 50Gi
+        database: mgnx
+        owner: mgnx
+        accessModes:
+          - ReadWriteOnce
+
+  configmap:
+    create: true
+    configmaps:
+      - name: config
+        mountPath: /app/config.yaml
+        subPath: config.yaml
+        readOnly: true
+        data:
+          config.yaml: |
+            database:
+              sslMode: disable
+
+            dht:
+              node_id: 5b58f51a57cec29286e37dc0c36028b328402997
+
+            server:
+              port: 8080
+              log_level: debug
+
+            ingest:
+              excluded_extensions:
+                - .exe
+                - .msi
+                - .dll
+                - .com
+                - .scr
+                - .bat
+                - .cmd
+                - .ps1
+                - .ps2
+                - .vbs
+                - .vbe
+                - .wsf
+                - .wsh
+                - .reg
+                - .inf
+                - .lnk
+                - .sh
+                - .bash
+                - .zsh
+                - .go
+                - .py
+                - .pyc
+                - .pyw
+                - .rb
+                - .pl
+                - .lua
+                - .js
+                - .jar
+                - .class
+                - .apk
+                - .ipa
+                - .deb
+                - .rpm
+                - .zip
+                - .rar
+                - .7z
+                - .tar
+                - .gz
+                - .bz2
+                - .xz
+                - .lzma
+                - .lz4
+                - .zst
+                - .cab
+                - .arj
+                - .ace
+                - .lha
+                - .lzh
+                - .xls
+                - .xlsx
+                - .ppt
+                - .pptx
+                - .odt
+                - .ods
+                - .odp
+                - .rtf
+                - .epub
+                - .mobi
+                - .azw
+                - .djvu
+                - .chm
+                - .iso
+                - .img
+                - .nrg
+                - .mdf
+                - .mds
+                - .ccd
+                - .vhd
+                - .vmdk
+                - .qcow2
+                - .db
+                - .sqlite
+                - .sql
+                - .mdb
+                - .accdb
+                - .html
+                - .htm
+                - .php
+                - .asp
+                - .aspx
+                - .torrent
+                - .swf
+                - .crx
+                - .xpi
+
+  sealedsecrets:
+    - name: ghcr-secret
+      type: kubernetes.io/dockerconfigjson
+      data:
+        .dockerconfigjson: AgCbaJgugwQgf4pgRSK2pOoIp9RMJAkQ4YZ0SDMzO4DB1SuC1ypvxavsrQ7shm/MM9kUbM2Vubw9NJ12cLDgLfLN+XsOmXSZPakr8yAava2PTpiGUMCIROOQjogiuVC4tu6vBp7dwZWWavlx6Oxdwdh9n9CszERWiN/64dvpUTcyR6QPczgdVYLJaQ70tDEeRznaxQiFcQOH5EGaXiiF/tLmNv1oDi4swxaUomRE4qa3XCwC9kVTwJgE6ZLsgSOuk/zxZ6SohaENBy/sEizYCW8ZrgWVcaPqvEhXeT3/1CEHchAb9zhzhFMIsoQVfm4fKXR3EUPRz/z7vvc6/sMgIra9b4Wb+6+1Y1tuTLTTX/6CIkZjJbYP9QVhrJkNlpbnXrK91uWvGuTHnA6tUj7nD4y16WMlIeAfQxEUQ2db1MtHmeccHI9QAvnQyx3mlpsy/kaRzdIZOutinkJcLVDlvec3JbmQeU8NCfCFNEgP5DSINoPZMQ5LTacIQduMm9XpeClg61iwDFV+HGHk3wFE3tzMZVVTMJ8SJe6qLeBrOKcPVgbyOz4To+EU7PKaPe2aBf+R2VMOrbRS1QJvcVijttwBvG/xOO3/5v5qvOz5VKC7e2Kw6ZXE5nQCahxrFMTcUNFOUsiYBXtYexkFfOIMXn1s8cgWrI8FpRTPM1WgTc8pakdO8x62oEYnSmLUuZZMcCsmlKvvk6f+40MnyEOfR5xoAUySKtv7raSpX7bgqSPvm5KZwnA2/tuB+2ixtRkPGlRSufXhFoN+qU/svRFy0o5H0ZPe5h+xvbvhMzdPrJKioXrbJcxn/6ei7pOHmFAmNbsZ9ewNLt1760L0oLptLiXhmCQmiuco9/TcHETIPsCa61gInNJV++V/0uietbsgVFyfL7jQal1a9gVCvni2UcQaAw9Nqdo4fRiqnTg=
