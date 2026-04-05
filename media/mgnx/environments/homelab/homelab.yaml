@@ -1,7 +1,4 @@
 mgnx:
-  serviceAccount:
-    create: true
-
   deployment:
     create: true
     replicas: 1
