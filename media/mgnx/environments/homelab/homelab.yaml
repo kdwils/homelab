@@ -85,10 +85,29 @@ mgnx:
                 - .vob
                 - .flv
                 - .webm
-                - .srt
-                - .ass
-                - .ssa
-                - .sub
+                - .mpg
+                - .mpeg
+                - .mpe
+                - .mpv
+                - .3gp
+                - .3g2
+                - .ogv
+                - .qt
+                - .nsv
+                - .f4v
+                - .f4p
+                - .f4a
+                - .f4b
+                - .amv
+                - .drc
+                - .rm
+                - .rmvb
+                - .viv
+                - .asf
+                - .svi
+                - .roq
+                - .mng
+                - .mxf
 
             scrape:
               trackers:
