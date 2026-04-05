@@ -13,9 +13,8 @@ mgnx:
           secretKeyRef:
             name: mgnx-app
             key: uri
-    commands:
-      - "serve"
     args:
+      - "serve"
       - "--config"
       - "config.yaml"
 
