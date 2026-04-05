@@ -170,6 +170,7 @@ spec:
           image: "ghcr.io/kdwils/mgnx:sha-69edc03c1375422352e1ab74bbcbcb7b2e52fcce"
           imagePullPolicy: IfNotPresent
           args:
+            - serve
             - --config
             - config.yaml
           ports:
