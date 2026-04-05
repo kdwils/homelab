@@ -26,6 +26,8 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/kdwils/mgnx
+        imageSelectionStrategy: NewestBuild
+        allowTags: ^sha-.*
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
