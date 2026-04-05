@@ -171,8 +171,7 @@ spec:
           imagePullPolicy: IfNotPresent
           args:
             - serve
-            - --config
-            - config.yaml
+            - --config=/app/config.yaml
           ports:
             - name: http
               containerPort: 8080
