@@ -13,7 +13,8 @@ mgnx:
           secretKeyRef:
             name: mgnx-app
             key: uri
-
+    commands:
+      - "serve"
     args:
       - "--config"
       - "config.yaml"
@@ -50,7 +51,7 @@ mgnx:
           - ReadWriteOnce
 
   configmaps:
-    - name: config
+    - name: mgnx-config
       mountPath: /app/config.yaml
       subPath: config.yaml
       readOnly: true
