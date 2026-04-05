@@ -48,106 +48,108 @@ mgnx:
         accessModes:
           - ReadWriteOnce
 
-  configmaps:
-    - name: mgnx-config
-      mountPath: /app/config.yaml
-      subPath: config.yaml
-      readOnly: true
-      data:
-        config.yaml: |
-          database:
-            sslMode: disable
+  configmap:
+    create: true
+    configmaps:
+      - name: mgnx-config
+        mountPath: /app/config.yaml
+        subPath: config.yaml
+        readOnly: true
+        data:
+          config.yaml: |
+            database:
+              sslMode: disable
 
-          dht:
-            node_id: 5b58f51a57cec29286e37dc0c36028b328402997
+            dht:
+              node_id: 5b58f51a57cec29286e37dc0c36028b328402997
 
-          server:
-            port: 8080
-            log_level: debug
+            server:
+              port: 8080
+              log_level: debug
 
-          ingest:
-            excluded_extensions:
-              - .exe
-              - .msi
-              - .dll
-              - .com
-              - .scr
-              - .bat
-              - .cmd
-              - .ps1
-              - .ps2
-              - .vbs
-              - .vbe
-              - .wsf
-              - .wsh
-              - .reg
-              - .inf
-              - .lnk
-              - .sh
-              - .bash
-              - .zsh
-              - .go
-              - .py
-              - .pyc
-              - .pyw
-              - .rb
-              - .pl
-              - .lua
-              - .js
-              - .jar
-              - .class
-              - .apk
-              - .ipa
-              - .deb
-              - .rpm
-              - .zip
-              - .rar
-              - .7z
-              - .tar
-              - .gz
-              - .bz2
-              - .xz
-              - .lzma
-              - .lz4
-              - .zst
-              - .cab
-              - .arj
-              - .ace
-              - .lha
-              - .lzh
-              - .xls
-              - .xlsx
-              - .ppt
-              - .pptx
-              - .odt
-              - .ods
-              - .odp
-              - .rtf
-              - .epub
-              - .mobi
-              - .azw
-              - .djvu
-              - .chm
-              - .iso
-              - .img
-              - .nrg
-              - .mdf
-              - .mds
-              - .ccd
-              - .vhd
-              - .vmdk
-              - .qcow2
-              - .db
-              - .sqlite
-              - .sql
-              - .mdb
-              - .accdb
-              - .html
-              - .htm
-              - .php
-              - .asp
-              - .aspx
-              - .torrent
-              - .swf
-              - .crx
-              - .xpi
+            ingest:
+              excluded_extensions:
+                - .exe
+                - .msi
+                - .dll
+                - .com
+                - .scr
+                - .bat
+                - .cmd
+                - .ps1
+                - .ps2
+                - .vbs
+                - .vbe
+                - .wsf
+                - .wsh
+                - .reg
+                - .inf
+                - .lnk
+                - .sh
+                - .bash
+                - .zsh
+                - .go
+                - .py
+                - .pyc
+                - .pyw
+                - .rb
+                - .pl
+                - .lua
+                - .js
+                - .jar
+                - .class
+                - .apk
+                - .ipa
+                - .deb
+                - .rpm
+                - .zip
+                - .rar
+                - .7z
+                - .tar
+                - .gz
+                - .bz2
+                - .xz
+                - .lzma
+                - .lz4
+                - .zst
+                - .cab
+                - .arj
+                - .ace
+                - .lha
+                - .lzh
+                - .xls
+                - .xlsx
+                - .ppt
+                - .pptx
+                - .odt
+                - .ods
+                - .odp
+                - .rtf
+                - .epub
+                - .mobi
+                - .azw
+                - .djvu
+                - .chm
+                - .iso
+                - .img
+                - .nrg
+                - .mdf
+                - .mds
+                - .ccd
+                - .vhd
+                - .vmdk
+                - .qcow2
+                - .db
+                - .sqlite
+                - .sql
+                - .mdb
+                - .accdb
+                - .html
+                - .htm
+                - .php
+                - .asp
+                - .aspx
+                - .torrent
+                - .swf
+                - .crx
+                - .xpi
