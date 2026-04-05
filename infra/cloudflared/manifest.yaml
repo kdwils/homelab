@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: cloudflared
   labels:
-    helm.sh/chart: cloudflared-0.1.18
+    helm.sh/chart: cloudflared-0.1.19
     app.kubernetes.io/name: cloudflared
     app.kubernetes.io/instance: cloudflared
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,60 @@ kind: ConfigMap
 metadata:
   name: cloudflared
   labels:
-    helm.sh/chart: cloudflared-0.1.18
+    helm.sh/chart: cloudflared-0.1.19
+    app.kubernetes.io/name: cloudflared
+    app.kubernetes.io/instance: cloudflared
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    tunnel: 34a29bd3-c367-4439-bc8d-32a6dbfc98ff
+    credentials-file: /etc/cloudflared/creds/homelab.json
+    no-autoupdate: true
+    protocol: http2
+    metrics: 0.0.0.0:2000
+    ingress:
+      - hostname: blog.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: blog.kyledev.co
+      - hostname: argocd.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: argocd.kyledev.co
+      - hostname: mealie.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: mealie.kyledev.co
+      - hostname: bluesky.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: bluesky.kyledev.co
+      - hostname: pocketid.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: pocketid.kyledev.co
+      - hostname: overseerr.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: overseerr.kyledev.co
+      - hostname: seerr.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: seerr.kyledev.co
+      - hostname: bouncer.kyledev.co
+        service: https://homelab-gateway.envoy-gateway-system.svc.cluster.local:443
+        originRequest:
+          originServerName: bouncer.kyledev.co
+      - service: http_status:404
+---
+# Source: homelab/charts/cloudflared/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared
+  labels:
+    helm.sh/chart: cloudflared-0.1.19
     app.kubernetes.io/name: cloudflared
     app.kubernetes.io/instance: cloudflared
     app.kubernetes.io/version: "1.16.0"
@@ -71,7 +124,7 @@ kind: Deployment
 metadata:
   name: cloudflared
   labels:
-    helm.sh/chart: cloudflared-0.1.18
+    helm.sh/chart: cloudflared-0.1.19
     app.kubernetes.io/name: cloudflared
     app.kubernetes.io/instance: cloudflared
     app.kubernetes.io/version: "1.16.0"
@@ -87,7 +140,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: cloudflared-0.1.18
+        helm.sh/chart: cloudflared-0.1.19
         app.kubernetes.io/name: cloudflared
         app.kubernetes.io/instance: cloudflared
         app.kubernetes.io/version: "1.16.0"
