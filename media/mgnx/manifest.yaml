@@ -22,7 +22,10 @@ data:
       port: 8080
       log_level: debug
   
-    ingest:
+    indexer:
+      workers: 10
+      peer_retries: 10
+      peer_timeout: 3s
       excluded_extensions:
         - .exe
         - .msi
