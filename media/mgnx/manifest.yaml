@@ -1,17 +1,4 @@
 ---
-# Source: homelab/charts/mgnx/templates/serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: mgnx
-  labels:
-    helm.sh/chart: mgnx-0.1.21
-    app.kubernetes.io/name: mgnx
-    app.kubernetes.io/instance: mgnx
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-automountServiceAccountToken: false
----
 # Source: homelab/charts/mgnx/templates/configmap.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -172,7 +159,7 @@ spec:
         app.kubernetes.io/version: "1.16.0"
         app.kubernetes.io/managed-by: Helm
     spec:
-      serviceAccountName: mgnx
+      serviceAccountName: default
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
