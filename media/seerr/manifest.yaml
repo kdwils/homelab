@@ -19,7 +19,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: overseerr-pvc
   labels:
-    helm.sh/chart: homelab-0.1.19
+    helm.sh/chart: homelab-0.1.21
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -138,7 +138,7 @@ kind: HTTPRoute
 metadata:
   name: overseerr-homelab
   labels:
-    helm.sh/chart: homelab-0.1.19
+    helm.sh/chart: homelab-0.1.21
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -174,7 +174,7 @@ kind: SecurityPolicy
 metadata:
   name: overseerr-homelab
   labels:
-    helm.sh/chart: homelab-0.1.19
+    helm.sh/chart: homelab-0.1.21
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
