@@ -12,11 +12,13 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
-    database:
-      sslMode: disable
-  
     dht:
       node_id: 5b58f51a57cec29286e37dc0c36028b328402997
+      bootstrap_nodes:
+        - router.bittorrent.com:6881
+        - dht.transmissionbt.com:6881
+        - router.utorrent.com:6881
+        - dht.aelius.com:6881
   
     server:
       port: 8080
@@ -24,93 +26,30 @@ data:
   
     indexer:
       workers: 10
-      peer_retries: 10
-      peer_timeout: 3s
-      excluded_extensions:
-        - .exe
-        - .msi
-        - .dll
-        - .com
-        - .scr
-        - .bat
-        - .cmd
-        - .ps1
-        - .ps2
-        - .vbs
-        - .vbe
-        - .wsf
-        - .wsh
-        - .reg
-        - .inf
-        - .lnk
-        - .sh
-        - .bash
-        - .zsh
-        - .go
-        - .py
-        - .pyc
-        - .pyw
-        - .rb
-        - .pl
-        - .lua
-        - .js
-        - .jar
-        - .class
-        - .apk
-        - .ipa
-        - .deb
-        - .rpm
-        - .zip
-        - .rar
-        - .7z
-        - .tar
-        - .gz
-        - .bz2
-        - .xz
-        - .lzma
-        - .lz4
-        - .zst
-        - .cab
-        - .arj
-        - .ace
-        - .lha
-        - .lzh
-        - .xls
-        - .xlsx
-        - .ppt
-        - .pptx
-        - .odt
-        - .ods
-        - .odp
-        - .rtf
-        - .epub
-        - .mobi
-        - .azw
-        - .djvu
-        - .chm
-        - .iso
-        - .img
-        - .nrg
-        - .mdf
-        - .mds
-        - .ccd
-        - .vhd
-        - .vmdk
-        - .qcow2
-        - .db
-        - .sqlite
-        - .sql
-        - .mdb
-        - .accdb
-        - .html
-        - .htm
-        - .php
-        - .asp
-        - .aspx
-        - .torrent
-        - .swf
-        - .crx
-        - .xpi
+      peer_retries: 3
+      peer_timeout: 5s
+      allowed_extensions:
+        - .mkv
+        - .mp4
+        - .avi
+        - .mov
+        - .wmv
+        - .m4v
+        - .ts
+        - .m2ts
+        - .vob
+        - .flv
+        - .webm
+        - .srt
+        - .ass
+        - .ssa
+        - .sub
+  
+    scrape:
+      trackers:
+        - udp://open.tracker.cl:1337/announce
+        - udp://tracker.openbittorrent.com:6969/announce
+        - udp://exodus.desync.com:6969/announce
 ---
 # Source: homelab/charts/mgnx/templates/service.yaml
 apiVersion: v1
