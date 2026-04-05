@@ -22,7 +22,10 @@ data:
       port: 8080
       log_level: debug
   
-    ingest:
+    indexer:
+      workers: 10
+      peer_retries: 10
+      peer_timeout: 3s
       excluded_extensions:
         - .exe
         - .msi
@@ -167,7 +170,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-69edc03c1375422352e1ab74bbcbcb7b2e52fcce"
+          image: "ghcr.io/kdwils/mgnx:sha-422dcc778bf5bc068b7ad418558c167e40cf2f75"
           imagePullPolicy: IfNotPresent
           args:
             - serve
