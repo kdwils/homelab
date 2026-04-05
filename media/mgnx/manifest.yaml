@@ -1,0 +1,370 @@
+---
+# Source: homelab/charts/mgnx/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.20
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/mgnx/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  labels:
+    helm.sh/chart: mgnx-0.1.20
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    database:
+      sslMode: disable
+  
+    dht:
+      node_id: 5b58f51a57cec29286e37dc0c36028b328402997
+  
+    server:
+      port: 8080
+      log_level: debug
+  
+    ingest:
+      excluded_extensions:
+        - .exe
+        - .msi
+        - .dll
+        - .com
+        - .scr
+        - .bat
+        - .cmd
+        - .ps1
+        - .ps2
+        - .vbs
+        - .vbe
+        - .wsf
+        - .wsh
+        - .reg
+        - .inf
+        - .lnk
+        - .sh
+        - .bash
+        - .zsh
+        - .go
+        - .py
+        - .pyc
+        - .pyw
+        - .rb
+        - .pl
+        - .lua
+        - .js
+        - .jar
+        - .class
+        - .apk
+        - .ipa
+        - .deb
+        - .rpm
+        - .zip
+        - .rar
+        - .7z
+        - .tar
+        - .gz
+        - .bz2
+        - .xz
+        - .lzma
+        - .lz4
+        - .zst
+        - .cab
+        - .arj
+        - .ace
+        - .lha
+        - .lzh
+        - .xls
+        - .xlsx
+        - .ppt
+        - .pptx
+        - .odt
+        - .ods
+        - .odp
+        - .rtf
+        - .epub
+        - .mobi
+        - .azw
+        - .djvu
+        - .chm
+        - .iso
+        - .img
+        - .nrg
+        - .mdf
+        - .mds
+        - .ccd
+        - .vhd
+        - .vmdk
+        - .qcow2
+        - .db
+        - .sqlite
+        - .sql
+        - .mdb
+        - .accdb
+        - .html
+        - .htm
+        - .php
+        - .asp
+        - .aspx
+        - .torrent
+        - .swf
+        - .crx
+        - .xpi
+---
+# Source: homelab/charts/mgnx/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  labels:
+    helm.sh/chart: mgnx-0.1.20
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    database:
+      sslMode: disable
+  
+    dht:
+      node_id: 5b58f51a57cec29286e37dc0c36028b328402997
+  
+    server:
+      port: 8080
+      log_level: debug
+  
+    ingest:
+      excluded_extensions:
+        - .exe
+        - .msi
+        - .dll
+        - .com
+        - .scr
+        - .bat
+        - .cmd
+        - .ps1
+        - .ps2
+        - .vbs
+        - .vbe
+        - .wsf
+        - .wsh
+        - .reg
+        - .inf
+        - .lnk
+        - .sh
+        - .bash
+        - .zsh
+        - .go
+        - .py
+        - .pyc
+        - .pyw
+        - .rb
+        - .pl
+        - .lua
+        - .js
+        - .jar
+        - .class
+        - .apk
+        - .ipa
+        - .deb
+        - .rpm
+        - .zip
+        - .rar
+        - .7z
+        - .tar
+        - .gz
+        - .bz2
+        - .xz
+        - .lzma
+        - .lz4
+        - .zst
+        - .cab
+        - .arj
+        - .ace
+        - .lha
+        - .lzh
+        - .xls
+        - .xlsx
+        - .ppt
+        - .pptx
+        - .odt
+        - .ods
+        - .odp
+        - .rtf
+        - .epub
+        - .mobi
+        - .azw
+        - .djvu
+        - .chm
+        - .iso
+        - .img
+        - .nrg
+        - .mdf
+        - .mds
+        - .ccd
+        - .vhd
+        - .vmdk
+        - .qcow2
+        - .db
+        - .sqlite
+        - .sql
+        - .mdb
+        - .accdb
+        - .html
+        - .htm
+        - .php
+        - .asp
+        - .aspx
+        - .torrent
+        - .swf
+        - .crx
+        - .xpi
+---
+# Source: homelab/charts/mgnx/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.20
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+---
+# Source: homelab/charts/mgnx/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.20
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mgnx
+      app.kubernetes.io/instance: mgnx
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: mgnx-0.1.20
+        app.kubernetes.io/name: mgnx
+        app.kubernetes.io/instance: mgnx
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: mgnx
+      securityContext:
+        fsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: mgnx
+          image: "ghcr.io/kdwils/mgnx:sha-69edc03c1375422352e1ab74bbcbcb7b2e52fcce"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config
+            - config.yaml
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /app/config.yaml
+              name: configmap-config
+              readOnly: true
+              subPath: config.yaml
+          env:
+            - name: MGNX_DATABASE_URI
+              valueFrom:
+                secretKeyRef:
+                  key: uri
+                  name: mgnx-db-app
+      volumes:
+        - configMap:
+            name: config
+          name: configmap-config
+---
+# Source: homelab/charts/mgnx/templates/postgres.yaml
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.20
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  instances: 1
+  storage:
+    size: 50Gi
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+  bootstrap:
+    initdb:
+      database: mgnx
+      owner: mgnx
+---
+# Source: homelab/charts/mgnx/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.20
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "mgnx.int.kyledev.co"
+    - "mgnx.ts.kyledev.co"
+  rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: mgnx
+        port: 0
+        weight: 1
