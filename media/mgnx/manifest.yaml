@@ -194,7 +194,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: uri
-                  name: mgnx-db-app
+                  name: mgnx-app
 ---
 # Source: homelab/charts/mgnx/templates/postgres.yaml
 apiVersion: postgresql.cnpg.io/v1
