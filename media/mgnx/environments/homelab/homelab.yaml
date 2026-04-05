@@ -14,7 +14,7 @@ mgnx:
       MGNX_DATABASE_URI:
         valueFrom:
           secretKeyRef:
-            name: mgnx-db-app
+            name: mgnx-app
             key: uri
 
     args:
