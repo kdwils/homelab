@@ -68,6 +68,7 @@ mgnx:
               log_level: debug
 
             indexer:
+              workers: 10
               peer_retries: 10
               peer_timeout: 3s
               excluded_extensions:
