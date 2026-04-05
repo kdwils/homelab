@@ -24,10 +24,15 @@ mgnx:
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
-      fsGroup: 2000
+      runAsGroup: 1000
+      fsGroup: 1000
 
   service:
     create: true
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+    name: http
 
   httproute:
     create: true
