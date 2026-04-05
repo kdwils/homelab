@@ -71,7 +71,7 @@ mgnx:
 
             indexer:
               workers: 10
-              peer_retries: 3
+              peer_retries: 15
               peer_timeout: 5s
               allowed_extensions:
                 - .mkv
