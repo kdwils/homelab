@@ -176,12 +176,21 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          volumeMounts:
+            - mountPath: /app/config.yaml
+              name: configmap-mgnx-config
+              readOnly: true
+              subPath: config.yaml
           env:
             - name: MGNX_DATABASE_URI
               valueFrom:
                 secretKeyRef:
                   key: uri
                   name: mgnx-app
+      volumes:
+        - configMap:
+            name: mgnx-config
+          name: configmap-mgnx-config
 ---
 # Source: homelab/charts/mgnx/templates/postgres.yaml
 apiVersion: postgresql.cnpg.io/v1
