@@ -8,7 +8,7 @@ mgnx:
       pullPolicy: IfNotPresent
 
     env:
-      MGNX_DATABASE_URI:
+      MGNX_DATABASE_URL:
         valueFrom:
           secretKeyRef:
             name: mgnx-app
