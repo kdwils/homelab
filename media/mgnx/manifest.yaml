@@ -211,7 +211,7 @@ spec:
             - name: SERVER_CATEGORIES
               value: "p2p"
             - name: SERVER_COUNTRIES
-              value: "US"
+              value: "United States"
             - name: VPN_SERVICE_PROVIDER
               value: "nordvpn"
             - name: VPN_TYPE
