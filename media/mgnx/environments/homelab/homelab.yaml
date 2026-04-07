@@ -17,10 +17,10 @@ mgnx:
       - "serve"
       - --config=/app/config.yaml
 
-    podAnnotations:
-      tailscale.com/inject-proxy: "true"
-      tailscale.com/hostname: mgnx-dht-sidecar
-      tailscale.com/tags: tag:mgnx-dht
+    # podAnnotations:
+    #   tailscale.com/inject-proxy: "true"
+    #   tailscale.com/hostname: mgnx-dht-sidecar
+    #   tailscale.com/tags: tag:mgnx-dht
 
     podSecurityContext:
       runAsNonRoot: true
