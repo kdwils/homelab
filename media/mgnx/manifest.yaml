@@ -15,6 +15,7 @@ data:
     dht:
       node_id: 5b58f51a57cec29286e37dc0c36028b328402997
       nodes_path: /data/nodes.dat
+      port: 6881
       bootstrap_nodes:
         - dht.libtorrent.org:25401
         - dht.transmissionbt.com:6881
@@ -22,6 +23,15 @@ data:
       workers: 4
       rate_limit: 25
       rate_burst: 25
+      discovery_buffer: 10000
+      good_node_window: 15m
+      bad_failure_threshold: 2
+      bucket_size: 8
+      stale_threshold: 15m
+      transaction_timeout: 10s
+      token_rotation: 5m
+      alpha: 3
+      max_iterations: 4
   
     crawler:
       crawlers: 2
@@ -32,9 +42,12 @@ data:
   
     indexer:
       workers: 20
+      request_timeout: 6s
+      max_peers: 100
       rate_limit: 2
       rate_burst: 4
-      request_timeout: 3
+      min_size: 52428800     # 50 MB
+      max_size: 161061273600 # 150 GB
       allowed_extensions:
         - .mkv
         - .mp4
@@ -79,6 +92,14 @@ data:
   
     scrape:
       workers: 5
+      rate_limit: 2
+      rate_burst: 4
+      batch_size: 74
+      poll_interval: 30s
+      dial_timeout: 5s
+      read_timeout: 10s
+      dead_after: 2160h  # 90 days
+      prune_interval: 24h
       trackers:
         - udp://tracker.opentrackr.org:1337/announce
         - udp://tracker.torrent.eu.org:451/announce
