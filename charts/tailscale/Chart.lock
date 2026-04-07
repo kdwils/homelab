@@ -1,9 +1,9 @@
 dependencies:
 - name: tailscale-operator
   repository: https://pkgs.tailscale.com/helmcharts
-  version: 1.94.2
+  version: 1.96.5
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
   version: 0.1.23
-digest: sha256:521c3221e4a3ee4f33326e25e9776f384573d50c4da9b2833fce1cedadb50163
-generated: "2026-04-07T20:17:32.149600275Z"
+digest: sha256:858d5f9dec2e4505ddb62bcd0567409ab4bdab03a990d06eae8858566de209d2
+generated: "2026-04-07T22:47:54.987041056Z"
