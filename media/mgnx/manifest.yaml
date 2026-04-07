@@ -196,6 +196,8 @@ spec:
               containerPort: 9999
               protocol: TCP
           env:
+            - name: DNS_KEEP_NAMESERVER
+              value: "on"
             - name: OPENVPN_PASSWORD
               valueFrom:
                 secretKeyRef:
