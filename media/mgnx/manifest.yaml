@@ -74,6 +74,8 @@ data:
         - .ass
         - .ssa
         - .sub
+        - .idx
+        - .vtt
   
     scrape:
       workers: 5
@@ -198,7 +200,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-ebd595a1dd3331bc6d546bd40dac415f502a0cca"
+          image: "ghcr.io/kdwils/mgnx:sha-0131b8be3aa980aa78c16ea015feb4921d40b552"
           imagePullPolicy: IfNotPresent
           args:
             - serve
