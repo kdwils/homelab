@@ -134,7 +134,6 @@ mgnx:
               dead_after: 2160h  # 90 days
               prune_interval: 24h
               trackers:
-                - udp://tracker.torrent.eu.org:451/announce
                 - udp://open.stealth.si:80/announce
                 - udp://wepzone.net:6969/announce
                 - udp://tracker.theoks.net:6969/announce
