@@ -37,7 +37,7 @@ data:
   
     server:
       port: 8080
-      log_level: debug
+      log_level: info
   
     indexer:
       workers: 20
@@ -47,47 +47,6 @@ data:
       rate_burst: 4
       min_size: 52428800     # 50 MB
       max_size: 161061273600 # 150 GB
-      allowed_extensions:
-        - .mkv
-        - .mp4
-        - .avi
-        - .mov
-        - .wmv
-        - .m4v
-        - .ts
-        - .m2ts
-        - .vob
-        - .flv
-        - .webm
-        - .mpg
-        - .mpeg
-        - .mpe
-        - .mpv
-        - .3gp
-        - .3g2
-        - .ogv
-        - .qt
-        - .nsv
-        - .f4v
-        - .f4p
-        - .f4a
-        - .f4b
-        - .amv
-        - .drc
-        - .rm
-        - .rmvb
-        - .viv
-        - .asf
-        - .svi
-        - .roq
-        - .mng
-        - .mxf
-        - .srt
-        - .ass
-        - .ssa
-        - .sub
-        - .idx
-        - .vtt
   
     scrape:
       workers: 5
@@ -100,7 +59,6 @@ data:
       dead_after: 2160h  # 90 days
       prune_interval: 24h
       trackers:
-        - udp://tracker.opentrackr.org:1337/announce
         - udp://tracker.torrent.eu.org:451/announce
         - udp://open.stealth.si:80/announce
         - udp://wepzone.net:6969/announce
