@@ -52527,10 +52527,10 @@ spec:
       port: 80
       protocol: TCP
       targetPort: 10080
-    - name: nats
-      port: 4222
-      protocol: TCP
-      targetPort: 4222
+    - name: mgnx
+      port: 6881
+      protocol: UDP
+      targetPort: 6881
   selector:
     app.kubernetes.io/component: proxy
     app.kubernetes.io/managed-by: envoy-gateway
@@ -52788,6 +52788,13 @@ spec:
         kinds:
           - group: gateway.networking.k8s.io
             kind: HTTPRoute
+    - name: mgnx
+      protocol: UDP
+      port: 6881
+      allowedRoutes:
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: UDPRoute
 ---
 # Source: envoy-gateway/templates/gatewayclass.yaml
 apiVersion: gateway.networking.k8s.io/v1beta1
