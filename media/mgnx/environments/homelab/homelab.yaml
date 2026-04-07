@@ -43,6 +43,7 @@ mgnx:
     create: true
     hostnames:
       - mgnx.ts.kyledev.co
+      - mgnx.int.kyledev.co
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
