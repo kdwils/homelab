@@ -103,6 +103,7 @@ mgnx:
         failureThreshold: 60
         periodSeconds: 5
       env:
+        DNS_KEEP_NAMESERVER: "on"
         VPN_SERVICE_PROVIDER: "nordvpn"
         OPENVPN_PROTOCOL: "tcp"
         VPN_TYPE: "openvpn"
