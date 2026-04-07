@@ -218,7 +218,7 @@ spec:
               readOnly: true
               subPath: config.yaml
           env:
-            - name: MGNX_DATABASE_URI
+            - name: MGNX_DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   key: uri
