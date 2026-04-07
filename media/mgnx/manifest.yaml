@@ -200,7 +200,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-0131b8be3aa980aa78c16ea015feb4921d40b552"
+          image: "ghcr.io/kdwils/mgnx:sha-c24256b9fe96d6cc4ce1ff1e93d77bb75ee66ad1"
           imagePullPolicy: IfNotPresent
           args:
             - serve
