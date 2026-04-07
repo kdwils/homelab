@@ -26,9 +26,6 @@ data:
     crawler:
       crawlers: 2
   
-    database:
-      url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
-  
     server:
       port: 8080
       log_level: debug
