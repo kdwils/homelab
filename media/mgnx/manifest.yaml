@@ -14,7 +14,7 @@ data:
   config.yaml: |
     dht:
       port: 6881
-      node_id: 5b58f51a57cec29286e37dc0c36028b328402997
+      # node_id: 5b58f51a57cec29286e37dc0c36028b328402997
       nodes_path: /data/nodes.dat
       bootstrap_nodes:
         - dht.libtorrent.org:25401
