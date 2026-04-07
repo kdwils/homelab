@@ -35,3 +35,9 @@ spec:
         kinds:
           - group: gateway.networking.k8s.io
             kind: HTTPRoute
+    - name: mgnx
+      protocol: UDP
+      port: 6881
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: UDPRoute

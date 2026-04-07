@@ -14,10 +14,10 @@ spec:
       port: 80
       protocol: TCP
       targetPort: 10080
-    - name: nats
-      port: 4222
-      protocol: TCP
-      targetPort: 4222
+    - name: mgnx
+      port: 6881
+      protocol: UDP
+      targetPort: 6881
   selector:
     app.kubernetes.io/component: proxy
     app.kubernetes.io/managed-by: envoy-gateway

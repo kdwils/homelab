@@ -33,7 +33,15 @@ mgnx:
   httproute:
     create: true
     hostnames:
-      - mgnx.int.kyledev.co
+      - torznab.int.kyledev.co
+      - torznab.ts.kyledev.co
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system
+
+  udproute:
+    create: true
+    hostnames:
       - mgnx.ts.kyledev.co
     parentRefs:
       - name: homelab
@@ -66,6 +74,7 @@ mgnx:
         data:
           config.yaml: |
             dht:
+              port: 6881
               node_id: 5b58f51a57cec29286e37dc0c36028b328402997
               nodes_path: /data/nodes.dat
               bootstrap_nodes:
