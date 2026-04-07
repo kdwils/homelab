@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: mgnx-config
   labels:
-    helm.sh/chart: mgnx-0.1.23
+    helm.sh/chart: mgnx-0.1.24
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -108,7 +108,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mgnx-data
   labels:
-    helm.sh/chart: mgnx-0.1.23
+    helm.sh/chart: mgnx-0.1.24
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -126,7 +126,7 @@ kind: Service
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.23
+    helm.sh/chart: mgnx-0.1.24
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -152,13 +152,13 @@ kind: Deployment
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.23
+    helm.sh/chart: mgnx-0.1.24
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
@@ -168,7 +168,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: mgnx-0.1.23
+        helm.sh/chart: mgnx-0.1.24
         app.kubernetes.io/name: mgnx
         app.kubernetes.io/instance: mgnx
         app.kubernetes.io/version: "1.16.0"
@@ -180,6 +180,40 @@ spec:
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      initContainers:
+        - name: gluetun
+          restartPolicy: Always
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+          image: "ghcr.io/qdm12/gluetun:v3.41"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: 
+              containerPort: 9999
+              protocol: TCP
+          env:
+            - name: OPENVPN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: OPENVPN_PASSWORD
+                  name: openvpn
+            - name: OPENVPN_PROTOCOL
+              value: "tcp"
+            - name: OPENVPN_USER
+              valueFrom:
+                secretKeyRef:
+                  key: OPENVPN_USERNAME
+                  name: openvpn
+            - name: SERVER_CATEGORIES
+              value: "p2p"
+            - name: SERVER_COUNTRIES
+              value: "US"
+            - name: VPN_SERVICE_PROVIDER
+              value: "nordvpn"
+            - name: VPN_TYPE
+              value: "openvpn"
       containers:
         - name: mgnx
           image: "ghcr.io/kdwils/mgnx:sha-4d64df9d070b01e057c29e0f589ba8bf8d095e70"
@@ -222,7 +256,7 @@ kind: Cluster
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.23
+    helm.sh/chart: mgnx-0.1.24
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -245,7 +279,7 @@ kind: HTTPRoute
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.23
+    helm.sh/chart: mgnx-0.1.24
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -277,7 +311,7 @@ kind: UDPRoute
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.23
+    helm.sh/chart: mgnx-0.1.24
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
