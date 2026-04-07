@@ -74,6 +74,8 @@ data:
         - .ass
         - .ssa
         - .sub
+        - .idx
+        - .vtt
   
     scrape:
       workers: 5
