@@ -198,6 +198,10 @@ spec:
           env:
             - name: DNS_KEEP_NAMESERVER
               value: "on"
+            - name: DOT
+              value: "off"
+            - name: FIREWALL_OUTBOUND_SUBNETS
+              value: "10.42.0.0/16,10.43.0.0/16"
             - name: OPENVPN_PASSWORD
               valueFrom:
                 secretKeyRef:
