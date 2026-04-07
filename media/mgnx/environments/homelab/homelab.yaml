@@ -82,47 +82,40 @@ mgnx:
         accessMode: ReadWriteOnce
         mountPath: /data
 
-  # Policy-routing init container — routes DHT traffic via the Tailscale sidecar.
-  # The Tailscale operator injects the sidecar automatically based on the podAnnotations above.
-  #
-  # Fill in the following before deploying:
-  #   VPS_TAILSCALE_IP: the Tailscale IP of the VPS (e.g. 100.x.y.z)
-  #     → run: tailscale status | grep <vps-hostname>
-  #   POD_CIDR:         cluster pod CIDR
-  #   SERVICE_CIDR:     cluster service CIDR
-  #     → run: kubectl cluster-info dump | grep -E "cluster-cidr|service-cidr"
-  #
-  # IMPORTANT: verify operator injection mode before deploying.
-  # Run: kubectl describe pod <mgnx-pod> | grep -A5 initContainers
-  # If the Tailscale container is a regular container (not a native sidecar init container),
-  # this init container will deadlock. In that case, convert it to a regular extraContainer
-  # with the same command — the `until ip link show tailscale0` loop will still work.
   initContainers:
-    - name: policy-routing
-      image:
-        repository: alpine
-        tag: "3.21"
+    - image: 
+        repository: ghcr.io/qdm12/gluetun
+        tag: v3.41
+      name: gluetun
+      restartPolicy: Always
+      imagePullPolicy: IfNotPresent
       securityContext:
-        runAsUser: 0
-        runAsNonRoot: false
         capabilities:
           add: ["NET_ADMIN"]
-      command:
-        - sh
-        - -c
-        - |
-          until ip link show tailscale0; do sleep 1; done
-          # Block IPv6 DHT — prevents split-IP via homelab IPv6 address
-          ip6tables -A OUTPUT -p udp --dport 6881 -j DROP
-          ip6tables -A OUTPUT -p udp --sport 6881 -j DROP
-          # Mark outbound DHT queries
-          iptables -t mangle -A OUTPUT -p udp --dport 6881 -j MARK --set-mark 0x1
-          # Mark DHT replies to non-cluster destinations only
-          # Both CIDRs required — missing either causes cluster reply traffic to route via tailscale0
-          iptables -t mangle -A OUTPUT -p udp --sport 6881 ! -d POD_CIDR ! -d SERVICE_CIDR -j MARK --set-mark 0x1
-          # Route marked traffic via VPS
-          ip rule add fwmark 0x1 table 200
-          ip route add default via VPS_TAILSCALE_IP dev tailscale0 table 200
+      ports:
+        - containerPort: 9999
+      startupProbe:
+        httpGet:
+          path: /
+          port: 9999
+        failureThreshold: 60
+        periodSeconds: 5
+      env:
+        VPN_SERVICE_PROVIDER: "nordvpn"
+        OPENVPN_PROTOCOL: "tcp"
+        VPN_TYPE: "openvpn"
+        SERVER_COUNTRIES: "US"
+        SERVER_CATEGORIES: "p2p"
+        OPENVPN_USER:
+          valueFrom:
+            secretKeyRef:
+              name: openvpn
+              key: OPENVPN_USERNAME
+        OPENVPN_PASSWORD:
+          valueFrom:
+            secretKeyRef:
+              name: openvpn
+              key: OPENVPN_PASSWORD
 
   configmap:
     create: true
