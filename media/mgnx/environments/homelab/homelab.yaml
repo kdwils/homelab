@@ -104,6 +104,8 @@ mgnx:
         periodSeconds: 5
       env:
         DNS_KEEP_NAMESERVER: "on"
+        DOT: "off"
+        FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
         VPN_SERVICE_PROVIDER: "nordvpn"
         OPENVPN_PROTOCOL: "tcp"
         VPN_TYPE: "openvpn"
