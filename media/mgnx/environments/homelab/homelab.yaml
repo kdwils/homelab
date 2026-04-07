@@ -111,6 +111,7 @@ mgnx:
         VPN_TYPE: "openvpn"
         SERVER_COUNTRIES: "United States"
         SERVER_CATEGORIES: "p2p"
+        FIREWALL_DEBUG: "on"
         OPENVPN_USER:
           valueFrom:
             secretKeyRef:
@@ -133,7 +134,6 @@ mgnx:
           config.yaml: |
             dht:
               port: 6881
-              # node_id: 5b58f51a57cec29286e37dc0c36028b328402997
               nodes_path: /data/nodes.dat
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
