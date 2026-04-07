@@ -135,7 +135,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 8080
       protocol: TCP
       name: http
@@ -266,11 +266,11 @@ spec:
           type: PathPrefix
           value: /
       backendRefs:
-      - group: ""
-        kind: Service
-        name: mgnx
-        port: 0
-        weight: 1
+        - group: ""
+          kind: Service
+          name: mgnx
+          port: 8080
+          weight: 1
 ---
 # Source: homelab/charts/mgnx/templates/udproute.yaml
 apiVersion: gateway.networking.k8s.io/v1alpha2
