@@ -187,6 +187,8 @@ spec:
             capabilities:
               add:
               - NET_ADMIN
+            runAsNonRoot: false
+            runAsUser: 0
           image: "ghcr.io/qdm12/gluetun:v3.41"
           imagePullPolicy: IfNotPresent
           ports:
