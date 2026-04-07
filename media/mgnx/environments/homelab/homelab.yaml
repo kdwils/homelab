@@ -28,7 +28,7 @@ mgnx:
     type: ClusterIP
     ports:
       - name: http
-        port: 80
+        port: 8080
         targetPort: 8080
         protocol: TCP
       - name: udp
@@ -44,6 +44,10 @@ mgnx:
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
+    rules:
+      - backendRefs:
+          - name: mgnx
+            port: 8080
 
   udproutes:
     - name: mgnx
