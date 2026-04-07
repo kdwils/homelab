@@ -13,7 +13,7 @@ metadata:
 data:
   config.yaml: |
     dht:
-      port: 6881
+      port: 47444
       nodes_path: /data/nodes.dat
       bootstrap_nodes:
         - dht.libtorrent.org:25401
@@ -137,8 +137,8 @@ spec:
       targetPort: 8080
       protocol: TCP
       name: http
-    - port: 6881
-      targetPort: 6881
+    - port: 47444
+      targetPort: 47444
       protocol: UDP
       name: udp
   selector:
@@ -202,11 +202,11 @@ spec:
             - name: FIREWALL_DEBUG
               value: "on"
             - name: FIREWALL_INPUT_PORTS
-              value: "6881"
+              value: "47444"
             - name: FIREWALL_OUTBOUND_SUBNETS
               value: "10.42.0.0/16,10.43.0.0/16"
             - name: FIREWALL_VPN_INPUT_PORTS
-              value: "6881"
+              value: "47444"
             - name: OPENVPN_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -239,7 +239,7 @@ spec:
               containerPort: 8080
               protocol: TCP
             - name: udp
-              containerPort: 6881
+              containerPort: 47444
               protocol: UDP
           volumeMounts:
             - mountPath: /data
@@ -337,4 +337,4 @@ spec:
   rules:
     - backendRefs:
       - name: mgnx
-        port: 6881
+        port: 47444
