@@ -23,12 +23,18 @@ mgnx:
       runAsGroup: 1000
       fsGroup: 1000
 
-  service:
-    create: true
-    type: ClusterIP
-    port: 8080
-    targetPort: 8080
-    name: http
+service:
+  create: true
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+    - name: udp
+      port: 6881
+      targetPort: 6881
+      protocol: UDP
 
   httproute:
     create: true
