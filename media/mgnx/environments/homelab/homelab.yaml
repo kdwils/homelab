@@ -90,7 +90,7 @@ mgnx:
 
             server:
               port: 8080
-              log_level: debug
+              log_level: info
 
             indexer:
               workers: 20
