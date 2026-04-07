@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: mgnx-config
   labels:
-    helm.sh/chart: mgnx-0.1.21
+    helm.sh/chart: mgnx-0.1.22
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -13,6 +13,7 @@ metadata:
 data:
   config.yaml: |
     dht:
+      port: 6881
       node_id: 5b58f51a57cec29286e37dc0c36028b328402997
       nodes_path: /data/nodes.dat
       bootstrap_nodes:
@@ -47,47 +48,6 @@ data:
       rate_burst: 4
       min_size: 52428800     # 50 MB
       max_size: 161061273600 # 150 GB
-      allowed_extensions:
-        - .mkv
-        - .mp4
-        - .avi
-        - .mov
-        - .wmv
-        - .m4v
-        - .ts
-        - .m2ts
-        - .vob
-        - .flv
-        - .webm
-        - .mpg
-        - .mpeg
-        - .mpe
-        - .mpv
-        - .3gp
-        - .3g2
-        - .ogv
-        - .qt
-        - .nsv
-        - .f4v
-        - .f4p
-        - .f4a
-        - .f4b
-        - .amv
-        - .drc
-        - .rm
-        - .rmvb
-        - .viv
-        - .asf
-        - .svi
-        - .roq
-        - .mng
-        - .mxf
-        - .srt
-        - .ass
-        - .ssa
-        - .sub
-        - .idx
-        - .vtt
   
     scrape:
       workers: 5
@@ -100,7 +60,6 @@ data:
       dead_after: 2160h  # 90 days
       prune_interval: 24h
       trackers:
-        - udp://tracker.opentrackr.org:1337/announce
         - udp://tracker.torrent.eu.org:451/announce
         - udp://open.stealth.si:80/announce
         - udp://wepzone.net:6969/announce
@@ -150,7 +109,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mgnx-data
   labels:
-    helm.sh/chart: mgnx-0.1.21
+    helm.sh/chart: mgnx-0.1.22
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -168,7 +127,7 @@ kind: Service
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.21
+    helm.sh/chart: mgnx-0.1.22
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -176,10 +135,14 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8080
+    - port: 80
       targetPort: 8080
       protocol: TCP
       name: http
+    - port: 6881
+      targetPort: 6881
+      protocol: UDP
+      name: udp
   selector:
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
@@ -190,7 +153,7 @@ kind: Deployment
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.21
+    helm.sh/chart: mgnx-0.1.22
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -206,7 +169,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: mgnx-0.1.21
+        helm.sh/chart: mgnx-0.1.22
         app.kubernetes.io/name: mgnx
         app.kubernetes.io/instance: mgnx
         app.kubernetes.io/version: "1.16.0"
@@ -229,6 +192,9 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            - name: udp
+              containerPort: 6881
+              protocol: UDP
           volumeMounts:
             - mountPath: /data
               name: pvc-mgnx-data
@@ -257,7 +223,7 @@ kind: Cluster
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.21
+    helm.sh/chart: mgnx-0.1.22
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -280,7 +246,7 @@ kind: HTTPRoute
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.21
+    helm.sh/chart: mgnx-0.1.22
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -292,8 +258,8 @@ spec:
       name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - "mgnx.int.kyledev.co"
-    - "mgnx.ts.kyledev.co"
+    - "torznab.int.kyledev.co"
+    - "torznab.ts.kyledev.co"
   rules:
     - matches:
       - path:
@@ -303,5 +269,26 @@ spec:
       - group: ""
         kind: Service
         name: mgnx
-        port: 8080
+        port: 0
         weight: 1
+---
+# Source: homelab/charts/mgnx/templates/udproute.yaml
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.22
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - name: homelab
+      namespace: envoy-gateway-system
+      sectionName: mgnx
+  rules:
+    - backendRefs:
+      - name: mgnx
+        port: 6881
