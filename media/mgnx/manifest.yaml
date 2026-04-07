@@ -14,20 +14,30 @@ data:
   config.yaml: |
     dht:
       node_id: 5b58f51a57cec29286e37dc0c36028b328402997
+      nodes_path: /data/nodes.dat
       bootstrap_nodes:
-        - router.bittorrent.com:6881
+        - dht.libtorrent.org:25401
         - dht.transmissionbt.com:6881
-        - router.utorrent.com:6881
-        - dht.aelius.com:6881
+        - router.bittorrent.com:6881
+      workers: 4
+      rate_limit: 25
+      rate_burst: 25
+  
+    crawler:
+      crawlers: 2
+  
+    database:
+      url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
   
     server:
       port: 8080
       log_level: debug
   
     indexer:
-      workers: 10
-      peer_retries: 10
-      peer_timeout: 5s
+      workers: 20
+      rate_limit: 2
+      rate_burst: 4
+      request_timeout: 3
       allowed_extensions:
         - .mkv
         - .mp4
@@ -65,50 +75,69 @@ data:
         - .mxf
   
     scrape:
+      workers: 5
       trackers:
-      - udp://tracker.opentrackr.org:1337/announce
-      - udp://tracker.torrent.eu.org:451/announce
-      - udp://open.stealth.si:80/announce
-      - udp://wepzone.net:6969/announce
-      - udp://tracker.theoks.net:6969/announce
-      - udp://tracker.srv00.com:6969/announce
-      - udp://tracker.qu.ax:6969/announce
-      - udp://tracker.dler.org:6969/announce
-      - udp://tracker.darkness.services:6969/announce
-      - udp://tracker.corpscorp.online:80/announce
-      - udp://tracker.004430.xyz:1337/announce
-      - udp://t.overflow.biz:6969/announce
-      - udp://leet-tracker.moe:1337/announce
-      - udp://d40969.acod.regrucolo.ru:6969/announce
-      - udp://bittorrent-tracker.e-n-c-r-y-p-t.net:1337/announce
-      - udp://6ahddutb1ucc3cp.ru:6969/announce
-      - udp://udp.tracker.projectk.org:23333/announce
-      - udp://tracker.tryhackx.org:6969/announce
-      - udp://tracker.therarbg.to:6969/announce
-      - udp://tracker.t-1.org:6969/announce
-      - udp://tracker.plx.im:6969/announce
-      - udp://tracker.playground.ru:6969/announce
-      - udp://tracker.opentorrent.top:6969/announce
-      - udp://tracker.ixuexi.click:6969/announce
-      - udp://tracker.gmi.gd:6969/announce
-      - udp://tracker.fnix.net:6969/announce
-      - udp://tracker.flatuslifir.is:6969/announce
-      - udp://tracker.ducks.party:1984/announce
-      - udp://tracker.ddunlimited.net:6969/announce
-      - udp://tracker.bluefrog.pw:2710/announce
-      - udp://tracker.bittor.pw:1337/announce
-      - udp://tracker.1h.is:1337/announce
-      - udp://tr4ck3r.duckdns.org:6969/announce
-      - udp://torrentclub.online:54123/announce
-      - udp://seedpeer.net:6969/announce
-      - udp://rekcart.duckdns.org:15480/announce
-      - udp://open.dstud.io:6969/announce
-      - udp://open.demonoid.ch:6969/announce
-      - udp://ns575949.ip-51-222-82.net:6969/announce
-      - udp://martin-gebhardt.eu:25/announce
-      - udp://ipv4announce.sktorrent.eu:6969/announce
-      - udp://evan.im:6969/announce
-      - udp://bandito.byterunner.io:6969/announce
+        - udp://tracker.opentrackr.org:1337/announce
+        - udp://tracker.torrent.eu.org:451/announce
+        - udp://open.stealth.si:80/announce
+        - udp://wepzone.net:6969/announce
+        - udp://tracker.theoks.net:6969/announce
+        - udp://tracker.srv00.com:6969/announce
+        - udp://tracker.qu.ax:6969/announce
+        - udp://tracker.dler.org:6969/announce
+        - udp://tracker.darkness.services:6969/announce
+        - udp://tracker.corpscorp.online:80/announce
+        - udp://tracker.004430.xyz:1337/announce
+        - udp://t.overflow.biz:6969/announce
+        - udp://leet-tracker.moe:1337/announce
+        - udp://d40969.acod.regrucolo.ru:6969/announce
+        - udp://bittorrent-tracker.e-n-c-r-y-p-t.net:1337/announce
+        - udp://6ahddutb1ucc3cp.ru:6969/announce
+        - udp://udp.tracker.projectk.org:23333/announce
+        - udp://tracker.tryhackx.org:6969/announce
+        - udp://tracker.therarbg.to:6969/announce
+        - udp://tracker.t-1.org:6969/announce
+        - udp://tracker.plx.im:6969/announce
+        - udp://tracker.playground.ru:6969/announce
+        - udp://tracker.opentorrent.top:6969/announce
+        - udp://tracker.ixuexi.click:6969/announce
+        - udp://tracker.gmi.gd:6969/announce
+        - udp://tracker.fnix.net:6969/announce
+        - udp://tracker.flatuslifir.is:6969/announce
+        - udp://tracker.ducks.party:1984/announce
+        - udp://tracker.ddunlimited.net:6969/announce
+        - udp://tracker.bluefrog.pw:2710/announce
+        - udp://tracker.bittor.pw:1337/announce
+        - udp://tracker.1h.is:1337/announce
+        - udp://tr4ck3r.duckdns.org:6969/announce
+        - udp://torrentclub.online:54123/announce
+        - udp://seedpeer.net:6969/announce
+        - udp://rekcart.duckdns.org:15480/announce
+        - udp://open.dstud.io:6969/announce
+        - udp://open.demonoid.ch:6969/announce
+        - udp://ns575949.ip-51-222-82.net:6969/announce
+        - udp://martin-gebhardt.eu:25/announce
+        - udp://ipv4announce.sktorrent.eu:6969/announce
+        - udp://evan.im:6969/announce
+        - udp://bandito.byterunner.io:6969/announce
+---
+# Source: homelab/charts/mgnx/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mgnx-data
+  labels:
+    helm.sh/chart: mgnx-0.1.21
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Mi
 ---
 # Source: homelab/charts/mgnx/templates/service.yaml
 apiVersion: v1
@@ -168,7 +197,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-8ec3d828f10aae3b8b26b4d0ccb2c8764ccc9d08"
+          image: "ghcr.io/kdwils/mgnx:sha-ebd595a1dd3331bc6d546bd40dac415f502a0cca"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -178,6 +207,9 @@ spec:
               containerPort: 8080
               protocol: TCP
           volumeMounts:
+            - mountPath: /data
+              name: pvc-mgnx-data
+              readOnly: false
             - mountPath: /app/config.yaml
               name: configmap-mgnx-config
               readOnly: true
@@ -189,6 +221,9 @@ spec:
                   key: uri
                   name: mgnx-app
       volumes:
+        - name: pvc-mgnx-data
+          persistentVolumeClaim:
+            claimName: mgnx-data
         - configMap:
             name: mgnx-config
           name: configmap-mgnx-config
