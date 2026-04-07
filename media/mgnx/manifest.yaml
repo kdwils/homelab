@@ -70,6 +70,10 @@ data:
         - .roq
         - .mng
         - .mxf
+        - .srt
+        - .ass
+        - .ssa
+        - .sub
   
     scrape:
       workers: 5
