@@ -83,7 +83,7 @@ mgnx:
         mountPath: /data
 
   initContainers:
-    - image: 
+    - image:
         repository: ghcr.io/qdm12/gluetun
         tag: v3.41
       name: gluetun
@@ -106,7 +106,7 @@ mgnx:
         VPN_SERVICE_PROVIDER: "nordvpn"
         OPENVPN_PROTOCOL: "tcp"
         VPN_TYPE: "openvpn"
-        SERVER_COUNTRIES: "US"
+        SERVER_COUNTRIES: "United States"
         SERVER_CATEGORIES: "p2p"
         OPENVPN_USER:
           valueFrom:
