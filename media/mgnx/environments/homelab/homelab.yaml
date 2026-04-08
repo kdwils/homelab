@@ -4,7 +4,7 @@ mgnx:
     replicas: 1
     image:
       repository: ghcr.io/kdwils/mgnx
-      tag: sha-9e649cf9c51559f12c074ef533ac0e19f3a419db
+      tag: sha-9f1a585bfe585a41213ccba2de97f1af89f45cb8
       pullPolicy: IfNotPresent
 
     env:
