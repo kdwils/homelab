@@ -82,6 +82,11 @@ mgnx:
         accessMode: ReadWriteOnce
         mountPath: /data
 
+  sealedsecrets:
+    - name: protonvpn
+      data:
+        WIREGUARD_PRIVATE_KEY: AgBn5oO5B5M+dEFT5CoTuPF90CEcsTmVg6ISV9kg8+ZT4/TBHk5XxbTO4v3HKr8+NGDk0NZbrobtFSKljVYtYDJPrJ/nVTcjHd9omRxS3j6jgEiRytPA/YngUWA3HLFiWRpqDl0OvoBCtz49QqswJ6Wx2RkaRVgyE6JB+n5JZKcEVX4q0UBcpDHiDfAr0W0tq8vif/3vPfj7XkuEO9LIfLLnG2C1uJJfTvCvRHsjf2UmrNxPeqBwMf7pjPWzgZtfdGfk4FtYtJoi2CVLxW1ajOWrLfvQQqAWE7aOa8J4jV2jc89LAFnq4T0LbgSXydBgtV8QihI1xJsh5Tmbj14OtZT+094z40w8wItzDAZT6Dhxd8s6chbh34mbg5vdrxVKoXV7vV7JYxXkMJh1PO4ygnEubU/tx1knfw2A5OsS//nwGr5sCZhIqBqhy7KpLgQPquKnyJ3Tg/V8QNX8I7RhMXZw0zotuwT+JarvtppJZZZwX21HBUT+u4olTsOn63Y/qF4z3c37lH1923ACzUPK/i32y3aB16CV7y/MVS5imDnMpkSg4kjvx2/MmUxXfAfJn6I+JJyhmcG3+9PSDFNNUswv9HJ/lj0hYO5DcUu2VVGwOhASzGEhas2rb+8tNvSeuYLnmRjVv9MfJQkk7V4QCYbbdejy42f4eNXY1yGDFeDw3wC2p537bYZ9dObRsHrjBXF/bH98dCDxKVW/Y9cn8KblBZYbJ4AFgrNO+vqW/i8KHfNxUvwRtSgemIM+WQ==
+
   initContainers:
     - image:
         repository: ghcr.io/qdm12/gluetun
@@ -108,22 +113,17 @@ mgnx:
         FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
         FIREWALL_INPUT_PORTS: "6881"
         FIREWALL_VPN_INPUT_PORTS: "6881"
-        VPN_SERVICE_PROVIDER: "nordvpn"
-        OPENVPN_PROTOCOL: "tcp"
-        VPN_TYPE: "openvpn"
+        VPN_SERVICE_PROVIDER: "protonvpn"
+        VPN_TYPE: "wireguard"
+        WIREGUARD_ADDRESSES: "10.2.0.2/32"
         SERVER_COUNTRIES: "United States"
-        SERVER_CATEGORIES: "p2p"
-        FIREWALL_DEBUG: "on"
-        OPENVPN_USER:
+        PORT_FORWARD_ONLY: "on"
+        VPN_PORT_FORWARDING: "on"
+        WIREGUARD_PRIVATE_KEY:
           valueFrom:
             secretKeyRef:
-              name: openvpn
-              key: OPENVPN_USERNAME
-        OPENVPN_PASSWORD:
-          valueFrom:
-            secretKeyRef:
-              name: openvpn
-              key: OPENVPN_PASSWORD
+              name: protonvpn
+              key: WIREGUARD_PRIVATE_KEY
 
   configmap:
     create: true
