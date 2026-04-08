@@ -165,7 +165,7 @@ mgnx:
               max_iterations: 4
 
             crawler:
-              crawlers: 6
+              crawlers: 20
 
             server:
               port: 8080
