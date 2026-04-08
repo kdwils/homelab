@@ -165,9 +165,9 @@ mgnx:
               max_iterations: 8
 
             crawler:
-              crawlers: 4
-              discovery_workers: 4
-              discovery_queue_size: 256
+              crawlers: 8
+              discovery_workers: 8
+              discovery_queue_size: 512
 
             database:
               url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
