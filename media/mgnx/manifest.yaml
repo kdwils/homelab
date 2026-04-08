@@ -201,34 +201,29 @@ spec:
               value: "on"
             - name: DOT
               value: "off"
-            - name: FIREWALL_DEBUG
-              value: "on"
             - name: FIREWALL_INPUT_PORTS
               value: "6881"
             - name: FIREWALL_OUTBOUND_SUBNETS
               value: "10.42.0.0/16,10.43.0.0/16"
             - name: FIREWALL_VPN_INPUT_PORTS
               value: "6881"
-            - name: OPENVPN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: OPENVPN_PASSWORD
-                  name: openvpn
-            - name: OPENVPN_PROTOCOL
-              value: "tcp"
-            - name: OPENVPN_USER
-              valueFrom:
-                secretKeyRef:
-                  key: OPENVPN_USERNAME
-                  name: openvpn
-            - name: SERVER_CATEGORIES
-              value: "p2p"
+            - name: PORT_FORWARD_ONLY
+              value: "on"
             - name: SERVER_COUNTRIES
               value: "United States"
+            - name: VPN_PORT_FORWARDING
+              value: "on"
             - name: VPN_SERVICE_PROVIDER
-              value: "nordvpn"
+              value: "protonvpn"
             - name: VPN_TYPE
-              value: "openvpn"
+              value: "wireguard"
+            - name: WIREGUARD_ADDRESSES
+              value: "10.2.0.2/32"
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: WIREGUARD_PRIVATE_KEY
+                  name: protonvpn
       containers:
         - name: mgnx
           image: "ghcr.io/kdwils/mgnx:sha-5c24b42bea1f3692cb8b5138d81687af14ca9d40"
@@ -319,6 +314,21 @@ spec:
           name: mgnx
           port: 8080
           weight: 1
+---
+# Source: homelab/charts/mgnx/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: protonvpn
+  namespace: media
+spec:
+  encryptedData:
+    WIREGUARD_PRIVATE_KEY: AgBn5oO5B5M+dEFT5CoTuPF90CEcsTmVg6ISV9kg8+ZT4/TBHk5XxbTO4v3HKr8+NGDk0NZbrobtFSKljVYtYDJPrJ/nVTcjHd9omRxS3j6jgEiRytPA/YngUWA3HLFiWRpqDl0OvoBCtz49QqswJ6Wx2RkaRVgyE6JB+n5JZKcEVX4q0UBcpDHiDfAr0W0tq8vif/3vPfj7XkuEO9LIfLLnG2C1uJJfTvCvRHsjf2UmrNxPeqBwMf7pjPWzgZtfdGfk4FtYtJoi2CVLxW1ajOWrLfvQQqAWE7aOa8J4jV2jc89LAFnq4T0LbgSXydBgtV8QihI1xJsh5Tmbj14OtZT+094z40w8wItzDAZT6Dhxd8s6chbh34mbg5vdrxVKoXV7vV7JYxXkMJh1PO4ygnEubU/tx1knfw2A5OsS//nwGr5sCZhIqBqhy7KpLgQPquKnyJ3Tg/V8QNX8I7RhMXZw0zotuwT+JarvtppJZZZwX21HBUT+u4olTsOn63Y/qF4z3c37lH1923ACzUPK/i32y3aB16CV7y/MVS5imDnMpkSg4kjvx2/MmUxXfAfJn6I+JJyhmcG3+9PSDFNNUswv9HJ/lj0hYO5DcUu2VVGwOhASzGEhas2rb+8tNvSeuYLnmRjVv9MfJQkk7V4QCYbbdejy42f4eNXY1yGDFeDw3wC2p537bYZ9dObRsHrjBXF/bH98dCDxKVW/Y9cn8KblBZYbJ4AFgrNO+vqW/i8KHfNxUvwRtSgemIM+WQ==
+  template:
+    type: Opaque
+    metadata:
+      name: protonvpn
+      namespace: media
 ---
 # Source: homelab/charts/mgnx/templates/udproute.yaml
 apiVersion: gateway.networking.k8s.io/v1alpha2
