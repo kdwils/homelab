@@ -14,6 +14,7 @@ data:
   config.yaml: |
     gluetun:
       endpoint: http://localhost:8000/v1/publicip/ip
+      forwarded_port_file: "/tmp/gluetun/forwarded_port"
     dht:
       port: 6881
       nodes_path: /data/nodes.dat
@@ -196,6 +197,9 @@ spec:
             - name: 
               containerPort: 9999
               protocol: TCP
+          volumeMounts:
+            - mountPath: /tmp/gluetun
+              name: gluetun-data
           env:
             - name: DNS_KEEP_NAMESERVER
               value: "on"
@@ -226,7 +230,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-5c24b42bea1f3692cb8b5138d81687af14ca9d40"
+          image: "ghcr.io/kdwils/mgnx:sha-9e649cf9c51559f12c074ef533ac0e19f3a419db"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -246,6 +250,9 @@ spec:
               name: configmap-mgnx-config
               readOnly: true
               subPath: config.yaml
+            - mountPath: /tmp/gluetun
+              name: gluetun-data
+              readOnly: true
           env:
             - name: MGNX_DATABASE_URL
               valueFrom:
@@ -259,6 +266,8 @@ spec:
         - configMap:
             name: mgnx-config
           name: configmap-mgnx-config
+        - emptyDir: {}
+          name: gluetun-data
 ---
 # Source: homelab/charts/mgnx/templates/postgres.yaml
 apiVersion: postgresql.cnpg.io/v1
