@@ -242,7 +242,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-9ad828a11b91bd323c2988d9c3a722870297953a"
+          image: "ghcr.io/kdwils/mgnx:sha-026a32d0a55e00d08d15b244ed8023471c2260e7"
           imagePullPolicy: IfNotPresent
           args:
             - serve
