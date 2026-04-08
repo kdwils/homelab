@@ -26,11 +26,6 @@ mgnx:
         mountPath: /tmp/gluetun
         readOnly: true
 
-    # podAnnotations:
-    #   tailscale.com/inject-proxy: "true"
-    #   tailscale.com/hostname: mgnx-dht-sidecar
-    #   tailscale.com/tags: tag:mgnx-dht
-
     podSecurityContext:
       runAsNonRoot: true
       runAsUser: 1000
@@ -170,7 +165,7 @@ mgnx:
               max_iterations: 4
 
             crawler:
-              crawlers: 2
+              crawlers: 6
 
             server:
               port: 8080
