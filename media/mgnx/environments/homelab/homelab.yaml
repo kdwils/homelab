@@ -152,20 +152,25 @@ mgnx:
                 - dht.transmissionbt.com:6881
                 - router.bittorrent.com:6881
               workers: 4
-              rate_limit: 25
-              rate_burst: 25
+              rate_limit: 100
+              rate_burst: 20
               discovery_buffer: 10000
               good_node_window: 15m
               bad_failure_threshold: 2
-              bucket_size: 8
+              bucket_size: 20
               stale_threshold: 15m
-              transaction_timeout: 10s
+              transaction_timeout: 5s
               token_rotation: 5m
               alpha: 3
-              max_iterations: 4
+              max_iterations: 8
 
             crawler:
-              crawlers: 20
+              crawlers: 4
+              discovery_workers: 4
+              discovery_queue_size: 256
+
+            database:
+              url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
 
             server:
               port: 8080
@@ -173,21 +178,22 @@ mgnx:
 
             indexer:
               workers: 20
-              request_timeout: 6s
-              max_peers: 100
-              rate_limit: 2
-              rate_burst: 4
+              request_timeout: 30s
+              max_peers: 10
+              rate_limit: 10
+              rate_burst: 5
+              enable_extension_filter: false
               min_size: 52428800 # 50 MB
               max_size: 161061273600 # 150 GB
 
             scrape:
-              workers: 5
+              workers: 4
               rate_limit: 2
               rate_burst: 4
-              batch_size: 74
-              poll_interval: 30s
-              dial_timeout: 5s
-              read_timeout: 10s
+              batch_size: 100
+              poll_interval: 10m
+              dial_timeout: 3s
+              read_timeout: 5s
               dead_after: 2160h # 90 days
               prune_interval: 24h
               trackers:
