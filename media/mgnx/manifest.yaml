@@ -182,6 +182,16 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
       initContainers:
+        - name: wait-for-gluetun-port
+          image: "busybox:1.37.0"
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - until [ -s /gluetun/forwarded_port ]; do sleep 1; done
+          volumeMounts:
+            - mountPath: /gluetun
+              name: gluetun-data
         - name: gluetun
           restartPolicy: Always
           securityContext:
@@ -229,7 +239,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-9f1a585bfe585a41213ccba2de97f1af89f45cb8"
+          image: "ghcr.io/kdwils/mgnx:sha-1c6aff4970de18c0dc27a832de2293af63b3d874"
           imagePullPolicy: IfNotPresent
           args:
             - serve
