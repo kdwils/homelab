@@ -29,15 +29,15 @@ data:
       bad_failure_threshold: 2
       bucket_size: 20
       stale_threshold: 15m
-      transaction_timeout: 5s
+      transaction_timeout: 8s
       token_rotation: 5m
       alpha: 3
       max_iterations: 8
   
     crawler:
-      crawlers: 4
-      discovery_workers: 4
-      discovery_queue_size: 256
+      crawlers: 8
+      discovery_workers: 8
+      discovery_queue_size: 512
   
     database:
       url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
@@ -242,7 +242,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-026a32d0a55e00d08d15b244ed8023471c2260e7"
+          image: "ghcr.io/kdwils/mgnx:sha-7dce2170c7ad89a99b25f31b61e45c1e8005c96d"
           imagePullPolicy: IfNotPresent
           args:
             - serve
