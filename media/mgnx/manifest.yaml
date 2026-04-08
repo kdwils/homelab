@@ -35,7 +35,7 @@ data:
       max_iterations: 4
   
     crawler:
-      crawlers: 2
+      crawlers: 6
   
     server:
       port: 8080
