@@ -37,8 +37,8 @@ mgnx:
         targetPort: 8080
         protocol: TCP
       - name: udp
-        port: 47444
-        targetPort: 47444
+        port: 6881
+        targetPort: 6881
         protocol: UDP
 
   httproute:
@@ -63,7 +63,7 @@ mgnx:
       rules:
         - backendRefs:
             - name: mgnx
-              port: 47444
+              port: 6881
 
   postgres:
     clusters:
@@ -106,8 +106,8 @@ mgnx:
         DNS_KEEP_NAMESERVER: "on"
         DOT: "off"
         FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
-        FIREWALL_INPUT_PORTS: "47444"
-        FIREWALL_VPN_INPUT_PORTS: "47444"
+        FIREWALL_INPUT_PORTS: "6881"
+        FIREWALL_VPN_INPUT_PORTS: "6881"
         VPN_SERVICE_PROVIDER: "nordvpn"
         OPENVPN_PROTOCOL: "tcp"
         VPN_TYPE: "openvpn"
@@ -137,7 +137,7 @@ mgnx:
             gluetun:
               endpoint: http://localhost:8000/v1/publicip/ip
             dht:
-              port: 47444
+              port: 6881
               nodes_path: /data/nodes.dat
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
