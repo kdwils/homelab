@@ -12,6 +12,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
+    gluetun:
+      endpoint: http://localhost:8000/v1/publicip/ip
     dht:
       port: 47444
       nodes_path: /data/nodes.dat
@@ -45,7 +47,7 @@ data:
       max_peers: 100
       rate_limit: 2
       rate_burst: 4
-      min_size: 52428800     # 50 MB
+      min_size: 52428800 # 50 MB
       max_size: 161061273600 # 150 GB
   
     scrape:
@@ -56,7 +58,7 @@ data:
       poll_interval: 30s
       dial_timeout: 5s
       read_timeout: 10s
-      dead_after: 2160h  # 90 days
+      dead_after: 2160h # 90 days
       prune_interval: 24h
       trackers:
         - udp://open.stealth.si:80/announce
