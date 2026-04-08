@@ -110,6 +110,7 @@ mgnx:
           add: ["NET_ADMIN"]
       ports:
         - containerPort: 9999
+          name: health
       startupProbe:
         httpGet:
           path: /
@@ -146,12 +147,11 @@ mgnx:
         readOnly: true
         data:
           config.yaml: |
-            gluetun:
-              endpoint: http://localhost:8000/v1/publicip/ip
-              forwarded_port_file: "/tmp/gluetun/forwarded_port"
             dht:
               port: 6881
               nodes_path: /data/nodes.dat
+              forwarded_port_file: "/tmp/gluetun/forwarded_port"
+              external_ip_file: "/tmp/gluetun/ip"
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
                 - dht.transmissionbt.com:6881
