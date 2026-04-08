@@ -182,16 +182,6 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
       initContainers:
-        - name: wait-for-gluetun-port
-          image: "busybox:1.37.0"
-          imagePullPolicy: IfNotPresent
-          command:
-            - /bin/sh
-            - -c
-            - until [ -s /gluetun/forwarded_port ]; do sleep 1; done
-          volumeMounts:
-            - mountPath: /gluetun
-              name: gluetun-data
         - name: gluetun
           restartPolicy: Always
           securityContext:
