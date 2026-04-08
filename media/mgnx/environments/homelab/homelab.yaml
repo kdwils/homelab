@@ -159,7 +159,7 @@ mgnx:
               bad_failure_threshold: 2
               bucket_size: 20
               stale_threshold: 15m
-              transaction_timeout: 5s
+              transaction_timeout: 8s
               token_rotation: 5m
               alpha: 3
               max_iterations: 8
