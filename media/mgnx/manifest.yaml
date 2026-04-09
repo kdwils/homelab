@@ -48,9 +48,9 @@ data:
       log_level: debug
   
     indexer:
-      workers: 6
-      request_timeout: 10s
-      max_peers: 10
+      workers: 30
+      request_timeout: 3s
+      max_peers: 5
       rate_limit: 10
       rate_burst: 5
       enable_extension_filter: false
