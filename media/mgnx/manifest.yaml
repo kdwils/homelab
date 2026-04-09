@@ -17,10 +17,6 @@ data:
       nodes_path: /data/nodes.dat
       forwarded_port_file: "/tmp/gluetun/forwarded_port"
       external_ip_file: "/tmp/gluetun/ip"
-      bootstrap_nodes:
-        - dht.libtorrent.org:25401
-        - dht.transmissionbt.com:6881
-        - router.bittorrent.com:6881
       workers: 4
       rate_limit: 100
       rate_burst: 20
@@ -31,13 +27,17 @@ data:
       stale_threshold: 15m
       transaction_timeout: 8s
       token_rotation: 5m
-      alpha: 3
-      max_iterations: 8
   
     crawler:
       crawlers: 8
       discovery_workers: 8
-      discovery_queue_size: 512
+      discovery_queue_size: 2048
+      bootstrap_nodes:
+        - dht.libtorrent.org:25401
+        - dht.transmissionbt.com:6881
+        - router.bittorrent.com:6881
+      alpha: 3
+      max_iterations: 8
   
     database:
       url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
@@ -48,7 +48,7 @@ data:
   
     indexer:
       workers: 20
-      request_timeout: 30s
+      request_timeout: 10s
       max_peers: 10
       rate_limit: 10
       rate_burst: 5
@@ -242,7 +242,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-7dce2170c7ad89a99b25f31b61e45c1e8005c96d"
+          image: "ghcr.io/kdwils/mgnx:sha-3ec610cd140920527d1dc8cd33afe15337e9d51d"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -254,6 +254,23 @@ spec:
             - name: udp
               containerPort: 6881
               protocol: UDP
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /liveness
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /readiness
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
           volumeMounts:
             - mountPath: /data
               name: pvc-mgnx-data
