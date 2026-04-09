@@ -48,10 +48,10 @@ data:
   
     indexer:
       workers: 10
-      max_concurrent_peers: 5
+      max_concurrent_peers: 10
       request_timeout: 2s
       max_peers: 100
-      rate_limit: 100
+      rate_limit: 200
       rate_burst: 50
       enable_extension_filter: false
       min_size: 10485760 # 10 MB
