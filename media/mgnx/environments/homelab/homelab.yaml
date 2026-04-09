@@ -172,7 +172,7 @@ mgnx:
               bad_failure_threshold: 3
               bucket_size: 20
               stale_threshold: 15m
-              transaction_timeout: 4s
+              transaction_timeout: 3s
               token_rotation: 5m
 
             crawler:
