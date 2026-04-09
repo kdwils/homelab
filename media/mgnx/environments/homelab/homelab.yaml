@@ -192,7 +192,7 @@ mgnx:
             server:
               port: 8080
               health_port: 8081
-              log_level: debug
+              log_level: info
 
             indexer:
               workers: 20
