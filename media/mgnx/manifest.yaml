@@ -23,7 +23,6 @@ data:
       discovery_buffer: 10000
       good_node_window: 15m
       bad_failure_threshold: 3
-      bucket_size: 20
       stale_threshold: 15m
       transaction_timeout: 3s
       token_rotation: 5m
@@ -243,7 +242,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-c5983a7863d8c620b5796fc7ca6cceadc99d3aeb"
+          image: "ghcr.io/kdwils/mgnx:sha-74fffea044f8de76a0da1c43857c5e22bc5e2216"
           imagePullPolicy: IfNotPresent
           args:
             - serve
