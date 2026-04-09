@@ -30,7 +30,7 @@ data:
     crawler:
       crawlers: 6
       discovery_workers: 16
-      discovery_queue_size: 2048
+      discovery_queue_size: 8192
       bootstrap_nodes:
         - dht.libtorrent.org:25401
         - dht.transmissionbt.com:6881
@@ -50,10 +50,10 @@ data:
       workers: 30
       request_timeout: 3s
       max_peers: 100
-      rate_limit: 10
-      rate_burst: 5
+      rate_limit: 100
+      rate_burst: 50
       enable_extension_filter: false
-      min_size: 52428800 # 50 MB
+      min_size: 10485760 # 10 MB
       max_size: 161061273600 # 150 GB
   
     scrape:
