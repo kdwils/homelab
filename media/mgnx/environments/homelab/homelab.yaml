@@ -165,15 +165,9 @@ mgnx:
               forwarded_port_file: "/tmp/gluetun/forwarded_port"
               external_ip_file: "/tmp/gluetun/ip"
               workers: 10
-              rate_limit: 100
-              rate_burst: 20
               discovery_buffer: 10000
-              good_node_window: 15m
               bad_failure_threshold: 3
-              bucket_size: 20
-              stale_threshold: 15m
               transaction_timeout: 3s
-              token_rotation: 5m
 
             crawler:
               crawlers: 6
