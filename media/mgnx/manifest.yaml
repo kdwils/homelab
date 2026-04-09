@@ -25,11 +25,11 @@ data:
       bad_failure_threshold: 3
       bucket_size: 20
       stale_threshold: 15m
-      transaction_timeout: 8s
+      transaction_timeout: 3s
       token_rotation: 5m
   
     crawler:
-      crawlers: 8
+      crawlers: 16
       discovery_workers: 16
       discovery_queue_size: 2048
       bootstrap_nodes:
