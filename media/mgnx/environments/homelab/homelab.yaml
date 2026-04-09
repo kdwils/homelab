@@ -6,6 +6,23 @@ mgnx:
       repository: ghcr.io/kdwils/mgnx
       tag: sha-7dce2170c7ad89a99b25f31b61e45c1e8005c96d
       pullPolicy: IfNotPresent
+    livenessProbe:
+      httpGet:
+        path: /liveness
+        port: 8081
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 2
+      failureThreshold: 3
+    readinessProbe:
+      httpGet:
+        path: /readiness
+        port: 8081
+      initialDelaySeconds: 30
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
 
     env:
       MGNX_DATABASE_URL:
