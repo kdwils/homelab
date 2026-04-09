@@ -147,10 +147,6 @@ mgnx:
               nodes_path: /data/nodes.dat
               forwarded_port_file: "/tmp/gluetun/forwarded_port"
               external_ip_file: "/tmp/gluetun/ip"
-              bootstrap_nodes:
-                - dht.libtorrent.org:25401
-                - dht.transmissionbt.com:6881
-                - router.bittorrent.com:6881
               workers: 4
               rate_limit: 100
               rate_burst: 20
@@ -161,13 +157,17 @@ mgnx:
               stale_threshold: 15m
               transaction_timeout: 8s
               token_rotation: 5m
-              alpha: 3
-              max_iterations: 8
 
             crawler:
               crawlers: 8
               discovery_workers: 8
               discovery_queue_size: 512
+              bootstrap_nodes:
+                - dht.libtorrent.org:25401
+                - dht.transmissionbt.com:6881
+                - router.bittorrent.com:6881
+              alpha: 3
+              max_iterations: 8
 
             database:
               url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
