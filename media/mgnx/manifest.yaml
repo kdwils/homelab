@@ -17,7 +17,7 @@ data:
       nodes_path: /data/nodes.dat
       forwarded_port_file: "/tmp/gluetun/forwarded_port"
       external_ip_file: "/tmp/gluetun/ip"
-      workers: 4
+      workers: 10
       rate_limit: 100
       rate_burst: 20
       discovery_buffer: 10000
@@ -29,7 +29,7 @@ data:
       token_rotation: 5m
   
     crawler:
-      crawlers: 16
+      crawlers: 6
       discovery_workers: 16
       discovery_queue_size: 2048
       bootstrap_nodes:
@@ -48,7 +48,7 @@ data:
       log_level: debug
   
     indexer:
-      workers: 20
+      workers: 6
       request_timeout: 10s
       max_peers: 10
       rate_limit: 10
@@ -58,7 +58,7 @@ data:
       max_size: 161061273600 # 150 GB
   
     scrape:
-      workers: 4
+      workers: 3
       rate_limit: 2
       rate_burst: 4
       batch_size: 100
