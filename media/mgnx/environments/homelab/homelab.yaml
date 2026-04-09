@@ -178,7 +178,7 @@ mgnx:
             crawler:
               crawlers: 8
               discovery_workers: 8
-              discovery_queue_size: 512
+              discovery_queue_size: 2048
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
                 - dht.transmissionbt.com:6881
@@ -195,7 +195,7 @@ mgnx:
 
             indexer:
               workers: 20
-              request_timeout: 30s
+              request_timeout: 10s
               max_peers: 10
               rate_limit: 10
               rate_burst: 5
