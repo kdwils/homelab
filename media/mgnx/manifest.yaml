@@ -50,7 +50,7 @@ data:
     indexer:
       workers: 30
       request_timeout: 3s
-      max_peers: 10
+      max_peers: 100
       rate_limit: 10
       rate_burst: 5
       enable_extension_filter: false
