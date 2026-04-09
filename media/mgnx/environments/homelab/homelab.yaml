@@ -195,7 +195,7 @@ mgnx:
 
             indexer:
               workers: 10
-              max_concurrent_peers: 5
+              max_concurrent_peers: 10
               request_timeout: 2s
               max_peers: 100
               rate_limit: 200
