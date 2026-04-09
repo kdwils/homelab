@@ -48,8 +48,8 @@ data:
   
     indexer:
       workers: 10
-      max_concurrent_peers: 3
-      request_timeout: 3s
+      max_concurrent_peers: 10
+      request_timeout: 2s
       max_peers: 100
       rate_limit: 100
       rate_burst: 50
@@ -243,7 +243,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-b853a2fc30d8db0bbb5fc8869c446771aeb4258c"
+          image: "ghcr.io/kdwils/mgnx:sha-097187538ed42d0d64a9d17cd57f30cf99c9b0f9"
           imagePullPolicy: IfNotPresent
           args:
             - serve
