@@ -22,7 +22,7 @@ data:
       rate_burst: 20
       discovery_buffer: 10000
       good_node_window: 15m
-      bad_failure_threshold: 1
+      bad_failure_threshold: 3
       bucket_size: 20
       stale_threshold: 15m
       transaction_timeout: 8s
