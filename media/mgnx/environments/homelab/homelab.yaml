@@ -194,7 +194,8 @@ mgnx:
               log_level: debug
 
             indexer:
-              workers: 30
+              workers: 10
+              max_concurrent_peers: 3
               request_timeout: 3s
               max_peers: 100
               rate_limit: 100
