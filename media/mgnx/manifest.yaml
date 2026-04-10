@@ -260,11 +260,11 @@ spec:
             httpGet:
               path: /liveness
               port: 8081
-            initialDelaySeconds: 5
+            initialDelaySeconds: 300
             periodSeconds: 10
             timeoutSeconds: 2
           readinessProbe:
-            failureThreshold: 3
+            failureThreshold: 54
             httpGet:
               path: /readiness
               port: 8081
