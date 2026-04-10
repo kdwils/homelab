@@ -344,9 +344,18 @@ spec:
       name: homelab
       namespace: envoy-gateway-system
   hostnames:
-    - "torznab.int.kyledev.co"
-    - "torznab.ts.kyledev.co"
+    - "mgnx.int.kyledev.co"
+    - "mgnx.ts.kyledev.co"
   rules:
+    - matches:
+        - path:
+            value: /metrics
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: mgnx
+          port: 9090
+          weight: 1
     - matches:
       - path:
           type: PathPrefix
@@ -395,24 +404,3 @@ spec:
       path: "/metrics"
       interval: "30s"
       scrapeTimeout: "10s"
----
-# Source: homelab/charts/mgnx/templates/udproute.yaml
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: UDPRoute
-metadata:
-  name: mgnx
-  labels:
-    helm.sh/chart: mgnx-0.1.26
-    app.kubernetes.io/name: mgnx
-    app.kubernetes.io/instance: mgnx
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  parentRefs:
-    - name: homelab
-      namespace: envoy-gateway-system
-      sectionName: mgnx
-  rules:
-    - backendRefs:
-      - name: mgnx
-        port: 6881
