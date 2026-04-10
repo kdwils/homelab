@@ -171,7 +171,7 @@ mgnx:
               nodes_path: /data/nodes.dat
               forwarded_port_file: "/tmp/gluetun/forwarded_port"
               external_ip_file: "/tmp/gluetun/ip"
-              workers: 3
+              workers: 5
               rate_limit: 300
               rate_burst: 30
               discovery_buffer: 10000
@@ -182,7 +182,7 @@ mgnx:
               token_rotation: 5m
 
             crawler:
-              crawlers: 5
+              crawlers: 8
               discovery_workers: 15
               discovery_queue_size: 8192
               bootstrap_nodes:
