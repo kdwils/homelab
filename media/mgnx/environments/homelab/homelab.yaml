@@ -172,7 +172,7 @@ mgnx:
               nodes_path: /data/nodes.dat
               forwarded_port_file: "/tmp/gluetun/forwarded_port"
               external_ip_file: "/tmp/gluetun/ip"
-              workers: 5
+              workers: 10
               rate_limit: 300
               rate_burst: 150
               bad_failure_threshold: 3
@@ -189,6 +189,7 @@ mgnx:
                 - dht.libtorrent.org:25401
                 - dht.transmissionbt.com:6881
                 - router.bittorrent.com:6881
+                - router.utorrent.com:6881
               alpha: 3
               max_iterations: 8
 
@@ -201,7 +202,7 @@ mgnx:
             indexer:
               workers: 10
               max_concurrent_peers: 10
-              request_timeout: 2s
+              request_timeout: 4s
               max_peers: 100
               rate_limit: 50
               rate_burst: 100
