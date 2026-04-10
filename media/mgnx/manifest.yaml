@@ -26,9 +26,9 @@ data:
       stale_threshold: 15m
       transaction_timeout: 2s
       token_rotation: 5m
-  
+
     crawler:
-      crawlers: 8
+      crawlers: 6
       discovery_workers: 15
       discovery_queue_size: 8192
       bootstrap_nodes:
@@ -37,12 +37,12 @@ data:
         - router.bittorrent.com:6881
       alpha: 3
       max_iterations: 8
-  
+
     server:
       port: 8080
       health_port: 8081
       log_level: debug
-  
+
     indexer:
       workers: 10
       max_concurrent_peers: 10
@@ -53,7 +53,7 @@ data:
       enable_extension_filter: false
       min_size: 10485760 # 10 MB
       max_size: 161061273600 # 150 GB
-  
+
     scrape:
       workers: 2
       rate_limit: 2
@@ -202,7 +202,7 @@ spec:
           securityContext:
             capabilities:
               add:
-              - NET_ADMIN
+                - NET_ADMIN
             runAsNonRoot: false
             runAsUser: 0
           image: "ghcr.io/qdm12/gluetun:v3.41"
@@ -357,9 +357,9 @@ spec:
           port: 9090
           weight: 1
     - matches:
-      - path:
-          type: PathPrefix
-          value: /
+        - path:
+            type: PathPrefix
+            value: /
       backendRefs:
         - group: ""
           kind: Service
