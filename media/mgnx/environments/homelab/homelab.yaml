@@ -173,18 +173,17 @@ mgnx:
               external_ip_file: "/tmp/gluetun/ip"
               workers: 5
               rate_limit: 300
-              rate_burst: 30
-              discovery_buffer: 10000
-              good_node_window: 15m
+              rate_burst: 150
               bad_failure_threshold: 3
-              stale_threshold: 15m
               transaction_timeout: 2s
-              token_rotation: 5m
+              max_nodes_per_response: 256
+              max_peers_per_response: 50
 
             crawler:
               crawlers: 8
-              discovery_workers: 15
-              discovery_queue_size: 8192
+              discovery_workers: 16
+              discovery_queue_size: 1024
+              traversal_width: 20
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
                 - dht.transmissionbt.com:6881
@@ -193,26 +192,22 @@ mgnx:
               max_iterations: 8
 
             server:
-              port: 8080
+              torznab_port: 8080
               health_port: 8081
-              log_level: debug
+              metrics_port: 9090
 
             indexer:
               workers: 10
               max_concurrent_peers: 10
               request_timeout: 2s
               max_peers: 100
-              rate_limit: 200
-              rate_burst: 50
-              enable_extension_filter: false
+              rate_limit: 50
+              rate_burst: 100
+              exclude_adult_content: true
               min_size: 10485760 # 10 MB
-              max_size: 161061273600 # 150 GB
 
             scrape:
-              workers: 2
-              rate_limit: 2
-              rate_burst: 4
-              batch_size: 100
+              batch_size: 74
               poll_interval: 10m
               dial_timeout: 3s
               read_timeout: 5s
