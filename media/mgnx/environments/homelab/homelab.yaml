@@ -183,7 +183,7 @@ mgnx:
 
             crawler:
               crawlers: 5
-              discovery_workers: 15
+              discovery_workers: 5
               discovery_queue_size: 8192
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
