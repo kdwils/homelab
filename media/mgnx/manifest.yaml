@@ -28,7 +28,7 @@ data:
       token_rotation: 5m
   
     crawler:
-      crawlers: 15
+      crawlers: 3
       discovery_workers: 20
       discovery_queue_size: 8192
       bootstrap_nodes:
@@ -174,7 +174,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
