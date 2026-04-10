@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: mgnx-config
   labels:
-    helm.sh/chart: mgnx-0.1.24
+    helm.sh/chart: mgnx-0.1.26
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -17,19 +17,19 @@ data:
       nodes_path: /data/nodes.dat
       forwarded_port_file: "/tmp/gluetun/forwarded_port"
       external_ip_file: "/tmp/gluetun/ip"
-      workers: 5
-      rate_limit: 300
-      rate_burst: 30
+      workers: 10
+      rate_limit: 100
+      rate_burst: 20
       discovery_buffer: 10000
       good_node_window: 15m
       bad_failure_threshold: 3
       stale_threshold: 15m
       transaction_timeout: 3s
       token_rotation: 5m
-
+  
     crawler:
-      crawlers: 5
-      discovery_workers: 20
+      crawlers: 3
+      discovery_workers: 25
       discovery_queue_size: 8192
       bootstrap_nodes:
         - dht.libtorrent.org:25401
@@ -37,15 +37,15 @@ data:
         - router.bittorrent.com:6881
       alpha: 3
       max_iterations: 8
-
+  
     database:
       url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
-
+  
     server:
       port: 8080
       health_port: 8081
       log_level: debug
-
+  
     indexer:
       workers: 10
       max_concurrent_peers: 10
@@ -56,7 +56,7 @@ data:
       enable_extension_filter: false
       min_size: 10485760 # 10 MB
       max_size: 161061273600 # 150 GB
-
+  
     scrape:
       workers: 3
       rate_limit: 2
@@ -123,7 +123,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mgnx-data
   labels:
-    helm.sh/chart: mgnx-0.1.24
+    helm.sh/chart: mgnx-0.1.26
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -141,7 +141,7 @@ kind: Service
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.24
+    helm.sh/chart: mgnx-0.1.26
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -167,13 +167,13 @@ kind: Deployment
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.24
+    helm.sh/chart: mgnx-0.1.26
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
@@ -183,7 +183,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: mgnx-0.1.24
+        helm.sh/chart: mgnx-0.1.26
         app.kubernetes.io/name: mgnx
         app.kubernetes.io/instance: mgnx
         app.kubernetes.io/version: "1.16.0"
@@ -201,7 +201,7 @@ spec:
           securityContext:
             capabilities:
               add:
-                - NET_ADMIN
+              - NET_ADMIN
             runAsNonRoot: false
             runAsUser: 0
           image: "ghcr.io/qdm12/gluetun:v3.41"
@@ -243,7 +243,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-097187538ed42d0d64a9d17cd57f30cf99c9b0f9"
+          image: "ghcr.io/kdwils/mgnx:sha-500c2934d874cde885ce6b60865bef62713fce48"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -305,7 +305,7 @@ kind: Cluster
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.24
+    helm.sh/chart: mgnx-0.1.26
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -328,7 +328,7 @@ kind: HTTPRoute
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.24
+    helm.sh/chart: mgnx-0.1.26
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -344,9 +344,9 @@ spec:
     - "torznab.ts.kyledev.co"
   rules:
     - matches:
-        - path:
-            type: PathPrefix
-            value: /
+      - path:
+          type: PathPrefix
+          value: /
       backendRefs:
         - group: ""
           kind: Service
@@ -375,7 +375,7 @@ kind: UDPRoute
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.24
+    helm.sh/chart: mgnx-0.1.26
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -387,5 +387,5 @@ spec:
       sectionName: mgnx
   rules:
     - backendRefs:
-        - name: mgnx
-          port: 6881
+      - name: mgnx
+        port: 6881
