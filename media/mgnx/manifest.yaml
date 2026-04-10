@@ -17,7 +17,7 @@ data:
       nodes_path: /data/nodes.dat
       forwarded_port_file: "/tmp/gluetun/forwarded_port"
       external_ip_file: "/tmp/gluetun/ip"
-      workers: 3
+      workers: 5
       rate_limit: 300
       rate_burst: 30
       discovery_buffer: 10000
