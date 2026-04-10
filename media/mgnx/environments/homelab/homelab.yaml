@@ -182,8 +182,8 @@ mgnx:
               token_rotation: 5m
 
             crawler:
-              crawlers: 3
-              discovery_workers: 20
+              crawlers: 5
+              discovery_workers: 15
               discovery_queue_size: 8192
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
