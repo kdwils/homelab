@@ -177,6 +177,7 @@ mgnx:
               rate_burst: 150
               bad_failure_threshold: 3
               transaction_timeout: 2s
+              bucket_size: 80
               max_nodes_per_response: 256
               max_peers_per_response: 50
 
