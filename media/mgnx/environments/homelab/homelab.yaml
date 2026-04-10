@@ -173,7 +173,7 @@ mgnx:
               external_ip_file: "/tmp/gluetun/ip"
               workers: 3
               rate_limit: 300
-              rate_burst: 30
+              rate_burst: 50
               discovery_buffer: 10000
               good_node_window: 15m
               bad_failure_threshold: 3
