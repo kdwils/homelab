@@ -28,7 +28,7 @@ data:
       token_rotation: 5m
   
     crawler:
-      crawlers: 5
+      crawlers: 8
       discovery_workers: 15
       discovery_queue_size: 8192
       bootstrap_nodes:
