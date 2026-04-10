@@ -26,7 +26,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  volumeName: "pocketid"
+  volumeName: "backup-74fb7c0e0a734e62"
   resources:
     requests:
       storage: 5Gi
