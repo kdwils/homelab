@@ -180,6 +180,7 @@ mgnx:
               max_nodes_per_response: 256
               max_peers_per_response: 50
               bucket_size: 20
+              stale_threshold: 1m
 
             crawler:
               crawlers: 8
