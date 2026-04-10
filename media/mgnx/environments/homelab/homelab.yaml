@@ -1,4 +1,12 @@
 mgnx:
+  serviceMonitor:
+    enabled: true
+    release: kube-prometheus-stack
+    endpoints:
+      - port: metrics
+        path: /metrics
+        interval: 30s
+        scrapeTimeout: 10s
   deployment:
     create: true
     replicas: 1
@@ -61,6 +69,10 @@ mgnx:
         port: 6881
         targetPort: 6881
         protocol: UDP
+      - name: metrics
+        port: 9090
+        targetPort: 9090
+        protocol: TCP
 
   httproute:
     create: true
@@ -164,19 +176,19 @@ mgnx:
               nodes_path: /data/nodes.dat
               forwarded_port_file: "/tmp/gluetun/forwarded_port"
               external_ip_file: "/tmp/gluetun/ip"
-              workers: 10
-              rate_limit: 100
-              rate_burst: 20
+              workers: 3
+              rate_limit: 300
+              rate_burst: 30
               discovery_buffer: 10000
               good_node_window: 15m
               bad_failure_threshold: 3
               stale_threshold: 15m
-              transaction_timeout: 3s
+              transaction_timeout: 2s
               token_rotation: 5m
 
             crawler:
-              crawlers: 3
-              discovery_workers: 25
+              crawlers: 15
+              discovery_workers: 20
               discovery_queue_size: 8192
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
@@ -184,9 +196,6 @@ mgnx:
                 - router.bittorrent.com:6881
               alpha: 3
               max_iterations: 8
-
-            database:
-              url: postgresql://mgnx:mgnx@localhost:5432/mgnx?sslmode=disable
 
             server:
               port: 8080
@@ -205,7 +214,7 @@ mgnx:
               max_size: 161061273600 # 150 GB
 
             scrape:
-              workers: 3
+              workers: 2
               rate_limit: 2
               rate_burst: 4
               batch_size: 100
