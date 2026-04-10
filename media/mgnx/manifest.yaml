@@ -22,7 +22,6 @@ data:
       rate_burst: 150
       bad_failure_threshold: 3
       transaction_timeout: 2s
-      bucket_size: 80
       max_nodes_per_response: 256
       max_peers_per_response: 50
   
@@ -242,7 +241,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-c8044c5601941d27d971f03d7c1b198deda9b9ce"
+          image: "ghcr.io/kdwils/mgnx:sha-0eb669140dcb62c33a5f30735dc3da03d1ebf8d7"
           imagePullPolicy: IfNotPresent
           args:
             - serve
