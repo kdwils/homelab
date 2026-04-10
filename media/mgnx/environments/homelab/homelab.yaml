@@ -18,10 +18,11 @@ mgnx:
       httpGet:
         path: /liveness
         port: 8081
-      initialDelaySeconds: 5
+      initialDelaySeconds: 300
       periodSeconds: 10
       timeoutSeconds: 2
       failureThreshold: 3
+
     readinessProbe:
       httpGet:
         path: /readiness
@@ -29,7 +30,7 @@ mgnx:
       initialDelaySeconds: 30
       periodSeconds: 5
       timeoutSeconds: 5
-      failureThreshold: 3
+      failureThreshold: 54
       successThreshold: 1
 
     env:
