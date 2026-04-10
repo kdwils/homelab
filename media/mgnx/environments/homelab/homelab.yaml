@@ -182,7 +182,7 @@ mgnx:
               token_rotation: 5m
 
             crawler:
-              crawlers: 15
+              crawlers: 3
               discovery_workers: 20
               discovery_queue_size: 8192
               bootstrap_nodes:
