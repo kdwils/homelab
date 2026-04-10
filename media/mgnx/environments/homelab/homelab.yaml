@@ -176,16 +176,16 @@ mgnx:
               rate_limit: 300
               rate_burst: 150
               bad_failure_threshold: 3
-              transaction_timeout: 6s
+              transaction_timeout: 3s
               max_nodes_per_response: 256
               max_peers_per_response: 50
               bucket_size: 20
               stale_threshold: 1m
 
             crawler:
-              crawlers: 8
+              crawlers: 16
               discovery_workers: 16
-              discovery_queue_size: 1024
+              discovery_queue_size: 4096
               traversal_width: 20
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
