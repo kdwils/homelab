@@ -22,6 +22,7 @@ data:
       rate_burst: 150
       bad_failure_threshold: 3
       transaction_timeout: 2s
+      bucket_size: 80
       max_nodes_per_response: 256
       max_peers_per_response: 50
   
@@ -171,7 +172,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
