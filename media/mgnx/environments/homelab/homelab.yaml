@@ -173,7 +173,7 @@ mgnx:
               external_ip_file: "/tmp/gluetun/ip"
               workers: 3
               rate_limit: 300
-              rate_burst: 50
+              rate_burst: 30
               discovery_buffer: 10000
               good_node_window: 15m
               bad_failure_threshold: 3
@@ -183,7 +183,7 @@ mgnx:
 
             crawler:
               crawlers: 5
-              discovery_workers: 5
+              discovery_workers: 15
               discovery_queue_size: 8192
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
