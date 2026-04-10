@@ -77,26 +77,21 @@ mgnx:
   httproute:
     create: true
     hostnames:
-      - torznab.int.kyledev.co
-      - torznab.ts.kyledev.co
+      - mgnx.int.kyledev.co
+      - mgnx.ts.kyledev.co
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
     rules:
+      - matches:
+          - path:
+              value: /metrics
+        backendRefs:
+          - name: mgnx
+            port: 9090
       - backendRefs:
           - name: mgnx
             port: 8080
-
-  udproutes:
-    - name: mgnx
-      parentRefs:
-        - name: homelab
-          namespace: envoy-gateway-system
-          sectionName: mgnx
-      rules:
-        - backendRefs:
-            - name: mgnx
-              port: 6881
 
   postgres:
     clusters:
