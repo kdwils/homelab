@@ -28,8 +28,8 @@ data:
       token_rotation: 5m
   
     crawler:
-      crawlers: 15
-      discovery_workers: 20
+      crawlers: 5
+      discovery_workers: 15
       discovery_queue_size: 8192
       bootstrap_nodes:
         - dht.libtorrent.org:25401
@@ -174,7 +174,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
@@ -244,7 +244,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-6903ea5aa40002785dceccb73d11e89484d5d2ed"
+          image: "ghcr.io/kdwils/mgnx:sha-e0c5be96a2d8d44e2ae0e8917c05da13dbd32626"
           imagePullPolicy: IfNotPresent
           args:
             - serve
