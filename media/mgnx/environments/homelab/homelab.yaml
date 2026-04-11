@@ -196,7 +196,7 @@ mgnx:
               max_iterations: 8
 
             server:
-              log_level: debug
+              log_level: info
               torznab_port: 8080
               health_port: 8081
               metrics_port: 9090
