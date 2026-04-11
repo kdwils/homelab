@@ -183,7 +183,7 @@ mgnx:
 
             crawler:
               crawlers: 20
-              discovery_workers: 36
+              discovery_workers: 50
               discovery_queue_size: 4096
               traversal_width: 50
               bootstrap_nodes:
