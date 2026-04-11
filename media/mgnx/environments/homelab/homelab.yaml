@@ -207,7 +207,7 @@ mgnx:
               workers: 10
               max_concurrent_peers: 10
               request_timeout: 4s
-              max_peers: 10
+              max_peers: 100
               rate_limit: 50
               rate_burst: 100
               exclude_adult_content: true
