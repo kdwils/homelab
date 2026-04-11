@@ -183,7 +183,7 @@ mgnx:
               stale_threshold: 1m
 
             crawler:
-              crawlers: 16
+              crawlers: 8
               discovery_workers: 8
               discovery_queue_size: 4096
               traversal_width: 20
@@ -194,7 +194,7 @@ mgnx:
                 - router.utorrent.com:6881
               alpha: 3
               max_iterations: 8
-              max_interval: 5s
+              max_interval: 10m
               sample_enqueue_timeout: 50ms
 
             server:
