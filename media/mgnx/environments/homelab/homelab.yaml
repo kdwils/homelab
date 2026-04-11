@@ -183,8 +183,8 @@ mgnx:
               stale_threshold: 5m
 
             crawler:
-              crawlers: 8
-              discovery_workers: 8
+              crawlers: 6
+              discovery_workers: 36
               discovery_queue_size: 4096
               traversal_width: 20
               bootstrap_nodes:
