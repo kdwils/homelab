@@ -29,7 +29,7 @@ data:
   
     crawler:
       crawlers: 16
-      discovery_workers: 16
+      discovery_workers: 8
       discovery_queue_size: 4096
       traversal_width: 20
       bootstrap_nodes:
@@ -173,7 +173,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
   selector:
@@ -243,7 +243,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-a24d7a59c4847d52b7662d7fa2dade0b5aae83a3"
+          image: "ghcr.io/kdwils/mgnx:sha-02eb30cd164d32136c9a64311873687362e517a7"
           imagePullPolicy: IfNotPresent
           args:
             - serve
