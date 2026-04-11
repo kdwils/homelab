@@ -24,14 +24,14 @@ data:
       transaction_timeout: 3s
       max_nodes_per_response: 256
       max_peers_per_response: 50
-      bucket_size: 100
+      bucket_size: 80
       stale_threshold: 1m
   
     crawler:
       crawlers: 16
       discovery_workers: 8
       discovery_queue_size: 4096
-      traversal_width: 50
+      traversal_width: 20
       bootstrap_nodes:
         - dht.libtorrent.org:25401
         - dht.transmissionbt.com:6881
@@ -43,7 +43,7 @@ data:
       sample_enqueue_timeout: 50ms
   
     server:
-      log_level: info
+      log_level: debug
       torznab_port: 8080
       health_port: 8081
       metrics_port: 9090
