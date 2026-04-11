@@ -183,10 +183,10 @@ mgnx:
               stale_threshold: 5m
 
             crawler:
-              crawlers: 10
+              crawlers: 20
               discovery_workers: 36
               discovery_queue_size: 4096
-              traversal_width: 20
+              traversal_width: 50
               bootstrap_nodes:
                 - dht.libtorrent.org:25401
                 - dht.transmissionbt.com:6881
@@ -197,7 +197,7 @@ mgnx:
               max_interval: 3m
               default_interval: 45s
               max_jitter: 30s
-              bloom_rotation: 3m
+              bloom_rotation: 5m
               sample_enqueue_timeout: 50ms
               node_cache_cleanup: 1h
 
@@ -210,7 +210,7 @@ mgnx:
             indexer:
               workers: 20
               max_concurrent_peers: 30
-              request_timeout: 4s
+              request_timeout: 2s
               max_peers: 30
               rate_limit: 200
               rate_burst: 400
