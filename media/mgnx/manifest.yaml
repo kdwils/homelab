@@ -39,6 +39,8 @@ data:
         - router.utorrent.com:6881
       alpha: 3
       max_iterations: 8
+      max_interval: 5s
+      sample_enqueue_timeout: 50ms
   
     server:
       log_level: info
@@ -243,7 +245,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-02eb30cd164d32136c9a64311873687362e517a7"
+          image: "ghcr.io/kdwils/mgnx:sha-278f951bff245fdd5a1532722af6b6f81a4171cc"
           imagePullPolicy: IfNotPresent
           args:
             - serve
