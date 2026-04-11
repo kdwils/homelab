@@ -179,8 +179,8 @@ mgnx:
               transaction_timeout: 3s
               max_nodes_per_response: 256
               max_peers_per_response: 50
-              bucket_size: 80
-              stale_threshold: 1m
+              bucket_size: 20
+              stale_threshold: 5m
 
             crawler:
               crawlers: 8
@@ -196,6 +196,10 @@ mgnx:
               max_iterations: 8
               max_interval: 10m
               sample_enqueue_timeout: 50ms
+              bloom_rotation: 10m
+              default_interval: 60s
+              max_jitter: 60s
+              node_cache_cleanup: 1h
 
             server:
               log_level: debug
