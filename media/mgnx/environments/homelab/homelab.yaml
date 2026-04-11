@@ -10,6 +10,7 @@ mgnx:
   deployment:
     create: true
     replicas: 1
+    deployStrategy: Recreate
     image:
       repository: ghcr.io/kdwils/mgnx
       tag: sha-399b608cfb5fe2d017635e4fabfe5aed783f8c69
