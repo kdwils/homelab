@@ -24,14 +24,14 @@ data:
       transaction_timeout: 3s
       max_nodes_per_response: 256
       max_peers_per_response: 50
-      bucket_size: 20
+      bucket_size: 100
       stale_threshold: 1m
   
     crawler:
       crawlers: 16
       discovery_workers: 8
       discovery_queue_size: 4096
-      traversal_width: 20
+      traversal_width: 50
       bootstrap_nodes:
         - dht.libtorrent.org:25401
         - dht.transmissionbt.com:6881
@@ -52,7 +52,7 @@ data:
       workers: 10
       max_concurrent_peers: 10
       request_timeout: 4s
-      max_peers: 100
+      max_peers: 10
       rate_limit: 50
       rate_burst: 100
       exclude_adult_content: true
