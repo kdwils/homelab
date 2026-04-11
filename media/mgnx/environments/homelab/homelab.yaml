@@ -194,6 +194,8 @@ mgnx:
                 - router.utorrent.com:6881
               alpha: 3
               max_iterations: 8
+              max_interval: 5s
+              sample_enqueue_timeout: 50ms
 
             server:
               log_level: info
