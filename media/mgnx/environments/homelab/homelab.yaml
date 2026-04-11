@@ -141,8 +141,6 @@ mgnx:
         DNS_KEEP_NAMESERVER: "on"
         DOT: "off"
         FIREWALL_OUTBOUND_SUBNETS: "10.42.0.0/16,10.43.0.0/16"
-        FIREWALL_INPUT_PORTS: "6881"
-        FIREWALL_VPN_INPUT_PORTS: "6881"
         VPN_SERVICE_PROVIDER: "protonvpn"
         VPN_TYPE: "wireguard"
         WIREGUARD_ADDRESSES: "10.2.0.2/32"
