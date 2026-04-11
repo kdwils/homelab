@@ -28,7 +28,7 @@ data:
       stale_threshold: 5m
   
     crawler:
-      crawlers: 6
+      crawlers: 10
       discovery_workers: 36
       discovery_queue_size: 4096
       traversal_width: 20
@@ -39,26 +39,26 @@ data:
         - router.utorrent.com:6881
       alpha: 3
       max_iterations: 8
-      max_interval: 10m
+      max_interval: 3m
+      default_interval: 45s
+      max_jitter: 30s
+      bloom_rotation: 3m
       sample_enqueue_timeout: 50ms
-      bloom_rotation: 10m
-      default_interval: 60s
-      max_jitter: 60s
       node_cache_cleanup: 1h
   
     server:
-      log_level: debug
+      log_level: info
       torznab_port: 8080
       health_port: 8081
       metrics_port: 9090
   
     indexer:
-      workers: 10
-      max_concurrent_peers: 10
+      workers: 20
+      max_concurrent_peers: 30
       request_timeout: 4s
-      max_peers: 100
-      rate_limit: 50
-      rate_burst: 100
+      max_peers: 30
+      rate_limit: 200
+      rate_burst: 400
       exclude_adult_content: true
       min_size: 10485760 # 10 MB
   
