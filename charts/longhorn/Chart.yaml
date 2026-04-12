@@ -8,6 +8,6 @@ dependencies:
     repository: https://charts.longhorn.io
     alias: longhorn
   - name: homelab-chart
-    version: 0.1.23
+    version: 0.1.29
     repository: oci://ghcr.io/kdwils/charts
     alias: homelab
