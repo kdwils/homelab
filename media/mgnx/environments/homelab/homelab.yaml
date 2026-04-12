@@ -112,6 +112,7 @@ mgnx:
                   name: "mgnx-pg-rw"
                   annotations:
                     tailscale.com/expose: "true"
+                    tailscale.com/tags: "tag:mgnx-db"
                 spec:
                   type: LoadBalancer
                   loadBalancerClass: tailscale
