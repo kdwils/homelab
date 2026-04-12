@@ -104,16 +104,17 @@ mgnx:
         owner: mgnx
         accessModes:
           - ReadWriteOnce
-        services:
-          - selectorType: rw
-            serviceTemplate:
-              metadata:
-                name: "mgnx-pg-rw"
-                annotations:
-                  tailscale.com/expose: "true"
-              spec:
-                type: LoadBalancer
-                loadBalancerClass: tailscale
+        managed:
+          services:
+            - selectorType: rw
+              serviceTemplate:
+                metadata:
+                  name: "mgnx-pg-rw"
+                  annotations:
+                    tailscale.com/expose: "true"
+                spec:
+                  type: LoadBalancer
+                  loadBalancerClass: tailscale
 
   pvc:
     create: true
