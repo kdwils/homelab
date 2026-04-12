@@ -61,6 +61,8 @@ kube-prometheus-stack:
 
     prometheusSpec:
       retention: 3d
+      enableFeatures:
+        - scrapeconfig
 
       storageSpec:
         volumeClaimTemplate:
