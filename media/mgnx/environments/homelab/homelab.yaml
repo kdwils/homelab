@@ -7,6 +7,7 @@ mgnx:
         path: /metrics
         interval: 30s
         scrapeTimeout: 10s
+
   deployment:
     create: true
     replicas: 1
@@ -103,6 +104,16 @@ mgnx:
         owner: mgnx
         accessModes:
           - ReadWriteOnce
+        services:
+          - selectorType: rw
+            serviceTemplate:
+              metadata:
+                name: "mgnx-pg-rw"
+                annotations:
+                  tailscale.com/expose: "true"
+              spec:
+                type: LoadBalancer
+                loadBalancerClass: tailscale
 
   pvc:
     create: true
