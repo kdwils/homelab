@@ -334,6 +334,7 @@ spec:
           metadata:
             annotations:
               tailscale.com/expose: "true"
+              tailscale.com/tags: tag:mgnx-db
             name: mgnx-pg-rw
           spec:
             loadBalancerClass: tailscale
