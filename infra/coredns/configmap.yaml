@@ -6,3 +6,9 @@ metadata:
 data:
   int.kyledev.co.override: |
     rewrite stop name regex (.+)\.int\.kyledev\.co homelab-gateway.envoy-gateway-system.svc.cluster.local answer auto
+  ts.net.server: |
+    tail18ac2.ts.net:53 {
+        errors
+        forward . 100.100.100.100
+        cache 30
+    }
