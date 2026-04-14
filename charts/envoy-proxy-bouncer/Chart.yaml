@@ -4,7 +4,7 @@ description: Envoy proxy bouncer with homelab-chart
 version: 0.1.0
 dependencies:
   - name: envoy-proxy-bouncer
-    version: 0.6.0
+    version: 0.6.1
     repository: oci://ghcr.io/kdwils/charts
     alias: homelab-envoy-proxy-bouncer
   - name: homelab-chart
