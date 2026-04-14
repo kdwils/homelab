@@ -1,9 +1,9 @@
 dependencies:
 - name: crowdsec
   repository: https://crowdsecurity.github.io/helm-charts
-  version: 0.22.1
+  version: 0.23.0
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.21
-digest: sha256:bb562e7c64594dba711f9ac09aac200107acb3a81755a992ab5c4b12cc3c507f
-generated: "2026-04-05T06:07:38.270910066Z"
+  version: 0.1.30
+digest: sha256:98218269be40cf7baa6a7ac901a66b777a1c6f566a4698e214b0152a3a97ca05
+generated: "2026-04-12T16:13:02.319379345Z"
