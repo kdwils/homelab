@@ -4,7 +4,7 @@ description: Prometheus + Grafana monitoring stack
 version: 0.1.0
 dependencies:
   - name: kube-prometheus-stack
-    version: 83.4.0
+    version: 83.4.1
     repository: https://prometheus-community.github.io/helm-charts
   - name: homelab-chart
     version: 0.1.30
