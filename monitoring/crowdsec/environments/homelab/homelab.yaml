@@ -1,7 +1,6 @@
 crowdsec:
   image:
     repository: crowdsecurity/crowdsec
-    tag: "v1.7.6"
     pullPolicy: IfNotPresent
 
   container_runtime: containerd
