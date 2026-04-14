@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.4.0
+    helm.sh/chart: seerr-chart-3.4.2
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
-    app.kubernetes.io/version: "v3.1.0"
+    app.kubernetes.io/version: "v3.1.1"
     app.kubernetes.io/part-of: seerr-chart
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
@@ -19,7 +19,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: overseerr-pvc
   labels:
-    helm.sh/chart: homelab-0.1.23
+    helm.sh/chart: homelab-0.1.30
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -38,10 +38,10 @@ kind: Service
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.4.0
+    helm.sh/chart: seerr-chart-3.4.2
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
-    app.kubernetes.io/version: "v3.1.0"
+    app.kubernetes.io/version: "v3.1.1"
     app.kubernetes.io/part-of: seerr-chart
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -62,10 +62,10 @@ kind: StatefulSet
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.4.0
+    helm.sh/chart: seerr-chart-3.4.2
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
-    app.kubernetes.io/version: "v3.1.0"
+    app.kubernetes.io/version: "v3.1.1"
     app.kubernetes.io/part-of: seerr-chart
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -77,10 +77,10 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: seerr-chart-3.4.0
+        helm.sh/chart: seerr-chart-3.4.2
         app.kubernetes.io/name: seerr-chart
         app.kubernetes.io/instance: overseerr
-        app.kubernetes.io/version: "v3.1.0"
+        app.kubernetes.io/version: "v3.1.1"
         app.kubernetes.io/part-of: seerr-chart
         app.kubernetes.io/managed-by: Helm
     spec:
@@ -102,7 +102,7 @@ spec:
             runAsUser: 1000
             seccompProfile:
               type: RuntimeDefault
-          image: "ghcr.io/seerr-team/seerr:v3.1.0"
+          image: "ghcr.io/seerr-team/seerr:v3.1.1"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -110,14 +110,14 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /api/v1/status
+              path: /api/v1/settings/public
               port: http
             initialDelaySeconds: 20
             periodSeconds: 15
             timeoutSeconds: 3
           readinessProbe:
             httpGet:
-              path: /api/v1/status
+              path: /api/v1/settings/public
               port: http
             initialDelaySeconds: 60
             periodSeconds: 15
@@ -139,7 +139,7 @@ kind: HTTPRoute
 metadata:
   name: overseerr-homelab
   labels:
-    helm.sh/chart: homelab-0.1.23
+    helm.sh/chart: homelab-0.1.30
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -175,7 +175,7 @@ kind: SecurityPolicy
 metadata:
   name: overseerr-homelab
   labels:
-    helm.sh/chart: homelab-0.1.23
+    helm.sh/chart: homelab-0.1.30
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "1.16.0"
@@ -200,10 +200,10 @@ kind: Pod
 metadata:
   name: "overseerr-seerr-chart-test-connection"
   labels:
-    helm.sh/chart: seerr-chart-3.4.0
+    helm.sh/chart: seerr-chart-3.4.2
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
-    app.kubernetes.io/version: "v3.1.0"
+    app.kubernetes.io/version: "v3.1.1"
     app.kubernetes.io/part-of: seerr-chart
     app.kubernetes.io/managed-by: Helm
   annotations:
