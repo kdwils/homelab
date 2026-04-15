@@ -1,0 +1,210 @@
+---
+# Source: homelab/charts/mediaz/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mediaz
+  labels:
+    helm.sh/chart: mediaz-0.1.30
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/mediaz/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mediaz-config
+  labels:
+    helm.sh/chart: mediaz-0.1.30
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    configFilePath: /app/config.yaml
+    storage:
+      filePath: /app/data/db.sqlite
+    library:
+      downloadMountDir: "/media"
+      movie: /media/movies
+      tv: /media/tv
+    server:
+      port: 8080
+---
+# Source: homelab/charts/mediaz/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mediaz
+  labels:
+    helm.sh/chart: mediaz-0.1.30
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+# Source: homelab/charts/mediaz/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mediaz
+  labels:
+    helm.sh/chart: mediaz-0.1.30
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+---
+# Source: homelab/charts/mediaz/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mediaz
+  labels:
+    helm.sh/chart: mediaz-0.1.30
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mediaz
+      app.kubernetes.io/instance: mediaz
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: mediaz-0.1.30
+        app.kubernetes.io/name: mediaz
+        app.kubernetes.io/instance: mediaz
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: mediaz
+      securityContext:
+        {}
+      containers:
+        - name: mediaz
+          image: "ghcr.io/kasuboski/mediaz:sha-cd65514734fbecb79ce0abfc60813684532cf8fa"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /app/config.yaml
+              name: configmap-mediaz-config
+              readOnly: true
+              subPath: config.yaml
+            - mountPath: /app/data
+              name: mediaz
+            - mountPath: /media
+              name: media
+          env:
+            - name: LOG_LEVEL
+              value: "info"
+            - name: MEDIAZ_CONFIGFILEPATH
+              value: "/app/config.yaml"
+            - name: MEDIAZ_PROWLARR_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  key: prowlarrKey
+                  name: mediaz
+            - name: MEDIAZ_TMDB_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  key: tmdbKey
+                  name: mediaz
+      volumes:
+        - configMap:
+            name: mediaz-config
+          name: configmap-mediaz-config
+        - name: mediaz
+          persistentVolumeClaim:
+            claimName: mediaz
+        - name: media
+          persistentVolumeClaim:
+            claimName: media
+---
+# Source: homelab/charts/mediaz/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mediaz
+  labels:
+    helm.sh/chart: mediaz-0.1.30
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "mediaz.ts.kyledev.co"
+    - "mediaz.int.kyledev.co"
+  rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: mediaz
+        port: 8080
+        weight: 1
+---
+# Source: homelab/charts/mediaz/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: mediaz
+  namespace: media
+spec:
+  encryptedData:
+    prowlarrKey: AgBQkoNVJI7WVZo0YRRrfKQxnBakwvbvPmADP+Ab9koQzOBtrkRirG+CLEFc5p/EiCx/51Ta9mF5AjhseZGsvDAw0qC3ERxoR8VV6p7ricPxS0oUwOjZ8Oir8WT8AB8WCk0nGlsKbxZyzKGo35c458JBngVcSlfRkGk3M2cG0CNGXOb1qyvOnND7Rf91a2wp+OfzJ/h7BHWJbzFiKLr3PRCe2BaN2E0pYTObNJzr5mmZqD7JzPwcxAKcnvA/kghaut+8ws1l/gZpxA5RxAueLSMMoKJ2s4t66szh4gVakOVS1U4z1WjLeFQY+6mKUDr4P9pNqwsDXp9NzfPDIJ33BHt563Lp531bpJMdDJ+8irAzpHeKIiDv11WtQc1vA4I4aSAY6M+0Hikot4m/Xj30R5+8OFBqm4f615o0CopIaS8eSe0FhtCGRrekR6QjKXUp7cx2CctSl5sAQnrLd2oc2bzE7fbd4LvsR1Tq6NAV4egI7vQInKe//nGfHQnasnB2fZs3figfXwcOrRkgDCM9oZ1F/1rETDcAGDNvXSaF8wJ8dE2lzo0E7xgFhHjIfexTSvVnIqnZD8HK2ekYWEUwKXBAAquA5rjT9JN6p/ZDh4MZ5TDTijRvN14cSygqiB44WcWDJo+uZu3A0suWIpqV7D1XfqC6a+UhAo/GVzKV2TG9oSBljqKi+4zjKGE5GbRXqUexj3hD7aHAaskgAcVW35yyQLbng2eijAZqZAd8/QCKew==
+    tmdbKey: AgB2g+mvwA1g92lAALjSD9OMVS7Sfs3SblZpeXRibQegXAL+ZSqjC6G3npoWPkGOuHcGrPBdNNkClGsHMjkHUMiwtv4lyFctJvh8A8pG8E+/kEqy85b2X2Nxh13lJ0cCHGg5PzXadFpOQgnqYzY26fWIpOczcbdPWKKRpUeqowC8AfkZe+eU/BnQ1mJE6KEdreBCoX3kDuFgCihRAYJDk7Mvqw+cMJuGnNafNGfl0KgTiDKM5Mx4RUjNmfMFAxURPIZ7eqToa0zg4f1OtNci/bJcN6s0wrRTC4KyUjsUJhBKfUuWYyhqT19wTg4CA8fZ5s8avw60qCmLMi5CXlI+Vy9SsHYx7Y4oDCyoFULMnHUeXJRyKHyKeb7W4RUKOcxtlgdutd6+6+Vn4oqJQV2ypasXb/A7SZherHFLF92roJT9StdX+9onAFGo7kJdPjEflnDfrJIiOyVXJ/soxHrwAWJeXP+5XmoXUfibMXExjPjMRtgTBsvC88wwDJcxzSZNbvnIrTiHegzlp81oZr79vnRFa2IA7obUFXHn/o8cAia6oIKfMCs7hCmW+ba9AgCXWZpdOwEo1I0EUXxQiHrvX3DvLZS+7y5Er2AT1R2liW9wepW5SPzGkwrYzeW6KNb4/xCK4sFPxAiWKTVq91YgzbPBYUrQjR77FswLd2TtdyvvC+5UYKEzoXUPwWwfmAsom/kk7afzAqRb2CS5ujtx4GhjE/7YXv3rF1GIlgE6d6bL8185J+jYbtBtFyjl0FdA30rn7/tXxGf6+/dj6i94e7nnjDtpMSOGkFdKiVbGgU6Jl5oqM9IC7bUe1N5z9R6qpvqF420eeZnQNtzo60GQqFPdaLEnwEnl6DmpjGcCfOE8fTxz9QdzdJtgggmk4GS5tJktyQVfPuk4bGwjlO7faZyyNTTkbo5sLQnJlpfQuPkHAU0kXlpMX+3SUcNYqSa70n65XQcmCQ43mfG8gZsl49Ensnf0Yuyix3/7/lx00VEewsO+sd6QoDJ8KUWIo+O1A40BOQUG
+  template:
+    type: Opaque
+    metadata:
+      name: mediaz
+      namespace: media
