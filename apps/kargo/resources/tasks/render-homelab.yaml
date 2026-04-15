@@ -316,6 +316,15 @@ spec:
         namespace: media
         releaseName: mgnx
         outPath: ./target/media/mgnx/manifest.yaml
+    - uses: helm-template
+      as: render-mediaz
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/media/mediaz/environments/homelab/homelab.yaml
+        namespace: media
+        releaseName: mediaz
+        outPath: ./target/media/mediaz/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:

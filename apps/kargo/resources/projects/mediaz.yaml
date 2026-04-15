@@ -1,0 +1,67 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: mediaz
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: mediaz
+  namespace: mediaz
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: mediaz
+  namespace: mediaz
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/kasuboski/mediaz
+        imageSelectionStrategy: NewestBuild
+        allowTags: ^sha-.*
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/mediaz/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: mediaz
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: mediaz
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: mediaz
+        - name: imageRepo
+          value: ghcr.io/kasuboski/mediaz
+        - name: valuesFilePath
+          value: media/mediaz/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: mediaz.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask

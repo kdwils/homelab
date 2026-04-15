@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: mediaz
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: mediaz:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,10 +14,12 @@ spec:
   source:
     path: media/mediaz
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: media
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -20,6 +20,7 @@ resources:
   - homelab-chart.yaml
   - longhorn.yaml
   - mealie.yaml
+  - mediaz.yaml
   - mgnx.yaml
   - nats.yaml
   - overseerr.yaml
