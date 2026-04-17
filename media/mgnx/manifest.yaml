@@ -27,7 +27,7 @@ data:
       good_node_window: 15m
       bad_failure_threshold: 3
       stale_threshold: 1m
-      transaction_timeout: 1500ms
+      transaction_timeout: 3s
       token_rotation: 5m
       bucket_size: 20
     crawler:
@@ -56,7 +56,7 @@ data:
     indexer:
       workers: 30
       max_concurrent_peers: 30
-      request_timeout: 750ms
+      request_timeout: 3s
       max_peers: 30
       rate_limit: 400
       rate_burst: 800
