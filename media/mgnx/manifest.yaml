@@ -254,13 +254,14 @@ spec:
               containerPort: 9090
               protocol: TCP
           livenessProbe:
-            failureThreshold: 3
+            failureThreshold: 10
             httpGet:
               path: /liveness
               port: 8081
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 10
-            timeoutSeconds: 2
+            successThreshold: 1
+            timeoutSeconds: 5
           readinessProbe:
             failureThreshold: 10
             httpGet:
