@@ -67,6 +67,10 @@ mgnx:
         port: 8080
         targetPort: 8080
         protocol: TCP
+      - name: metrics
+        port: 9090
+        targetPort: 9090
+        protocol: TCP
 
   httproute:
     create: true
@@ -77,6 +81,12 @@ mgnx:
       - name: homelab
         namespace: envoy-gateway-system
     rules:
+      - matches:
+          - path:
+              value: /metrics
+        backendRefs:
+          - name: mgnx
+            port: 9090
       - backendRefs:
           - name: mgnx
             port: 8080
