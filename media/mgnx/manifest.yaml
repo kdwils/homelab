@@ -155,6 +155,10 @@ spec:
       targetPort: 8080
       protocol: TCP
       name: http
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: metrics
   selector:
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
@@ -246,6 +250,9 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
           livenessProbe:
             failureThreshold: 3
             httpGet:
@@ -255,12 +262,12 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 2
           readinessProbe:
-            failureThreshold: 5
+            failureThreshold: 10
             httpGet:
               path: /readiness
               port: 8081
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 30
+            periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 5
           volumeMounts:
@@ -347,6 +354,15 @@ spec:
     - "mgnx.int.kyledev.co"
     - "mgnx.ts.kyledev.co"
   rules:
+    - matches:
+        - path:
+            value: /metrics
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: mgnx
+          port: 9090
+          weight: 1
     - matches:
       - path:
           type: PathPrefix
