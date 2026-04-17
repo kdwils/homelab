@@ -19,6 +19,127 @@ data:
     torznab:
       enabled: true
       port: 8080
+    dht:
+      port: 6881
+      forwarded_port_file: "/tmp/gluetun/forwarded_port"
+      external_ip_file: "/tmp/gluetun/ip"
+      nodes_path: /data/nodes.dat
+      workers: 10
+      rate_limit: 300
+      rate_burst: 30
+      discovery_buffer: 10000
+      good_node_window: 15m
+      bad_failure_threshold: 3
+      stale_threshold: 1m
+      transaction_timeout: 3s
+      token_rotation: 5m
+      bucket_size: 20
+    crawler:
+      enabled: true
+      crawlers: 16
+      discovery_workers: 50
+      discovery_queue_size: 4096
+      traversal_width: 50
+      bootstrap_nodes:
+        - dht.libtorrent.org:25401
+        - dht.transmissionbt.com:6881
+        - router.bittorrent.com:6881
+        - router.utorrent.com:6881
+      alpha: 3
+      max_iterations: 8
+      max_interval: 3m
+      default_interval: 45s
+      max_jitter: 30s
+      bloom_rotation: 5m
+      sample_enqueue_timeout: 50ms
+      node_cache_cleanup: 1h
+    server:
+      health_port: 8081
+      metrics_port: 9090
+      log_level: info
+    indexer:
+      workers: 30
+      max_concurrent_peers: 30
+      request_timeout: 2s
+      max_peers: 30
+      rate_limit: 400
+      rate_burst: 800
+      exclude_adult_content: true
+      min_size: 10485760 # 10 MB
+    scrape:
+      batch_size: 74
+      poll_interval: 10m
+      dial_timeout: 3s
+      read_timeout: 5s
+      dead_after: 2160h # 90 days
+      prune_interval: 24h
+      trackers:
+        - udp://tracker.opentrackr.org:1337/announce
+        - udp://open.stealth.si:80/announce
+        - udp://tracker.torrent.eu.org:451/announce
+        - udp://tracker.theoks.net:6969/announce
+        - udp://tracker.srv00.com:6969/announce
+        - udp://tracker.qu.ax:6969/announce
+        - udp://tracker.dler.org:6969/announce
+        - udp://tracker.darkness.services:6969/announce
+        - udp://tracker.004430.xyz:1337/announce
+        - udp://tracker-udp.gbitt.info:80/announce
+        - udp://t.overflow.biz:6969/announce
+        - udp://opentracker.io:6969/announce
+        - udp://explodie.org:6969/announce
+        - udp://bittorrent-tracker.e-n-c-r-y-p-t.net:1337/announce
+        - udp://utracker.ghostchu-services.top:6969/announce
+        - udp://udp.tracker.projectk.org:23333/announce
+        - udp://tracker.yume-hatsuyuki.moe:6969/announce
+        - udp://tracker.tvunderground.org.ru:3218/announce
+        - udp://tracker.tryhackx.org:6969/announce
+        - udp://tracker.torrust-demo.com:6969/announce
+        - udp://tracker.therarbg.to:6969/announce
+        - udp://tracker.t-1.org:6969/announce
+        - udp://tracker.plx.im:6969/announce
+        - udp://tracker.playground.ru:6969/announce
+        - udp://tracker.opentorrent.top:6969/announce
+        - udp://tracker.ixuexi.click:6969/announce
+        - udp://tracker.gmi.gd:6969/announce
+        - udp://tracker.fnix.net:6969/announce
+        - udp://tracker.flatuslifir.is:6969/announce
+        - udp://tracker.filemail.com:6969/announce
+        - udp://tracker.ducks.party:1984/announce
+        - udp://tracker.ddunlimited.net:6969/announce
+        - udp://tracker.corpscorp.online:80/announce
+        - udp://tracker.bluefrog.pw:2710/announce
+        - udp://tracker.bittor.pw:1337/announce
+        - udp://tracker.1h.is:1337/announce
+        - udp://tr4ck3r.duckdns.org:6969/announce
+        - udp://torrentclub.online:54123/announce
+        - udp://seedpeer.net:6969/announce
+        - udp://rekcart.duckdns.org:15480/announce
+        - udp://open.dstud.io:6969/announce
+        - udp://open.demonoid.ch:6969/announce
+        - udp://ns575949.ip-51-222-82.net:6969/announce
+        - udp://martin-gebhardt.eu:25/announce
+        - udp://leet-tracker.moe:1337/announce
+        - udp://ipv4announce.sktorrent.eu:6969/announce
+        - udp://evan.im:6969/announce
+        - udp://bandito.byterunner.io:6969/announce
+---
+# Source: homelab/charts/mgnx/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mgnx-data
+  labels:
+    helm.sh/chart: mgnx-0.1.30
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Mi
 ---
 # Source: homelab/charts/mgnx/templates/service.yaml
 apiVersion: v1
@@ -76,9 +197,51 @@ spec:
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      initContainers:
+        - name: gluetun
+          restartPolicy: Always
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+            runAsNonRoot: false
+            runAsUser: 0
+          image: "ghcr.io/qdm12/gluetun:v3.41"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: health
+              containerPort: 9999
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /tmp/gluetun
+              name: gluetun-data
+          env:
+            - name: DNS_KEEP_NAMESERVER
+              value: "on"
+            - name: DOT
+              value: "off"
+            - name: FIREWALL_OUTBOUND_SUBNETS
+              value: "10.42.0.0/16,10.43.0.0/16"
+            - name: PORT_FORWARD_ONLY
+              value: "on"
+            - name: SERVER_COUNTRIES
+              value: "United States"
+            - name: VPN_PORT_FORWARDING
+              value: "on"
+            - name: VPN_SERVICE_PROVIDER
+              value: "protonvpn"
+            - name: VPN_TYPE
+              value: "wireguard"
+            - name: WIREGUARD_ADDRESSES
+              value: "10.2.0.2/32"
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: WIREGUARD_PRIVATE_KEY
+                  name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-f00ddc62afa3c4d7fc617822718bcffb75257b69"
+          image: "ghcr.io/kdwils/mgnx:sha-1abcdeae5c05dcaadaf8e67d506980a2b7af623b"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -105,10 +268,16 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5
           volumeMounts:
+            - mountPath: /data
+              name: pvc-mgnx-data
+              readOnly: false
             - mountPath: /app/config.yaml
               name: configmap-mgnx-config
               readOnly: true
               subPath: config.yaml
+            - mountPath: /tmp/gluetun
+              name: gluetun-data
+              readOnly: true
           env:
             - name: MGNX_DATABASE_URL
               valueFrom:
@@ -116,9 +285,14 @@ spec:
                   key: uri
                   name: mgnx-app
       volumes:
+        - name: pvc-mgnx-data
+          persistentVolumeClaim:
+            claimName: mgnx-data
         - configMap:
             name: mgnx-config
           name: configmap-mgnx-config
+        - emptyDir: {}
+          name: gluetun-data
 ---
 # Source: homelab/charts/mgnx/templates/postgres.yaml
 apiVersion: postgresql.cnpg.io/v1
@@ -187,3 +361,41 @@ spec:
           name: mgnx
           port: 8080
           weight: 1
+---
+# Source: homelab/charts/mgnx/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: protonvpn
+  namespace: media
+spec:
+  encryptedData:
+    WIREGUARD_PRIVATE_KEY: AgBn5oO5B5M+dEFT5CoTuPF90CEcsTmVg6ISV9kg8+ZT4/TBHk5XxbTO4v3HKr8+NGDk0NZbrobtFSKljVYtYDJPrJ/nVTcjHd9omRxS3j6jgEiRytPA/YngUWA3HLFiWRpqDl0OvoBCtz49QqswJ6Wx2RkaRVgyE6JB+n5JZKcEVX4q0UBcpDHiDfAr0W0tq8vif/3vPfj7XkuEO9LIfLLnG2C1uJJfTvCvRHsjf2UmrNxPeqBwMf7pjPWzgZtfdGfk4FtYtJoi2CVLxW1ajOWrLfvQQqAWE7aOa8J4jV2jc89LAFnq4T0LbgSXydBgtV8QihI1xJsh5Tmbj14OtZT+094z40w8wItzDAZT6Dhxd8s6chbh34mbg5vdrxVKoXV7vV7JYxXkMJh1PO4ygnEubU/tx1knfw2A5OsS//nwGr5sCZhIqBqhy7KpLgQPquKnyJ3Tg/V8QNX8I7RhMXZw0zotuwT+JarvtppJZZZwX21HBUT+u4olTsOn63Y/qF4z3c37lH1923ACzUPK/i32y3aB16CV7y/MVS5imDnMpkSg4kjvx2/MmUxXfAfJn6I+JJyhmcG3+9PSDFNNUswv9HJ/lj0hYO5DcUu2VVGwOhASzGEhas2rb+8tNvSeuYLnmRjVv9MfJQkk7V4QCYbbdejy42f4eNXY1yGDFeDw3wC2p537bYZ9dObRsHrjBXF/bH98dCDxKVW/Y9cn8KblBZYbJ4AFgrNO+vqW/i8KHfNxUvwRtSgemIM+WQ==
+  template:
+    type: Opaque
+    metadata:
+      name: protonvpn
+      namespace: media
+---
+# Source: homelab/charts/mgnx/templates/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.30
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mgnx
+      app.kubernetes.io/instance: mgnx
+  endpoints:
+    - port: "metrics"
+      path: "/metrics"
+      interval: "30s"
+      scrapeTimeout: "10s"
