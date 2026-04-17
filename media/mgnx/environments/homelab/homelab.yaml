@@ -28,10 +28,10 @@ mgnx:
       httpGet:
         path: /readiness
         port: 8081
-      initialDelaySeconds: 10
-      periodSeconds: 5
+      initialDelaySeconds: 30
+      periodSeconds: 10
       timeoutSeconds: 5
-      failureThreshold: 5
+      failureThreshold: 10
       successThreshold: 1
 
     env:
