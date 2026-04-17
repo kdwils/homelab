@@ -112,6 +112,14 @@ mgnx:
                 spec:
                   type: LoadBalancer
                   loadBalancerClass: tailscale
+            - selectorType: rw
+              serviceTemplate:
+                metadata:
+                  name: "mgnx-pg-rw-internal"
+                  annotations:
+                    metallb.universe.tf/loadBalancerIPs: "192.168.0.16"
+                spec:
+                  type: LoadBalancer
 
   pvc:
     create: true
