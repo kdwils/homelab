@@ -20,10 +20,11 @@ mgnx:
       httpGet:
         path: /liveness
         port: 8081
-      initialDelaySeconds: 10
+      initialDelaySeconds: 30
       periodSeconds: 10
-      timeoutSeconds: 2
-      failureThreshold: 3
+      timeoutSeconds: 5
+      failureThreshold: 10
+      successThreshold: 1
     readinessProbe:
       httpGet:
         path: /readiness
@@ -63,10 +64,6 @@ mgnx:
     create: true
     type: ClusterIP
     ports:
-      - name: health
-        port: 8081
-        targetPort: 8081
-        protocol: TCP
       - name: http
         port: 8080
         targetPort: 8080
