@@ -12,10 +12,6 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
-    server:
-      log_level: info
-      health_port: 8081
-      metrics_port: 9090
     torznab:
       enabled: true
       port: 8080
