@@ -14,7 +14,7 @@ mgnx:
     deployStrategy: Recreate
     image:
       repository: ghcr.io/kdwils/mgnx
-      tag: sha-f00ddc62afa3c4d7fc617822718bcffb75257b69
+      tag: sha-1abcdeae5c05dcaadaf8e67d506980a2b7af623b
       pullPolicy: IfNotPresent
     livenessProbe:
       httpGet:
