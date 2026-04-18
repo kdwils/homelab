@@ -4,7 +4,7 @@ description: Envoy Gateway
 version: 0.1.0
 dependencies:
   - name: gateway-helm
-    version: 1.7.2
+    version: 1.8.0-rc.0
     repository: oci://docker.io/envoyproxy
   - name: homelab-chart
     version: 0.1.30
