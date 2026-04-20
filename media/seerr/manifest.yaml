@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.5.0
+    helm.sh/chart: seerr-chart-3.5.1
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.2.0"
@@ -38,7 +38,7 @@ kind: Service
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.5.0
+    helm.sh/chart: seerr-chart-3.5.1
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.2.0"
@@ -62,7 +62,7 @@ kind: StatefulSet
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.5.0
+    helm.sh/chart: seerr-chart-3.5.1
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.2.0"
@@ -77,7 +77,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: seerr-chart-3.5.0
+        helm.sh/chart: seerr-chart-3.5.1
         app.kubernetes.io/name: seerr-chart
         app.kubernetes.io/instance: overseerr
         app.kubernetes.io/version: "v3.2.0"
@@ -200,7 +200,7 @@ kind: Pod
 metadata:
   name: "overseerr-seerr-chart-test-connection"
   labels:
-    helm.sh/chart: seerr-chart-3.5.0
+    helm.sh/chart: seerr-chart-3.5.1
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.2.0"
