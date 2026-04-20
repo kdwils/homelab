@@ -14,7 +14,7 @@ mgnx:
     deployStrategy: Recreate
     image:
       repository: ghcr.io/kdwils/mgnx
-      tag: sha-0e6f9cdfa148040e36cac17233af5d87f37761b3
+      tag: sha-791f0e276ded3caa548b21baa6ab30e18daad4ae
       pullPolicy: IfNotPresent
     livenessProbe:
       httpGet:
@@ -204,7 +204,7 @@ mgnx:
             crawler:
               enabled: true
               crawlers: 16
-              discovery_workers: 100
+              discovery_workers: 35
               discovery_queue_size: 4096
               traversal_width: 50
               bootstrap_nodes:
@@ -225,7 +225,7 @@ mgnx:
               metrics_port: 9090
               log_level: info
             indexer:
-              workers: 30
+              workers: 100
               max_concurrent_peers: 30
               request_timeout: 2s
               max_peers: 30
