@@ -56,8 +56,8 @@ data:
     indexer:
       workers: 100
       max_concurrent_peers: 30
-      request_timeout: 2s
-      max_peers: 30
+      request_timeout: 3s
+      max_peers: 100
       rate_limit: 400
       rate_burst: 800
       exclude_adult_content: true
