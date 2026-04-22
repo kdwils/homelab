@@ -183,9 +183,6 @@ mgnx:
         readOnly: true
         data:
           config.yaml: |
-            torznab:
-              enabled: true
-              port: 8080
             dht:
               port: 6881
               forwarded_port_file: "/tmp/gluetun/forwarded_port"
@@ -223,6 +220,8 @@ mgnx:
             server:
               health_port: 8081
               metrics_port: 9090
+              api_port: 8080
+              api_enabled: true
               log_level: info
             indexer:
               workers: 100
