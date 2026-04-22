@@ -12,9 +12,6 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
-    torznab:
-      enabled: true
-      port: 8080
     dht:
       port: 6881
       forwarded_port_file: "/tmp/gluetun/forwarded_port"
@@ -52,6 +49,8 @@ data:
     server:
       health_port: 8081
       metrics_port: 9090
+      api_port: 8080
+      api_enabled: true
       log_level: info
     indexer:
       workers: 100
@@ -241,7 +240,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-0e6f9cdfa148040e36cac17233af5d87f37761b3"
+          image: "ghcr.io/kdwils/mgnx:sha-65b2854e2d61bedeb6742ae35f9260a171eb378d"
           imagePullPolicy: IfNotPresent
           args:
             - serve
