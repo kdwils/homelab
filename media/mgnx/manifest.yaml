@@ -19,7 +19,7 @@ data:
       nodes_path: /data/nodes.dat
       workers: 10
       rate_limit: 300
-      rate_burst: 30
+      rate_burst: 150
       discovery_buffer: 10000
       good_node_window: 15m
       bad_failure_threshold: 3
@@ -30,7 +30,7 @@ data:
     crawler:
       enabled: true
       crawlers: 16
-      discovery_workers: 50
+      discovery_workers: 100
       discovery_queue_size: 4096
       traversal_width: 50
       bootstrap_nodes:
