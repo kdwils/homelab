@@ -1,9 +1,9 @@
 dependencies:
 - name: seerr-chart
   repository: oci://ghcr.io/seerr-team/seerr
-  version: 3.5.1
+  version: 3.6.0
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
   version: 0.1.30
-digest: sha256:e3d2c9eabc96fb4862dc87f2f747c7c193e201c470831c24f27d1d6e4087a011
-generated: "2026-04-17T03:50:39.130981477Z"
+digest: sha256:dc762b6031f6d332204db6f10b29133535bc3ddf1f50e70eea56c5d2222612d0
+generated: "2026-05-01T08:47:19.190114828Z"
