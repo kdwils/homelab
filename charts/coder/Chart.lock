@@ -1,9 +1,9 @@
 dependencies:
 - name: coder
   repository: https://helm.coder.com/v2
-  version: 2.31.5
+  version: 2.33.0-rc.1
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.15
-digest: sha256:f14b0d6716268a6f781cfb748039eefacca1453ce43747a9129c4a05bb642ec9
-generated: "2026-03-21T02:18:47.185724844Z"
+  version: 0.1.26
+digest: sha256:91a4e498c72b2727595c4286e8e5b46ceb1148ba0f839709f4b5d047a1e66a54
+generated: "2026-04-28T13:06:08.431341957Z"

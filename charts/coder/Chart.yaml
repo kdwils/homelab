@@ -4,10 +4,10 @@ description: Coder remote development platform
 version: 0.1.0
 dependencies:
   - name: coder
-    version: 2.31.5
+    version: 2.33.0-rc.1
     repository: https://helm.coder.com/v2
     alias: coder
   - name: homelab-chart
-    version: 0.1.15
+    version: 0.1.26
     repository: oci://ghcr.io/kdwils/charts
     alias: homelab
