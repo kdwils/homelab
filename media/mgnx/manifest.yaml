@@ -16,34 +16,50 @@ data:
       port: 6881
       forwarded_port_file: "/tmp/gluetun/forwarded_port"
       external_ip_file: "/tmp/gluetun/ip"
-      nodes_path: /data/nodes.dat
+      file_wait_timeout: 5m
+      file_settle_time: 30s
+      nodes_path: nodes.dat
       workers: 10
       rate_limit: 300
       rate_burst: 150
       discovery_buffer: 10000
-      good_node_window: 15m
       bad_failure_threshold: 3
+      bucket_size: 20
       stale_threshold: 1m
       transaction_timeout: 3s
       token_rotation: 5m
-      bucket_size: 20
-    crawler:
-      enabled: true
-      crawlers: 16
-      discovery_workers: 100
-      discovery_queue_size: 4096
-      traversal_width: 50
+      max_nodes_per_response: 256
+      max_peers_per_response: 50
+      bucket_refresh_interval: 1m
+      max_message_size: 16777216 # 16 MB
+      max_metadata_size: 10485760 # 10 MB
+      ip_limiter_max_size: 65536
+      warm_bootstrap_threshold: 20
+      peer_store_ttl: 30m
+      peer_store_max_entries: 10000
+      peer_store_max_peers_per_hash: 50
       bootstrap_nodes:
         - dht.libtorrent.org:25401
         - dht.transmissionbt.com:6881
         - router.bittorrent.com:6881
-        - router.utorrent.com:6881
+      bloom_n: 10000000
+      bloom_p: 0.001
+      bloom_rotation: 5m
+    crawler:
+      enabled: true
+      crawlers: 16
+      discovery_workers: 50
+      discovery_queue_size: 4096
+      traversal_width: 50
       alpha: 3
       max_iterations: 8
-      max_interval: 3m
+      discovery_max_iterations: 3
+      default_cooldown: 2s
       default_interval: 45s
+      max_interval: 3m
+      max_node_failures: 3
       max_jitter: 30s
-      bloom_rotation: 5m
+      empty_spin_wait: 5s
       sample_enqueue_timeout: 50ms
       node_cache_cleanup: 1h
     server:
@@ -59,8 +75,10 @@ data:
       max_peers: 100
       rate_limit: 400
       rate_burst: 800
+      min_size: 10485760
+      max_size: 161061273600
+      enable_extension_filter: false
       exclude_adult_content: true
-      min_size: 10485760 # 10 MB
     scrape:
       batch_size: 74
       poll_interval: 10m
