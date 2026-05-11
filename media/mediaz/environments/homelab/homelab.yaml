@@ -9,7 +9,7 @@ mediaz:
 
     image:
       repository: ghcr.io/kasuboski/mediaz
-      tag: sha-86b7abd3935679cb58a98bdc4d9e2c10779e6a18
+      tag: sha-90cdc1d982a36ade7f0618269f21ebd8183aa0d0
       pullPolicy: IfNotPresent
 
     resources:
