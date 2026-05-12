@@ -190,20 +190,20 @@ mgnx:
               file_wait_timeout: 5m
               file_settle_time: 30s
               nodes_path: nodes.dat
-              workers: 10
-              rate_limit: 300
-              rate_burst: 150
+              workers: 32
+              rate_limit: 400
+              rate_burst: 800
               discovery_buffer: 10000
               bad_failure_threshold: 3
               bucket_size: 20
-              stale_threshold: 1m
+              stale_threshold: 15m
               transaction_timeout: 3s
               token_rotation: 5m
               max_nodes_per_response: 256
               max_peers_per_response: 50
-              bucket_refresh_interval: 1m
-              max_message_size: 16777216 # 16 MB
-              max_metadata_size: 10485760 # 10 MB
+              bucket_refresh_interval: 10m
+              max_message_size: 16777216
+              max_metadata_size: 10485760
               ip_limiter_max_size: 65536
               warm_bootstrap_threshold: 20
               peer_store_ttl: 30m
@@ -215,7 +215,7 @@ mgnx:
                 - router.bittorrent.com:6881
               bloom_n: 10000000
               bloom_p: 0.001
-              bloom_rotation: 5m
+              bloom_rotation: 1m
             crawler:
               enabled: true
               crawlers: 16
@@ -242,7 +242,7 @@ mgnx:
             indexer:
               workers: 100
               max_concurrent_peers: 30
-              request_timeout: 3s
+              request_timeout: 5s
               max_peers: 100
               rate_limit: 400
               rate_burst: 800
@@ -255,7 +255,7 @@ mgnx:
               poll_interval: 10m
               dial_timeout: 3s
               read_timeout: 5s
-              dead_after: 2160h # 90 days
+              dead_after: 2160h
               prune_interval: 24h
               trackers:
                 - udp://tracker.opentrackr.org:1337/announce
