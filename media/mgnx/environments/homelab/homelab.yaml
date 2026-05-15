@@ -195,7 +195,7 @@ mgnx:
               rate_burst: 800
               discovery_buffer: 10000
               bad_failure_threshold: 3
-              bucket_size: 100
+              bucket_size: 50
               stale_threshold: 15m
               transaction_timeout: 3s
               token_rotation: 5m
@@ -218,7 +218,7 @@ mgnx:
               bloom_rotation: 4h
             crawler:
               enabled: true
-              crawlers: 24
+              crawlers: 16
               discovery_workers: 100
               discovery_queue_size: 4096
               traversal_width: 100
@@ -251,7 +251,7 @@ mgnx:
               enable_extension_filter: false
               exclude_adult_content: true
             scrape:
-              batch_size: 74
+              batch_size: 100
               poll_interval: 10m
               dial_timeout: 3s
               read_timeout: 5s
