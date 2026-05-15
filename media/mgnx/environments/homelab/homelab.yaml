@@ -195,7 +195,7 @@ mgnx:
               rate_burst: 800
               discovery_buffer: 10000
               bad_failure_threshold: 3
-              bucket_size: 50
+              bucket_size: 100
               stale_threshold: 15m
               transaction_timeout: 3s
               token_rotation: 5m
@@ -221,7 +221,7 @@ mgnx:
               crawlers: 24
               discovery_workers: 100
               discovery_queue_size: 4096
-              traversal_width: 50
+              traversal_width: 100
               alpha: 3
               max_iterations: 8
               discovery_max_iterations: 3
@@ -240,7 +240,7 @@ mgnx:
               api_enabled: true
               log_level: info
             indexer:
-              workers: 100
+              workers: 50
               max_concurrent_peers: 30
               request_timeout: 3s
               max_peers: 100
