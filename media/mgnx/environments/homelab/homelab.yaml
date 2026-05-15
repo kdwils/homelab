@@ -189,7 +189,6 @@ mgnx:
               external_ip_file: "/tmp/gluetun/ip"
               file_wait_timeout: 5m
               file_settle_time: 30s
-              nodes_path: nodes.dat
               workers: 32
               rate_limit: 400
               rate_burst: 800
@@ -215,11 +214,11 @@ mgnx:
                 - router.bittorrent.com:6881
               bloom_n: 100_000_000
               bloom_p: 0.01
-              bloom_rotation: 4h
+              bloom_rotation: 8h
             crawler:
               enabled: true
               crawlers: 16
-              discovery_workers: 100
+              discovery_workers: 50
               discovery_queue_size: 4096
               traversal_width: 100
               alpha: 3
