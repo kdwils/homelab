@@ -192,7 +192,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -258,7 +258,7 @@ spec:
                   name: protonvpn
       containers:
         - name: mgnx
-          image: "ghcr.io/kdwils/mgnx:sha-3c3bd5090c2853d0cacefa7f1c53a3b4971a912b"
+          image: "ghcr.io/kdwils/mgnx:sha-1658370dabbb678532724bcce37691c7ef41cb31"
           imagePullPolicy: IfNotPresent
           args:
             - serve
