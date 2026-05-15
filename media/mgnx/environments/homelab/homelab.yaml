@@ -213,9 +213,9 @@ mgnx:
                 - dht.libtorrent.org:25401
                 - dht.transmissionbt.com:6881
                 - router.bittorrent.com:6881
-              bloom_n: 10000000
-              bloom_p: 0.001
-              bloom_rotation: 1m
+              bloom_n: 100_000_000
+              bloom_p: 0.01
+              bloom_rotation: 4h
             crawler:
               enabled: true
               crawlers: 16
@@ -224,14 +224,14 @@ mgnx:
               traversal_width: 50
               alpha: 3
               max_iterations: 8
-              discovery_max_iterations: 3
+              discovery_max_iterations: 6
               default_cooldown: 2s
-              default_interval: 45s
+              default_interval: 30s
               max_interval: 3m
               max_node_failures: 3
-              max_jitter: 30s
+              max_jitter: 5s
               empty_spin_wait: 5s
-              sample_enqueue_timeout: 50ms
+              sample_enqueue_timeout: 2s
               node_cache_cleanup: 1h
             server:
               health_port: 8081
