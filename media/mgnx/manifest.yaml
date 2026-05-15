@@ -47,7 +47,7 @@ data:
       bloom_rotation: 4h
     crawler:
       enabled: true
-      crawlers: 16
+      crawlers: 32
       discovery_workers: 300
       discovery_queue_size: 8192
       traversal_width: 150
@@ -73,8 +73,8 @@ data:
       max_concurrent_peers: 50
       request_timeout: 3s
       max_peers: 100
-      rate_limit: 400
-      rate_burst: 800
+      rate_limit: 1000
+      rate_burst: 2000
       min_size: 10485760
       max_size: 161061273600
       enable_extension_filter: false
