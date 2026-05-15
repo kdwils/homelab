@@ -195,7 +195,7 @@ mgnx:
               rate_burst: 800
               discovery_buffer: 10000
               bad_failure_threshold: 3
-              bucket_size: 20
+              bucket_size: 50
               stale_threshold: 15m
               transaction_timeout: 3s
               token_rotation: 5m
@@ -224,7 +224,7 @@ mgnx:
               traversal_width: 50
               alpha: 3
               max_iterations: 8
-              discovery_max_iterations: 5
+              discovery_max_iterations: 3
               default_cooldown: 2s
               default_interval: 30s
               max_interval: 3m
