@@ -224,7 +224,7 @@ mgnx:
               traversal_width: 50
               alpha: 3
               max_iterations: 8
-              discovery_max_iterations: 6
+              discovery_max_iterations: 3
               default_cooldown: 2s
               default_interval: 30s
               max_interval: 3m
