@@ -195,7 +195,7 @@ mgnx:
               rate_burst: 800
               discovery_buffer: 10000
               bad_failure_threshold: 3
-              bucket_size: 100
+              bucket_size: 50
               stale_threshold: 15m
               transaction_timeout: 3s
               token_rotation: 5m
@@ -218,10 +218,10 @@ mgnx:
               bloom_rotation: 4h
             crawler:
               enabled: true
-              crawlers: 32
-              discovery_workers: 300
-              discovery_queue_size: 8192
-              traversal_width: 150
+              crawlers: 24
+              discovery_workers: 100
+              discovery_queue_size: 4096
+              traversal_width: 50
               alpha: 3
               max_iterations: 8
               discovery_max_iterations: 3
@@ -240,12 +240,12 @@ mgnx:
               api_enabled: true
               log_level: info
             indexer:
-              workers: 50
-              max_concurrent_peers: 50
+              workers: 100
+              max_concurrent_peers: 30
               request_timeout: 3s
               max_peers: 100
-              rate_limit: 1000
-              rate_burst: 2000
+              rate_limit: 400
+              rate_burst: 800
               min_size: 10485760
               max_size: 161061273600
               enable_extension_filter: false
