@@ -203,6 +203,8 @@ spec:
       kind: HTTPRoute
       name: bluesky
   extAuth:
+    bodyToExtAuth:
+      maxRequestBytes: 65536
     grpc:
       backendRefs:
       - group: ""
