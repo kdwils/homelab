@@ -98,8 +98,6 @@ plex:
     - name: plex
       targetRoute: plex-public
       extAuth:
-        bodyToExtAuth:
-          maxRequestBytes: 65536
         grpc:
           backendRefs:
             - group: ""
