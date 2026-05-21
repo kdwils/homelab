@@ -28,6 +28,8 @@ homelab-envoy-proxy-bouncer:
       enabled: true
 
   config:
+    server:
+      logLevel: debug
     prometheus:
       enabled: true
       serviceMonitor:
