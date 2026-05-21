@@ -239,8 +239,6 @@ spec:
       kind: HTTPRoute
       name: plex-public
   extAuth:
-    bodyToExtAuth:
-      maxRequestBytes: 65536
     grpc:
       backendRefs:
       - group: ""
