@@ -10,7 +10,7 @@ mgnx:
 
   deployment:
     create: true
-    replicas: 1
+    replicas: 0
     deployStrategy: Recreate
     image:
       repository: ghcr.io/kdwils/mgnx
