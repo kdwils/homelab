@@ -1,9 +1,9 @@
 dependencies:
 - name: longhorn
   repository: https://charts.longhorn.io
-  version: 1.11.2
+  version: 1.12.0
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
   version: 0.1.30
-digest: sha256:c306549c0c9f7a62733742b86765635cac9930cd287bde98f13c7809fbbe4acb
-generated: "2026-05-05T07:01:51.31244643Z"
+digest: sha256:b6c0d1416c646934ef9dd09654fe517a8e6361e26b7389ddeba687793f64ebed
+generated: "2026-06-02T13:40:25.061239768Z"
