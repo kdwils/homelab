@@ -105,6 +105,7 @@ homelab:
     - name: argocd-public
       targetRoute: argocd-public
       extAuth:
+        failOpen: true
         grpc:
           backendRefs:
             - group: ""
