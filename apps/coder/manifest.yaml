@@ -9,8 +9,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: coder
     app.kubernetes.io/part-of: coder
-    app.kubernetes.io/version: 2.31.5
-    helm.sh/chart: coder-2.31.5
+    app.kubernetes.io/version: 2.34.1
+    helm.sh/chart: coder-2.34.1
   name: coder
   namespace: coder
 ---
@@ -78,11 +78,11 @@ metadata:
   name: coder
   namespace: coder
   labels:
-    helm.sh/chart: coder-2.31.5
+    helm.sh/chart: coder-2.34.1
     app.kubernetes.io/name: coder
     app.kubernetes.io/instance: coder
     app.kubernetes.io/part-of: coder
-    app.kubernetes.io/version: "2.31.5"
+    app.kubernetes.io/version: "2.34.1"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -108,8 +108,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: coder
     app.kubernetes.io/part-of: coder
-    app.kubernetes.io/version: 2.31.5
-    helm.sh/chart: coder-2.31.5
+    app.kubernetes.io/version: 2.34.1
+    helm.sh/chart: coder-2.34.1
   name: coder
   namespace: coder
 spec:
@@ -127,8 +127,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: coder
         app.kubernetes.io/part-of: coder
-        app.kubernetes.io/version: 2.31.5
-        helm.sh/chart: coder-2.31.5
+        app.kubernetes.io/version: 2.34.1
+        helm.sh/chart: coder-2.34.1
     spec:
       affinity:
         podAntiAffinity:
@@ -181,7 +181,7 @@ spec:
           value: openid,profile,email,groups
         - name: CODER_ACCESS_URL
           value: https://coder.int.kyledev.co
-        image: ghcr.io/coder/coder:v2.31.5
+        image: ghcr.io/coder/coder:v2.34.1
         imagePullPolicy: IfNotPresent
         lifecycle: {}
         name: coder
@@ -254,22 +254,31 @@ kind: HTTPRoute
 metadata:
   name: coder-homelab
   labels:
-    helm.sh/chart: homelab-0.1.15
+    helm.sh/chart: homelab-0.1.30
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: coder
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       namespace: envoy-gateway-system
   hostnames:
     - "coder.int.kyledev.co"
     - "coder.ts.kyledev.co"
   rules:
-    - backendRefs:
-      - name: coder
-        port: 80
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: coder
+          port: 80
+          weight: 1
 ---
 # Source: coder/charts/homelab/templates/sealedsecret.yaml
 apiVersion: bitnami.com/v1alpha1
