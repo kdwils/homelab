@@ -8,7 +8,7 @@ homelab:
 
 homelab-envoy-proxy-bouncer:
   image:
-    tag: sha-6e48c79a7c28e6c256acd4bc824b2a1da60ee13e
+    tag: sha-b1252a25897346cef962cd46379d617cab151085
 
   replicaCount: 2
   fullnameOverride: homelab-envoy-proxy-bouncer
