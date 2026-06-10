@@ -33597,6 +33597,7 @@ spec:
       kind: HTTPRoute
       name: argocd-public
   extAuth:
+    failOpen: true
     grpc:
       backendRefs:
       - group: ""
