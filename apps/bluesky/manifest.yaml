@@ -94,7 +94,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/bluesky-social/pds:0.4.219"
+          image: "ghcr.io/bluesky-social/pds:0.4.5001"
           imagePullPolicy: IfNotPresent
           ports:
             - name: pds-port
