@@ -9,8 +9,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: coder
     app.kubernetes.io/part-of: coder
-    app.kubernetes.io/version: 2.34.1
-    helm.sh/chart: coder-2.34.1
+    app.kubernetes.io/version: 2.34.3
+    helm.sh/chart: coder-2.34.3
   name: coder
   namespace: coder
 ---
@@ -78,11 +78,11 @@ metadata:
   name: coder
   namespace: coder
   labels:
-    helm.sh/chart: coder-2.34.1
+    helm.sh/chart: coder-2.34.3
     app.kubernetes.io/name: coder
     app.kubernetes.io/instance: coder
     app.kubernetes.io/part-of: coder
-    app.kubernetes.io/version: "2.34.1"
+    app.kubernetes.io/version: "2.34.3"
     app.kubernetes.io/managed-by: Helm
   annotations:
     {}
@@ -108,8 +108,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: coder
     app.kubernetes.io/part-of: coder
-    app.kubernetes.io/version: 2.34.1
-    helm.sh/chart: coder-2.34.1
+    app.kubernetes.io/version: 2.34.3
+    helm.sh/chart: coder-2.34.3
   name: coder
   namespace: coder
 spec:
@@ -127,8 +127,8 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: coder
         app.kubernetes.io/part-of: coder
-        app.kubernetes.io/version: 2.34.1
-        helm.sh/chart: coder-2.34.1
+        app.kubernetes.io/version: 2.34.3
+        helm.sh/chart: coder-2.34.3
     spec:
       affinity:
         podAntiAffinity:
@@ -181,7 +181,7 @@ spec:
           value: openid,profile,email,groups
         - name: CODER_ACCESS_URL
           value: https://coder.int.kyledev.co
-        image: ghcr.io/coder/coder:v2.34.1
+        image: ghcr.io/coder/coder:v2.34.3
         imagePullPolicy: IfNotPresent
         lifecycle: {}
         name: coder
