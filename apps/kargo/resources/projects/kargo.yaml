@@ -26,7 +26,7 @@ spec:
   subscriptions:
     - chart:
         repoURL: oci://ghcr.io/akuity/kargo-charts/kargo
-        semverConstraint: 1.9.3
+        semverConstraint: 1.10.7
     - chart:
         repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
     - git:
