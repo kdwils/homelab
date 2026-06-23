@@ -13,7 +13,7 @@ spec:
     server: "https://kubernetes.default.svc"
   source:
     repoURL: "https://github.com/kdwils/homelab"
-    path: infra/envoy-gateway/homelab
+    path: infra/envoy-gateway/environments/homelab
     targetRevision: homelab
   project: infra
   syncPolicy:

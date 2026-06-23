@@ -12,7 +12,7 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/blog-dev
+    path: apps/blog/environments/dev
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []
@@ -38,7 +38,7 @@ spec:
     namespace: blog
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/blog-prod
+    path: apps/blog/environments/prod
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []

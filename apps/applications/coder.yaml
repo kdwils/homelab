@@ -12,7 +12,7 @@ spec:
     namespace: coder
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/coder
+    path: apps/coder/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []

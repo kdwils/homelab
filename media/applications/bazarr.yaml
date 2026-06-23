@@ -12,7 +12,7 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/bazarr
+    path: media/bazarr/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []

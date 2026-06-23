@@ -12,7 +12,7 @@ spec:
     namespace: cnpg
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/cnpg
+    path: infra/cnpg/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []

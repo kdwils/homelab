@@ -12,7 +12,7 @@ spec:
     namespace: media
     server: "https://kubernetes.default.svc"
   source:
-    path: media/radarr
+    path: media/radarr/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []

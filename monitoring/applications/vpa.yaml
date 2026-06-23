@@ -12,7 +12,7 @@ spec:
     namespace: kube-system
     server: "https://kubernetes.default.svc"
   source:
-    path: monitoring/vpa
+    path: monitoring/vpa/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
     targetRevision: homelab
   sources: []
