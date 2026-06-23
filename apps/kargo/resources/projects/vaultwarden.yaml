@@ -28,6 +28,8 @@ spec:
         repoURL: vaultwarden/server
         semverConstraint: ^1.0.0
         strictSemvers: false
+    - chart:
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
