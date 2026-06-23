@@ -16,7 +16,7 @@ automountServiceAccountToken: false
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: vaultwarden
+  name: vaultwarden-data-vaultwarden-0
   labels:
     helm.sh/chart: vaultwarden-0.1.30
     app.kubernetes.io/name: vaultwarden
@@ -124,7 +124,7 @@ spec:
             timeoutSeconds: 1
           volumeMounts:
             - mountPath: /data
-              name: pvc-vaultwarden
+              name: pvc-vaultwarden-data-vaultwarden-0
               readOnly: false
           env:
             - name: ADMIN_RATELIMIT_MAX_BURST
@@ -213,9 +213,9 @@ spec:
             - secretRef:
                 name: vaultwarden
       volumes:
-        - name: pvc-vaultwarden
+        - name: pvc-vaultwarden-data-vaultwarden-0
           persistentVolumeClaim:
-            claimName: vaultwarden
+            claimName: vaultwarden-data-vaultwarden-0
 ---
 # Source: homelab/charts/vaultwarden/templates/httproute.yaml
 apiVersion: gateway.networking.k8s.io/v1
