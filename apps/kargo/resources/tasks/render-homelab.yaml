@@ -333,7 +333,7 @@ spec:
           - ./source/apps/vaultwarden/environments/homelab/homelab.yaml
         namespace: vaultwarden
         releaseName: vaultwarden
-        outPath: ./target/apps/vaultwarden/homelab/manifest.yaml
+        outPath: ./target/apps/vaultwarden/environments/homelab/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:
