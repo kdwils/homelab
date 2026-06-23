@@ -1,0 +1,291 @@
+---
+# Source: homelab/charts/vaultwarden/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vaultwarden-svc
+  labels:
+    helm.sh/chart: vaultwarden-0.1.30
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/vaultwarden/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vaultwarden-data
+  labels:
+    helm.sh/chart: vaultwarden-0.1.30
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+---
+# Source: homelab/charts/vaultwarden/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaultwarden
+  labels:
+    helm.sh/chart: vaultwarden-0.1.30
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+---
+# Source: homelab/charts/vaultwarden/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+  labels:
+    helm.sh/chart: vaultwarden-0.1.30
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vaultwarden
+      app.kubernetes.io/instance: vaultwarden
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: vaultwarden-0.1.30
+        app.kubernetes.io/name: vaultwarden
+        app.kubernetes.io/instance: vaultwarden
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: vaultwarden-svc
+      securityContext:
+        fsGroup: 1001
+        supplementalGroups:
+        - 1001
+      containers:
+        - name: vaultwarden
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
+          image: "vaultwarden/server:1.36.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /alive
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /alive
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          volumeMounts:
+            - mountPath: /data
+              name: pvc-vaultwarden-data
+              readOnly: false
+          env:
+            - name: ADMIN_RATELIMIT_MAX_BURST
+              value: "3"
+            - name: ADMIN_RATELIMIT_SECONDS
+              value: "300"
+            - name: DATABASE_MAX_CONNS
+              value: "10"
+            - name: DATA_FOLDER
+              value: "/data"
+            - name: DB_CONNECTION_RETRIES
+              value: "15"
+            - name: DOMAIN
+              value: "https://passwords.int.kyledev.co"
+            - name: EMAIL_CHANGE_ALLOWED
+              value: "true"
+            - name: EMERGENCY_ACCESS_ALLOWED
+              value: "true"
+            - name: EMERGENCY_NOTIFICATION_REMINDER_SCHEDULE
+              value: "0 3 * * * *"
+            - name: EMERGENCY_REQUEST_TIMEOUT_SCHEDULE
+              value: "0 7 * * * *"
+            - name: EXTENDED_LOGGING
+              value: "true"
+            - name: ICON_BLACKLIST_NON_GLOBAL_IPS
+              value: "true"
+            - name: ICON_REDIRECT_CODE
+              value: "302"
+            - name: ICON_SERVICE
+              value: "internal"
+            - name: INVITATIONS_ALLOWED
+              value: "false"
+            - name: INVITATION_EXPIRATION_HOURS
+              value: "120"
+            - name: INVITATION_ORG_NAME
+              value: "Vaultwarden"
+            - name: IP_HEADER
+              value: "X-Real-IP"
+            - name: LOG_LEVEL
+              value: "debug"
+            - name: LOG_TIMESTAMP_FORMAT
+              value: "%Y-%m-%d %H:%M:%S.%3f"
+            - name: ORG_EVENTS_ENABLED
+              value: "false"
+            - name: ORG_GROUPS_ENABLED
+              value: "false"
+            - name: REQUIRE_DEVICE_EMAIL
+              value: "false"
+            - name: ROCKET_ADDRESS
+              value: "0.0.0.0"
+            - name: ROCKET_PORT
+              value: "8080"
+            - name: ROCKET_WORKERS
+              value: "10"
+            - name: SENDS_ALLOWED
+              value: "true"
+            - name: SHOW_PASSWORD_HINT
+              value: "false"
+            - name: SIGNUPS_ALLOWED
+              value: "false"
+            - name: SIGNUPS_VERIFY
+              value: "true"
+            - name: SMTP_ACCEPT_INVALID_CERTS
+              value: "false"
+            - name: SMTP_ACCEPT_INVALID_HOSTNAMES
+              value: "false"
+            - name: SMTP_AUTH_MECHANISM
+              value: "Plain"
+            - name: SMTP_DEBUG
+              value: "false"
+            - name: SMTP_FROM
+              value: "wilson15701@gmail.com"
+            - name: SMTP_FROM_NAME
+              value: "wilson15701@gmail.com"
+            - name: SMTP_HOST
+              value: "smtp.gmail.com"
+            - name: SMTP_PORT
+              value: "587"
+            - name: SMTP_SECURITY
+              value: "starttls"
+            - name: TRASH_AUTO_DELETE_DAYS
+              value: ""
+            - name: WEB_VAULT_ENABLED
+              value: "true"
+          envFrom:
+            - secretRef:
+                name: vaultwarden
+      volumes:
+        - name: pvc-vaultwarden-data
+          persistentVolumeClaim:
+            claimName: vaultwarden-data
+---
+# Source: homelab/charts/vaultwarden/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: vaultwarden
+  labels:
+    helm.sh/chart: vaultwarden-0.1.30
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
+      namespace: envoy-gateway-system
+  hostnames:
+    - "passwords.int.kyledev.co"
+    - "passwords.ts.kyledev.co"
+  rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: vaultwarden
+        port: 80
+        weight: 1
+---
+# Source: homelab/charts/vaultwarden/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  encryptedData:
+    adminToken: AgAPGmeODHhbA9UcUuVKjjc5p+i/OsCmz4hNaSfLQ9mKeh8WoRsE5LleqJq8dPZXBWpVgxbBEZVHrHAG3bOH1tnOGD2OpqfNHo9eU1AfX3pojKlIwc4rsg5QAKhIXPd3DhfvB78z3bTmeFpg3b38R0/TU3r0KosKU67hx+oEU+QGmCPGeVbmYWU1LPkFpm9/uYcA6Bw8bglWzcISP25uVT6vA39fi15mETkM0YZTzQbUOVbfFxsuzpXGGzkLrkzLaivzy5tOtPMkagWxdute/elHPlYIy/KtOedPa22aGWIFIP9niLfnOKj/8xKGnGHpdgXztmS+kNuhUp56LlsqYZzAl0layTF6Ozn7smIHNHH8r67gUqXS99cZNeF8NVO2R3YfIUrOnrZln29Vx+Xsslvmr6Hb6c1GiMNk7ZX5GgZnZG/C/dH/WxzKjATHdbgUygu0avmHAtFWQApSv95U/+D4CWKWkIZbFsjRbUdDsuI40y83CUCyhMDDZkKuj5NSJOsLPm+OUulmenL4dEKnEGRiNO67cje4a2VRTwSH1BtDDaF4pteZmPP9Pa2qDQF1DIuQt8/EZEBzxBsOYqv8OeG6E2v+chvwcgL8hd6RmO8FmUnKXdIOjPNJY4ogJEyOt/GPhKkyJAcLGaMuQvwnGnfLmQvVVEXm9mQMWZAiG5BmmgjWoQ6sRX4iJ6oe7kvD9MxoyHU9BxA5TY52lwIkXRt+cqd3RnzSgGIwYKUQmpT6sE/2KSzqgGvasBXYPYJThrtiauapnibUfJ6UjwDvCsoHP+IwVQXS1pp1/DjzxVXHMLYsV4MeahaHAP15qPrttWGp6EvBbF7ckrJ1y2yiqvNnX7xJbdJl
+    smtpPassword: AgCjJFLbeLROIcUZo168q3wydxD1EGTYreT96lqfqB3dDHlP0T2rxz2D0SnJx5SonbYl1AeeV2pf5VYRe0OzwLVwUX0Y7TYOnuQCqzQk8uTucHriCvuj0e53lIiavDi+BxfgltkrfjvqzotvRz579eNVhqkbCQiHJojU865ueqcZoGOy6uk0qn8mvSjZu/gAzXddbCQmLdiOpFlJl4Um7KAKYDENHgXdl+AGCzPJIwlKE4GI4IAxWzHDHmL0KHJZpJV2u4WZBzVID4Z0lOOcRB7trn9MkyiWNjkfkV8JyigvtruDYg0F9+yoYsKR3reiBaRmZKW8OPo8vppipg0w6Fyx6mdcb10AEUOWUwGIF1Zx2dWZ0liZQu2J2jnlLE6T2dx6gHeJ9l40Vuw4JxAOiapppTl/7HEgqnIhuR6z940xmRihUPjBmyenUsznul6S+8+5lCU10KTClQnbrCOIiKeBar3eFTIz1wXaTOinFJQyWNKtdXVD8hI/q9H+B4EEEb3IsMshDLdnV4tRH6a1ji6YM+gIbU2PAw0SyoZryJyd47JwRvv8pLt7m6zWv4GDVaja1J2yWujLmdn0FBCyO32H0aZBPSurhsXGgKSKkGnnUWAJVjh59q27WxPOPnzKP895DESzeRL/dfOJdSQbum01M66KozZULATFmbKKS/QeiqIS9PMjs3kS8y7/GkMEwTq1UbuEfANNtm2nroVVD2ez
+    smtpUsername: AgBnB20goJHZEMYJ2xvInDQ5Ir37CB7qc2ntB14Fp9GPn5vJ1qQwrRtvjloyU7XD1zmWTKEzoUHjXpG6YJbIi22YI3ZRbVwudzAGfVXuGwJTPxbjA+6/RCxYJtIglVbVkVoPHdqMy1N2r5PNhgRil5G7EMsp5Ox6mUPS4xW2j9bSM3Uh+7wXfUDWruLa6gYybrzG9J9fF25tmVXC09+vL1OkljSXFeMsUP1U9rkl26sIsc0il2MFkdq5hu6LvwPDOO73tjUZWRZvGs8LIH63IFrHzSCIyoLViFSErhMNeHdtZyGGMmMCUONu6hiBungxK7QHhUGVJJLY7WW3yDAj4wP6+e8WCqnjNDxtOnfEraYJATm7Zkh8ttuPzP+O5aig99BbIGA30TEbGbY4frrfClh5bCDXxPRMmfwfvIGC/bauq6hsAp0er0Abm7JSey9HtU0Qlg3r2ihQowORFHGkbOEJ5BOClCFkRptkMcUYyD7EPjbPnpYel85DObjTMs3TuXCLeGtnGZSQd21WVuHMG7QEDgJVpbKFpNEM69wUsHGJIqx+4jfauEvOyCVklEZNVJkQS7Og1dEECynU2iAF3dVaLTMRhnZsdaaRL9o/HrOhdA+MYo33Yxfs3trAEJdWEtRpxPoAnNb4TaqZMvEeTCpD9eImSh1V9jeoukrNf3+vdHbgN3k+zHspm4tlYejp/cDjioUUUJ8tubDNpHMKaHFIrGBBP8E=
+  template:
+    type: Opaque
+    metadata:
+      name: vaultwarden
+      namespace: vaultwarden
+---
+# Source: homelab/charts/vaultwarden/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: vaultwarden
+  labels:
+    helm.sh/chart: vaultwarden-0.1.30
+    app.kubernetes.io/name: vaultwarden
+    app.kubernetes.io/instance: vaultwarden
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: vaultwarden
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: crowdsec
+        port: 8080
