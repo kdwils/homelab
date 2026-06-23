@@ -33,4 +33,5 @@ resources:
   - sonarr.yaml
   - tailscale.yaml
   - transmission.yaml
+  - vaultwarden.yaml
   - vpa.yaml
