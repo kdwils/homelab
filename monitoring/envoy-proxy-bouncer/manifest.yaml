@@ -1506,7 +1506,7 @@ metadata:
     app.kubernetes.io/version: "v0.6.2"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: homelab-envoy-proxy-bouncer
