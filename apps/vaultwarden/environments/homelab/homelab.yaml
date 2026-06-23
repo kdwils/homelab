@@ -115,7 +115,7 @@ vaultwarden:
   pvc:
     create: true
     pvcs:
-      - name: vaultwarden-data
+      - name: vaultwarden-data-vaultwarden-0
         size: 15Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
