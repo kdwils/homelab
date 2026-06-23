@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: vaultwarden
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: vaultwarden:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: vaultwarden
     server: "https://kubernetes.default.svc"
   source:
-    path: apps/vaultwarden
+    path: apps/vaultwarden/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: apps
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
