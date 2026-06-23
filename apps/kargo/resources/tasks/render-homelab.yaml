@@ -325,6 +325,15 @@ spec:
         namespace: media
         releaseName: mediaz
         outPath: ./target/media/mediaz/manifest.yaml
+    - uses: helm-template
+      as: render-vaultwarden
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/vaultwarden/environments/homelab/homelab.yaml
+        namespace: vaultwarden
+        releaseName: vaultwarden
+        outPath: ./target/apps/vaultwarden/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:
