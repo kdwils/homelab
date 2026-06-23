@@ -5,7 +5,7 @@ radarr:
 
   deployment:
     create: true
-    replicaCount: 0
+    replicas: 0
     deployStrategy: Recreate
 
     image:

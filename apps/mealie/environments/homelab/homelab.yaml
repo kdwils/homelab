@@ -5,7 +5,7 @@ mealie:
 
   deployment:
     create: true
-    replicaCount: 1
+    replicas: 1
     deployStrategy: Recreate
 
     image:
