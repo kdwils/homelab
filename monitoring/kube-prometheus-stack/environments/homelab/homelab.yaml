@@ -6,7 +6,7 @@ kube-prometheus-stack:
     enabled: false
 
   grafana:
-    enabled: true
+    enabled: false
 
     admin:
       existingSecret: grafana-admin-secret
@@ -75,13 +75,13 @@ kube-prometheus-stack:
                 storage: 20Gi
 
   prometheusOperator:
-    enabled: true
+    enabled: false
 
   kube-state-metrics:
-    enabled: true
+    enabled: false
 
   prometheus-node-exporter:
-    enabled: true
+    enabled: false
 
 homelab:
   sealedsecrets:
