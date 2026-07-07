@@ -95,7 +95,7 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 256Mi
+              memory: 128Mi
             requests:
               cpu: 50m
               memory: 64Mi
@@ -239,7 +239,4 @@ spec:
       controlledValues: RequestsAndLimits
       maxAllowed:
         cpu: 500m
-        memory: 500Mi
-      minAllowed:
-        cpu: 50m
-        memory: 64Mi
+        memory: 512Mi

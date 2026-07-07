@@ -103,7 +103,7 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 256Mi
+              memory: 128Mi
             requests:
               cpu: 50m
               memory: 64Mi
@@ -185,3 +185,32 @@ spec:
     metadata:
       name: freshrss-oidc
       namespace: rss
+---
+# Source: homelab/charts/rss/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: rss
+  labels:
+    helm.sh/chart: rss-0.1.31
+    app.kubernetes.io/name: rss
+    app.kubernetes.io/instance: rss
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: rss
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
