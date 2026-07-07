@@ -187,6 +187,16 @@ spec:
         outPath: ./target/infra/sealedsecrets/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
+      as: render-vpa
+      config:
+        path: ./source/charts/vpa
+        valuesFiles:
+          - ./source/infra/vpa/environments/homelab/homelab.yaml
+        namespace: kube-system
+        releaseName: vpa
+        outPath: ./target/infra/vpa/environments/homelab/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-tailscale
       config:
         path: ./source/charts/tailscale
