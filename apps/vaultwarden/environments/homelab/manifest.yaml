@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: vaultwarden-svc
   labels:
-    helm.sh/chart: vaultwarden-0.1.30
+    helm.sh/chart: vaultwarden-0.1.31
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: vaultwarden-data-vaultwarden-0
   labels:
-    helm.sh/chart: vaultwarden-0.1.30
+    helm.sh/chart: vaultwarden-0.1.31
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/version: "1.16.0"
@@ -37,7 +37,7 @@ kind: Service
 metadata:
   name: vaultwarden
   labels:
-    helm.sh/chart: vaultwarden-0.1.30
+    helm.sh/chart: vaultwarden-0.1.31
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/version: "1.16.0"
@@ -59,7 +59,7 @@ kind: Deployment
 metadata:
   name: vaultwarden
   labels:
-    helm.sh/chart: vaultwarden-0.1.30
+    helm.sh/chart: vaultwarden-0.1.31
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/version: "1.16.0"
@@ -75,7 +75,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: vaultwarden-0.1.30
+        helm.sh/chart: vaultwarden-0.1.31
         app.kubernetes.io/name: vaultwarden
         app.kubernetes.io/instance: vaultwarden
         app.kubernetes.io/version: "1.16.0"
@@ -223,7 +223,7 @@ kind: HTTPRoute
 metadata:
   name: vaultwarden
   labels:
-    helm.sh/chart: vaultwarden-0.1.30
+    helm.sh/chart: vaultwarden-0.1.31
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/version: "1.16.0"
@@ -272,7 +272,7 @@ kind: SecurityPolicy
 metadata:
   name: vaultwarden
   labels:
-    helm.sh/chart: vaultwarden-0.1.30
+    helm.sh/chart: vaultwarden-0.1.31
     app.kubernetes.io/name: vaultwarden
     app.kubernetes.io/instance: vaultwarden
     app.kubernetes.io/version: "1.16.0"
