@@ -193,6 +193,7 @@ spec:
         name: homelab-envoy-proxy-bouncer
         namespace: crowdsec
         port: 8080
+        weight: 1
 ---
 # Source: seerr/charts/seerr-chart/templates/tests/test-connection.yaml
 apiVersion: v1
