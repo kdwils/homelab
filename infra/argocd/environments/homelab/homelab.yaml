@@ -57,8 +57,6 @@ argocd:
 
     params:
       server.insecure: "true"
-      controller.status.processors: "3"
-      controller.operation.processors: "2"
 
     secret:
       createSecret: false
