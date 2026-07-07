@@ -6,4 +6,3 @@ resources:
   # - kube-prometheus-stack.yaml
   - namespace.yaml
   - crowdsec.yaml
-  - vpa.yaml

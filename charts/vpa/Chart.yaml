@@ -1,9 +1,0 @@
-apiVersion: v2
-name: vpa
-description: Vertical Pod Autoscaler
-version: 0.1.0
-dependencies:
-  - name: vertical-pod-autoscaler
-    version: 0.10.0
-    repository: https://kubernetes.github.io/autoscaler
-    alias: vpa

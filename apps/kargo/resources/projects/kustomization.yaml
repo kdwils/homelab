@@ -34,4 +34,3 @@ resources:
   - tailscale.yaml
   - transmission.yaml
   - vaultwarden.yaml
-  - vpa.yaml
