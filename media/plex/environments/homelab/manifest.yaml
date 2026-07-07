@@ -120,11 +120,11 @@ spec:
               protocol: TCP
           resources:
             limits:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 2
+              memory: 2Gi
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 300m
+              memory: 512Mi
           volumeMounts:
             - mountPath: /movies
               name: media
