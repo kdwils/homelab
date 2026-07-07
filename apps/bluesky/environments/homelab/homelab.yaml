@@ -38,14 +38,6 @@ bluesky:
         drop:
           - ALL
 
-    resources:
-      limits:
-        cpu: 200m
-        memory: 512Mi
-      requests:
-        cpu: 50m
-        memory: 128Mi
-
   service:
     create: true
     type: ClusterIP
@@ -81,6 +73,24 @@ bluesky:
         PDS_EMAIL_SMTP_URL: AgC2u2h/RolYV5i0f46+jfyzDmQxotXm1x1texuiAESlZBXiHCzrzyL1BN8WFOMZ7x1gubZ1QAvXP6OgCtkjTJY3oC5BN3ZP+2Pz9+IyhfjOddYGjAj3Rs66pmkAGRyANwzsRZIbJKTBScjh02x4w6z2k/ygYCNbVlOW7ClXXX7miW7dDHoGgo2C3T92WzixvrI+dmcDxWbCSTiBsbTxp0mpU9Z3mYlGy9do7MIx/r7fomgZfe/3du34jUlaJyeI5c+pEnBjayRfHQ13kHqaWTB8oJE0RXVJZhumaUPyhnjfSyh2RHPYdQgZrC+9+qG23LEVdItCGWrmstxFjyyK7wiP8w+wiTIElnQtziK2kYrnmBWwYoa/IJKK+AhmfGgoKJYHED6DPADTQ5CE6AFIatoJjigNWx8L2nkLcsv8XuRoO+halL8TiXfQ/4sgcrPmcD0yHAiUHN9OuhPUj8rkL/COeA53vOqP2LE8vGCT+rqAWzDb1b7M237qPLqcvjzEzmM87v5/dTz/zvHrXUF8P07NvJWzmECUc3ffH2u/QvLOeWSwEVaR2bxRivRRH8DMAuQPisMDY5o+rmyr3CyMZZF5X+2fyJ1reZ5hVDdh5+31ehHt4kIseIQzy20NDvYJFhumTtFuYSYs3pgO9eBCeFY+REsUK/5AI8jpnzafOE/w2jvk3uQOagxTn9xvZNOwItctBjclDMdzFY21J3EvJ4X94kuv2fPP+ZDitav8TZTuu7H9lpZZC2GdKfmIDM5wk9W6glcvzv3Qbfn39kp/KUVN
         PDS_JWT_SECRET: AgBvJlKy+NKbksyQbP2O3Fdag2qJEteQDOp03Zd7sdJPy47V8jHtdBfi+Mi6njdvrY65m4lgA9t0ss1Smn0RNyCoiNyUUS3wxbDYj4rzGuYNE/ELxdRQkHgV4TmNVXcEktJ2SxxIhAXWbEjID/5fh7qDDtiKzYz4QM9uc8hCT0Jwh5/yWGr5by38f06P3o7DDXlKfJS7Pk1MMtKldr4i407selHmgaLOAnrH9aKdDxWEEt15yVgD9xAf5q1yXgeibLOQfAMswPV30yNpktVkgeqbN9beun8ArJuyquHmS72q7hbTmch2AFNboB4ZwJdK4KETJ3sxu+KhiGdtGvra0QME4Npt4fNLjUOoaf8gZscxDET7pPhp1eaTmj40rD6gg+ME6xggFMnw7wj7xcJApsRTAeM7grNZ5XrNUhiOlLoqJf10PBIOT/1G+tmKySYefyM3XDvURrjToSzXZhOADwOKloKiUcRFWw0qfNVNZYQxlw3PFXlvXaZCQp73++W7sGSJZk21e1oI0t67Z9MPZKjJ4bDuiXPbZpaeKbppadW5Y8QVUvOuB+tgzlfZyfKxQvhETU50/XIIQOFr7bgL4olrnZNjw8G7DfG3+27WSP6g6Sg0YpClvMovw+K9pOm0CDYglOpC/G9QWEon44Qssiv9vNHX3SNbydiDfZdbxSQgnOedH1Fej4WFHNyn4oRAuUpnJ6bsoAuAzkoNuz1HcrnKPJ+eaQQIfYK8bFlrHRPguA==
         PDS_PLC_ROTATION_KEY_K256_PRIVATE_KEY_HEX: AgAu/h4l6RHkPy/AblcWFb4TdtTBWd3dtQacq7KivEtDaddpQIa5CtnVF37/D8og5znf4AlpnK5CH/MZTUUj4Zb5qtptMahucE6FhSQHRTKqAHpjlaQX0oAxTTxbe1bFmVNhVkXyIwOHKiGnuQaYQzWdFFC6Qf99QtqftdxBUSlX83dQfdviikpbEZ5lfPLdh/4OvHvm0TBJskGSXdy5ba34SnT2be4OmRDZG5kj7OzYntPsZ4CIxUkQzYjNkqZhJLrRAcRTNkYz0MvzJ/c0t5g4DBLLLA2FwX9u2NpUk+vH5uWMmkAjCrKPudKYdFgParaLPS656s/cUnFK80YmRChgcWGdNVL8pNiDuE677wgqZ3u5TUYrQRhhG/AeAJ0ZUxT+exx5agu2sBUcatkxKPcz9xvuuB5ThuaHW4fMg1QSrU6TUwcWa8flNHQhN98xhXy5/Pa2y4gDdpNq7JN3lgybu9nHK4VgeQrkn6OeLbuOAcKmtknGw7xhEhC/JvJv67AaezKltYYo7BjSMVfU2xN3kJWWinKDY/f9gyXxuh4yznzS9Kqq+Y+NFDthJ+tD7Q7HPMuccoLT/l2o2uHTTJHAkEhkfApH0CCrUbWI6bwjRWaxbDUejUebcYAZLuRud6OFCkmV5vZT4i3EEDdE5asqgVD5uyQKL+2vv3416Gl73yiKKp9nzaT0AsXCjbY3Ul5tJiYWJqGVNvOhgQOed/8ZznJP42fgNkkHHgvujBsGsymXnVAcR5PtthQizEkJ03Y0L8CwS1h/nxfVcxC86QQ3
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          minAllowed:
+            cpu: 50m
+            memory: 64Mi
+          maxAllowed:
+            cpu: 500m
+            memory: 1Gi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
 
   securityPolicy:
     extAuth:
