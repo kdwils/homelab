@@ -2042,6 +2042,7 @@ spec:
             - --v=4
             - --stderrthreshold=info
             - --feature-gates=InPlace=true
+            - --in-place-skip-disruption-budget=true
           ports:
             - name: prometheus
               containerPort: 8943

@@ -254,7 +254,7 @@ kind: HTTPRoute
 metadata:
   name: coder-homelab
   labels:
-    helm.sh/chart: homelab-0.1.30
+    helm.sh/chart: homelab-0.1.31
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: coder
     app.kubernetes.io/version: "1.16.0"
