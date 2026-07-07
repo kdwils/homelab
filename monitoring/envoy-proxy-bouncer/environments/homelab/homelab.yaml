@@ -11,6 +11,9 @@ homelab-envoy-proxy-bouncer:
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
 
+  image:
+    tag: sha-e826044a71786bbc0e05fa360934627b08b5af2d
+
   securityContext:
     allowPrivilegeEscalation: false
     capabilities:
@@ -25,6 +28,8 @@ homelab-envoy-proxy-bouncer:
       enabled: true
 
   config:
+    exemptIPs:
+      -  74.98.232.127
     server:
       logLevel: debug
     prometheus:
