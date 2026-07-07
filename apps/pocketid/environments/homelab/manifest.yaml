@@ -96,6 +96,13 @@ spec:
             httpGet:
               path: /health
               port: 1411
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
           volumeMounts:
             - mountPath: /app/data
               name: pvc-pocketid
@@ -193,3 +200,32 @@ spec:
         namespace: crowdsec
         port: 8080
         weight: 1
+---
+# Source: homelab/charts/pocketid/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: pocketid
+  labels:
+    helm.sh/chart: pocketid-0.1.31
+    app.kubernetes.io/name: pocketid
+    app.kubernetes.io/instance: pocketid
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: pocketid
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
