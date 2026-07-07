@@ -95,7 +95,7 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 512Mi
+              memory: 256Mi
             requests:
               cpu: 50m
               memory: 64Mi
@@ -211,3 +211,35 @@ spec:
         namespace: crowdsec
         port: 8080
         weight: 1
+---
+# Source: homelab/charts/mealie/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mealie
+  labels:
+    helm.sh/chart: mealie-0.1.31
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/instance: mealie
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mealie
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 500Mi
+      minAllowed:
+        cpu: 50m
+        memory: 64Mi
