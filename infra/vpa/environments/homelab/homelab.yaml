@@ -36,3 +36,4 @@ vertical-pod-autoscaler:
         memory: 256Gi
     extraArgs:
       - --feature-gates=InPlace=true
+      - --in-place-skip-disruption-budget=true
