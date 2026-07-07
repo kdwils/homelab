@@ -12,10 +12,8 @@ vertical-pod-autoscaler:
       limits:
         cpu: 200m
         memory: 256Mi
-    tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
-        effect: NoSchedule
+    extraArgs:
+      - --feature-gates=InPlace=true
   recommender:
     enabled: true
     replicas: 1
@@ -26,10 +24,6 @@ vertical-pod-autoscaler:
       limits:
         cpu: 500m
         memory: 1Gi
-    tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
-        effect: NoSchedule
   updater:
     enabled: true
     replicas: 1
@@ -40,7 +34,3 @@ vertical-pod-autoscaler:
       limits:
         cpu: 200m
         memory: 256Mi
-    tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
-        effect: NoSchedule
