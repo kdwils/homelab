@@ -118,13 +118,6 @@ spec:
             - name: http
               containerPort: 32400
               protocol: TCP
-          resources:
-            limits:
-              cpu: 2
-              memory: 2Gi
-            requests:
-              cpu: 300m
-              memory: 512Mi
           volumeMounts:
             - mountPath: /movies
               name: media
@@ -254,22 +247,3 @@ spec:
         namespace: crowdsec
         port: 8080
         weight: 1
----
-# Source: homelab/charts/plex/templates/vpa.yaml
-apiVersion: autoscaling.k8s.io/v1
-kind: VerticalPodAutoscaler
-metadata:
-  name: plex
-  labels:
-    helm.sh/chart: plex-0.1.31
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/instance: plex
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  targetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: plex
-  updatePolicy:
-    updateMode: InPlace
