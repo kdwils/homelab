@@ -1839,10 +1839,6 @@ spec:
                   - admission-controller
               topologyKey: kubernetes.io/hostname
             weight: 100
-      tolerations:
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
-          operator: Exists
       containers:
         - name: admission-controller
           image: registry.k8s.io/autoscaling/vpa-admission-controller:1.7.0
@@ -1858,6 +1854,7 @@ spec:
             - --register-webhook=false
             - --webhook-service=vpa-webhook
             - --reload-cert=true
+            - --feature-gates=InPlace=true
           ports:
             - containerPort: 8000
               protocol: TCP
@@ -1986,10 +1983,6 @@ spec:
                   - recommender
               topologyKey: kubernetes.io/hostname
             weight: 100
-      tolerations:
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
-          operator: Exists
 ---
 # Source: vpa/charts/vertical-pod-autoscaler/templates/updater-deployment.yaml
 apiVersion: apps/v1
@@ -2036,10 +2029,6 @@ spec:
                   - updater
               topologyKey: kubernetes.io/hostname
             weight: 100
-      tolerations:
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
-          operator: Exists
       containers:
         - name: updater
           image: registry.k8s.io/autoscaling/vpa-updater:1.7.0
