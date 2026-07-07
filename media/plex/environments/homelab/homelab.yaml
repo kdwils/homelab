@@ -118,13 +118,3 @@ plex:
     enabled: true
     updatePolicy:
       updateMode: InPlace
-    resourcePolicy:
-      containerPolicies:
-        - containerName: "*"
-          maxAllowed:
-            cpu: 500m
-            memory: 1Gi
-          controlledResources:
-            - cpu
-            - memory
-          controlledValues: RequestsAndLimits
