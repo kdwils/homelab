@@ -34,7 +34,7 @@ mealie:
     resources:
       limits:
         cpu: 100m
-        memory: 512Mi
+        memory: 256Mi
       requests:
         cpu: 50m
         memory: 64Mi
@@ -81,3 +81,21 @@ mealie:
             namespace: crowdsec
             port: 8080
             weight: 1
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          minAllowed:
+            cpu: 50m
+            memory: 64Mi
+          maxAllowed:
+            cpu: 500m
+            memory: 500Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
