@@ -12,5 +12,6 @@ resources:
   - cnpg.yaml
   - sealed-secrets.yaml
   - tailscale.yaml
+  - vpa.yaml
   - nfs-provisioner.yaml
   - system-upgrade.yaml
