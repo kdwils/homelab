@@ -52801,14 +52801,20 @@ metadata:
   namespace: envoy-gateway-system
 spec:
   parentRefs:
-    - name: homelab
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
       sectionName: http
   rules:
     - filters:
-        - type: RequestRedirect
-          requestRedirect:
+        - requestRedirect:
             scheme: https
             statusCode: 301
+          type: RequestRedirect
+      matches:
+        - path:
+            type: PathPrefix
+            value: /
 ---
 # Source: envoy-gateway/charts/gateway-helm/templates/certgen-rbac.yaml
 apiVersion: v1

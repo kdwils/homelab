@@ -33742,6 +33742,7 @@ spec:
         name: homelab-envoy-proxy-bouncer
         namespace: crowdsec
         port: 8080
+        weight: 1
 ---
 # Source: argocd/charts/argocd/templates/redis-secret-init/serviceaccount.yaml
 apiVersion: v1
