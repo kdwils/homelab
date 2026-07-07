@@ -105,8 +105,8 @@ spec:
               cpu: 100m
               memory: 128Mi
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 50m
+              memory: 64Mi
           volumeMounts:
             - mountPath: /pds
               name: pvc-bluesky-pvc
