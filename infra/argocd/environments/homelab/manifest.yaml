@@ -238,8 +238,8 @@ data:
   statusbadge.enabled: "true"
   statusbadge.url: https://argocd.kyledev.co/
   timeout.hard.reconciliation: 0s
-  timeout.reconciliation: 120s
-  timeout.reconciliation.jitter: 60s
+  timeout.reconciliation: 180s
+  timeout.reconciliation.jitter: 90s
   url: https://argocd.kyledev.co
 ---
 # Source: argocd/charts/argocd/templates/argocd-configs/argocd-cmd-params-cm.yaml
@@ -264,6 +264,8 @@ data:
   commitserver.log.level: info
   controller.log.format: text
   controller.log.level: info
+  controller.operation.processors: "2"
+  controller.status.processors: "3"
   dexserver.log.format: text
   dexserver.log.level: info
   notificationscontroller.log.format: text
@@ -31702,7 +31704,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: 47f197ea6140fc5e3e5c982b8fe18138cb3e5a3c682fcbd286599dec7d50619f
+        checksum/cmd-params: 84519d1122906ca646e4538171cabfaa8f044479881b4b4c5b7ba326a0aefa06
       labels:
         helm.sh/chart: argocd-9.7.0
         app.kubernetes.io/name: argocd-applicationset-controller
@@ -31998,7 +32000,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: 47f197ea6140fc5e3e5c982b8fe18138cb3e5a3c682fcbd286599dec7d50619f
+        checksum/cmd-params: 84519d1122906ca646e4538171cabfaa8f044479881b4b4c5b7ba326a0aefa06
       labels:
         helm.sh/chart: argocd-9.7.0
         app.kubernetes.io/name: argocd-notifications-controller
@@ -32131,8 +32133,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: 47f197ea6140fc5e3e5c982b8fe18138cb3e5a3c682fcbd286599dec7d50619f
-        checksum/cm: f8223906a1af380834f6ada46a3e0ac12f1af07817692731d69c50e5ad0a1d01
+        checksum/cmd-params: 84519d1122906ca646e4538171cabfaa8f044479881b4b4c5b7ba326a0aefa06
+        checksum/cm: 9cde63162d4ef03aa3aa4d0f2fa87864935ab3e8c59e524994d42d1927af144b
       labels:
         helm.sh/chart: argocd-9.7.0
         app.kubernetes.io/name: argocd-repo-server
@@ -32558,8 +32560,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: 47f197ea6140fc5e3e5c982b8fe18138cb3e5a3c682fcbd286599dec7d50619f
-        checksum/cm: f8223906a1af380834f6ada46a3e0ac12f1af07817692731d69c50e5ad0a1d01
+        checksum/cmd-params: 84519d1122906ca646e4538171cabfaa8f044479881b4b4c5b7ba326a0aefa06
+        checksum/cm: 9cde63162d4ef03aa3aa4d0f2fa87864935ab3e8c59e524994d42d1927af144b
       labels:
         helm.sh/chart: argocd-9.7.0
         app.kubernetes.io/name: argocd-server
@@ -33110,8 +33112,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: 47f197ea6140fc5e3e5c982b8fe18138cb3e5a3c682fcbd286599dec7d50619f
-        checksum/cm: f8223906a1af380834f6ada46a3e0ac12f1af07817692731d69c50e5ad0a1d01
+        checksum/cmd-params: 84519d1122906ca646e4538171cabfaa8f044479881b4b4c5b7ba326a0aefa06
+        checksum/cm: 9cde63162d4ef03aa3aa4d0f2fa87864935ab3e8c59e524994d42d1927af144b
       labels:
         helm.sh/chart: argocd-9.7.0
         app.kubernetes.io/name: argocd-application-controller
@@ -33428,7 +33430,12 @@ spec:
           successThreshold: 1
           failureThreshold: 3
         resources:
-          {}
+          limits:
+            cpu: 250m
+            memory: 512Mi
+          requests:
+            cpu: 150m
+            memory: 256Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
