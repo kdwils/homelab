@@ -7,6 +7,13 @@ plex:
     create: true
     replicas: 1
     deployStrategy: Recreate
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
 
     image:
       repository: linuxserver/plex
@@ -106,3 +113,18 @@ plex:
               namespace: crowdsec
               port: 8080
               weight: 1
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 1Gi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits

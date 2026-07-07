@@ -88,9 +88,6 @@ bluesky:
     resourcePolicy:
       containerPolicies:
         - containerName: "*"
-          minAllowed:
-            cpu: 50m
-            memory: 64Mi
           maxAllowed:
             cpu: 500m
             memory: 1Gi
