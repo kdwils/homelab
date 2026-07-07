@@ -401,8 +401,6 @@ data:
   commitserver.log.level: info
   controller.log.format: text
   controller.log.level: info
-  controller.operation.processors: "2"
-  controller.status.processors: "3"
   dexserver.log.format: text
   dexserver.log.level: info
   notificationscontroller.log.format: text
@@ -31841,7 +31839,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: d186f61adaced63f430b4618673eb22a9ba367e361cdcde53539bfc5fb1101b7
+        checksum/cmd-params: fb43588e76f8160bc2e471e27967280286898ab2a11ff506f27a919aa78eb4e0
       labels:
         helm.sh/chart: argocd-10.0.0
         app.kubernetes.io/name: argocd-applicationset-controller
@@ -32137,7 +32135,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: d186f61adaced63f430b4618673eb22a9ba367e361cdcde53539bfc5fb1101b7
+        checksum/cmd-params: fb43588e76f8160bc2e471e27967280286898ab2a11ff506f27a919aa78eb4e0
       labels:
         helm.sh/chart: argocd-10.0.0
         app.kubernetes.io/name: argocd-notifications-controller
@@ -32270,7 +32268,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: d186f61adaced63f430b4618673eb22a9ba367e361cdcde53539bfc5fb1101b7
+        checksum/cmd-params: fb43588e76f8160bc2e471e27967280286898ab2a11ff506f27a919aa78eb4e0
         checksum/cm: d053a21ff4f7973e8ce587766f0cbf8fa515367f1ada569722198c42fb770f46
       labels:
         helm.sh/chart: argocd-10.0.0
@@ -32697,7 +32695,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: d186f61adaced63f430b4618673eb22a9ba367e361cdcde53539bfc5fb1101b7
+        checksum/cmd-params: fb43588e76f8160bc2e471e27967280286898ab2a11ff506f27a919aa78eb4e0
         checksum/cm: d053a21ff4f7973e8ce587766f0cbf8fa515367f1ada569722198c42fb770f46
       labels:
         helm.sh/chart: argocd-10.0.0
@@ -33249,7 +33247,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cmd-params: d186f61adaced63f430b4618673eb22a9ba367e361cdcde53539bfc5fb1101b7
+        checksum/cmd-params: fb43588e76f8160bc2e471e27967280286898ab2a11ff506f27a919aa78eb4e0
         checksum/cm: d053a21ff4f7973e8ce587766f0cbf8fa515367f1ada569722198c42fb770f46
       labels:
         helm.sh/chart: argocd-10.0.0
