@@ -7,6 +7,13 @@ bazarr:
     create: true
     replicas: 1
     deployStrategy: Recreate
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
 
     image:
       repository: linuxserver/bazarr
@@ -82,3 +89,18 @@ bazarr:
         size: 8Gi
         storageClassName: ""
         accessMode: ReadWriteOnce
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits

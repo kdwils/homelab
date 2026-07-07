@@ -7,6 +7,13 @@ byparr:
     create: true
     replicas: 1
     deployStrategy: Recreate
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
 
     image:
       repository: ghcr.io/thephaseless/byparr
@@ -30,3 +37,18 @@ byparr:
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
