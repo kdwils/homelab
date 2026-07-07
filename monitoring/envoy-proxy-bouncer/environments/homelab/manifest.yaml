@@ -60,6 +60,8 @@ data:
         name: envoy-bouncer
       siteKey: 0x4AAAAAAB1bbQbIpIhvAYwl
       timeout: 10s
+    exemptIPs:
+    - 74.98.232.127
     prometheus:
       enabled: true
       port: 9090
@@ -1533,7 +1535,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.6.2"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-e826044a71786bbc0e05fa360934627b08b5af2d"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
