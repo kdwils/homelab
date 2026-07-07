@@ -240,6 +240,3 @@ spec:
       maxAllowed:
         cpu: 500m
         memory: 1Gi
-      minAllowed:
-        cpu: 50m
-        memory: 64Mi
