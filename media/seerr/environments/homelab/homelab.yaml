@@ -51,3 +51,4 @@ homelab:
             name: homelab-envoy-proxy-bouncer
             namespace: crowdsec
             port: 8080
+            weight: 1

@@ -84,8 +84,6 @@ bluesky:
 
   securityPolicy:
     extAuth:
-      bodyToExtAuth:
-        maxRequestBytes: 65536
       grpc:
         backendRefs:
           - group: ""
@@ -93,3 +91,4 @@ bluesky:
             name: homelab-envoy-proxy-bouncer
             namespace: crowdsec
             port: 8080
+            weight: 1

@@ -64,8 +64,6 @@ blog:
 
   securityPolicy:
     extAuth:
-      bodyToExtAuth:
-        maxRequestBytes: 65536
       grpc:
         backendRefs:
           - group: ""
@@ -73,3 +71,4 @@ blog:
             name: homelab-envoy-proxy-bouncer
             namespace: crowdsec
             port: 8080
+            weight: 1
