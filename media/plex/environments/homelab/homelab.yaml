@@ -9,8 +9,8 @@ plex:
     deployStrategy: Recreate
     resources:
       limits:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 2
+        memory: 2Gi
       requests:
         cpu: 100m
         memory: 128Mi
