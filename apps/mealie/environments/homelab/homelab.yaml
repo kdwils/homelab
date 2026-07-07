@@ -7,6 +7,13 @@ mealie:
     create: true
     replicas: 1
     deployStrategy: Recreate
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
 
     image:
       repository: ghcr.io/mealie-recipes/mealie
@@ -30,14 +37,6 @@ mealie:
     envFrom:
       - secretRef:
           name: mealie-oidc
-
-    resources:
-      limits:
-        cpu: 100m
-        memory: 256Mi
-      requests:
-        cpu: 50m
-        memory: 64Mi
 
   service:
     create: true
@@ -89,12 +88,9 @@ mealie:
     resourcePolicy:
       containerPolicies:
         - containerName: "*"
-          minAllowed:
-            cpu: 50m
-            memory: 64Mi
           maxAllowed:
             cpu: 500m
-            memory: 500Mi
+            memory: 512Mi
           controlledResources:
             - cpu
             - memory
