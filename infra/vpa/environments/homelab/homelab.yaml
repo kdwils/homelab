@@ -34,3 +34,5 @@ vertical-pod-autoscaler:
       limits:
         cpu: 200m
         memory: 256Mi
+    extraArgs:
+      - --feature-gates=InPlace=true
