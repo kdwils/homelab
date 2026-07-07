@@ -1882,11 +1882,11 @@ spec:
               readOnly: true
           resources:
             limits:
-              cpu: 200m
-              memory: 256Mi
+              cpu: 100m
+              memory: 256Gi
             requests:
               cpu: 50m
-              memory: 100Mi
+              memory: 128Mi
       volumes:
         - name: tls-certs
           secret:
@@ -1966,11 +1966,11 @@ spec:
             failureThreshold: 3
           resources:
             limits:
-              cpu: 500m
-              memory: 1Gi
+              cpu: 100m
+              memory: 256Gi
             requests:
               cpu: 50m
-              memory: 256Mi
+              memory: 128Mi
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -2041,17 +2041,17 @@ spec:
           args:
             - --v=4
             - --stderrthreshold=info
-            - --in-place-skip-disruption-budget=true
+            - --feature-gates=InPlace=true
           ports:
             - name: prometheus
               containerPort: 8943
           resources:
             limits:
-              cpu: 200m
-              memory: 256Mi
+              cpu: 100m
+              memory: 256Gi
             requests:
               cpu: 50m
-              memory: 100Mi
+              memory: 128Mi
           livenessProbe:
             httpGet:
               path: /health-check
