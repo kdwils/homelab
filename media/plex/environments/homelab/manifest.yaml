@@ -273,13 +273,3 @@ spec:
     name: plex
   updatePolicy:
     updateMode: InPlace
-  resourcePolicy:
-    containerPolicies:
-    - containerName: '*'
-      controlledResources:
-      - cpu
-      - memory
-      controlledValues: RequestsAndLimits
-      maxAllowed:
-        cpu: 500m
-        memory: 1Gi
