@@ -16,6 +16,9 @@ mediaz:
       limits:
         cpu: 100m
         memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
 
     env:
       MEDIAZ_CONFIGFILEPATH: /app/config.yaml
@@ -101,3 +104,18 @@ mediaz:
               tv: /media/tv
             server:
               port: 8080
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits

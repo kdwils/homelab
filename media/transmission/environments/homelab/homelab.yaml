@@ -8,6 +8,14 @@ transmission:
     replicas: 1
     deployStrategy: Recreate
 
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 250m
+        memory: 256Mi
+
     image:
       repository: haugene/transmission-openvpn
       tag: 5.4.1
@@ -74,6 +82,21 @@ transmission:
       - name: transmission
         size: 8Gi
         accessMode: ReadWriteOnce
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
 
   sealedsecrets:
     - name: openvpn

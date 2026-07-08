@@ -35,6 +35,14 @@ mgnx:
       failureThreshold: 10
       successThreshold: 1
 
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 64Mi
+
     env:
       MGNX_DATABASE_URL:
         valueFrom:
@@ -305,3 +313,18 @@ mgnx:
                 - udp://ipv4announce.sktorrent.eu:6969/announce
                 - udp://evan.im:6969/announce
                 - udp://bandito.byterunner.io:6969/announce
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
