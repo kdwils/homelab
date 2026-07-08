@@ -94,18 +94,18 @@ spec:
               protocol: TCP
           livenessProbe:
             failureThreshold: 3
-            initialDelaySeconds: 0
+            initialDelaySeconds: 10
             periodSeconds: 10
             tcpSocket:
               port: 6767
-            timeoutSeconds: 1
+            timeoutSeconds: 2
           readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 0
+            failureThreshold: 30
+            initialDelaySeconds: 10
             periodSeconds: 10
             tcpSocket:
               port: 6767
-            timeoutSeconds: 1
+            timeoutSeconds: 3
           resources:
             limits:
               cpu: 500m

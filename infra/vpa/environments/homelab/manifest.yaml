@@ -1883,10 +1883,10 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 512Mi
+              memory: 256Mi
             requests:
               cpu: 50m
-              memory: 128Mi
+              memory: 64Mi
       volumes:
         - name: tls-certs
           secret:
@@ -1967,10 +1967,10 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 512Mi
+              memory: 256Mi
             requests:
               cpu: 50m
-              memory: 128Mi
+              memory: 64Mi
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -2049,7 +2049,7 @@ spec:
           resources:
             limits:
               cpu: 100m
-              memory: 512Mi
+              memory: 256Mi
             requests:
               cpu: 50m
               memory: 128Mi
