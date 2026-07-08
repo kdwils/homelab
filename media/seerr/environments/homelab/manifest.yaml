@@ -112,23 +112,25 @@ spec:
             httpGet:
               path: /api/v1/settings/public
               port: http
-            initialDelaySeconds: 20
-            periodSeconds: 15
+            initialDelaySeconds: 10
+            periodSeconds: 10
             timeoutSeconds: 3
+            failureThreshold: 30
           readinessProbe:
             httpGet:
               path: /api/v1/settings/public
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            initialDelaySeconds: 10
+            periodSeconds: 10
             timeoutSeconds: 3
+            failureThreshold: 30
           resources:
             limits:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 500m
+              memory: 512Mi
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 250m
+              memory: 256Mi
           volumeMounts:
             - name: config
               mountPath: /app/config
