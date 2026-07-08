@@ -8,10 +8,10 @@ vertical-pod-autoscaler:
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 64Mi
       limits:
         cpu: 100m
-        memory: 512Mi
+        memory: 256Mi
     extraArgs:
       - --feature-gates=InPlace=true
   recommender:
@@ -20,10 +20,10 @@ vertical-pod-autoscaler:
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 64Mi
       limits:
         cpu: 100m
-        memory: 512Mi
+        memory: 256Mi
   updater:
     enabled: true
     replicas: 1
@@ -33,7 +33,7 @@ vertical-pod-autoscaler:
         memory: 128Mi
       limits:
         cpu: 100m
-        memory: 512Mi
+        memory: 256Mi
     extraArgs:
       - --feature-gates=InPlace=true
       - --in-place-skip-disruption-budget=true

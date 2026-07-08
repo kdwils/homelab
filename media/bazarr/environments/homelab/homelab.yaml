@@ -54,7 +54,7 @@ bazarr:
       tcpSocket:
         port: 6767
       initialDelaySeconds: 10
-      failureThreshold: 10
+      failureThreshold: 30
       timeoutSeconds: 3
       periodSeconds: 10
     startupProbe:
