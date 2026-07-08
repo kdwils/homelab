@@ -461,6 +461,16 @@ spec:
           image: docker.io/bitnami/sealed-secrets-controller:0.37.0
           imagePullPolicy: IfNotPresent
           env:
+            - name: GOMAXPROCS
+              valueFrom:
+                resourceFieldRef:
+                  resource: limits.cpu
+                  divisor: "1"
+            - name: GOMEMLIMIT
+              valueFrom:
+                resourceFieldRef:
+                  resource: limits.memory
+                  divisor: "1"
           ports:
             - name: http
               containerPort: 8080
@@ -487,15 +497,12 @@ spec:
               path: /healthz
               port: http
           resources:
-            limits: {}
-            requests: {}
-            resources:
-              limits:
-                cpu: 100m
-                memory: 256Mi
-              requests:
-                cpu: 50m
-                memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
           securityContext:
             capabilities:
               drop:
