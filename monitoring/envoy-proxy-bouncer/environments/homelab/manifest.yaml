@@ -74,14 +74,11 @@ data:
     server:
       grpcPort: 8080
       httpPort: 8081
-      logLevel: debug
+      logLevel: info
     templates:
       showDeniedPage: false
     trustedIPHeader: cf-connecting-ip
-    trustedProxies:
-    - 10.43.0.0/16
-    - 10.42.0.0/16
-    - 74.98.232.127
+    trustedProxies: []
     waf:
       apiKeySecretRef:
         key: apiKey
