@@ -287,6 +287,13 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
           volumeMounts:
             - mountPath: /data
               name: pvc-mgnx-data
@@ -436,3 +443,32 @@ spec:
       path: "/metrics"
       interval: "30s"
       scrapeTimeout: "10s"
+---
+# Source: homelab/charts/mgnx/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mgnx
+  labels:
+    helm.sh/chart: mgnx-0.1.31
+    app.kubernetes.io/name: mgnx
+    app.kubernetes.io/instance: mgnx
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mgnx
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi

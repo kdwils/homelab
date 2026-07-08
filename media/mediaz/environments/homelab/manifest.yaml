@@ -126,6 +126,9 @@ spec:
             limits:
               cpu: 100m
               memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
           volumeMounts:
             - mountPath: /app/config.yaml
               name: configmap-mediaz-config
@@ -208,3 +211,32 @@ spec:
     metadata:
       name: mediaz
       namespace: media
+---
+# Source: homelab/charts/mediaz/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: mediaz
+  labels:
+    helm.sh/chart: mediaz-0.1.31
+    app.kubernetes.io/name: mediaz
+    app.kubernetes.io/instance: mediaz
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mediaz
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
