@@ -15,6 +15,14 @@ seerr-chart:
     runAsNonRoot: true
     readOnlyRootFilesystem: false
 
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
 homelab:
   pvc:
     create: true
@@ -52,3 +60,20 @@ homelab:
             namespace: crowdsec
             port: 8080
             weight: 1
+
+  verticalPodAutoscaler:
+    enabled: true
+    targetRef:
+      name: overseerr-seerr-chart
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
