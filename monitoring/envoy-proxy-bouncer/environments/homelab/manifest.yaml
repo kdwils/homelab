@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.6.2"
+    app.kubernetes.io/version: "v0.6.3"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/configmap-config.yaml
@@ -17,10 +17,10 @@ kind: ConfigMap
 metadata:
   name: homelab-envoy-proxy-bouncer-config
   labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.6.2"
+    app.kubernetes.io/version: "v0.6.3"
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
@@ -74,14 +74,11 @@ data:
     server:
       grpcPort: 8080
       httpPort: 8081
-      logLevel: debug
+      logLevel: info
     templates:
       showDeniedPage: false
     trustedIPHeader: cf-connecting-ip
-    trustedProxies:
-    - 10.43.0.0/16
-    - 10.42.0.0/16
-    - 74.98.232.127
+    trustedProxies: []
     waf:
       apiKeySecretRef:
         key: apiKey
@@ -102,10 +99,10 @@ kind: ConfigMap
 metadata:
   name: homelab-envoy-proxy-bouncer-dashboard
   labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.6.2"
+    app.kubernetes.io/version: "v0.6.3"
     app.kubernetes.io/managed-by: Helm
     grafana_dashboard: "1"
 data:
@@ -1473,10 +1470,10 @@ kind: Service
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.6.2"
+    app.kubernetes.io/version: "v0.6.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   type: ClusterIP
@@ -1503,10 +1500,10 @@ kind: Deployment
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.6.2"
+    app.kubernetes.io/version: "v0.6.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 2
@@ -1517,10 +1514,10 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+        helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
         app.kubernetes.io/name: homelab-envoy-proxy-bouncer
         app.kubernetes.io/instance: envoy-proxy-bouncer
-        app.kubernetes.io/version: "v0.6.2"
+        app.kubernetes.io/version: "v0.6.3"
         app.kubernetes.io/managed-by: Helm
     spec:
       serviceAccountName: homelab-envoy-proxy-bouncer
@@ -1536,7 +1533,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-e826044a71786bbc0e05fa360934627b08b5af2d"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.6.3"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
@@ -1608,10 +1605,10 @@ kind: HTTPRoute
 metadata:
   name: homelab-envoy-proxy-bouncer
   labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.6.2"
+    app.kubernetes.io/version: "v0.6.3"
     app.kubernetes.io/managed-by: Helm
 spec:
   parentRefs:
@@ -1695,10 +1692,10 @@ metadata:
   name: homelab-envoy-proxy-bouncer
   namespace: crowdsec
   labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.2
+    helm.sh/chart: homelab-envoy-proxy-bouncer-0.6.3
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.6.2"
+    app.kubernetes.io/version: "v0.6.3"
     app.kubernetes.io/managed-by: Helm
     release: kube-prometheus-stack
 spec:
