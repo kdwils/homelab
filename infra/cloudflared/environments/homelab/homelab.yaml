@@ -7,7 +7,7 @@ cloudflared:
     replicas: 1
     image:
       repository: cloudflare/cloudflared
-      tag: 2026.7.0
+      tag: 2026.7.1
 
     args:
       - tunnel
