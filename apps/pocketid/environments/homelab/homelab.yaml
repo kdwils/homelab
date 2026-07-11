@@ -17,7 +17,7 @@ pocketid:
 
     image:
       repository: ghcr.io/pocket-id/pocket-id
-      tag: v2.9.0
+      tag: v2.10.0
       pullPolicy: IfNotPresent
 
     env:
