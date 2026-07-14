@@ -109,7 +109,7 @@ spec:
         {}
       containers:
         - name: plex
-          image: "linuxserver/plex:1.43.2"
+          image: "linuxserver/plex:1.43.3"
           imagePullPolicy: IfNotPresent
           ports:
             - name: pms
