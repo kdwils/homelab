@@ -38,15 +38,15 @@ spec:
         namespace: rss
         releaseName: rss
         outPath: ./target/apps/rss/environments/homelab/manifest.yaml
-    - uses: helm-template
-      as: render-baldsky
-      config:
-        path: ./source/charts/homelab
-        valuesFiles:
-          - ./source/apps/baldsky/environments/homelab/homelab.yaml
-        namespace: bluesky
-        releaseName: baldsky
-        outPath: ./target/apps/baldsky/environments/homelab/manifest.yaml
+    # - uses: helm-template
+    #   as: render-baldsky
+    #   config:
+    #     path: ./source/charts/homelab
+    #     valuesFiles:
+    #       - ./source/apps/baldsky/environments/homelab/homelab.yaml
+    #     namespace: bluesky
+    #     releaseName: baldsky
+    #     outPath: ./target/apps/baldsky/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-bluesky
       config:
