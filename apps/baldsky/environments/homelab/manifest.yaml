@@ -1,0 +1,274 @@
+---
+# Source: homelab/charts/bluesky/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: baldsky-bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/bluesky/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    subscription:
+      endpoint: "wss://bsky.network"
+      reconnect_delay: 5s
+    server:
+      port: 8080
+      log_level: info
+      hostname: "https://baldsky.kyledev.co"
+      service_did: "did:web:localhost"
+      publisher_did: "did:plc:test123"
+      did_context: "https://www.w3.org/ns/did/v1"
+      service_id: "#bsky_fg"
+  
+    database:
+      dsn: ""
+  
+    pipelines:
+      - enabled: true
+        short_name: bald
+        display_name: "The Bald Feed"
+        description: "Posts about baldness, hair loss, and the bald lifestyle"
+        collection_name: app.bsky.feed.generator
+        keywords:
+          - bald
+          - balding
+          - baldness
+          - baldy
+          - baldie
+          - hairless
+          - hair loss
+          - losing hair
+          - lost my hair
+          - going bald
+          - starting to bald
+          - thinning hair
+          - thinning
+          - hairline
+          - widow's peak
+          - widows peak
+          - male pattern baldness
+          - alopecia
+          - minoxidil
+          - rogaine
+          - finasteride
+          - propecia
+          - hair transplant
+          - hair restoration
+          - hairpiece
+          - toupee
+          - shaved head
+          - shaved my head
+          - buzzcut
+          - buzz cut
+          - head shave
+          - clean shave
+          - chrome dome
+          - egghead
+          - smooth head
+          - baldin
+          - receding
+---
+# Source: homelab/charts/bluesky/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: baldsky-bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+---
+# Source: homelab/charts/bluesky/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baldsky-bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bluesky
+      app.kubernetes.io/instance: baldsky
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: bluesky-0.1.31
+        app.kubernetes.io/name: bluesky
+        app.kubernetes.io/instance: baldsky
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: baldsky-bluesky
+      securityContext:
+        fsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: bluesky
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          image: "ghcr.io/kdwils/baldsky:sha-a3972f9110b5f48388496df05c91e106d60540d9"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+          env:
+            - name: BALDSKY_DATABASE_DNS
+              valueFrom:
+                secretKeyRef:
+                  key: uri
+                  name: baldsky-app
+---
+# Source: homelab/charts/bluesky/templates/postgres.yaml
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: baldsky
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  instances: 1
+  storage:
+    size: 50Gi
+    pvcTemplate:
+      accessModes:
+        - ReadWriteMany
+  bootstrap:
+    initdb:
+      database: baldsky
+      owner: baldsky
+---
+# Source: homelab/charts/bluesky/templates/httproute.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: baldsky-bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  hostnames:
+    - "baldsky.kyledev.co"
+    - "baldsky.int.kyledev.co"
+  rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: baldsky-bluesky
+        port: 8080
+        weight: 1
+---
+# Source: homelab/charts/bluesky/templates/securitypolicy.yaml
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: baldsky-bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: baldsky-bluesky
+  extAuth:
+    grpc:
+      backendRefs:
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: crowdsec
+        port: 8080
+        weight: 1
+---
+# Source: homelab/charts/bluesky/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: baldsky-bluesky
+  labels:
+    helm.sh/chart: bluesky-0.1.31
+    app.kubernetes.io/name: bluesky
+    app.kubernetes.io/instance: baldsky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: baldsky-bluesky
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 1Gi
