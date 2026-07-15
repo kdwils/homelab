@@ -33,7 +33,7 @@ spec:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
         includePaths:
-          - glob:media/baldsky/environments/**
+          - glob:apps/baldsky/environments/**
           - glob:charts/homelab/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -58,7 +58,7 @@ spec:
         - name: imageRepo
           value: ghcr.io/kdwils/baldsky
         - name: valuesFilePath
-          value: media/baldsky/environments/homelab/homelab.yaml
+          value: apps/baldsky/environments/homelab/homelab.yaml
         - name: imageTagYamlPath
           value: baldsky.deployment.image.tag
       steps:
