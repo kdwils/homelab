@@ -75,3 +75,7 @@ dependencies:
     version: ^0.1.0
     repository: oci://ghcr.io/kdwils/charts
     alias: vaultwarden
+  - name: homelab-chart
+    version: ^0.1.0
+    repository: oci://ghcr.io/kdwils/charts
+    alias: baldsky
