@@ -74,7 +74,7 @@ baldsky:
   deployment:
     create: true
     replicas: 1
-    deployStrategy: Recreate
+    deployStrategy: RollingUpdate
     resources:
       limits:
         cpu: 100m
