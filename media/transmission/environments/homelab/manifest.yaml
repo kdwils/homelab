@@ -218,5 +218,5 @@ spec:
       - memory
       controlledValues: RequestsAndLimits
       maxAllowed:
-        cpu: 500m
-        memory: 512Mi
+        cpu: 1000m
+        memory: 1Gi
