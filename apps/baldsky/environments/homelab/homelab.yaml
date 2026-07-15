@@ -1,4 +1,4 @@
-bluesky:
+baldsky:
   configmaps:
     - name: config
       mountPath: /app/config.yaml
