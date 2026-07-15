@@ -1,0 +1,67 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: baldsky
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: baldsky
+  namespace: baldsky
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: baldsky
+  namespace: baldsky
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/kdwils/baldsky
+        imageSelectionStrategy: NewestBuild
+        allowTags: ^sha-.*
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:media/baldsky/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: baldsky
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: baldsky
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: baldsky
+        - name: imageRepo
+          value: ghcr.io/kdwils/baldsky
+        - name: valuesFilePath
+          value: media/baldsky/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: baldsky.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask

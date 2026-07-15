@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - argocd.yaml
+  - baldsky.yaml
   - bazarr.yaml
   - blog.yaml
   - bluesky.yaml
@@ -15,7 +16,6 @@ resources:
   - flaresolverr.yaml
   - events.yaml
   - kargo.yaml
-  # - kube-prometheus-stack.yaml
   - homelab-project.yaml
   - homelab-chart.yaml
   - longhorn.yaml
