@@ -14,8 +14,8 @@ baldsky:
             port: 8080
             log_level: info
             hostname: "https://baldsky.kyledev.co"
-            service_did: "did:web:localhost"
-            publisher_did: "did:plc:test123"
+            service_did: "did:web:baldsky.kyledev.co"
+            publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
             did_context: "https://www.w3.org/ns/did/v1"
             service_id: "#bsky_fg"
 
