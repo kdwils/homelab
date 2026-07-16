@@ -191,7 +191,7 @@ baldsky:
 
     image:
       repository: ghcr.io/kdwils/baldsky
-      tag: sha-0e422db0dcb9b8739e36b7ddeae851eae8147e2f
+      tag: sha-bfeeb929bb3b02fa4062c8f34e5c16ceef767359
       pullPolicy: IfNotPresent
 
     env:
