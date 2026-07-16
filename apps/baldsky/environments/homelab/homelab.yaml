@@ -158,6 +158,9 @@ baldsky:
     create: true
     replicas: 1
     deployStrategy: RollingUpdate
+    args:
+      - "serve"
+      - --config=/app/config.yaml
     resources:
       limits:
         cpu: 100m
