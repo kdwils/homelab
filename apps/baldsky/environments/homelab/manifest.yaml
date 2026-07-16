@@ -231,7 +231,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/baldsky:sha-380cd4a0e5f0847b0d8d99fad9daf1000adde904"
+          image: "ghcr.io/kdwils/baldsky:sha-0e422db0dcb9b8739e36b7ddeae851eae8147e2f"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -240,6 +240,24 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
           resources:
             limits:
               cpu: 100m
@@ -247,12 +265,21 @@ spec:
             requests:
               cpu: 50m
               memory: 64Mi
+          volumeMounts:
+            - mountPath: /app/config.yaml
+              name: configmap-config
+              readOnly: true
+              subPath: config.yaml
           env:
             - name: BALDSKY_DATABASE_DSN
               valueFrom:
                 secretKeyRef:
                   key: uri
                   name: baldsky-app
+      volumes:
+        - configMap:
+            name: config
+          name: configmap-config
 ---
 # Source: homelab/charts/baldsky/templates/postgres.yaml
 apiVersion: postgresql.cnpg.io/v1
