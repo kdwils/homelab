@@ -152,7 +152,7 @@ baldsky:
 
   serviceAccount:
     create: true
-    automount: false
+    automount: true
 
   deployment:
     create: true
