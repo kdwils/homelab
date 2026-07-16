@@ -183,7 +183,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 8080
-      targetPort: 8080
+      targetPort: 9000
       protocol: TCP
       name: http
   selector:
@@ -238,7 +238,7 @@ spec:
             - --config=/app/config.yaml
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 9000
               protocol: TCP
           livenessProbe:
             failureThreshold: 10
@@ -316,6 +316,11 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: homelab
+      namespace: envoy-gateway-system
   hostnames:
     - "baldsky.kyledev.co"
     - "baldsky.int.kyledev.co"
