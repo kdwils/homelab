@@ -247,12 +247,21 @@ spec:
             requests:
               cpu: 50m
               memory: 64Mi
+          volumeMounts:
+            - mountPath: /app/config.yaml
+              name: configmap-config
+              readOnly: true
+              subPath: config.yaml
           env:
             - name: BALDSKY_DATABASE_DSN
               valueFrom:
                 secretKeyRef:
                   key: uri
                   name: baldsky-app
+      volumes:
+        - configMap:
+            name: config
+          name: configmap-config
 ---
 # Source: homelab/charts/baldsky/templates/postgres.yaml
 apiVersion: postgresql.cnpg.io/v1
