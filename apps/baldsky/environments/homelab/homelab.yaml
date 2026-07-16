@@ -1,154 +1,156 @@
 baldsky:
   fullnameOverride: baldsky
-  configmaps:
-    - name: config
-      mountPath: /app/config.yaml
-      subPath: config.yaml
-      readOnly: true
-      data:
-        config.yaml: |
-          subscription:
-            endpoint: "wss://bsky.network"
-            reconnect_delay: 5s
-          server:
-            port: 8080
-            log_level: info
-            hostname: "https://baldsky.kyledev.co"
-            service_did: "did:web:baldsky.kyledev.co"
-            publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
-            did_context: "https://www.w3.org/ns/did/v1"
-            service_id: "#bsky_fg"
-            user_agent: baldsky
-            user_agent_url: https://github.com/kdwils/baldsky
+  configmap:
+    create: true
+    configmaps:
+      - name: config
+        mountPath: /app/config.yaml
+        subPath: config.yaml
+        readOnly: true
+        data:
+          config.yaml: |
+            subscription:
+              endpoint: "wss://bsky.network"
+              reconnect_delay: 5s
+            server:
+              port: 8080
+              log_level: info
+              hostname: "https://baldsky.kyledev.co"
+              service_did: "did:web:baldsky.kyledev.co"
+              publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
+              did_context: "https://www.w3.org/ns/did/v1"
+              service_id: "#bsky_fg"
+              user_agent: baldsky
+              user_agent_url: https://github.com/kdwils/baldsky
 
-          database:
-            dsn: ""
+            database:
+              dsn: ""
 
-          pipelines:
-            - enabled: true
-              short_name: bald
-              display_name: "The Bald Feed"
-              description: "Posts about baldness, hair loss, and the bald lifestyle"
-              collection_name: app.bsky.feed.generator
-              keywords:
-                - minoxidil
-                - rogaine
-                - finasteride
-                - propecia
-                - toupee
-                - alopecia
-                - hair transplant
-                - hair restoration
-                - hairpiece
-                - chrome dome
-                - smooth head
-                - shaved head
-                - shaved my head
-                - male pattern baldness
-                - receding hairline
-                - hair loss
-                - losing hair
-                - lost my hair
-                - thinning hair
-                - buzz cut
-                - head shave
-                - clean shave
-                - hair removal
-              context_keywords:
-                - bald
-                - balding
-                - baldness
-                - baldy
-                - baldie
-                - widow's peak
-                - widows peak
-                - buzzcut
-              context_words:
-                - head
-                - spot
-                - patches
-                - my
-                - his
-                - her
-                - shave
-                - shaving
-                - shaved
-                - look
-                - lifestyle
-                - struggle
-                - proud
-                - journey
-                - confidence
-                - style
-                - cut
-                - clipper
-                - dome
-                - scalp
-                - follicle
-                - follicles
-                - hairline
-                - receding
-                - hair
-                - wig
-                - wigs
-                - transplant
-                - restoration
-                - treatment
-                - medication
-                - doctor
-                - barber
-                - comb
-                - mirror
-                - crown
-                - vertex
-                - norwood
-                - diffuse
-                - thinning
-                - shed
-                - shedding
-                - regrow
-                - regrowth
-                - loss
-                - pattern
-                - male
-                - female
-                - androgenetic
-                - genetics
-                - hereditary
-                - hormones
-                - testosterone
-              exclude_keywords:
-                - bald eagle
-                - bald eagles
-                - baldeagle
-                - baldeagles
-                - animals
-                - dog
-                - dogs
-                - cat
-                - cats
-                - bald face
-                - bald faced
-                - tire
-                - tires
-                - hairline fracture
-                - hairline crack
-                - receding tide
-                - receding water
-                - receding flood
-                - receding floodwater
-                - receding glacier
-                - receding gums
-                - toupee fallacy
-                - yard
-                - lawn
-                - grass
-                - garden
-                - mulch
-                - fruit tree
-                - fruit trees
-              languages:
-                - en
+            pipelines:
+              - enabled: true
+                short_name: bald
+                display_name: "The Bald Feed"
+                description: "Posts about baldness, hair loss, and the bald lifestyle"
+                collection_name: app.bsky.feed.generator
+                keywords:
+                  - minoxidil
+                  - rogaine
+                  - finasteride
+                  - propecia
+                  - toupee
+                  - alopecia
+                  - hair transplant
+                  - hair restoration
+                  - hairpiece
+                  - chrome dome
+                  - smooth head
+                  - shaved head
+                  - shaved my head
+                  - male pattern baldness
+                  - receding hairline
+                  - hair loss
+                  - losing hair
+                  - lost my hair
+                  - thinning hair
+                  - buzz cut
+                  - head shave
+                  - clean shave
+                  - hair removal
+                context_keywords:
+                  - bald
+                  - balding
+                  - baldness
+                  - baldy
+                  - baldie
+                  - widow's peak
+                  - widows peak
+                  - buzzcut
+                context_words:
+                  - head
+                  - spot
+                  - patches
+                  - my
+                  - his
+                  - her
+                  - shave
+                  - shaving
+                  - shaved
+                  - look
+                  - lifestyle
+                  - struggle
+                  - proud
+                  - journey
+                  - confidence
+                  - style
+                  - cut
+                  - clipper
+                  - dome
+                  - scalp
+                  - follicle
+                  - follicles
+                  - hairline
+                  - receding
+                  - hair
+                  - wig
+                  - wigs
+                  - transplant
+                  - restoration
+                  - treatment
+                  - medication
+                  - doctor
+                  - barber
+                  - comb
+                  - mirror
+                  - crown
+                  - vertex
+                  - norwood
+                  - diffuse
+                  - thinning
+                  - shed
+                  - shedding
+                  - regrow
+                  - regrowth
+                  - loss
+                  - pattern
+                  - male
+                  - female
+                  - androgenetic
+                  - genetics
+                  - hereditary
+                  - hormones
+                  - testosterone
+                exclude_keywords:
+                  - bald eagle
+                  - bald eagles
+                  - baldeagle
+                  - baldeagles
+                  - animals
+                  - dog
+                  - dogs
+                  - cat
+                  - cats
+                  - bald face
+                  - bald faced
+                  - tire
+                  - tires
+                  - hairline fracture
+                  - hairline crack
+                  - receding tide
+                  - receding water
+                  - receding flood
+                  - receding floodwater
+                  - receding glacier
+                  - receding gums
+                  - toupee fallacy
+                  - yard
+                  - lawn
+                  - grass
+                  - garden
+                  - mulch
+                  - fruit tree
+                  - fruit trees
+                languages:
+                  - en
 
   serviceAccount:
     create: true
