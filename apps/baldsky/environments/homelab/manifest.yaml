@@ -231,7 +231,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/baldsky:sha-0e422db0dcb9b8739e36b7ddeae851eae8147e2f"
+          image: "ghcr.io/kdwils/baldsky:sha-bfeeb929bb3b02fa4062c8f34e5c16ceef767359"
           imagePullPolicy: IfNotPresent
           args:
             - serve
