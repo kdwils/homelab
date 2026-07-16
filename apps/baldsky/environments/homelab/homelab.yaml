@@ -181,13 +181,13 @@ baldsky:
       timeoutSeconds: 5
       failureThreshold: 10
       successThreshold: 1
-    resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-      requests:
-        cpu: 50m
-        memory: 64Mi
+    # resources:
+    #   limits:
+    #     cpu: 100m
+    #     memory: 128Mi
+    #   requests:
+    #     cpu: 50m
+    #     memory: 64Mi
 
     image:
       repository: ghcr.io/kdwils/baldsky
@@ -229,20 +229,20 @@ baldsky:
       - name: homelab
         namespace: envoy-gateway-system
 
-  verticalPodAutoscaler:
-    enabled: true
-    updatePolicy:
-      updateMode: InPlace
-    resourcePolicy:
-      containerPolicies:
-        - containerName: "*"
-          maxAllowed:
-            cpu: 500m
-            memory: 1Gi
-          controlledResources:
-            - cpu
-            - memory
-          controlledValues: RequestsAndLimits
+  # verticalPodAutoscaler:
+  #   enabled: true
+  #   updatePolicy:
+  #     updateMode: InPlace
+  #   resourcePolicy:
+  #     containerPolicies:
+  #       - containerName: "*"
+  #         maxAllowed:
+  #           cpu: 1000m
+  #           memory: 1Gi
+  #         controlledResources:
+  #           - cpu
+  #           - memory
+  #         controlledValues: RequestsAndLimits
 
   securityPolicy:
     extAuth:
