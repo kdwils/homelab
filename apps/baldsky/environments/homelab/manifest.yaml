@@ -258,13 +258,13 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 5
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 50m
-              memory: 64Mi
+          # resources:
+          #   limits:
+          #     cpu: 100m
+          #     memory: 128Mi
+          #   requests:
+          #     cpu: 50m
+          #     memory: 64Mi
           volumeMounts:
             - mountPath: /app/config.yaml
               name: configmap-config
@@ -336,57 +336,57 @@ spec:
         port: 8080
         weight: 1
 ---
-# Source: homelab/charts/baldsky/templates/securitypolicy.yaml
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: SecurityPolicy
-metadata:
-  name: baldsky
-  labels:
-    helm.sh/chart: baldsky-0.1.31
-    app.kubernetes.io/name: baldsky
-    app.kubernetes.io/instance: baldsky
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: baldsky
-  extAuth:
-    grpc:
-      backendRefs:
-      - group: ""
-        kind: Service
-        name: homelab-envoy-proxy-bouncer
-        namespace: crowdsec
-        port: 8080
-        weight: 1
----
-# Source: homelab/charts/baldsky/templates/vpa.yaml
-apiVersion: autoscaling.k8s.io/v1
-kind: VerticalPodAutoscaler
-metadata:
-  name: baldsky
-  labels:
-    helm.sh/chart: baldsky-0.1.31
-    app.kubernetes.io/name: baldsky
-    app.kubernetes.io/instance: baldsky
-    app.kubernetes.io/version: "1.16.0"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  targetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: baldsky
-  updatePolicy:
-    updateMode: InPlace
-  resourcePolicy:
-    containerPolicies:
-    - containerName: '*'
-      controlledResources:
-      - cpu
-      - memory
-      controlledValues: RequestsAndLimits
-      maxAllowed:
-        cpu: 500m
-        memory: 1Gi
+# # Source: homelab/charts/baldsky/templates/securitypolicy.yaml
+# apiVersion: gateway.envoyproxy.io/v1alpha1
+# kind: SecurityPolicy
+# metadata:
+#   name: baldsky
+#   labels:
+#     helm.sh/chart: baldsky-0.1.31
+#     app.kubernetes.io/name: baldsky
+#     app.kubernetes.io/instance: baldsky
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   targetRefs:
+#     - group: gateway.networking.k8s.io
+#       kind: HTTPRoute
+#       name: baldsky
+#   extAuth:
+#     grpc:
+#       backendRefs:
+#       - group: ""
+#         kind: Service
+#         name: homelab-envoy-proxy-bouncer
+#         namespace: crowdsec
+#         port: 8080
+#         weight: 1
+# ---
+# # Source: homelab/charts/baldsky/templates/vpa.yaml
+# apiVersion: autoscaling.k8s.io/v1
+# kind: VerticalPodAutoscaler
+# metadata:
+#   name: baldsky
+#   labels:
+#     helm.sh/chart: baldsky-0.1.31
+#     app.kubernetes.io/name: baldsky
+#     app.kubernetes.io/instance: baldsky
+#     app.kubernetes.io/version: "1.16.0"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   targetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: baldsky
+#   updatePolicy:
+#     updateMode: InPlace
+#   resourcePolicy:
+#     containerPolicies:
+#     - containerName: '*'
+#       controlledResources:
+#       - cpu
+#       - memory
+#       controlledValues: RequestsAndLimits
+#       maxAllowed:
+#         cpu: 500m
+#         memory: 1Gi
