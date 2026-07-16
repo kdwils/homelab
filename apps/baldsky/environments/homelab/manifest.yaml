@@ -233,6 +233,9 @@ spec:
             readOnlyRootFilesystem: true
           image: "ghcr.io/kdwils/baldsky:sha-380cd4a0e5f0847b0d8d99fad9daf1000adde904"
           imagePullPolicy: IfNotPresent
+          args:
+            - serve
+            - --config=/app/config.yaml
           ports:
             - name: http
               containerPort: 8080
