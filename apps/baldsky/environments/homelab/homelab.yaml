@@ -172,7 +172,7 @@ baldsky:
       pullPolicy: IfNotPresent
 
     env:
-      BALDSKY_DATABASE_DNS:
+      BALDSKY_DATABASE_DSN:
         valueFrom:
           secretKeyRef:
             name: baldsky-app
