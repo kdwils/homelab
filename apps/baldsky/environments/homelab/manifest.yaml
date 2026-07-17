@@ -28,8 +28,6 @@ data:
     subscription:
       endpoint: "wss://bsky.network"
       reconnect_delay: 5s
-      concurrency: 4
-      queue_size: 1000
     server:
       port: 8080
       log_level: info
@@ -40,10 +38,10 @@ data:
       service_id: "#bsky_fg"
       user_agent: baldsky
       user_agent_url: https://github.com/kdwils/baldsky
-
+  
     database:
       dsn: ""
-
+  
     pipelines:
       - enabled: true
         short_name: bald
@@ -231,9 +229,9 @@ spec:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - ALL
+              - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/baldsky:sha-b4ac042573536af18820686b5ec2d32de8da182b"
+          image: "ghcr.io/kdwils/baldsky:sha-c8691f3c2e8f8bf0ab1102ae99ac3dfbdfa3bb8c"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -245,7 +243,7 @@ spec:
           livenessProbe:
             failureThreshold: 10
             httpGet:
-              path: /healthz
+              path: /xrpc/_health
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
@@ -254,7 +252,7 @@ spec:
           readinessProbe:
             failureThreshold: 10
             httpGet:
-              path: /healthz
+              path: /xrpc/_health
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
@@ -300,7 +298,7 @@ spec:
     size: 50Gi
     pvcTemplate:
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteMany
   bootstrap:
     initdb:
       database: baldsky
@@ -328,15 +326,15 @@ spec:
     - "baldsky.int.kyledev.co"
   rules:
     - matches:
-        - path:
-            type: PathPrefix
-            value: /
+      - path:
+          type: PathPrefix
+          value: /
       backendRefs:
-        - group: ""
-          kind: Service
-          name: baldsky
-          port: 8080
-          weight: 1
+      - group: ""
+        kind: Service
+        name: baldsky
+        port: 8080
+        weight: 1
 ---
 # Source: homelab/charts/baldsky/templates/securitypolicy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
@@ -357,12 +355,12 @@ spec:
   extAuth:
     grpc:
       backendRefs:
-        - group: ""
-          kind: Service
-          name: homelab-envoy-proxy-bouncer
-          namespace: crowdsec
-          port: 8080
-          weight: 1
+      - group: ""
+        kind: Service
+        name: homelab-envoy-proxy-bouncer
+        namespace: crowdsec
+        port: 8080
+        weight: 1
 ---
 # Source: homelab/charts/baldsky/templates/vpa.yaml
 apiVersion: autoscaling.k8s.io/v1
@@ -384,11 +382,11 @@ spec:
     updateMode: InPlace
   resourcePolicy:
     containerPolicies:
-      - containerName: "*"
-        controlledResources:
-          - cpu
-          - memory
-        controlledValues: RequestsAndLimits
-        maxAllowed:
-          cpu: 1000m
-          memory: 1Gi
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 1000m
+        memory: 1Gi
