@@ -262,11 +262,11 @@ spec:
             timeoutSeconds: 5
           resources:
             limits:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 500m
+              memory: 256Mi
             requests:
-              cpu: 50m
-              memory: 64Mi
+              cpu: 200m
+              memory: 128Mi
           volumeMounts:
             - mountPath: /app/config.yaml
               name: configmap-config
@@ -390,5 +390,5 @@ spec:
           - memory
         controlledValues: RequestsAndLimits
         maxAllowed:
-          cpu: 500m
+          cpu: 1000m
           memory: 1Gi
