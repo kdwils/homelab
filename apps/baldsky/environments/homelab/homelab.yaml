@@ -165,7 +165,7 @@ baldsky:
       - --config=/app/config.yaml
     livenessProbe:
       httpGet:
-        path: /healthz
+        path: /xrpc/_health
         port: 8080
       initialDelaySeconds: 5
       periodSeconds: 10
@@ -174,24 +174,23 @@ baldsky:
       successThreshold: 1
     readinessProbe:
       httpGet:
-        path: /healthz
+        path: /xrpc/_health
         port: 8080
       initialDelaySeconds: 5
       periodSeconds: 10
       timeoutSeconds: 5
       failureThreshold: 10
       successThreshold: 1
-    # resources:
-    #   limits:
-    #     cpu: 100m
-    #     memory: 128Mi
-    #   requests:
-    #     cpu: 50m
-    #     memory: 64Mi
-
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 200m
+        memory: 128Mi
     image:
       repository: ghcr.io/kdwils/baldsky
-      tag: sha-bfeeb929bb3b02fa4062c8f34e5c16ceef767359
+      tag: sha-c8691f3c2e8f8bf0ab1102ae99ac3dfbdfa3bb8c
       pullPolicy: IfNotPresent
 
     env:
@@ -229,20 +228,20 @@ baldsky:
       - name: homelab
         namespace: envoy-gateway-system
 
-  # verticalPodAutoscaler:
-  #   enabled: true
-  #   updatePolicy:
-  #     updateMode: InPlace
-  #   resourcePolicy:
-  #     containerPolicies:
-  #       - containerName: "*"
-  #         maxAllowed:
-  #           cpu: 1000m
-  #           memory: 1Gi
-  #         controlledResources:
-  #           - cpu
-  #           - memory
-  #         controlledValues: RequestsAndLimits
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 1000m
+            memory: 1Gi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
 
   securityPolicy:
     extAuth:
