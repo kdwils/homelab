@@ -32,7 +32,7 @@ data:
       queue_size: 5000
     server:
       port: 8080
-      log_level: info
+      log_level: debug
       hostname: "https://baldsky.kyledev.co"
       service_did: "did:web:baldsky.kyledev.co"
       publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
