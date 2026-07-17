@@ -300,7 +300,7 @@ spec:
     size: 50Gi
     pvcTemplate:
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
   bootstrap:
     initdb:
       database: baldsky
