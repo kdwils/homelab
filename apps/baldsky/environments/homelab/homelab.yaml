@@ -261,4 +261,4 @@ baldsky:
         database: baldsky
         owner: baldsky
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
