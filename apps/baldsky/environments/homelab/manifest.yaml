@@ -28,8 +28,8 @@ data:
     subscription:
       endpoint: "wss://bsky.network"
       reconnect_delay: 5s
-      concurrency: 8
-      queue_size: 5000
+      concurrency: 4
+      queue_size: 1000
     server:
       port: 8080
       log_level: info
