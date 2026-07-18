@@ -31,7 +31,7 @@ data:
     server:
       port: 8080
       log_level: info
-      hostname: "https://baldsky.kyledev.co"
+      hostname: "baldsky.kyledev.co"
       service_did: "did:web:baldsky.kyledev.co"
       publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
       did_context: "https://www.w3.org/ns/did/v1"
@@ -231,7 +231,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/baldsky:sha-c8691f3c2e8f8bf0ab1102ae99ac3dfbdfa3bb8c"
+          image: "ghcr.io/kdwils/baldsky:sha-c90d54bffca70da60a4d88236bf4941f888a9218"
           imagePullPolicy: IfNotPresent
           args:
             - serve
