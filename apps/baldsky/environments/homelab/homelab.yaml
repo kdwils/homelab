@@ -190,10 +190,15 @@ baldsky:
         memory: 128Mi
     image:
       repository: ghcr.io/kdwils/baldsky
-      tag: sha-5be625b7383c7ec24ef147d485f24438fcf80f3b
+      tag: sha-5a2251f8adf957808df667eb63f16cd8edc186d4
       pullPolicy: IfNotPresent
 
     env:
+      BALDSKY_SERVER_ADMIN_TOKEN:
+        valueFrom:
+          secretKeyRef:
+            name: baldsky
+            key: adminToken
       BALDSKY_DATABASE_DSN:
         valueFrom:
           secretKeyRef:
@@ -242,6 +247,11 @@ baldsky:
             - cpu
             - memory
           controlledValues: RequestsAndLimits
+
+  sealedsecrets:
+    - name: baldsky
+      data:
+        adminToken: AgDX9FJ/hZYgmGv7MdmobBMOJKj9OW6b1NgoYMMiIHnsy04rcWk7CYR5/UhzomHZax9Gzw2gtfCT9//d88zOoW49nEm0EvbD1JVnABEf+QUxIzdIHufry9Y1o0r7lbi0rU932SoT815Q0GAI3mPJhMdrsd9pKJy0dvBIQTwnTQloAmEd3GfO1ggKBxUXdUyRS2BvVYFv3zuhU18Uq9banCTo23WVuTh6NwrjbJO7Xo2FvWGKezHvYW2WkU+tbfx4IhMLNYLO9sD1VtagqkUGzzgv5xwhYi5q16Lqpcs3mRZegaodv73kEQj/W3ZlKzwoh/a/btL/2l4ZltZuMzn8d3fZMrl/bYmwJ1N6Tyq8Dj3HSh5vANWMLCI1SA4zKZuXvz+ke5ob2BKOLR6TGtbK2a2gGDmyaLoDAksL3ks6ZTkopCut3hTIUf//tCEEKtAJITQ4On9HxPEstRT83zM8l56lawFxeIu2TBUPaPh7RqIkam/yVBgCRkR1WlRDYqP7KzNGHyPomOASnRfO83Z+q51jYgmDPmudnOaxOYoc73UuDr5sNz3GTI50124tKlKpW25QoEvHKrxsQ1N6sNOn+axLQEL5aB83k25WRMoXwLuZ6n0Yi9jQosyc7g/+fYEUJtTwbiTNfts+8qlfIOQPSkNgJJI4g8K08yZm/QlsbAN1Ose9dw+GFKkqWYiUx7dJ8J82r02XcigDeQaqrHJWN+a737EEcMCZELAr4rJ0whCCCChi1aZBI1Rjan6Ueg==
 
   securityPolicy:
     extAuth:
