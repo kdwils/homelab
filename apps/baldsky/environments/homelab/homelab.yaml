@@ -190,7 +190,7 @@ baldsky:
         memory: 128Mi
     image:
       repository: ghcr.io/kdwils/baldsky
-      tag: sha-5a2251f8adf957808df667eb63f16cd8edc186d4
+      tag: sha-8e7032d94d0269947135144f1b933baf95df0424
       pullPolicy: IfNotPresent
 
     env:
