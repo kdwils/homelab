@@ -51,7 +51,7 @@ data:
     nats:
       url: "nats://nats.nats.svc.cluster.local:4222"
       subject: "firehose.events"
-      queue_group: ""
+      queue_group: "baldsky"
       name_prefix: "baldsky"
   
     worker:
