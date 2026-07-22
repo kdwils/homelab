@@ -29,7 +29,7 @@ baldsky:
               enabled: true
               endpoint: "wss://bsky.network"
               reconnect_delay: 5s
-              concurrency: 2
+              concurrency: 4
               queue_size: 1000
 
             nats:
