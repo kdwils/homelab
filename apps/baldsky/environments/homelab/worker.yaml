@@ -226,7 +226,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/baldsky:sha-55f7c072174e62d07c77fb9d2a36eac5950ab5d0"
+          image: "ghcr.io/kdwils/baldsky:sha-826ec9f4051e4c8aa05ed8d7901432c96375d0f0"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -253,6 +253,10 @@ spec:
                 secretKeyRef:
                   key: uri
                   name: baldsky-app
+            - name: BALDSKY_NATS_NAME_PREFIX
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
       volumes:
         - configMap:
             name: worker-config
