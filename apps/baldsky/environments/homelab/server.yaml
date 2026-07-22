@@ -1,5 +1,4 @@
 baldsky:
-  fullnameOverride: baldsky-api
   configmap:
     create: true
     configmaps:
@@ -167,3 +166,12 @@ baldsky:
             namespace: crowdsec
             port: 8080
             weight: 1
+
+  postgres:
+    clusters:
+      - name: baldsky
+        size: 50Gi
+        database: baldsky
+        owner: baldsky
+        accessModes:
+          - ReadWriteOnce

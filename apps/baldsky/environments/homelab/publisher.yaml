@@ -99,11 +99,3 @@ baldsky:
             - memory
           controlledValues: RequestsAndLimits
 
-  postgres:
-    clusters:
-      - name: baldsky
-        size: 50Gi
-        database: baldsky
-        owner: baldsky
-        accessModes:
-          - ReadWriteOnce
