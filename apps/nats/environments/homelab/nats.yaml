@@ -1,6 +1,6 @@
 homelab:
   certificate:
-    create: true
+    create: false
     certificates:
       - name: nats-tls
         secretName: nats-tls-secret
@@ -15,7 +15,7 @@ homelab:
         renewBefore: 360h
 
   tcproute:
-    create: true
+    create: false
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
@@ -109,7 +109,7 @@ nats:
       patch: []
 
     jetstream:
-      enabled: true
+      enabled: false
 
       fileStore:
         enabled: true
@@ -146,7 +146,7 @@ nats:
     nats:
       port: 4222
       tls:
-        enabled: true
+        enabled: false
         # set secretName in order to mount an existing secret to dir
         secretName: nats-tls-secret
         dir: /etc/nats-certs/nats
