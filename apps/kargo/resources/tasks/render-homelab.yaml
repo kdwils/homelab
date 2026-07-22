@@ -55,7 +55,7 @@ spec:
           - ./source/apps/baldsky/environments/homelab/server.yaml
         namespace: bluesky
         releaseName: baldsky
-        outPath: ./target/apps/baldsky/environments/homelab/homelab.yaml
+        outPath: ./target/apps/baldsky/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-baldsky-worker
       config:
