@@ -93,7 +93,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
   selector:
@@ -122,7 +122,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/baldsky:sha-826ec9f4051e4c8aa05ed8d7901432c96375d0f0"
+          image: "ghcr.io/kdwils/baldsky:sha-9bb83b7b699cb1be41702fa82a1e2ee3c2c02cc2"
           imagePullPolicy: IfNotPresent
           args:
             - serve
