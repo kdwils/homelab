@@ -84,11 +84,6 @@ baldsky:
         drop:
           - ALL
 
-  sealedsecrets:
-    - name: baldsky
-      data:
-        adminToken: AgCiIm5ym81EIsxdjZsWqDnPaQj0DXMmI25+LnjRPisqEhhNZk1xasCKjh8mN946c7fk9WxRzjwKYMZ993wppPflnLkRS081yG4bVbH/O8QRsaFiQl73A2uQo72ZdeXofGyFmNQtp46AF2saN210ZDXDECh0U92SoOZOd+j0gsb88Vv3fmLX9I8w+56Y6H213tMhXYdbBpxmrGFSAOgtbfAB7x3UxYnWoLpxgWePZwOv4xenq1jVYapsBwCLXRoUjw16h15l80WzCZVJiJ4P5IGzZf3vWvbrZaIBmjP2Ctnd+yfjGEfQCeLneO/jvMwObNyT33xAwJEJeEBaw26riBUY4gIM4L9FZRtiAr2vQjU+/msWjH3u6Nwsx+xxRVmIS1xqoVFezXQD0a15bpwNYAFRmbJsnob5feFrSilpmdL3Xq9BE7Y1iNO+vq4BD9OGVIy4G/8JY7W11ISl9Vd/QV4fe7kLo9ovnF0Xw9dF/MFhvAAbiLtt7IDINFxwbHAK1NUztVUkXqsv8CrsBsB6o2MmWjmdYvgU/65OfepH3jX9A18izuajaPZgldo5wCbMb/yBVnvxtudrqmHKpCvIQ54njVvZ9553qOqpnxV0GiSW4i4hOP643hIHrzrkvgl31f3zl8EQJth/SQk+LRgo9HU9nharWAVu6OAdDQTO9x4fz93NsRhpDfR5MU+scTRHWiQZdvmTTp9bg42pgR2K7wB+qL7Qr+MM5NoK7tlGPlkl4ZQXpbfPcxiGu9TcyA==
-
   verticalPodAutoscaler:
     enabled: true
     updatePolicy:
