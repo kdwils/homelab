@@ -331,7 +331,8 @@ nats:
     #   "server_name": "nats",
     #   include ./my-config-last.conf;
     # }
-    merge: {}
+    merge:
+      max_payload: 10mb
     patch: []
 
   ############################################################
