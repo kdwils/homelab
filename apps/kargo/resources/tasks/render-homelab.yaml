@@ -52,7 +52,7 @@ spec:
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/baldsky/environments/homelab/server.yaml
+          - ./source/apps/baldsky/environments/homelab/homelab.yaml
         namespace: bluesky
         releaseName: baldsky
         outPath: ./target/apps/baldsky/environments/homelab/server.yaml
