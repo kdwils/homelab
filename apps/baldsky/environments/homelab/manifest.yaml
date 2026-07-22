@@ -16,7 +16,7 @@ automountServiceAccountToken: true
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config
+  name: api-config
   labels:
     helm.sh/chart: baldsky-0.1.31
     app.kubernetes.io/name: baldsky
@@ -25,10 +25,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
-    subscription:
-      endpoint: "wss://bsky.network"
-      reconnect_delay: 5s
     server:
+      enabled: true
       port: 8080
       log_level: info
       hostname: "baldsky.kyledev.co"
@@ -41,132 +39,38 @@ data:
   
     database:
       dsn: ""
+      reconnect_delay: 5s
+  
+    subscription:
+      enabled: false
+      endpoint: "wss://bsky.network"
+      reconnect_delay: 5s
+      concurrency: 4
+      queue_size: 1000
+  
+    nats:
+      url: "nats://nats.nats.svc.cluster.local:4222"
+      subject: "firehose.events"
+      queue_group: ""
+      name_prefix: "baldsky"
+  
+    publisher:
+      enabled: false
+      flush_timeout: 5s
+  
+    worker:
+      enabled: false
   
     pipelines:
       - enabled: true
         short_name: bald
-        display_name: "The Bald Feed"
-        description: "Posts about baldness, hair loss, and the bald lifestyle"
+        display_name: "Bald Things"
+        description: "Curated feed for the follically challenged"
         collection_name: app.bsky.feed.generator
-        keywords:
-          - minoxidil
-          - rogaine
-          - finasteride
-          - propecia
-          - toupee
-          - alopecia
-          - hair transplant
-          - hair restoration
-          - hairpiece
-          - chrome dome
-          - smooth head
-          - shaved head
-          - shaved my head
-          - male pattern baldness
-          - receding hairline
-          - hair loss
-          - losing hair
-          - lost my hair
-          - thinning hair
-          - buzz cut
-          - head shave
-          - clean shave
-          - hair removal
-        context_keywords:
-          - bald
-          - balding
-          - baldness
-          - baldy
-          - baldie
-          - widow's peak
-          - widows peak
-          - buzzcut
-        context_words:
-          - head
-          - spot
-          - patches
-          - my
-          - his
-          - her
-          - shave
-          - shaving
-          - shaved
-          - look
-          - lifestyle
-          - struggle
-          - proud
-          - journey
-          - confidence
-          - style
-          - cut
-          - clipper
-          - dome
-          - scalp
-          - follicle
-          - follicles
-          - hairline
-          - receding
-          - hair
-          - wig
-          - wigs
-          - transplant
-          - restoration
-          - treatment
-          - medication
-          - doctor
-          - barber
-          - comb
-          - mirror
-          - crown
-          - vertex
-          - norwood
-          - diffuse
-          - thinning
-          - shed
-          - shedding
-          - regrow
-          - regrowth
-          - loss
-          - pattern
-          - male
-          - female
-          - androgenetic
-          - genetics
-          - hereditary
-          - hormones
-          - testosterone
-        exclude_keywords:
-          - bald eagle
-          - bald eagles
-          - baldeagle
-          - baldeagles
-          - animals
-          - dog
-          - dogs
-          - cat
-          - cats
-          - bald face
-          - bald faced
-          - tire
-          - tires
-          - hairline fracture
-          - hairline crack
-          - receding tide
-          - receding water
-          - receding flood
-          - receding floodwater
-          - receding glacier
-          - receding gums
-          - toupee fallacy
-          - yard
-          - lawn
-          - grass
-          - garden
-          - mulch
-          - fruit tree
-          - fruit trees
         languages:
           - en
+        link_label: "GitHub"
+        link_url: "https://github.com/kdwils/baldsky"
 ---
 # Source: homelab/charts/baldsky/templates/service.yaml
 apiVersion: v1
@@ -231,7 +135,7 @@ spec:
               drop:
               - ALL
             readOnlyRootFilesystem: true
-          image: "ghcr.io/kdwils/baldsky:sha-8e7032d94d0269947135144f1b933baf95df0424"
+          image: "ghcr.io/kdwils/baldsky:sha-55f7c072174e62d07c77fb9d2a36eac5950ab5d0"
           imagePullPolicy: IfNotPresent
           args:
             - serve
@@ -267,7 +171,7 @@ spec:
               memory: 128Mi
           volumeMounts:
             - mountPath: /app/config.yaml
-              name: configmap-config
+              name: configmap-api-config
               readOnly: true
               subPath: config.yaml
           env:
@@ -283,8 +187,8 @@ spec:
                   name: baldsky
       volumes:
         - configMap:
-            name: config
-          name: configmap-config
+            name: api-config
+          name: configmap-api-config
 ---
 # Source: homelab/charts/baldsky/templates/postgres.yaml
 apiVersion: postgresql.cnpg.io/v1
