@@ -1,0 +1,199 @@
+---
+# Source: homelab/charts/baldsky/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: baldsky-publisher
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-publisher
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: homelab/charts/baldsky/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: publisher-config
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-publisher
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    server:
+      enabled: false
+      port: 8080
+      log_level: info
+      hostname: "baldsky.kyledev.co"
+      service_did: "did:web:baldsky.kyledev.co"
+      publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
+      did_context: "https://www.w3.org/ns/did/v1"
+      service_id: "#bsky_fg"
+      user_agent: baldsky
+      user_agent_url: https://github.com/kdwils/baldsky
+  
+    database:
+      dsn: ""
+      reconnect_delay: 5s
+  
+    subscription:
+      enabled: true
+      endpoint: "wss://bsky.network"
+      reconnect_delay: 5s
+      concurrency: 4
+      queue_size: 1000
+  
+    nats:
+      url: "nats://nats.nats.svc.cluster.local:4222"
+      subject: "firehose.events"
+      queue_group: ""
+      name_prefix: "baldsky"
+  
+    publisher:
+      enabled: true
+      flush_timeout: 5s
+---
+# Source: homelab/charts/baldsky/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baldsky-publisher
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-publisher
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: baldsky
+      app.kubernetes.io/instance: baldsky-publisher
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: baldsky-0.1.31
+        app.kubernetes.io/name: baldsky
+        app.kubernetes.io/instance: baldsky-publisher
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: baldsky-publisher
+      securityContext:
+        fsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: baldsky
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          image: "ghcr.io/kdwils/baldsky:sha-55f7c072174e62d07c77fb9d2a36eac5950ab5d0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - serve
+            - --config=/app/config.yaml
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 200m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /app/config.yaml
+              name: configmap-publisher-config
+              readOnly: true
+              subPath: config.yaml
+          env:
+            - name: BALDSKY_DATABASE_DSN
+              valueFrom:
+                secretKeyRef:
+                  key: uri
+                  name: baldsky-app
+      volumes:
+        - configMap:
+            name: publisher-config
+          name: configmap-publisher-config
+---
+# Source: homelab/charts/baldsky/templates/postgres.yaml
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: baldsky
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-publisher
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  instances: 1
+  storage:
+    size: 50Gi
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+  bootstrap:
+    initdb:
+      database: baldsky
+      owner: baldsky
+---
+# Source: homelab/charts/baldsky/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: baldsky
+  namespace: bluesky
+spec:
+  encryptedData:
+    adminToken: AgCiIm5ym81EIsxdjZsWqDnPaQj0DXMmI25+LnjRPisqEhhNZk1xasCKjh8mN946c7fk9WxRzjwKYMZ993wppPflnLkRS081yG4bVbH/O8QRsaFiQl73A2uQo72ZdeXofGyFmNQtp46AF2saN210ZDXDECh0U92SoOZOd+j0gsb88Vv3fmLX9I8w+56Y6H213tMhXYdbBpxmrGFSAOgtbfAB7x3UxYnWoLpxgWePZwOv4xenq1jVYapsBwCLXRoUjw16h15l80WzCZVJiJ4P5IGzZf3vWvbrZaIBmjP2Ctnd+yfjGEfQCeLneO/jvMwObNyT33xAwJEJeEBaw26riBUY4gIM4L9FZRtiAr2vQjU+/msWjH3u6Nwsx+xxRVmIS1xqoVFezXQD0a15bpwNYAFRmbJsnob5feFrSilpmdL3Xq9BE7Y1iNO+vq4BD9OGVIy4G/8JY7W11ISl9Vd/QV4fe7kLo9ovnF0Xw9dF/MFhvAAbiLtt7IDINFxwbHAK1NUztVUkXqsv8CrsBsB6o2MmWjmdYvgU/65OfepH3jX9A18izuajaPZgldo5wCbMb/yBVnvxtudrqmHKpCvIQ54njVvZ9553qOqpnxV0GiSW4i4hOP643hIHrzrkvgl31f3zl8EQJth/SQk+LRgo9HU9nharWAVu6OAdDQTO9x4fz93NsRhpDfR5MU+scTRHWiQZdvmTTp9bg42pgR2K7wB+qL7Qr+MM5NoK7tlGPlkl4ZQXpbfPcxiGu9TcyA==
+  template:
+    type: Opaque
+    metadata:
+      name: baldsky
+      namespace: bluesky
+---
+# Source: homelab/charts/baldsky/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: baldsky-publisher
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-publisher
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: baldsky-publisher
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 1000m
+        memory: 1Gi
