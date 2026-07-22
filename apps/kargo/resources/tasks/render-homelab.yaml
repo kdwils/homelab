@@ -46,7 +46,7 @@ spec:
           - ./source/apps/baldsky/environments/homelab/publisher.yaml
         namespace: bluesky
         releaseName: baldsky-publisher
-        outPath: ./target/apps/baldsky/environments/homelab/manifests/publisher.yaml
+        outPath: ./target/apps/baldsky/environments/homelab/publisher.yaml
     - uses: helm-template
       as: render-baldsky-server
       config:
@@ -55,7 +55,7 @@ spec:
           - ./source/apps/baldsky/environments/homelab/server.yaml
         namespace: bluesky
         releaseName: baldsky-api
-        outPath: ./target/apps/baldsky/environments/homelab/manifests/server.yaml
+        outPath: ./target/apps/baldsky/environments/homelab/server.yaml
     - uses: helm-template
       as: render-baldsky-worker
       config:
@@ -64,7 +64,7 @@ spec:
           - ./source/apps/baldsky/environments/homelab/worker.yaml
         namespace: bluesky
         releaseName: baldsky-worker
-        outPath: ./target/apps/baldsky/environments/homelab/manifests/worker.yaml
+        outPath: ./target/apps/baldsky/environments/homelab/worker.yaml
     - uses: helm-template
       as: render-bluesky
       config:
