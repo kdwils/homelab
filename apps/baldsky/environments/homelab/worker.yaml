@@ -1,0 +1,314 @@
+---
+# Source: homelab/charts/baldsky/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: baldsky-worker
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-worker
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: homelab/charts/baldsky/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: worker-config
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-worker
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    server:
+      enabled: false
+      port: 8080
+      log_level: info
+      hostname: "baldsky.kyledev.co"
+      service_did: "did:web:baldsky.kyledev.co"
+      publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
+      did_context: "https://www.w3.org/ns/did/v1"
+      service_id: "#bsky_fg"
+      user_agent: baldsky
+      user_agent_url: https://github.com/kdwils/baldsky
+  
+    database:
+      dsn: ""
+      reconnect_delay: 5s
+  
+    subscription:
+      enabled: false
+      endpoint: "wss://bsky.network"
+      reconnect_delay: 5s
+      concurrency: 4
+      queue_size: 1000
+  
+    nats:
+      url: "nats://nats.nats.svc.cluster.local:4222"
+      subject: "firehose.events"
+      queue_group: ""
+      name_prefix: "baldsky"
+  
+    worker:
+      enabled: true
+      count: 2
+  
+    pipelines:
+      - enabled: true
+        short_name: bald
+        display_name: "Bald Things"
+        description: "Curated feed for the follically challenged"
+        collection_name: app.bsky.feed.generator
+        keywords:
+          - minoxidil
+          - rogaine
+          - finasteride
+          - propecia
+          - toupee
+          - alopecia
+          - hair transplant
+          - hair restoration
+          - hairpiece
+          - chrome dome
+          - smooth head
+          - shaved head
+          - shaved my head
+          - male pattern baldness
+          - receding hairline
+          - hair loss
+          - losing hair
+          - lost my hair
+          - thinning hair
+          - buzz cut
+          - head shave
+          - clean shave
+          - hair removal
+        context_keywords:
+          - bald
+          - balding
+          - baldness
+          - baldy
+          - baldie
+          - widow's peak
+          - widows peak
+          - buzzcut
+        context_words:
+          - head
+          - spot
+          - patches
+          - my
+          - his
+          - her
+          - shave
+          - shaving
+          - shaved
+          - look
+          - lifestyle
+          - struggle
+          - proud
+          - journey
+          - confidence
+          - style
+          - cut
+          - clipper
+          - dome
+          - scalp
+          - follicle
+          - follicles
+          - hairline
+          - receding
+          - hair
+          - wig
+          - wigs
+          - transplant
+          - restoration
+          - treatment
+          - medication
+          - doctor
+          - barber
+          - comb
+          - mirror
+          - crown
+          - vertex
+          - norwood
+          - diffuse
+          - thinning
+          - shed
+          - shedding
+          - regrow
+          - regrowth
+          - loss
+          - pattern
+          - male
+          - female
+          - androgenetic
+          - genetics
+          - hereditary
+          - hormones
+          - testosterone
+        exclude_keywords:
+          - bald eagle
+          - bald eagles
+          - baldeagle
+          - baldeagles
+          - animals
+          - dog
+          - dogs
+          - cat
+          - cats
+          - bald face
+          - bald faced
+          - tire
+          - tires
+          - hairline fracture
+          - hairline crack
+          - receding tide
+          - receding water
+          - receding flood
+          - receding floodwater
+          - receding glacier
+          - receding gums
+          - toupee fallacy
+          - yard
+          - lawn
+          - grass
+          - garden
+          - mulch
+          - fruit tree
+          - fruit trees
+        languages:
+          - en
+        link_label: "GitHub"
+        link_url: "https://github.com/kdwils/baldsky"
+---
+# Source: homelab/charts/baldsky/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baldsky-worker
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-worker
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: baldsky
+      app.kubernetes.io/instance: baldsky-worker
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: baldsky-0.1.31
+        app.kubernetes.io/name: baldsky
+        app.kubernetes.io/instance: baldsky-worker
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: baldsky-worker
+      securityContext:
+        fsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: baldsky
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          image: "ghcr.io/kdwils/baldsky:sha-55f7c072174e62d07c77fb9d2a36eac5950ab5d0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - serve
+            - --config=/app/config.yaml
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 200m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /app/config.yaml
+              name: configmap-worker-config
+              readOnly: true
+              subPath: config.yaml
+          env:
+            - name: BALDSKY_DATABASE_DSN
+              valueFrom:
+                secretKeyRef:
+                  key: uri
+                  name: baldsky-app
+      volumes:
+        - configMap:
+            name: worker-config
+          name: configmap-worker-config
+---
+# Source: homelab/charts/baldsky/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: baldsky-worker
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-worker
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: baldsky-worker
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+---
+# Source: homelab/charts/baldsky/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: baldsky-worker
+  labels:
+    helm.sh/chart: baldsky-0.1.31
+    app.kubernetes.io/name: baldsky
+    app.kubernetes.io/instance: baldsky-worker
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: baldsky-worker
+  updatePolicy:
+    updateMode: Initial
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 1000m
+        memory: 1Gi
