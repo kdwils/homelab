@@ -52,10 +52,10 @@ spec:
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/baldsky/environments/homelab/homelab.yaml
+          - ./source/apps/baldsky/environments/homelab/server.yaml
         namespace: bluesky
         releaseName: baldsky
-        outPath: ./target/apps/baldsky/environments/homelab/server.yaml
+        outPath: ./target/apps/baldsky/environments/homelab/homelab.yaml
     - uses: helm-template
       as: render-baldsky-worker
       config:
