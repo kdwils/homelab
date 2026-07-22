@@ -13,7 +13,13 @@ metadata:
 spec:
   promotionPolicies:
     - stageSelector:
-        name: main
+        name: publisher
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: server
+      autoPromotionEnabled: true
+    - stageSelector:
+        name: worker
       autoPromotionEnabled: true
 ---
 apiVersion: kargo.akuity.io/v1alpha1
@@ -39,7 +45,7 @@ spec:
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: main
+  name: publisher
   namespace: baldsky
 spec:
   requestedFreight:
@@ -58,7 +64,67 @@ spec:
         - name: imageRepo
           value: ghcr.io/kdwils/baldsky
         - name: valuesFilePath
-          value: apps/baldsky/environments/homelab/homelab.yaml
+          value: apps/baldsky/environments/homelab/publisher.yaml
+        - name: imageTagYamlPath
+          value: baldsky.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: server
+  namespace: baldsky
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: baldsky
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: baldsky
+        - name: imageRepo
+          value: ghcr.io/kdwils/baldsky
+        - name: valuesFilePath
+          value: apps/baldsky/environments/homelab/server.yaml
+        - name: imageTagYamlPath
+          value: baldsky.deployment.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: worker
+  namespace: baldsky
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: baldsky
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: baldsky
+        - name: imageRepo
+          value: ghcr.io/kdwils/baldsky
+        - name: valuesFilePath
+          value: apps/baldsky/environments/homelab/worker.yaml
         - name: imageTagYamlPath
           value: baldsky.deployment.image.tag
       steps:

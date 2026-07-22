@@ -39,14 +39,32 @@ spec:
         releaseName: rss
         outPath: ./target/apps/rss/environments/homelab/manifest.yaml
     - uses: helm-template
-      as: render-baldsky
+      as: render-baldsky-publisher
       config:
         path: ./source/charts/homelab
         valuesFiles:
-          - ./source/apps/baldsky/environments/homelab/homelab.yaml
+          - ./source/apps/baldsky/environments/homelab/publisher.yaml
         namespace: bluesky
-        releaseName: baldsky
-        outPath: ./target/apps/baldsky/environments/homelab/manifest.yaml
+        releaseName: baldsky-publisher
+        outPath: ./target/apps/baldsky/environments/homelab/manifests/publisher.yaml
+    - uses: helm-template
+      as: render-baldsky-server
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/baldsky/environments/homelab/server.yaml
+        namespace: bluesky
+        releaseName: baldsky-api
+        outPath: ./target/apps/baldsky/environments/homelab/manifests/server.yaml
+    - uses: helm-template
+      as: render-baldsky-worker
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/apps/baldsky/environments/homelab/worker.yaml
+        namespace: bluesky
+        releaseName: baldsky-worker
+        outPath: ./target/apps/baldsky/environments/homelab/manifests/worker.yaml
     - uses: helm-template
       as: render-bluesky
       config:
@@ -110,15 +128,6 @@ spec:
         namespace: media
         releaseName: sonarr
         outPath: ./target/media/sonarr/environments/homelab/manifest.yaml
-    # - uses: helm-template
-    #   as: render-hoarder
-    #   config:
-    #     path: ./source/charts/homelab
-    #     valuesFiles:
-    #       - ./source/apps/hoarder/environments/homelab/homelab.yaml
-    #     namespace: hoarder
-    #     releaseName: hoarder
-    #     outPath: ./target/apps/hoarder/environments/homelab/manifest.yaml
     - uses: helm-template
       as: render-events
       config:

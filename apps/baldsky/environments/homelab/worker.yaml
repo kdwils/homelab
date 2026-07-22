@@ -1,0 +1,234 @@
+baldsky:
+  fullnameOverride: baldsky-worker
+  configmap:
+    create: true
+    configmaps:
+      - name: worker-config
+        mountPath: /app/config.yaml
+        subPath: config.yaml
+        readOnly: true
+        data:
+          config.yaml: |
+            server:
+              enabled: false
+              port: 8080
+              log_level: info
+              hostname: "baldsky.kyledev.co"
+              service_did: "did:web:baldsky.kyledev.co"
+              publisher_did: "did:plc:4rlgcneeu5n4jdnlfwljdf2j"
+              did_context: "https://www.w3.org/ns/did/v1"
+              service_id: "#bsky_fg"
+              user_agent: baldsky
+              user_agent_url: https://github.com/kdwils/baldsky
+
+            database:
+              dsn: ""
+              reconnect_delay: 5s
+
+            subscription:
+              enabled: false
+              endpoint: "wss://bsky.network"
+              reconnect_delay: 5s
+              concurrency: 4
+              queue_size: 1000
+
+            nats:
+              url: "nats://nats.nats.svc.cluster.local:4222"
+              subject: "firehose.events"
+              queue_group: ""
+              name_prefix: "baldsky"
+
+            worker:
+              enabled: true
+              count: 2
+
+            pipelines:
+              - enabled: true
+                short_name: bald
+                display_name: "Bald Things"
+                description: "Curated feed for the follically challenged"
+                collection_name: app.bsky.feed.generator
+                keywords:
+                  - minoxidil
+                  - rogaine
+                  - finasteride
+                  - propecia
+                  - toupee
+                  - alopecia
+                  - hair transplant
+                  - hair restoration
+                  - hairpiece
+                  - chrome dome
+                  - smooth head
+                  - shaved head
+                  - shaved my head
+                  - male pattern baldness
+                  - receding hairline
+                  - hair loss
+                  - losing hair
+                  - lost my hair
+                  - thinning hair
+                  - buzz cut
+                  - head shave
+                  - clean shave
+                  - hair removal
+                context_keywords:
+                  - bald
+                  - balding
+                  - baldness
+                  - baldy
+                  - baldie
+                  - widow's peak
+                  - widows peak
+                  - buzzcut
+                context_words:
+                  - head
+                  - spot
+                  - patches
+                  - my
+                  - his
+                  - her
+                  - shave
+                  - shaving
+                  - shaved
+                  - look
+                  - lifestyle
+                  - struggle
+                  - proud
+                  - journey
+                  - confidence
+                  - style
+                  - cut
+                  - clipper
+                  - dome
+                  - scalp
+                  - follicle
+                  - follicles
+                  - hairline
+                  - receding
+                  - hair
+                  - wig
+                  - wigs
+                  - transplant
+                  - restoration
+                  - treatment
+                  - medication
+                  - doctor
+                  - barber
+                  - comb
+                  - mirror
+                  - crown
+                  - vertex
+                  - norwood
+                  - diffuse
+                  - thinning
+                  - shed
+                  - shedding
+                  - regrow
+                  - regrowth
+                  - loss
+                  - pattern
+                  - male
+                  - female
+                  - androgenetic
+                  - genetics
+                  - hereditary
+                  - hormones
+                  - testosterone
+                exclude_keywords:
+                  - bald eagle
+                  - bald eagles
+                  - baldeagle
+                  - baldeagles
+                  - animals
+                  - dog
+                  - dogs
+                  - cat
+                  - cats
+                  - bald face
+                  - bald faced
+                  - tire
+                  - tires
+                  - hairline fracture
+                  - hairline crack
+                  - receding tide
+                  - receding water
+                  - receding flood
+                  - receding floodwater
+                  - receding glacier
+                  - receding gums
+                  - toupee fallacy
+                  - yard
+                  - lawn
+                  - grass
+                  - garden
+                  - mulch
+                  - fruit tree
+                  - fruit trees
+                languages:
+                  - en
+                link_label: "GitHub"
+                link_url: "https://github.com/kdwils/baldsky"
+
+  serviceAccount:
+    create: true
+    automount: true
+
+  deployment:
+    create: true
+    replicas: 1
+    deployStrategy: RollingUpdate
+    args:
+      - "serve"
+      - --config=/app/config.yaml
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 200m
+        memory: 128Mi
+    image:
+      repository: ghcr.io/kdwils/baldsky
+      tag: sha-55f7c072174e62d07c77fb9d2a36eac5950ab5d0
+      pullPolicy: IfNotPresent
+
+    env:
+      BALDSKY_DATABASE_DSN:
+        valueFrom:
+          secretKeyRef:
+            name: baldsky-app
+            key: uri
+
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 2000
+
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
+
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: Initial
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 1000m
+            memory: 1Gi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 80
