@@ -166,7 +166,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: uri
-                  name: baldsky-app
+                  name: baldsky-app-ro
             - name: BALDSKY_SERVER_ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -245,6 +245,21 @@ spec:
     type: Opaque
     metadata:
       name: baldsky
+      namespace: bluesky
+---
+# Source: homelab/charts/baldsky/templates/sealedsecret.yaml
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: baldsky-app-ro
+  namespace: bluesky
+spec:
+  encryptedData:
+    uri: AgAs1tWMWCEDw5+GVJFgxWrVnaXWJLk2YdPcvcduocyAnwNsBTt6x1TF+hHzsxsC6LZytaC8xdx0wLZWhmfL++mG4UKgAzxs3Z9dvDqmlAaGuZ04G8r8Ay3mcqA4y7jRDuI67lA31sK3rdGTipjIHIfZPARAaxUjaLxHTt1Wmu2KYDGP1/n7NsxGDxg8wczlIsPtinUMif3Ec2gb/997c0LuRnjoZ4iwKSIfz42kDtQO4Ka4w3Y3IA6L4hAaC8Zoz74b8F1w5yDjF8lHQSTtUAvU3lFw7RIe8bXL8NtipHRMvwwECvxFq0sjISF2zLNTuA9l9NlzmPBLu/AMpkZH01R7wUe7tbHlHjzt2NjtSPGX/HUxeOcYd87NYruaPbFHlN17U6x4PjWtquxUc5Nf2U6w7u3PGR0zSvNiepkT0YZUHDjT/7X4NIcKFSIFcxZh/8H6T7qHaM7O+1tRL5f6Q4Kc8oADCO9yv7vpFne5fVgIjVwbqWD+8UnhhN8hoVek7bgpSQpLnISsf7CuojN3DdHx9vjv8hxHzeNMZoflJ6EU7w3Wp3mGwBzqyrPzCSTFAo1TzLuQnVBkX8U05rVCKjEx6SFpfb7OTFYw3RRztTaw3tLGTHWqiKWy4F/GdUUxpjY7YwufSwugaYoJBWL09T/r9W+Q1IGyDiDpIQO5ee2yjp2bES5yQcG8gViHmp9osfUAOyAy12PK5VF1DQSLsSDvABpxZnWfrMJfAkD/5z5Ae2mJesCvcTsWhw7sXOxlPhezPYc740nmF+Pfti6lWOoSyXJ+Kww6iBMxhdwqeiS0qx6LOglewo4o66eXVML9G/npyeJ2udn5D5M5G39NX8aa78ilzR8=
+  template:
+    type: Opaque
+    metadata:
+      name: baldsky-app-ro
       namespace: bluesky
 ---
 # Source: homelab/charts/baldsky/templates/securitypolicy.yaml
