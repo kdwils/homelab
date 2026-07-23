@@ -189,7 +189,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  instances: 1
+  instances: 3
   storage:
     size: 50Gi
     pvcTemplate:
