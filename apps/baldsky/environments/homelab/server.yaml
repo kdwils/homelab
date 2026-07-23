@@ -157,6 +157,7 @@ baldsky:
   postgres:
     clusters:
       - name: baldsky
+        instances: 3
         size: 50Gi
         database: baldsky
         owner: baldsky
