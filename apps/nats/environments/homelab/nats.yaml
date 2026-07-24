@@ -112,14 +112,14 @@ nats:
       enabled: false
 
       fileStore:
-        enabled: true
+        enabled: false
         dir: /data
 
         ############################################################
         # stateful set -> volume claim templates -> jetstream pvc
         ############################################################
         pvc:
-          enabled: true
+          enabled: false
           size: 10Gi
           storageClassName:
 
