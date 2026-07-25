@@ -51,7 +51,7 @@ data:
     pipelines:
       - enabled: true
         short_name: bald
-        display_name: "Bald Things"
+        display_name: "Bald Sky"
         description: "Curated feed for the follically challenged"
         collection_name: app.bsky.feed.generator
         languages:
@@ -166,7 +166,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: uri
-                  name: baldsky-app-ro
+                  name: baldsky-app
             - name: BALDSKY_SERVER_ADMIN_TOKEN
               valueFrom:
                 secretKeyRef:
@@ -189,7 +189,7 @@ metadata:
     app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/managed-by: Helm
 spec:
-  instances: 3
+  instances: 1
   storage:
     size: 50Gi
     pvcTemplate:

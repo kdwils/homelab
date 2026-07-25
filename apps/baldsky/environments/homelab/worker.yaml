@@ -61,7 +61,7 @@ data:
     pipelines:
       - enabled: true
         short_name: bald
-        display_name: "Bald Things"
+        display_name: "Bald Sky"
         description: "Curated feed for the follically challenged"
         collection_name: app.bsky.feed.generator
         keywords:
