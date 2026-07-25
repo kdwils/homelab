@@ -61,7 +61,7 @@ data:
       siteKey: 0x4AAAAAAB1bbQbIpIhvAYwl
       timeout: 10s
     exemptIPs:
-    - 74.98.232.127
+    - 74.109.248.96
     prometheus:
       enabled: true
       port: 9090
