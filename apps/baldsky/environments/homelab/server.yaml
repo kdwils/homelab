@@ -34,7 +34,7 @@ baldsky:
             pipelines:
               - enabled: true
                 short_name: bald
-                display_name: "Bald Things"
+                display_name: "Bald Sky"
                 description: "Curated feed for the follically challenged"
                 collection_name: app.bsky.feed.generator
                 languages:
@@ -92,7 +92,7 @@ baldsky:
       BALDSKY_DATABASE_DSN:
         valueFrom:
           secretKeyRef:
-            name: baldsky-app-ro
+            name: baldsky-app
             key: uri
 
     podSecurityContext:
@@ -160,7 +160,7 @@ baldsky:
   postgres:
     clusters:
       - name: baldsky
-        instances: 3
+        instances: 1
         size: 50Gi
         database: baldsky
         owner: baldsky
