@@ -4,5 +4,5 @@ description: Vertical Pod Autoscaler for automatically adjusting container resou
 version: 0.1.0
 dependencies:
   - name: vertical-pod-autoscaler
-    version: 0.10.0
+    version: 0.11.0
     repository: https://kubernetes.github.io/autoscaler
