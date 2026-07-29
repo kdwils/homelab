@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.8.0
+    helm.sh/chart: seerr-chart-3.9.0
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.4.0"
@@ -38,7 +38,7 @@ kind: Service
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.8.0
+    helm.sh/chart: seerr-chart-3.9.0
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.4.0"
@@ -62,7 +62,7 @@ kind: StatefulSet
 metadata:
   name: overseerr-seerr-chart
   labels:
-    helm.sh/chart: seerr-chart-3.8.0
+    helm.sh/chart: seerr-chart-3.9.0
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.4.0"
@@ -77,7 +77,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: seerr-chart-3.8.0
+        helm.sh/chart: seerr-chart-3.9.0
         app.kubernetes.io/name: seerr-chart
         app.kubernetes.io/instance: overseerr
         app.kubernetes.io/version: "v3.4.0"
@@ -88,6 +88,7 @@ spec:
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+      hostUsers: true
       containers:
         - name: seerr-chart
           securityContext:
@@ -237,7 +238,7 @@ kind: Pod
 metadata:
   name: "overseerr-seerr-chart-test-connection"
   labels:
-    helm.sh/chart: seerr-chart-3.8.0
+    helm.sh/chart: seerr-chart-3.9.0
     app.kubernetes.io/name: seerr-chart
     app.kubernetes.io/instance: overseerr
     app.kubernetes.io/version: "v3.4.0"
