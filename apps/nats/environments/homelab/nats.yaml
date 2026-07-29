@@ -332,7 +332,7 @@ nats:
     #   include ./my-config-last.conf;
     # }
     merge:
-      max_payload: 10mb
+      max_payload: 1048576
     patch: []
 
   ############################################################
