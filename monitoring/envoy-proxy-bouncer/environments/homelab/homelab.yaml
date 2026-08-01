@@ -35,18 +35,6 @@ homelab-envoy-proxy-bouncer:
       cpu: 50m
       memory: 64Mi
 
-  image:
-    tag: sha-03496d9ad198b4d2abad11a9d700b74682e54d0d
-
-  securityContext:
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - all
-    readOnlyRootFilesystem: true
-    runAsNonRoot: true
-    runAsUser: 65532
-
   grafana:
     dashboard:
       enabled: true
