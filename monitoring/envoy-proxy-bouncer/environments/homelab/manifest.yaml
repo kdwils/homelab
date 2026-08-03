@@ -48,7 +48,7 @@ data:
       challengeDuration: 5m
       cookieDomain: .kyledev.co
       disableChallengeReplayProtection: true
-      enabled: true
+      enabled: false
       provider: turnstile
       secretKeySecretRef:
         key: secretKey
@@ -1479,10 +1479,6 @@ spec:
       targetPort: grpc
       protocol: TCP
       name: grpc
-    - port: 8081
-      targetPort: http
-      protocol: TCP
-      name: http
     - port: 9090
       targetPort: metrics
       protocol: TCP
@@ -1530,15 +1526,12 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 65532
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.7.0"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-ea6a62f0acfa95daffe69db3df2e008f3e57ea3a"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
             - name: grpc
               containerPort: 8080
-              protocol: TCP
-            - name: http
-              containerPort: 8081
               protocol: TCP
             - name: metrics
               containerPort: 9090
@@ -1614,13 +1607,6 @@ spec:
   hostnames:
     - "bouncer.kyledev.co"
   rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /captcha
-      backendRefs:
-        - name: homelab-envoy-proxy-bouncer
-          port: 8081
     - matches:
         - path:
             type: PathPrefix
