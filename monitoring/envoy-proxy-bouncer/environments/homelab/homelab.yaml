@@ -50,14 +50,6 @@ homelab-envoy-proxy-bouncer:
         prometheusMatchLabels:
           release: kube-prometheus-stack
 
-    # webhook:
-    #   subscriptions:
-    #     - url:
-    #         "http://events.events.svc.cluster.local:8080/api/v1/events/envoy-bouncer/r\
-    #         equest_blocked"
-    #       events:
-    #         - request_blocked
-
     templates:
       showDeniedPage: false
 
@@ -79,7 +71,7 @@ homelab-envoy-proxy-bouncer:
         key: "apiKey"
 
     captcha:
-      enabled: true
+      enabled: false
       provider: "turnstile"
       siteKey: "0x4AAAAAAB1bbQbIpIhvAYwl"
       secretKeySecretRef:
