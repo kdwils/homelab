@@ -17,7 +17,7 @@ vaultwarden:
 
     image:
       repository: vaultwarden/server
-      tag: 1.36.0
+      tag: 1.37.1
       pullPolicy: IfNotPresent
 
     env:
