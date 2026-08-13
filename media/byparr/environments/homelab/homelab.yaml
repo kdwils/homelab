@@ -17,7 +17,7 @@ byparr:
 
     image:
       repository: ghcr.io/thephaseless/byparr
-      tag: 2.1.0
+      tag: 3.0.3
       pullPolicy: IfNotPresent
 
     env:
