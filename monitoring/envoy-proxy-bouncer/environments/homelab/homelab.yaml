@@ -44,7 +44,7 @@ homelab-envoy-proxy-bouncer:
 
   config:
     exemptIPs:
-      - 74.109.248.96
+      - 74.98.224.241
     trustedIPHeader: "cf-connecting-ip"
     prometheus:
       enabled: true
