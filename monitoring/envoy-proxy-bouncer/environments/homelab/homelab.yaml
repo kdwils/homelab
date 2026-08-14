@@ -36,7 +36,7 @@ homelab-envoy-proxy-bouncer:
       memory: 64Mi
 
   image:
-    tag: sha-5c068a12d1556264c59453e626ebaea15a6d6919
+    tag: sha-2627f891f75da46805daeebb24a916706cbf03ac
 
   grafana:
     dashboard:
