@@ -90,7 +90,7 @@ data:
         name: envoy-bouncer
       appSecURL: http://crowdsec-appsec-service:7422
       enabled: true
-      failOpen: true
+      failOpen: false
       httpTimeout: 1ns
     webhook:
       bufferSize: 100
