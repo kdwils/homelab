@@ -91,7 +91,7 @@ data:
       appSecURL: http://crowdsec-appsec-service:7422
       enabled: true
       failOpen: true
-      httpTimeout: 1s
+      httpTimeout: 1ns
     webhook:
       bufferSize: 100
       subscriptions: []
