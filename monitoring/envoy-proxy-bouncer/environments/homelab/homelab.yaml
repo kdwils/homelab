@@ -43,8 +43,6 @@ homelab-envoy-proxy-bouncer:
       enabled: true
 
   config:
-    server:
-      logLevel: "debug"
     exemptIPs:
       - 74.98.224.241
     trustedIPHeader: "cf-connecting-ip"
@@ -74,7 +72,7 @@ homelab-envoy-proxy-bouncer:
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"
-      httpTimeout: "1ns"
+      httpTimeout: "1s"
       failOpen: true
 
     captcha:
