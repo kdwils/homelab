@@ -62536,68 +62536,6 @@ spec:
     - "*.int.kyledev.co"
     - "*.ts.kyledev.co"
 ---
-# Source: envoy-gateway/templates/policy.yaml
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: ClientTrafficPolicy
-metadata:
-  name: ip-detection
-  namespace: envoy-gateway-system
-spec:
-  targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
-  clientIPDetection:
-    xForwardedFor:
-      trustedCIDRs:
-        - 10.42.0.0/16
-        - 10.43.0.0/16
----
-# Source: envoy-gateway/templates/envoy-extension-policy.yaml
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: EnvoyExtensionPolicy
-metadata:
-  name: wasm-traffic-plugin
-  namespace: envoy-gateway-system
-spec:
-  targetRefs:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: homelab
----
-# Source: envoy-gateway/templates/envoy-patch-policy.yaml
-apiVersion: gateway.envoyproxy.io/v1alpha1
-kind: EnvoyPatchPolicy
-metadata:
-  name: webhook-cluster-patch
-  namespace: envoy-gateway-system
-spec:
-  targetRef:
-    group: gateway.networking.k8s.io
-    kind: Gateway
-    name: homelab
-  type: JSONPatch
-  jsonPatches:
-    - type: "type.googleapis.com/envoy.config.cluster.v3.Cluster"
-      name: webhook_cluster
-      operation:
-        op: add
-        path: ""
-        value:
-          name: webhook_cluster
-          type: STRICT_DNS
-          connect_timeout: 5s
-          lb_policy: ROUND_ROBIN
-          load_assignment:
-            cluster_name: webhook_cluster
-            endpoints:
-              - lb_endpoints:
-                  - endpoint:
-                      address:
-                        socket_address:
-                          address: events.events.svc.cluster.local
-                          port_value: 8080
----
 # Source: envoy-gateway/templates/proxy.yaml
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
@@ -62614,17 +62552,6 @@ spec:
           tailscale.com/tags: "tag:homelab-gateway"
         loadBalancerClass: "tailscale"
         name: homelab-gateway
-  telemetry:
-    accessLog:
-      settings:
-        - format:
-            type: Text
-            text: |
-              {":authority":"%REQ(:AUTHORITY)%","bytes_received":"%BYTES_RECEIVED%","bytes_sent":"%BYTES_SENT%","client_ip":"%DOWNSTREAM_REMOTE_ADDRESS_WITHOUT_PORT%","connection_termination_details":"%CONNECTION_TERMINATION_DETAILS%","downstream_local_address":"%DOWNSTREAM_LOCAL_ADDRESS%","downstream_remote_address":"%DOWNSTREAM_REMOTE_ADDRESS%","duration":"%DURATION%","method":"%REQ(:METHOD)%","protocol":"%PROTOCOL%","requested_server_name":"%REQUESTED_SERVER_NAME%","response_code":"%RESPONSE_CODE%","response_code_details":"%RESPONSE_CODE_DETAILS%","response_flags":"%RESPONSE_FLAGS%","route_name":"%ROUTE_NAME%","start_time":"%START_TIME%","upstream_cluster":"%UPSTREAM_CLUSTER%","upstream_host":"%UPSTREAM_HOST%","upstream_local_address":"%UPSTREAM_LOCAL_ADDRESS%","upstream_transport_failure_reason":"%UPSTREAM_TRANSPORT_FAILURE_REASON%","user-agent":"%REQ(USER-AGENT)%","x-envoy-origin-path":"%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%","x-envoy-upstream-service-time":"%RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)%","x-forwarded-for":"%REQ(X-FORWARDED-FOR)%","x-request-id":"%REQ(X-REQUEST-ID)%"}
-          sinks:
-            - file:
-                path: /dev/stdout
-              type: File
 ---
 # Source: envoy-gateway/templates/gateway.yaml
 apiVersion: gateway.networking.k8s.io/v1
