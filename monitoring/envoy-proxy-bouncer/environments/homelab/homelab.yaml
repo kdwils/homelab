@@ -75,8 +75,8 @@ homelab-envoy-proxy-bouncer:
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"
-      httpTimeout: "1ns"
-      failOpen: false
+      httpTimeout: "1s"
+      failOpen: true
 
     captcha:
       enabled: false
@@ -96,7 +96,7 @@ homelab-envoy-proxy-bouncer:
       disableChallengeReplayProtection: true
 
   httproute:
-    enabled: true
+    enabled: false
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
