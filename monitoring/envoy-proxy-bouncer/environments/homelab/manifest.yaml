@@ -90,8 +90,8 @@ data:
         name: envoy-bouncer
       appSecURL: http://crowdsec-appsec-service:7422
       enabled: true
-      failOpen: false
-      httpTimeout: 1ns
+      failOpen: true
+      httpTimeout: 1s
     webhook:
       bufferSize: 100
       subscriptions: []
@@ -1595,32 +1595,6 @@ spec:
         - name: bouncer-config
           configMap:
             name: homelab-envoy-proxy-bouncer-config
----
-# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/httproute.yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: homelab-envoy-proxy-bouncer
-  labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.7.2
-    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.7.2"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  parentRefs:
-    - name: homelab
-      namespace: envoy-gateway-system
-  hostnames:
-    - "bouncer.kyledev.co"
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
-        - name: homelab-envoy-proxy-bouncer
-          port: 8080
 ---
 # Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/referencegrant.yaml
 apiVersion: gateway.networking.k8s.io/v1beta1
