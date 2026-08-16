@@ -27,6 +27,8 @@ homelab-envoy-proxy-bouncer:
   replicaCount: 2
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
+  server:
+    logLevel: "debug"
   resources:
     limits:
       cpu: 100m
