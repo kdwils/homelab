@@ -90,6 +90,8 @@ data:
         name: envoy-bouncer
       appSecURL: http://crowdsec-appsec-service:7422
       enabled: true
+      failOpen: true
+      httpTimeout: 1s
     webhook:
       bufferSize: 100
       subscriptions: []
@@ -1531,7 +1533,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 65532
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-0a69f5c19d080b0c7f65fd68224a079bbcd1a78f"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-f1c549b657aa4d1794b770a29426427890505fdb"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
