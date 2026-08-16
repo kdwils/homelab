@@ -1,9 +1,9 @@
 dependencies:
 - name: gateway-helm
   repository: oci://docker.io/envoyproxy
-  version: 1.7.2
+  version: 1.9.0
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.1.30
-digest: sha256:2f5d308e4b76bd1234012c1793be6454f975ebc90b2a78728f456eb46fded7a0
-generated: "2026-04-17T01:21:31.645845346Z"
+  version: 0.1.31
+digest: sha256:2ea711e62b90f9ad2c05e29e9d5ec0e6e097b9bf42a065d86a0174c65802583f
+generated: "2026-08-15T12:44:25.758427832Z"
