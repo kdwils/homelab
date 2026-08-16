@@ -72,7 +72,7 @@ homelab-envoy-proxy-bouncer:
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"
-      httpTimeout: "1s"
+      httpTimeout: "1ns"
       failOpen: true
 
     captcha:
