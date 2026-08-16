@@ -79,7 +79,7 @@ data:
     server:
       grpcPort: 8080
       httpPort: 8081
-      logLevel: debug
+      logLevel: info
     templates:
       showDeniedPage: false
     trustedIPHeader: cf-connecting-ip
@@ -91,7 +91,7 @@ data:
       appSecURL: http://crowdsec-appsec-service:7422
       enabled: true
       failOpen: true
-      httpTimeout: 1ns
+      httpTimeout: 1s
     webhook:
       bufferSize: 100
       subscriptions: []
