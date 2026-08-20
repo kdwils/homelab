@@ -8,8 +8,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats
   namespace: nats
 spec:
@@ -29,8 +29,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats-box-contexts
   namespace: nats
 stringData:
@@ -70,8 +70,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats-config
   namespace: nats
 ---
@@ -84,8 +84,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats-headless
   namespace: nats
 spec:
@@ -118,8 +118,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats
   namespace: nats
 spec:
@@ -142,8 +142,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats-box
   namespace: nats
 spec:
@@ -160,8 +160,8 @@ spec:
         app.kubernetes.io/instance: nats
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: nats
-        app.kubernetes.io/version: 2.14.4
-        helm.sh/chart: nats-2.14.4
+        app.kubernetes.io/version: 2.14.5
+        helm.sh/chart: nats-2.14.5
     spec:
       containers:
       - args:
@@ -205,8 +205,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats
   namespace: nats
 spec:
@@ -226,8 +226,8 @@ spec:
         app.kubernetes.io/instance: nats
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: nats
-        app.kubernetes.io/version: 2.14.4
-        helm.sh/chart: nats-2.14.4
+        app.kubernetes.io/version: 2.14.5
+        helm.sh/chart: nats-2.14.5
     spec:
       containers:
       - args:
@@ -323,8 +323,8 @@ metadata:
     app.kubernetes.io/instance: nats
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: nats
-    app.kubernetes.io/version: 2.14.4
-    helm.sh/chart: nats-2.14.4
+    app.kubernetes.io/version: 2.14.5
+    helm.sh/chart: nats-2.14.5
   name: nats-test-request-reply
 spec:
   containers:
