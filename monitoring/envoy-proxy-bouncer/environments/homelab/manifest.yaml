@@ -79,7 +79,7 @@ data:
     server:
       grpcPort: 8080
       httpPort: 8081
-      logLevel: debug
+      logLevel: info
     templates:
       showDeniedPage: false
     trustedIPHeader: cf-connecting-ip
