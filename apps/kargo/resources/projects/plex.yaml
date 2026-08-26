@@ -26,8 +26,9 @@ spec:
   subscriptions:
     - image:
         repoURL: plexinc/pms-docker
-        constraint: ">=1.0.0"
-        strictSemvers: false
+        imageSelectionStrategy: Lexical
+        allowTagsRegexes:
+          - '^1\.\d+\.\d+\.\d+-[a-f0-9]+$'
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
