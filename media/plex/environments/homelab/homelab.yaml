@@ -10,7 +10,7 @@ plex:
 
     image:
       repository: plexinc/pms-docker
-      tag: 1.43.0.10492-121068a07
+      tag: 1.9.7.4460-a39b25852
       pullPolicy: IfNotPresent
 
     envFrom:
