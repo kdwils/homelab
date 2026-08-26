@@ -9,13 +9,9 @@ plex:
     deployStrategy: Recreate
 
     image:
-      repository: linuxserver/plex
-      tag: 1.43.3
+      repository: plexinc/pms-docker
+      tag: 1.43.0.10492-121068a07
       pullPolicy: IfNotPresent
-
-    env:
-      PUID: "1000"
-      PGID: "1000"
 
     envFrom:
       - secretRef:

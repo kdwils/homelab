@@ -40,9 +40,6 @@ homelab-envoy-proxy-bouncer:
       enabled: true
 
   config:
-    server:
-      logLevel: debug
-
     exemptIPs:
       - 74.98.224.241
     trustedIPHeader: "cf-connecting-ip"
