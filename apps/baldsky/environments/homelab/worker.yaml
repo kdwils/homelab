@@ -279,11 +279,17 @@ spec:
     kind: Deployment
     name: baldsky-worker
   minReplicas: 2
-  maxReplicas: 4
+  maxReplicas: 5
   metrics:
     - type: Resource
       resource:
         name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
         target:
           type: Utilization
           averageUtilization: 80
