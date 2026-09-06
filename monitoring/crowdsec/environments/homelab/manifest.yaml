@@ -908,11 +908,11 @@ spec:
             value: "true"
         resources:
           limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 200m
+            memory: 512Mi
           requests:
             cpu: 50m
-            memory: 64Mi
+            memory: 256Mi
         ports:
           - name: appsec
             containerPort: 7422
@@ -1078,11 +1078,11 @@ spec:
                 fieldPath: metadata.name
         resources:
           limits:
-            cpu: 500m
-            memory: 500Mi
+            cpu: 100m
+            memory: 128Mi
           requests:
-            cpu: 500m
-            memory: 500Mi
+            cpu: 50m
+            memory: 35Mi
 
         livenessProbe:
           failureThreshold: 3
