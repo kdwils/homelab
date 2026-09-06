@@ -70,7 +70,9 @@ data:
   acquis.yaml: |-
     ---
     
-    appsec_config: crowdsecurity/virtual-patching
+    appsec_configs:
+    - crowdsecurity/virtual-patching
+    - crowdsecurity/appsec-bot-*
     labels:
       type: appsec
     listen_addr: 0.0.0.0:7422
@@ -837,7 +839,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: c5f60b10b5783b0262bb9e049bc57e343bef40023acc4af261a1deab43ddbd16
+        checksum/appsec-acquis-configmap: c925ab4d7fad8e70451a618a420a655ce2e207a8ccfedbd693bab10790ab00fb
       labels:
         k8s-app: crowdsec
         type: appsec
@@ -896,6 +898,7 @@ spec:
             value: "http://crowdsec-service:8080"
           - name: COLLECTIONS
             value: crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+              crowdsecurity/appsec-bot-challenge
           - name: DISABLE_LOCAL_API
             value: "true"
           - name: DISABLE_ONLINE_API
