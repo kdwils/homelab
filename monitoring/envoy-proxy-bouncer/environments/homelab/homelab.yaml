@@ -31,6 +31,9 @@ homelab-envoy-proxy-bouncer:
   image:
     tag: sha-2b026e4cddffe254344d81aaec456085cad12024
 
+  server:
+    logLevel: debug
+
   resources:
     limits:
       cpu: 100m
