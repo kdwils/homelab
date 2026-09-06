@@ -235,18 +235,18 @@ crowdsec:
       - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
         value: "true"
 
-    extraVolumes:
-      - name: appsec-challenge-secret
-        secret:
-          secretName: crowdsec-appsec-challenge-secret
-          items:
-            - key: challenge.yaml
-              path: appsec-challenge.yaml
+    # extraVolumes:
+    #   - name: appsec-challenge-secret
+    #     secret:
+    #       secretName: crowdsec-appsec-challenge-secret
+    #       items:
+    #         - key: challenge.yaml
+    #           path: appsec-challenge.yaml
 
-    extraVolumeMounts:
-      - name: appsec-challenge-secret
-        mountPath: /etc/crowdsec/appsec-configs/appsec-challenge.yaml
-        subPath: appsec-challenge.yaml
+    # extraVolumeMounts:
+    #   - name: appsec-challenge-secret
+    #     mountPath: /etc/crowdsec/appsec-configs/appsec-challenge.yaml
+    #     subPath: appsec-challenge.yaml
 
     acquisitions:
       - source: appsec
@@ -255,7 +255,7 @@ crowdsec:
         appsec_configs:
           - crowdsecurity/virtual-patching
           - crowdsecurity/appsec-bot-*
-          - homelab/appsec-challenge
+          # - homelab/appsec-challenge
         labels:
           type: appsec
 
