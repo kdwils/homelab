@@ -31,9 +31,6 @@ homelab-envoy-proxy-bouncer:
   image:
     tag: sha-2b026e4cddffe254344d81aaec456085cad12024
 
-  server:
-    logLevel: debug
-
   resources:
     limits:
       cpu: 100m
@@ -47,6 +44,9 @@ homelab-envoy-proxy-bouncer:
       enabled: true
 
   config:
+    server:
+      logLevel: debug
+
     exemptIPs:
       - 74.98.224.241
     trustedIPHeader: "cf-connecting-ip"
