@@ -128,12 +128,12 @@ data:
             echo "githubciXXXXXXXXXXXXXXXXXXXXXXXX" >/etc/machine-id
         fi
         
-        #- DEFAULTS -----------------------#
+        # DEFAULTS
         
         export CONFIG_FILE="${CONFIG_FILE:=/etc/crowdsec/config.yaml}"
         export CUSTOM_HOSTNAME="${CUSTOM_HOSTNAME:=localhost}"
         
-        #- HELPER FUNCTIONS ----------------#
+        # HELPER FUNCTIONS
         
         # csv2yaml <string>
         # generate a yaml list from a comma-separated string of values
@@ -249,7 +249,7 @@ data:
           done
         }
         
-        #-----------------------------------#
+        ################################
         
         if [ -n "$CERT_FILE" ] || [ -n "$KEY_FILE" ] ; then
             printf '%b' '\033[0;33m'
@@ -310,7 +310,7 @@ data:
             fi
         fi
         
-        # ----------------
+        ################################
         
         conf_set_if "$LOCAL_API_URL" '.url = strenv(LOCAL_API_URL)' "$lapi_credentials_path"
         
@@ -653,7 +653,7 @@ spec:
           operator: Exists
       initContainers:
       - name: wait-for-lapi-and-register
-        image: "crowdsecurity/crowdsec:v1.7.8"
+        image: "crowdsecurity/crowdsec:v1.8.1"
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'until nc "$LAPI_HOST" "$LAPI_PORT" -z; do echo waiting for lapi to start; sleep 5; done; ln -s /staging/etc/crowdsec /etc/crowdsec && cscli lapi register --machine "$USERNAME" -u "$LAPI_URL" --token "$REGISTRATION_TOKEN" && cp /etc/crowdsec/local_api_credentials.yaml /tmp_config/local_api_credentials.yaml']
         resources:
@@ -686,7 +686,7 @@ spec:
             value: "8080"
       containers:
       - name: crowdsec-agent
-        image: "crowdsecurity/crowdsec:v1.7.8"
+        image: "crowdsecurity/crowdsec:v1.8.1"
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh']
         env:
@@ -837,7 +837,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: ac00ae2acd808b97f77a0567e9412ddc1c952c852a721f4abbd29ada6d38caab
+        checksum/appsec-acquis-configmap: c5f60b10b5783b0262bb9e049bc57e343bef40023acc4af261a1deab43ddbd16
       labels:
         k8s-app: crowdsec
         type: appsec
@@ -845,7 +845,7 @@ spec:
     spec:
       initContainers:
       - name: wait-for-lapi-and-register
-        image: "crowdsecurity/crowdsec:v1.7.8"
+        image: "crowdsecurity/crowdsec:v1.8.1"
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'until nc "$LAPI_HOST" "$LAPI_PORT" -z; do echo waiting for lapi to start; sleep 5; done; ln -s /staging/etc/crowdsec /etc/crowdsec && cscli lapi register --machine "$USERNAME" -u "$LAPI_URL" --token "$REGISTRATION_TOKEN" && cp /etc/crowdsec/local_api_credentials.yaml /tmp_config/local_api_credentials.yaml']
         resources:
@@ -880,7 +880,7 @@ spec:
             value: "8080"
       containers:
       - name: crowdsec-appsec
-        image: "crowdsecurity/crowdsec:v1.7.8"
+        image: "crowdsecurity/crowdsec:v1.8.1"
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'cp /tmp_config/local_api_credentials.yaml /staging/etc/crowdsec/local_api_credentials.yaml && ./docker_start.sh']
         env:
@@ -1006,7 +1006,7 @@ spec:
     spec:
       containers:
       - name: crowdsec-lapi
-        image: "crowdsecurity/crowdsec:v1.7.8"
+        image: "crowdsecurity/crowdsec:v1.8.1"
         imagePullPolicy: IfNotPresent
         env:
           - name: LOCAL_API_URL
@@ -1158,6 +1158,9 @@ spec:
       priorityClassName:
 ---
 # Source: crowdsec/charts/crowdsec/templates/agent-configmap.yaml
+---
+---
+# Source: crowdsec/charts/crowdsec/templates/appsec-configmap.yaml
 ---
 ---
 # Source: crowdsec/charts/crowdsec/templates/appsec-configmap.yaml
