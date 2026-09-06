@@ -73,7 +73,6 @@ data:
     appsec_configs:
     - crowdsecurity/virtual-patching
     - crowdsecurity/appsec-bot-*
-    - homelab/appsec-challenge
     labels:
       type: appsec
     listen_addr: 0.0.0.0:7422
@@ -830,7 +829,7 @@ metadata:
     type: appsec
     version: v1
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: Recreate
   selector:
@@ -840,7 +839,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: 060faf6d0e0027458ce4c0bea84ad214430a2f676d3b5064971b7ac635da4e4e
+        checksum/appsec-acquis-configmap: c925ab4d7fad8e70451a618a420a655ce2e207a8ccfedbd693bab10790ab00fb
       labels:
         k8s-app: crowdsec
         type: appsec
@@ -969,10 +968,6 @@ spec:
           - name: appsec-acquis-config-volume
             mountPath: /etc/crowdsec/acquis.yaml
             subPath: acquis.yaml
-          
-          - mountPath: /etc/crowdsec/appsec-configs/appsec-challenge.yaml
-            name: appsec-challenge-secret
-            subPath: appsec-challenge.yaml
 
       terminationGracePeriodSeconds: 30
 
@@ -983,13 +978,6 @@ spec:
       - name: crowdsec-config
         emptyDir: {}
       
-      
-      - name: appsec-challenge-secret
-        secret:
-          items:
-          - key: challenge.yaml
-            path: appsec-challenge.yaml
-          secretName: crowdsec-appsec-challenge-secret
       priorityClassName:
 ---
 # Source: crowdsec/charts/crowdsec/templates/lapi-deployment.yaml
