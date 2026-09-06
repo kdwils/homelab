@@ -222,7 +222,7 @@ crowdsec:
 
   appsec:
     enabled: true
-    replicas: 2
+    replicas: 1
     lapiURL: "http://crowdsec-service:8080"
 
     env:
