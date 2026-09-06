@@ -27,6 +27,10 @@ homelab-envoy-proxy-bouncer:
   replicaCount: 2
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
+
+  image:
+    tag: sha-2b026e4cddffe254344d81aaec456085cad12024
+
   resources:
     limits:
       cpu: 100m
