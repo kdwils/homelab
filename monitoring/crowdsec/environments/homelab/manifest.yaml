@@ -908,11 +908,11 @@ spec:
             value: "true"
         resources:
           limits:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 500m
+            memory: 512Mi
           requests:
-            cpu: 50m
-            memory: 64Mi
+            cpu: 100m
+            memory: 256Mi
         ports:
           - name: appsec
             containerPort: 7422
