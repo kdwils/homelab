@@ -279,6 +279,8 @@ spec:
       kind: HTTPRoute
       name: baldsky
   extAuth:
+    bodyToExtAuth:
+      maxRequestBytes: 65536
     grpc:
       backendRefs:
       - group: ""

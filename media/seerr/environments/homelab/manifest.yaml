@@ -194,6 +194,8 @@ spec:
       kind: HTTPRoute
       name: overseerr-homelab
   extAuth:
+    bodyToExtAuth:
+      maxRequestBytes: 65536
     grpc:
       backendRefs:
       - group: ""

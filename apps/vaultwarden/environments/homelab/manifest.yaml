@@ -290,6 +290,8 @@ spec:
       kind: HTTPRoute
       name: vaultwarden
   extAuth:
+    bodyToExtAuth:
+      maxRequestBytes: 65536
     grpc:
       backendRefs:
       - group: ""
