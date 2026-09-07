@@ -192,6 +192,8 @@ spec:
       kind: HTTPRoute
       name: pocketid
   extAuth:
+    bodyToExtAuth:
+      maxRequestBytes: 65536
     grpc:
       backendRefs:
       - group: ""

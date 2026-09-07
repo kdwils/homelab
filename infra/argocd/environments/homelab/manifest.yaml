@@ -34094,6 +34094,8 @@ spec:
       kind: HTTPRoute
       name: argocd-public
   extAuth:
+    bodyToExtAuth:
+      maxRequestBytes: 65536
     failOpen: true
     grpc:
       backendRefs:
