@@ -94,6 +94,10 @@ data:
       httpTimeout: 1s
       routes:
       - hosts:
+        - blog.int.kyledev.co
+        path: /
+        port: 7422
+      - hosts:
         - bluesky.kyledev.co
         - baldsky.kyledev.co
         path: /
@@ -101,7 +105,7 @@ data:
       - hosts:
         - '*.kyledev.co'
         path: /
-        port: 7422
+        port: 7423
     webhook:
       bufferSize: 100
       subscriptions: []
