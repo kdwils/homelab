@@ -568,6 +568,32 @@ spec:
     requests:
       storage: "100Mi"
 ---
+# Source: crowdsec/charts/appsecApi/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: crowdsec-appsec-api-service
+  labels:
+    helm.sh/chart: appsecApi-0.1.31
+    app.kubernetes.io/name: appsec-api
+    app.kubernetes.io/instance: crowdsec
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 7422
+      targetPort: 7422
+      protocol: TCP
+      name: appsec-browser
+    - port: 7423
+      targetPort: 7423
+      protocol: TCP
+      name: appsec-api
+  selector:
+    app.kubernetes.io/name: appsec-api
+    app.kubernetes.io/instance: crowdsec
+---
 # Source: crowdsec/charts/crowdsec/templates/agent-service.yaml
 apiVersion: v1
 kind: Service
@@ -855,6 +881,8 @@ spec:
         k8s-app: crowdsec
         type: appsec
         version: v1
+        app.kubernetes.io/instance: crowdsec
+        app.kubernetes.io/name: appsec-api
     spec:
       initContainers:
       - name: wait-for-lapi-and-register

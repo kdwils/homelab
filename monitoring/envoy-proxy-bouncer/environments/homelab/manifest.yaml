@@ -88,7 +88,7 @@ data:
       apiKeySecretRef:
         key: apiKey
         name: envoy-bouncer
-      appSecURL: http://crowdsec-appsec-service
+      appSecURL: http://crowdsec-appsec-api-service
       enabled: true
       failOpen: true
       httpTimeout: 1s
