@@ -64,6 +64,8 @@ blog:
 
   securityPolicy:
     extAuth:
+      bodyToExtAuth:
+        maxRequestBytes: 65536
       grpc:
         backendRefs:
           - group: ""
