@@ -73,7 +73,7 @@ pocketid:
   securityPolicy:
     extAuth:
       bodyToExtAuth:
-        maxRequestBytes: 65536
+        maxRequestBytes: 4096
       grpc:
         backendRefs:
           - group: ""
