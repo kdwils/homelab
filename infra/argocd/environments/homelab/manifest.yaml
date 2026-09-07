@@ -34095,7 +34095,7 @@ spec:
       name: argocd-public
   extAuth:
     bodyToExtAuth:
-      maxRequestBytes: 4096
+      maxRequestBytes: 65536
     failOpen: true
     grpc:
       backendRefs:
