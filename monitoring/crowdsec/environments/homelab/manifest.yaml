@@ -75,7 +75,7 @@ data:
     - homelab/appsec-challenge
     labels:
       type: appsec
-    listen_addr: 0.0.0.0:7422
+    listen_addr: 0.0.0.0:7423
     path: /
     source: appsec
     ---
@@ -86,7 +86,7 @@ data:
     - homelab/appsec-challenge
     labels:
       type: appsec
-    listen_addr: 0.0.0.0:7423
+    listen_addr: 0.0.0.0:7422
     path: /
     source: appsec
 ---
@@ -582,12 +582,12 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 7422
-      targetPort: 7422
-      protocol: TCP
-      name: appsec-api
     - port: 7423
       targetPort: 7423
+      protocol: TCP
+      name: appsec-api
+    - port: 7422
+      targetPort: 7422
       protocol: TCP
       name: appsec-browser
   selector:
@@ -876,7 +876,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: 8b46544e36a8c2384493c38bf210b69fab09d7e7f550705669f54c586fa5c293
+        checksum/appsec-acquis-configmap: 1a5f251a8e060df769af66bce830f7767de9e38cc85ec16664ca7d3ace80cd10
       labels:
         k8s-app: crowdsec
         type: appsec
