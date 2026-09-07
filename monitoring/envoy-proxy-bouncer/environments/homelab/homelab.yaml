@@ -80,17 +80,13 @@ homelab-envoy-proxy-bouncer:
       httpTimeout: 1s
       routes:
         - hosts:
-            - blog.kyledev.co
-          path: "/"
-          port: 7422
-        - hosts:
             - bluesky.kyledev.co
             - baldsky.kyledev.co
           path: "/"
           port: 7423
         - hosts: ["*.kyledev.co"]
           path: "/"
-          port: 7423
+          port: 7422
 
     captcha:
       enabled: false
