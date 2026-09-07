@@ -92,6 +92,14 @@ data:
       enabled: true
       failOpen: true
       httpTimeout: 1s
+      routes:
+      - hosts:
+        - bluesky.kyledev.co
+        - baldsky.kyledev.co
+        path: /api-waf
+      - hosts:
+        - '*.kyledev.co'
+        path: /browser-waf
     webhook:
       bufferSize: 100
       subscriptions: []
@@ -1533,7 +1541,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 65532
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-144322e30ed50b90618799b83d005a9bf37bb5a6"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-b291a058a5d20482c2779471e33f0c50e15e2e3f"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:

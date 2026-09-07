@@ -72,11 +72,22 @@ data:
     
     appsec_configs:
     - crowdsecurity/virtual-patching
+    - crowdsecurity/appsec-bot-*
     - homelab/appsec-challenge
     labels:
       type: appsec
     listen_addr: 0.0.0.0:7422
-    path: /
+    path: /browser-waf
+    source: appsec
+    ---
+    
+    appsec_configs:
+    - crowdsecurity/virtual-patching
+    - homelab/appsec-challenge
+    labels:
+      type: appsec
+    listen_addr: 0.0.0.0:7422
+    path: /api-waf
     source: appsec
 ---
 # Source: crowdsec/charts/crowdsec/templates/docker-start-configmap.yaml
@@ -839,7 +850,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: 7f2fba223fbd74bd91931c75b14a0e2ab1a54d856091336623270fbf55c1aa0a
+        checksum/appsec-acquis-configmap: 20fd6f1868c475add468bc7c88c17e6f78179699d461c76672f381d344813ccc
       labels:
         k8s-app: crowdsec
         type: appsec
