@@ -76,6 +76,7 @@ homelab-envoy-proxy-bouncer:
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"
+      failOpen: true
       routes:
         - hosts:
             - bluesky.kyledev.co
