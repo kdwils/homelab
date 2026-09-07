@@ -248,13 +248,25 @@ crowdsec:
         mountPath: /etc/crowdsec/appsec-configs/appsec-challenge.yaml
         subPath: appsec-challenge.yaml
 
+    # Two acquisitions on the same appsec listener, split by traffic class.
+    # Route each app's SecurityPolicy/bouncer at the path matching its traffic:
+    #   /browser-waf - human/browser-facing apps: blog, mealie, pocketid, vaultwarden, argocd, plex, seerr
+    #   /api-waf     - server-to-server no browser to solve a bot challenge
     acquisitions:
       - source: appsec
         listen_addr: "0.0.0.0:7422"
-        path: /
+        path: /browser-waf
         appsec_configs:
           - crowdsecurity/virtual-patching
-          # - crowdsecurity/appsec-bot-*
+          - crowdsecurity/appsec-bot-*
+          - homelab/appsec-challenge
+        labels:
+          type: appsec
+      - source: appsec
+        listen_addr: "0.0.0.0:7422"
+        path: /api-waf
+        appsec_configs:
+          - crowdsecurity/virtual-patching
           - homelab/appsec-challenge
         labels:
           type: appsec
