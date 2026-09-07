@@ -108,6 +108,8 @@ homelab:
       targetRoute: argocd-public
       extAuth:
         failOpen: true
+        bodyToExtAuth:
+          maxRequestBytes: 65536
         grpc:
           backendRefs:
             - group: ""
