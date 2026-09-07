@@ -139,7 +139,7 @@ vaultwarden:
   securityPolicy:
     extAuth:
       bodyToExtAuth:
-        maxRequestBytes: 4096
+        maxRequestBytes: 65536
       grpc:
         backendRefs:
           - group: ""

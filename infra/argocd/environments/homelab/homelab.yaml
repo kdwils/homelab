@@ -109,7 +109,7 @@ homelab:
       extAuth:
         failOpen: true
         bodyToExtAuth:
-          maxRequestBytes: 4096
+          maxRequestBytes: 65536
         grpc:
           backendRefs:
             - group: ""
