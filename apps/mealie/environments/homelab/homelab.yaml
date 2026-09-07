@@ -73,7 +73,7 @@ mealie:
   securityPolicy:
     extAuth:
       bodyToExtAuth:
-        maxRequestBytes: 65536
+        maxRequestBytes: 1024
       grpc:
         backendRefs:
           - group: ""
