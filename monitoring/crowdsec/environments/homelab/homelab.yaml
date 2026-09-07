@@ -259,6 +259,7 @@ crowdsec:
         appsec_configs:
           - crowdsecurity/virtual-patching
           - homelab/appsec-challenge
+          - homelab/appsec-challenge
         labels:
           type: appsec
       - source: appsec
@@ -299,10 +300,10 @@ appsecApi:
   service:
     create: true
     ports:
-      - name: appsec-api
+      - name: appsec-bot
         port: 7423
         targetPort: 7423
-      - name: appsec-browser
+      - name: appsec
         port: 7422
         targetPort: 7422
 
