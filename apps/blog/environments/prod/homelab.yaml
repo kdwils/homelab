@@ -53,6 +53,7 @@ blog:
     create: true
     hostnames:
       - "blog.kyledev.co"
+      - "blog.ts.kyledev.co"
     parentRefs:
       - name: homelab
         namespace: envoy-gateway-system
