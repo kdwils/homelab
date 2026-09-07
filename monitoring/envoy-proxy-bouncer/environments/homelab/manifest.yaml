@@ -88,18 +88,20 @@ data:
       apiKeySecretRef:
         key: apiKey
         name: envoy-bouncer
-      appSecURL: http://crowdsec-appsec-service:7422
+      appSecURL: http://crowdsec-appsec-service
       enabled: true
       failOpen: true
       httpTimeout: 1s
       routes:
       - hosts:
+        - '*.kyledev.co'
+        path: /
+        port: 7422
+      - hosts:
         - bluesky.kyledev.co
         - baldsky.kyledev.co
-        path: /api-waf
-      - hosts:
-        - '*.kyledev.co'
-        path: /browser-waf
+        path: /
+        port: 7423
     webhook:
       bufferSize: 100
       subscriptions: []
@@ -1541,7 +1543,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 65532
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-b291a058a5d20482c2779471e33f0c50e15e2e3f"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-067e0d84d46a17a4ad0dd7539da6622f4a8f500f"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
