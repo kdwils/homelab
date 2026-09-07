@@ -77,7 +77,7 @@ data:
     labels:
       type: appsec
     listen_addr: 0.0.0.0:7422
-    path: /browser-waf
+    path: /
     source: appsec
     ---
     
@@ -86,8 +86,8 @@ data:
     - homelab/appsec-challenge
     labels:
       type: appsec
-    listen_addr: 0.0.0.0:7422
-    path: /api-waf
+    listen_addr: 0.0.0.0:7423
+    path: /
     source: appsec
 ---
 # Source: crowdsec/charts/crowdsec/templates/docker-start-configmap.yaml
@@ -850,7 +850,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: 20fd6f1868c475add468bc7c88c17e6f78179699d461c76672f381d344813ccc
+        checksum/appsec-acquis-configmap: 66f8ce6e952ca51f5f46a984b4456f964b6bbaaa8a4d2d667511423efd842946
       labels:
         k8s-app: crowdsec
         type: appsec
