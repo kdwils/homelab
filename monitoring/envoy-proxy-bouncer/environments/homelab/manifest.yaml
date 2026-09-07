@@ -96,16 +96,16 @@ data:
       - hosts:
         - blog.int.kyledev.co
         path: /
-        port: 7422
+        port: 7423
       - hosts:
         - bluesky.kyledev.co
         - baldsky.kyledev.co
         path: /
-        port: 7423
+        port: 7422
       - hosts:
         - '*.kyledev.co'
         path: /
-        port: 7423
+        port: 7422
     webhook:
       bufferSize: 100
       subscriptions: []
