@@ -73,7 +73,6 @@ data:
     appsec_configs:
     - crowdsecurity/virtual-patching
     - homelab/appsec-challenge
-    - homelab/appsec-challenge
     labels:
       type: appsec
     listen_addr: 0.0.0.0:7423
@@ -583,12 +582,12 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 7423
-      targetPort: 7423
-      protocol: TCP
-      name: appsec-bot
     - port: 7422
       targetPort: 7422
+      protocol: TCP
+      name: appsec-bot
+    - port: 7423
+      targetPort: 7423
       protocol: TCP
       name: appsec
   selector:
@@ -877,7 +876,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: 41489236951bea8a65c4c022a0ee452fe08b0cb7804055199de54aeecd901ddd
+        checksum/appsec-acquis-configmap: 1a5f251a8e060df769af66bce830f7767de9e38cc85ec16664ca7d3ace80cd10
       labels:
         k8s-app: crowdsec
         type: appsec
