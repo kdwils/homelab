@@ -72,6 +72,7 @@ data:
     
     appsec_configs:
     - crowdsecurity/virtual-patching
+    - crowdsecurity/appsec-bot-*
     labels:
       type: appsec
     listen_addr: 0.0.0.0:7422
@@ -838,7 +839,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: 5cc9368e703ad667f169211cb649829661d501939f243227fa7d2ee2ff9db3fa
+        checksum/appsec-acquis-configmap: c925ab4d7fad8e70451a618a420a655ce2e207a8ccfedbd693bab10790ab00fb
       labels:
         k8s-app: crowdsec
         type: appsec
