@@ -72,7 +72,6 @@ data:
     
     appsec_configs:
     - crowdsecurity/virtual-patching
-    - crowdsecurity/appsec-bot-*
     - homelab/appsec-challenge
     labels:
       type: appsec
@@ -83,6 +82,7 @@ data:
     
     appsec_configs:
     - crowdsecurity/virtual-patching
+    - crowdsecurity/appsec-bot-*
     - homelab/appsec-challenge
     labels:
       type: appsec
@@ -585,11 +585,11 @@ spec:
     - port: 7422
       targetPort: 7422
       protocol: TCP
-      name: appsec-browser
+      name: appsec-api
     - port: 7423
       targetPort: 7423
       protocol: TCP
-      name: appsec-api
+      name: appsec-browser
   selector:
     app.kubernetes.io/name: appsec-api
     app.kubernetes.io/instance: crowdsec
@@ -876,7 +876,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/appsec-acquis-configmap: 66f8ce6e952ca51f5f46a984b4456f964b6bbaaa8a4d2d667511423efd842946
+        checksum/appsec-acquis-configmap: 8b46544e36a8c2384493c38bf210b69fab09d7e7f550705669f54c586fa5c293
       labels:
         k8s-app: crowdsec
         type: appsec
