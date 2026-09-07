@@ -255,7 +255,7 @@ crowdsec:
     acquisitions:
       - source: appsec
         listen_addr: "0.0.0.0:7422"
-        path: /browser-waf
+        path: /
         appsec_configs:
           - crowdsecurity/virtual-patching
           - crowdsecurity/appsec-bot-*
@@ -263,8 +263,8 @@ crowdsec:
         labels:
           type: appsec
       - source: appsec
-        listen_addr: "0.0.0.0:7422"
-        path: /api-waf
+        listen_addr: "0.0.0.0:7423"
+        path: /
         appsec_configs:
           - crowdsecurity/virtual-patching
           - homelab/appsec-challenge

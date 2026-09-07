@@ -29,7 +29,7 @@ homelab-envoy-proxy-bouncer:
   nameOverride: homelab-envoy-proxy-bouncer
 
   image:
-    tag: sha-b291a058a5d20482c2779471e33f0c50e15e2e3f
+    tag: sha-067e0d84d46a17a4ad0dd7539da6622f4a8f500f
 
   resources:
     limits:
@@ -72,19 +72,21 @@ homelab-envoy-proxy-bouncer:
 
     waf:
       enabled: true
-      appSecURL: "http://crowdsec-appsec-service:7422"
+      appSecURL: "http://crowdsec-appsec-service"
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"
       failOpen: true
       httpTimeout: 1s
       routes:
+        - hosts: ["*.kyledev.co"]
+          path: "/"
+          port: 7422
         - hosts:
             - bluesky.kyledev.co
             - baldsky.kyledev.co
-          path: "/api-waf"
-        - hosts: ["*.kyledev.co"]
-          path: "/browser-waf"
+          path: "/"
+          port: 7423
 
     captcha:
       enabled: false
