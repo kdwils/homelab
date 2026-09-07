@@ -88,7 +88,7 @@ data:
       apiKeySecretRef:
         key: apiKey
         name: envoy-bouncer
-      appSecURL: http://crowdsec-appsec-api-service
+      appSecURL: http://crowdsec-appsec-api-service:7422
       enabled: true
       failOpen: true
       httpTimeout: 1s
@@ -96,16 +96,16 @@ data:
       - hosts:
         - blog.ts.kyledev.co
         path: /
-        port: 7423
+        port: 7422
       - hosts:
         - bluesky.kyledev.co
         - baldsky.kyledev.co
         path: /
-        port: 7422
+        port: 7423
       - hosts:
         - '*.kyledev.co'
         path: /
-        port: 7422
+        port: 7423
     webhook:
       bufferSize: 100
       subscriptions: []
