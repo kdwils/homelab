@@ -254,7 +254,7 @@ crowdsec:
         path: /
         appsec_configs:
           - crowdsecurity/virtual-patching
-          # - crowdsecurity/appsec-bot-*
+          - crowdsecurity/appsec-bot-*
           # - homelab/appsec-challenge
         labels:
           type: appsec
