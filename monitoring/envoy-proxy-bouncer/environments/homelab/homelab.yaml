@@ -86,7 +86,7 @@ homelab-envoy-proxy-bouncer:
           port: 7423
         - hosts: ["*.kyledev.co"]
           path: "/"
-          port: 7422
+          port: 7423
 
     captcha:
       enabled: false
