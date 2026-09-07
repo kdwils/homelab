@@ -72,7 +72,7 @@ homelab-envoy-proxy-bouncer:
 
     waf:
       enabled: true
-      appSecURL: "http://crowdsec-appsec-service"
+      appSecURL: "http://crowdsec-appsec-api-service"
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"

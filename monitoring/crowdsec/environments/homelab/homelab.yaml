@@ -271,6 +271,14 @@ crowdsec:
         labels:
           type: appsec
 
+    # Extra labels on the appsec pods so the appsecApi Service below can
+    # select them for the second acquisition port (7423) - the upstream
+    # chart's own Service only exposes 7422/6060.
+    # See https://github.com/crowdsecurity/helm-charts/pull/287 (open, unmerged).
+    podLabels:
+      app.kubernetes.io/name: appsec-api
+      app.kubernetes.io/instance: crowdsec
+
     resources:
       limits:
         cpu: 200m
@@ -284,6 +292,19 @@ crowdsec:
 
     service:
       type: ClusterIP
+
+appsecApi:
+  nameOverride: appsec-api
+  fullnameOverride: crowdsec-appsec-api-service
+  service:
+    create: true
+    ports:
+      - name: appsec-browser
+        port: 7422
+        targetPort: 7422
+      - name: appsec-api
+        port: 7423
+        targetPort: 7423
 
 homelab:
   sealedsecrets:
