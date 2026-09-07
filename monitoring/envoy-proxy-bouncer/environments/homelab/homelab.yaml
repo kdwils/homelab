@@ -72,7 +72,7 @@ homelab-envoy-proxy-bouncer:
 
     waf:
       enabled: true
-      appSecURL: "http://crowdsec-appsec-api-service"
+      appSecURL: "http://crowdsec-appsec-api-service:7422"
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"
@@ -82,15 +82,15 @@ homelab-envoy-proxy-bouncer:
         - hosts:
             - blog.ts.kyledev.co
           path: "/"
-          port: 7423
+          port: 7422
         - hosts:
             - bluesky.kyledev.co
             - baldsky.kyledev.co
           path: "/"
-          port: 7422
+          port: 7423
         - hosts: ["*.kyledev.co"]
           path: "/"
-          port: 7422
+          port: 7423
 
     captcha:
       enabled: false

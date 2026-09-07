@@ -254,7 +254,7 @@ crowdsec:
     #   /api-waf     - server-to-server no browser to solve a bot challenge
     acquisitions:
       - source: appsec
-        listen_addr: "0.0.0.0:7422"
+        listen_addr: "0.0.0.0:7423"
         path: /
         appsec_configs:
           - crowdsecurity/virtual-patching
@@ -262,7 +262,7 @@ crowdsec:
         labels:
           type: appsec
       - source: appsec
-        listen_addr: "0.0.0.0:7423"
+        listen_addr: "0.0.0.0:7422"
         path: /
         appsec_configs:
           - crowdsecurity/virtual-patching
@@ -300,11 +300,11 @@ appsecApi:
     create: true
     ports:
       - name: appsec-api
-        port: 7422
-        targetPort: 7422
-      - name: appsec-browser
         port: 7423
         targetPort: 7423
+      - name: appsec-browser
+        port: 7422
+        targetPort: 7422
 
 homelab:
   sealedsecrets:
