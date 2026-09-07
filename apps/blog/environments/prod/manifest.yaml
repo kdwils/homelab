@@ -125,6 +125,7 @@ spec:
       namespace: envoy-gateway-system
   hostnames:
     - "blog.kyledev.co"
+    - "blog.ts.kyledev.co"
   rules:
     - matches:
       - path:
