@@ -1,9 +1,9 @@
 dependencies:
 - name: envoy-proxy-bouncer
   repository: oci://ghcr.io/kdwils/charts
-  version: 0.8.0
+  version: 0.8.1
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
   version: 0.1.31
-digest: sha256:8a6cc7c2933e28012ea65650f37cee419a68d5eda56be2c3034b56eacccac0a8
-generated: "2026-08-16T22:29:38.225828229Z"
+digest: sha256:221422ceb0fa90434dc6e5016286c642b3a3f0119137f0a893b6bdb3ee6e5287
+generated: "2026-09-07T23:14:50.761731875Z"
