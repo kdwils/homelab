@@ -38,11 +38,8 @@ blog:
       runAsUser: 65532
 
     env:
-      - name: XDG_CONFIG_HOME
-        value: /config
-      - name: XDG_DATA_HOME
-        value: /data
-
+      XDG_CONFIG_HOME: '/config'
+      XDG_DATA_HOME: '/data'
     volumes:
       - name: config
         emptyDir: {}
