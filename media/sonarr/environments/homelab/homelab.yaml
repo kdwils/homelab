@@ -17,7 +17,7 @@ sonarr:
 
     image:
       repository: linuxserver/sonarr
-      tag: 4.0.19
+      tag: 4.0.20
       pullPolicy: IfNotPresent
 
     env:
