@@ -46,7 +46,6 @@ homelab-envoy-proxy-bouncer:
 
     exemptIPs:
       - 74.98.224.241
-      - 187.15.165.53
     trustedIPHeader: "cf-connecting-ip"
     prometheus:
       enabled: true
@@ -80,6 +79,7 @@ homelab-envoy-proxy-bouncer:
         - hosts:
             - bluesky.kyledev.co
             - baldsky.kyledev.co
+            - plex.kyledev.co
           path: "/"
           port: 7423
         - hosts: ["*.kyledev.co"]
