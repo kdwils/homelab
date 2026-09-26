@@ -96,6 +96,7 @@ data:
       - hosts:
         - bluesky.kyledev.co
         - baldsky.kyledev.co
+        - plex.kyledev.co
         path: /
         port: 7423
       - hosts:
@@ -1524,7 +1525,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 5b2bd1f7d96c6008c73c82c6a7544af78f4807a115b7bb6cb7fabe62a86eaff1
+        checksum/config: 6f39fae4dcf3d2db7fb546fb6ea7de52eceae56d0c080ed37493921ab28e9da2
       labels:
         helm.sh/chart: homelab-envoy-proxy-bouncer-0.8.1
         app.kubernetes.io/name: homelab-envoy-proxy-bouncer
