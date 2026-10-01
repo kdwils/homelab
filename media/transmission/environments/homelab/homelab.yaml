@@ -90,6 +90,9 @@ transmission:
     resourcePolicy:
       containerPolicies:
         - containerName: "*"
+          minAllowed:
+            cpu: 250m
+            memory: 256Mi
           maxAllowed:
             cpu: 1000m
             memory: 1Gi
