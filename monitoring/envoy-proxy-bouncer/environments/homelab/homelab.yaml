@@ -28,6 +28,9 @@ homelab-envoy-proxy-bouncer:
   fullnameOverride: homelab-envoy-proxy-bouncer
   nameOverride: homelab-envoy-proxy-bouncer
 
+  image:
+    tag: sha-3c24cbadc7044bf412bb917efa91c063b385faaa
+
   resources:
     limits:
       cpu: 100m
