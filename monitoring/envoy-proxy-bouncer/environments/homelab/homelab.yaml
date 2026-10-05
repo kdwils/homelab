@@ -29,7 +29,7 @@ homelab-envoy-proxy-bouncer:
   nameOverride: homelab-envoy-proxy-bouncer
 
   image:
-    tag: sha-3c24cbadc7044bf412bb917efa91c063b385faaa
+    tag: sha-d8a611f0464f66d1144b49b360384e21c993bd2f
 
   resources:
     limits:
