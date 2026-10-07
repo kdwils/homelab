@@ -5,7 +5,7 @@ resources:
   - baldsky.yaml
   - bluesky.yaml
   - blog.yaml
-  # - coder.yaml
+  - coder.yaml
   - events.yaml
   # - excalidraw.yaml
   - hoarder.yaml
