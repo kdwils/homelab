@@ -20,8 +20,8 @@
 #   - Edge "path": a hand-written raw SVG path `d` string, used only for
 #     edges that must bridge/hop over a crossing connector (see SKILL.md
 #     §6 rule 3 and type-architecture.md "Crossing arrows"). Prefer
-#     "points" for anything new; only reach for "path" if you introduce a
-#     new crossing.
+#     "points" for anything new; only reach for "path" if you introduce
+#     a new crossing.
 #   - Edge "label_pos": [x, y] baseline position for the label text, with
 #     the mask rect centered on it. Keep a 6-10px visible gap to the
 #     stroke. Not every edge needs a label — short/obvious connectors
@@ -42,8 +42,8 @@ diagrams:
     title: "Homelab Networking & Platform"
     subtitle: "Edge/DNS ingress path down through the gateway into GitOps, TLS termination, and security"
     desc: "Architecture diagram showing how public internet, Tailscale, and home-LAN clients reach the Kubernetes ingress gateway, and what surrounds that gateway inside the cluster: TLS termination, CrowdSec-backed security enforcement, and GitOps delivery via a rendered-manifest git repo."
-    view: [1256, 1000]
-    legend_y: 956
+    view: [1256, 1120]
+    legend_y: 1080
     zones:
       # Left column, stacked: external/tailnet on top, home LAN below it.
       # This keeps every arrow crossing left-to-right (internet -> cluster,
@@ -59,7 +59,7 @@ diagrams:
         x: 24
         y: 392
         w: 320
-        h: 240
+        h: 488
       # Right column, widened to fit the CrowdSec bouncer's full name and
       # the external git repo the GitOps loop writes through.
       - id: cluster
@@ -106,31 +106,59 @@ diagrams:
         type: external
 
       # -- home LAN --
-      # Pihole is the only piece of the LAN that matters to traffic: it
-      # answers *.int.kyledev.co for LAN clients (pointing at the gateway)
-      # and separately resolves k8s.int.kyledev.co straight to the k3s
-      # control plane API — the one record that makes the control plane
-      # relevant here at all.
-      - id: pihole
+      # The router/DHCP server forwards DNS queries into the cluster to
+      # Blocky as primary DNS, and to Pi-hole in the LAN as secondary DNS.
+      # The control-plane nodes are physical Raspberry Pis on the LAN.
+      - id: router
         zone: lan
         x: 44
         y: 424
         w: 280
         h: 64
-        name: "Pihole"
-        sublabel: "dnsmasq + haproxy :6443"
-        tag: "DNS"
-        type: store
-      - id: k3scp
+        name: "Router / DHCP"
+        sublabel: "DNS forwarding"
+        tag: "DHCP"
+        type: input
+      - id: pihole
         zone: lan
         x: 44
-        y: 528
+        y: 600
         w: 280
         h: 64
-        name: "k3s Control Plane"
-        sublabel: "m1–m3 · :6443"
-        tag: "API"
+        name: "Pihole"
+        sublabel: "secondary DNS"
+        tag: "DNS"
         type: store
+      - id: m1
+        zone: lan
+        x: 44
+        y: 792
+        w: 88
+        h: 64
+        name: "m1"
+        sublabel: "192.168.0.90"
+        tag: "CP"
+        type: backend
+      - id: m2
+        zone: lan
+        x: 140
+        y: 792
+        w: 88
+        h: 64
+        name: "m2"
+        sublabel: "192.168.0.76"
+        tag: "CP"
+        type: backend
+      - id: m3
+        zone: lan
+        x: 236
+        y: 792
+        w: 88
+        h: 64
+        name: "m3"
+        sublabel: "192.168.0.158"
+        tag: "CP"
+        type: backend
 
       # -- cluster: ingress agents (row above the gateway) --
       - id: cloudflared
@@ -155,6 +183,32 @@ diagrams:
         name: "Tailscale Proxy"
         sublabel: "tailnet ingress"
         tag: "POD"
+        type: backend
+
+      # -- cluster: DNS / VIP pods (left of the gateway) --
+      # Blocky runs in the `dns` namespace and answers *.int.kyledev.co by
+      # pointing LAN clients at the gateway, and k8s.int.kyledev.co via the
+      # kube-vip virtual IP. kube-vip runs as a DaemonSet in `kube-system`
+      # on the control-plane nodes and load-balances the k3s API port 6443.
+      - id: blocky
+        zone: cluster
+        x: 392
+        y: 424
+        w: 160
+        h: 64
+        name: "Blocky"
+        sublabel: "192.168.0.21 · tailnet LB"
+        tag: "DNS"
+        type: store
+      - id: kubevip
+        zone: cluster
+        x: 392
+        y: 600
+        w: 160
+        h: 64
+        name: "kube-vip"
+        sublabel: "192.168.0.20 · k3s API"
+        tag: "VIP"
         type: backend
 
       # -- cluster: the gateway itself --
@@ -248,7 +302,7 @@ diagrams:
       #    treatment (faint solid border) marks it as outside the cluster. --
       - id: gitrepo
         x: 44
-        y: 664
+        y: 940
         w: 280
         h: 64
         name: "GitHub Repo"
@@ -320,26 +374,60 @@ diagrams:
         points: [[720, 584], [720, 564]]
         style: muted
         dashed: true
-      # NEW — the piece that was missing: how *.int.kyledev.co actually
-      # reaches the gateway for LAN clients. Pihole answers the wildcard
-      # with the gateway's address; jogs up into the gateway's left-edge
-      # band (y344-420) since Pihole itself sits below that band.
-      - from: pihole
+
+      # -- LAN DNS path --
+      # Router/DHCP forwards primary DNS queries to Blocky (now a cluster pod).
+      - from: router
+        to: blocky
+        points: [[324, 440], [392, 440]]
+        style: muted
+        dashed: true
+        label: "PRIMARY"
+        label_pos: [358, 428]
+      # Router/DHCP forwards secondary DNS queries to Pi-hole in the LAN.
+      - from: router
+        to: pihole
+        points: [[324, 472], [380, 472], [380, 632], [324, 632]]
+        style: muted
+        dashed: true
+        label: "SECONDARY"
+        label_pos: [356, 460]
+      # Blocky answers *.int.kyledev.co for LAN clients, pointing them at
+      # the gateway.
+      - from: blocky
         to: gateway
-        points: [[324, 456], [480, 456], [480, 400], [520, 400]]
+        points: [[472, 424], [472, 380], [520, 380]]
         style: muted
         dashed: true
         label: "*.INT.KYLEDEV.CO"
-        label_pos: [402, 442]
-      # NEW — the one record that makes the control plane relevant on the
-      # LAN: Pihole resolves k8s.int.kyledev.co straight to it.
-      - from: pihole
-        to: k3scp
-        points: [[184, 488], [184, 528]]
+        label_pos: [456, 368]
+      # Blocky answers k8s.int.kyledev.co with the kube-vip virtual IP.
+      - from: blocky
+        to: kubevip
+        points: [[472, 488], [472, 600]]
         style: muted
         dashed: true
         label: "K8S.INT.KYLEDEV.CO"
-        label_pos: [216, 508]
+        label_pos: [534, 544]
+      # kube-vip load-balances port 6443 across the three control-plane
+      # nodes. Each leg drops out of the cluster, around the GitOps stack,
+      # and into the matching LAN node on its own horizontal level so the
+      # three routes stay independently traceable.
+      - from: kubevip
+        to: m1
+        points: [[400, 664], [400, 700], [88, 700], [88, 792]]
+        style: muted
+      - from: kubevip
+        to: m2
+        points: [[472, 664], [472, 716], [184, 716], [184, 792]]
+        style: muted
+        label: "6443"
+        label_pos: [328, 716]
+      - from: kubevip
+        to: m3
+        points: [[544, 664], [544, 732], [280, 732], [280, 792]]
+        style: muted
+
       # Kargo renders manifests and pushes them to the git repo, now over
       # in column 1 below the LAN block; ArgoCD syncs from that same repo.
       # The repo — not a direct Kargo->ArgoCD edge — is the actual GitOps
@@ -347,7 +435,7 @@ diagrams:
       # (x=150 in, x=220 out) keep the two connectors from sharing a point.
       - from: kargo
         to: gitrepo
-        points: [[424, 860], [150, 860], [150, 728]]
+        points: [[424, 860], [184, 860], [184, 940]]
         style: muted
         label: "PUSH"
         label_pos: [287, 846]
@@ -356,10 +444,10 @@ diagrams:
       # edge, now that ArgoCD sits in its own stacked column.
       - from: gitrepo
         to: argocd
-        points: [[324, 696], [408, 696], [408, 776], [424, 776]]
+        points: [[324, 972], [408, 972], [408, 776], [424, 776]]
         style: muted
         label: "SYNC"
-        label_pos: [432, 728]
+        label_pos: [432, 900]
 
     legend:
       - swatch: accent

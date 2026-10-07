@@ -9,13 +9,14 @@ together. The source of truth is
 - How `*.kyledev.co`, `*.int.kyledev.co`, and `*.ts.kyledev.co` resolve and
   route from the public internet / Tailscale / LAN into the cluster
   (Cloudflare Tunnel, the Plex VPS+Caddy exception terminating at an
-  in-cluster Tailscale Proxy pod — not the gateway directly — Pihole DNS +
-  haproxy k3s API LB) down into **Envoy Gateway**, which now terminates
-  TLS itself rather than being described via a separate MetalLB node.
+  in-cluster Tailscale Proxy pod — not the gateway directly — Blocky primary
+  DNS, Pi-hole secondary DNS, and kube-vip k3s API LB) down into **Envoy
+  Gateway**, which now terminates TLS itself rather than being described via
+  a separate MetalLB node.
 - What sits directly below the gateway inside the cluster: cert-manager
   (wildcard TLS via Cloudflare DNS-01) and the HTTPRoutes/apps that attach
   to it (in the slot CoreDNS used to occupy — CoreDNS has been removed
-  entirely, it added nothing the gateway/Pihole records didn't already
+  entirely, it added nothing the gateway/Blocky records didn't already
   cover). Below that, Envoy Gateway calls out to
   `envoy-proxy-crowdsec-bouncer` for every request (ext-authz) and gets an
   allow/deny back; CrowdSec feeds ban decisions into that bouncer.
@@ -101,14 +102,15 @@ YAML file. To add a component:
 Captured here so future edits don't have to re-derive them by reading the
 manifests again:
 
-- **DNS**: Pihole (`/etc/dnsmasq.d/99-tsnet.conf`) answers
-  `*.int.kyledev.co` → the gateway (LAN path) and
-  `k8s.int.kyledev.co` → Pihole's own LAN/tailnet IPs. Pihole is also
-  configured as the tailnet's global nameserver.
-- **k3s API LB**: Pihole also runs haproxy, load-balancing `:6443` across
-  `m1`/`m2`/`m3` over both LAN and Tailscale addresses. (Shown as adjacent
-  nodes in the LAN zone; not connected by a drawn arrow since the shared
-  `:6443` in both sublabels already makes the relationship clear.)
+- **DNS**: Blocky (`192.168.0.21`) is the primary LAN DNS server and is also
+  exposed on the tailnet via a Tailscale LoadBalancer. The router/DHCP server
+  forwards DNS to Blocky first and to Pi-hole as secondary/backup. Blocky
+  answers `*.int.kyledev.co` → the gateway (LAN path) and
+  `k8s.int.kyledev.co` → the kube-vip virtual IP.
+- **k3s API LB**: kube-vip advertises LAN VIP `192.168.0.20` for
+  `k8s.int.kyledev.co` and load-balances `:6443` across the three
+  control-plane nodes `m1` (`192.168.0.90`), `m2` (`192.168.0.76`), and
+  `m3` (`192.168.0.158`).
 - **Public ingress**: Cloudflare Tunnel (`cloudflared`) fronts every
   `*.kyledev.co` hostname except Plex, forwarding to
   `homelab-gateway.envoy-gateway-system.svc.cluster.local:443`.
