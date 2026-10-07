@@ -78,6 +78,8 @@ homelab:
   verticalPodAutoscaler:
     enabled: true
     targetRef:
+      apiVersion: apps/v1
+      kind: StatefulSet
       name: overseerr-seerr-chart
     updatePolicy:
       updateMode: InPlace
