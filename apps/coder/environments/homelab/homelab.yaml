@@ -26,6 +26,13 @@ coder:
       type: ClusterIP
     ingress:
       enable: false
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 250m
+        memory: 512Mi
 
 homelab:
   httproute:
@@ -40,6 +47,24 @@ homelab:
       - backendRefs:
           - name: coder
             port: 80
+  verticalPodAutoscaler:
+    enabled: true
+    targetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: coder
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 1000m
+            memory: 2Gi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
   sealedsecrets:
     - name: coder-oidc
       data:
