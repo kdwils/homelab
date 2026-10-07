@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: baldsky-worker
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky-worker
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: ConfigMap
 metadata:
   name: worker-config
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky-worker
     app.kubernetes.io/version: "1.16.0"
@@ -192,7 +192,7 @@ kind: Deployment
 metadata:
   name: baldsky-worker
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky-worker
     app.kubernetes.io/version: "1.16.0"
@@ -207,7 +207,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: baldsky-0.1.31
+        helm.sh/chart: baldsky-0.2.0
         app.kubernetes.io/name: baldsky
         app.kubernetes.io/instance: baldsky-worker
         app.kubernetes.io/version: "1.16.0"
@@ -268,7 +268,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: baldsky-worker
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky-worker
     app.kubernetes.io/version: "1.16.0"
@@ -300,7 +300,7 @@ kind: VerticalPodAutoscaler
 metadata:
   name: baldsky-worker
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky-worker
     app.kubernetes.io/version: "1.16.0"

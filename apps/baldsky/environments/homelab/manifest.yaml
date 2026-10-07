@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: baldsky
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: ConfigMap
 metadata:
   name: api-config
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"
@@ -65,7 +65,7 @@ kind: Service
 metadata:
   name: baldsky
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"
@@ -87,7 +87,7 @@ kind: Deployment
 metadata:
   name: baldsky
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"
@@ -103,7 +103,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: baldsky-0.1.31
+        helm.sh/chart: baldsky-0.2.0
         app.kubernetes.io/name: baldsky
         app.kubernetes.io/instance: baldsky
         app.kubernetes.io/version: "1.16.0"
@@ -183,7 +183,7 @@ kind: Cluster
 metadata:
   name: baldsky
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"
@@ -206,7 +206,7 @@ kind: HTTPRoute
 metadata:
   name: baldsky
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"
@@ -268,7 +268,7 @@ kind: SecurityPolicy
 metadata:
   name: baldsky
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"
@@ -296,7 +296,7 @@ kind: VerticalPodAutoscaler
 metadata:
   name: baldsky
   labels:
-    helm.sh/chart: baldsky-0.1.31
+    helm.sh/chart: baldsky-0.2.0
     app.kubernetes.io/name: baldsky
     app.kubernetes.io/instance: baldsky
     app.kubernetes.io/version: "1.16.0"

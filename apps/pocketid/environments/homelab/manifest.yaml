@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: pocketid
   labels:
-    helm.sh/chart: pocketid-0.1.31
+    helm.sh/chart: pocketid-0.2.0
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: pocketid
   labels:
-    helm.sh/chart: pocketid-0.1.31
+    helm.sh/chart: pocketid-0.2.0
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
     app.kubernetes.io/version: "1.16.0"
@@ -37,7 +37,7 @@ kind: Service
 metadata:
   name: pocketid
   labels:
-    helm.sh/chart: pocketid-0.1.31
+    helm.sh/chart: pocketid-0.2.0
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
     app.kubernetes.io/version: "1.16.0"
@@ -59,7 +59,7 @@ kind: Deployment
 metadata:
   name: pocketid
   labels:
-    helm.sh/chart: pocketid-0.1.31
+    helm.sh/chart: pocketid-0.2.0
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
     app.kubernetes.io/version: "1.16.0"
@@ -75,7 +75,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: pocketid-0.1.31
+        helm.sh/chart: pocketid-0.2.0
         app.kubernetes.io/name: pocketid
         app.kubernetes.io/instance: pocketid
         app.kubernetes.io/version: "1.16.0"
@@ -130,7 +130,7 @@ kind: HTTPRoute
 metadata:
   name: pocketid
   labels:
-    helm.sh/chart: pocketid-0.1.31
+    helm.sh/chart: pocketid-0.2.0
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
     app.kubernetes.io/version: "1.16.0"
@@ -181,7 +181,7 @@ kind: SecurityPolicy
 metadata:
   name: pocketid
   labels:
-    helm.sh/chart: pocketid-0.1.31
+    helm.sh/chart: pocketid-0.2.0
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
     app.kubernetes.io/version: "1.16.0"
@@ -209,7 +209,7 @@ kind: VerticalPodAutoscaler
 metadata:
   name: pocketid
   labels:
-    helm.sh/chart: pocketid-0.1.31
+    helm.sh/chart: pocketid-0.2.0
     app.kubernetes.io/name: pocketid
     app.kubernetes.io/instance: pocketid
     app.kubernetes.io/version: "1.16.0"

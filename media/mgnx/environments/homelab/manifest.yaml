@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   name: mgnx-config
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -141,7 +141,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mgnx-data
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -159,7 +159,7 @@ kind: Service
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -185,7 +185,7 @@ kind: Deployment
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -201,7 +201,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: mgnx-0.1.31
+        helm.sh/chart: mgnx-0.2.0
         app.kubernetes.io/name: mgnx
         app.kubernetes.io/instance: mgnx
         app.kubernetes.io/version: "1.16.0"
@@ -327,7 +327,7 @@ kind: Cluster
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -371,7 +371,7 @@ kind: HTTPRoute
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -427,7 +427,7 @@ kind: ServiceMonitor
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
@@ -450,7 +450,7 @@ kind: VerticalPodAutoscaler
 metadata:
   name: mgnx
   labels:
-    helm.sh/chart: mgnx-0.1.31
+    helm.sh/chart: mgnx-0.2.0
     app.kubernetes.io/name: mgnx
     app.kubernetes.io/instance: mgnx
     app.kubernetes.io/version: "1.16.0"
