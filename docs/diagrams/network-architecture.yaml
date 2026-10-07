@@ -1,0 +1,372 @@
+# Homelab network & platform diagram — source of truth.
+#
+# This file is read by generate_diagrams.py to produce the self-contained
+# HTML/SVG diagram in this directory. To change or extend it:
+#   1. Edit the nodes/edges/zones below (all coordinates are on a 4px grid).
+#   2. Run: python3 docs/diagrams/generate_diagrams.py
+#   3. Re-export the README-embeddable SVG: python3 docs/diagrams/export_svgs.py
+#   4. Optionally validate with the diagram-design skill's checkers:
+#        python3 <diagram-design-skill>/scripts/self_check.py docs/diagrams/*.html
+#        python3 <diagram-design-repo>/scripts/verify-geometry.py docs/diagrams/*.html
+#
+# Coordinate conventions used throughout:
+#   - Every x/y/width/height/gap is a multiple of 4.
+#   - Node type -> visual treatment (see style-guide.md "Node type -> treatment"):
+#       focal | backend | store | external | input | optional | security
+#   - Edge "style": muted | accent | link  (arrow color)
+#   - Edge "dashed": true marks optional/provisioning/config relationships
+#   - Edge "points": explicit polyline waypoints (all axis-aligned segments).
+#     The generator rounds every interior corner to r=8 automatically.
+#   - Edge "path": a hand-written raw SVG path `d` string, used only for
+#     edges that must bridge/hop over a crossing connector (see SKILL.md
+#     §6 rule 3 and type-architecture.md "Crossing arrows"). Prefer
+#     "points" for anything new; only reach for "path" if you introduce a
+#     new crossing.
+#   - Edge "label_pos": [x, y] baseline position for the label text, with
+#     the mask rect centered on it. Keep a 6-10px visible gap to the
+#     stroke. Not every edge needs a label — short/obvious connectors
+#     (e.g. tightly-packed edges into the gateway) are left unlabeled
+#     rather than crowding a label mask into a neighboring one.
+#
+# This is a single "zoned overview" diagram intentionally larger than the
+# skill's default per-diagram budget (9 nodes / 12 arrows) — it merges
+# what used to be two diagrams (edge/DNS path + cluster platform) into one,
+# per request, while still respecting the hard rules that never relax:
+# max 3 zones, rounded orthogonal connectors, masked labels with a visible
+# gap, no shared attach points, and no label clipped by a later node.
+
+style: default   # shipped default skin (paper #f5f5f5 / ink #2d3142 / accent #eb6c36)
+
+diagrams:
+  - slug: homelab-network
+    title: "Homelab Networking & Platform"
+    subtitle: "Edge/DNS ingress path down through the gateway into GitOps, TLS termination, and security"
+    desc: "Architecture diagram showing how public internet, Tailscale, and home-LAN clients reach the Kubernetes ingress gateway, and what surrounds that gateway inside the cluster: TLS termination, CrowdSec-backed security enforcement, and GitOps delivery via a rendered-manifest git repo."
+    view: [1256, 1000]
+    legend_y: 956
+    zones:
+      # Left column, stacked: external/tailnet on top, home LAN below it.
+      # This keeps every arrow crossing left-to-right (internet -> cluster,
+      # lan -> cluster) instead of jumping over a middle column.
+      - id: internet
+        label: "EXTERNAL (INTERNET + TAILNET)"
+        x: 24
+        y: 64
+        w: 320
+        h: 304
+      - id: lan
+        label: "HOME LAN (192.168.0.0/24)"
+        x: 24
+        y: 392
+        w: 320
+        h: 240
+      # Right column, widened to fit the CrowdSec bouncer's full name and
+      # the external git repo the GitOps loop writes through.
+      - id: cluster
+        label: "KUBERNETES CLUSTER"
+        x: 368
+        y: 64
+        w: 864
+        h: 852
+
+    nodes:
+      # -- external / tailnet --
+      - id: public
+        zone: internet
+        x: 44
+        y: 96
+        w: 280
+        h: 64
+        name: "Public Users"
+        sublabel: "browsers · apps"
+        tag: "USR"
+        type: input
+      # Cloudflare and VPS·Caddy are both public edge entry points, so they
+      # are stacked as a tight pair (24px gap) below Public Users, rather
+      # than side by side — they're peers, not parallel independent paths.
+      - id: cloudflare
+        zone: internet
+        x: 44
+        y: 200
+        w: 280
+        h: 64
+        name: "Cloudflare"
+        sublabel: "DNS + tunnel"
+        tag: "EXT"
+        type: external
+      - id: vps
+        zone: internet
+        x: 44
+        y: 288
+        w: 280
+        h: 64
+        name: "VPS · Caddy"
+        sublabel: "proxy → tailnet"
+        tag: "EXT"
+        type: external
+
+      # -- home LAN --
+      # Pihole is the only piece of the LAN that matters to traffic: it
+      # answers *.int.kyledev.co for LAN clients (pointing at the gateway)
+      # and separately resolves k8s.int.kyledev.co straight to the k3s
+      # control plane API — the one record that makes the control plane
+      # relevant here at all.
+      - id: pihole
+        zone: lan
+        x: 44
+        y: 424
+        w: 280
+        h: 64
+        name: "Pihole"
+        sublabel: "dnsmasq + haproxy :6443"
+        tag: "DNS"
+        type: store
+      - id: k3scp
+        zone: lan
+        x: 44
+        y: 528
+        w: 280
+        h: 64
+        name: "k3s Control Plane"
+        sublabel: "m1–m3 · :6443"
+        tag: "API"
+        type: store
+
+      # -- cluster: ingress agents (row above the gateway) --
+      - id: cloudflared
+        zone: cluster
+        x: 536
+        y: 200
+        w: 160
+        h: 64
+        name: "cloudflared"
+        sublabel: "tunnel ingress"
+        tag: "POD"
+        type: backend
+      # This pod is the actual tailnet ingress point — VPS·Caddy's tailnet
+      # traffic terminates here before continuing on to the gateway, it
+      # doesn't reach the gateway directly.
+      - id: tsproxy
+        zone: cluster
+        x: 744
+        y: 200
+        w: 160
+        h: 64
+        name: "Tailscale Proxy"
+        sublabel: "tailnet ingress"
+        tag: "POD"
+        type: backend
+
+      # -- cluster: the gateway itself --
+      - id: gateway
+        zone: cluster
+        x: 520
+        y: 344
+        w: 400
+        h: 76
+        name: "Envoy Gateway"
+        sublabel: "TLS terminates · :443/:80"
+        tag: "GW"
+        type: focal
+
+      # -- cluster: cert-manager to the right of the gateway. HTTPRoutes
+      #    sits directly below it (both narrow, in the same column). --
+      - id: certmanager
+        zone: cluster
+        x: 960
+        y: 320
+        w: 160
+        h: 64
+        name: "cert-manager"
+        sublabel: "letsencrypt-prod"
+        tag: "TLS"
+        type: store
+      - id: httproutes
+        zone: cluster
+        x: 960
+        y: 404
+        w: 160
+        h: 88
+        name: "HTTPRoutes"
+        sublabel: ["*.kyledev.co", "*.int.kyledev.co", "*.ts.kyledev.co"]
+        tag: "RTE"
+        type: input
+
+      # -- cluster: envoy-proxy-crowdsec-bouncer sits directly below the
+      #    gateway (straight vertical hop), with CrowdSec stacked below
+      #    the bouncer feeding it detection decisions. --
+      - id: bouncer
+        zone: cluster
+        x: 596
+        y: 500
+        w: 248
+        h: 64
+        name: "envoy-proxy-crowdsec-bouncer"
+        sublabel: "ext-authz"
+        tag: "SEC"
+        type: backend
+      - id: crowdsec
+        zone: cluster
+        x: 596
+        y: 584
+        w: 248
+        h: 64
+        name: "CrowdSec"
+        sublabel: "detection engine"
+        tag: "SEC"
+        type: backend
+
+      # -- cluster: GitOps. Kargo renders manifests and writes them to the
+      #    homelab git repo; ArgoCD syncs from that repo. Stacked vertically
+      #    now — ArgoCD on top (closer to the repo it syncs from), Kargo
+      #    below it. --
+      - id: argocd
+        zone: cluster
+        x: 424
+        y: 744
+        w: 192
+        h: 64
+        name: "ArgoCD"
+        sublabel: "GitOps sync"
+        tag: "CD"
+        type: backend
+      - id: kargo
+        zone: cluster
+        x: 424
+        y: 828
+        w: 192
+        h: 64
+        name: "Kargo"
+        sublabel: "progressive delivery"
+        tag: "CD"
+        type: backend
+
+      # -- external to the cluster, not just external to the internet
+      #    zone: the git repo lives outside k8s entirely, so it's drawn as
+      #    its own row below the Home LAN block in column 1, with no zone
+      #    of its own (the diagram is capped at 3 zones) — its "external"
+      #    treatment (faint solid border) marks it as outside the cluster. --
+      - id: gitrepo
+        x: 44
+        y: 664
+        w: 280
+        h: 64
+        name: "GitHub Repo"
+        sublabel: "github.com/kdwils/homelab"
+        tag: "GIT"
+        type: external
+
+    edges:
+      # Cloudflare and cloudflared sit in the same y-band (200-264), so —
+      # like the VPS·Caddy edge below — this is a plain straight line
+      # (endpoints share a y-coordinate, no elbow needed).
+      - from: cloudflare
+        to: cloudflared
+        points: [[324, 232], [536, 232]]
+        style: link
+        label: "TUNNEL"
+        label_pos: [430, 218]
+      - from: cloudflared
+        to: gateway
+        points: [[616, 264], [616, 344]]
+        style: accent
+        label: "HTTPS 443"
+        label_pos: [652, 304]
+      # VPS·Caddy's tailnet traffic terminates at the in-cluster Tailscale
+      # Proxy pod, not the gateway directly — the proxy is the real ingress
+      # point. Routed with a bridge/hop where it crosses cloudflared's
+      # HTTPS-443 line at (616, 320); everything else is a plain elbow.
+      - from: vps
+        to: tsproxy
+        path: "M324,320 L608,320 A8,8 0 0 1 624,320 L772,320 Q780,320 780,312 L780,264"
+        style: link
+        label: "TAILNET"
+        label_pos: [420, 308]
+      - from: tsproxy
+        to: gateway
+        points: [[850, 264], [850, 344]]
+        style: link
+        label: "HTTPS"
+        label_pos: [878, 300]
+      # cert-manager and the gateway sit in the same y-band (both cover
+      # y=360), so this is a plain straight line across the 40px gap.
+      - from: certmanager
+        to: gateway
+        points: [[960, 360], [920, 360]]
+        style: link
+      # HTTPRoutes sits right below cert-manager; jogs left into the same
+      # 40px gap at a distinct height (y=428) to reach the gateway.
+      - from: httproutes
+        to: gateway
+        points: [[960, 428], [940, 428], [940, 400], [920, 400]]
+        style: muted
+      # Gateway->bouncer sits directly above the bouncer now, so this is a
+      # plain straight vertical drop (no elbow needed). Fanned 8px either
+      # side of the shared centerline (x=720) so it stays distinct from the
+      # dashed return path below.
+      - from: gateway
+        to: bouncer
+        points: [[712, 420], [712, 500]]
+        style: muted
+      - from: bouncer
+        to: gateway
+        points: [[728, 500], [728, 420]]
+        style: muted
+        dashed: true
+      # CrowdSec now sits directly below the bouncer it feeds — straight
+      # vertical hop across the 20px gap, no bend needed.
+      - from: crowdsec
+        to: bouncer
+        points: [[720, 584], [720, 564]]
+        style: muted
+        dashed: true
+      # NEW — the piece that was missing: how *.int.kyledev.co actually
+      # reaches the gateway for LAN clients. Pihole answers the wildcard
+      # with the gateway's address; jogs up into the gateway's left-edge
+      # band (y344-420) since Pihole itself sits below that band.
+      - from: pihole
+        to: gateway
+        points: [[324, 456], [480, 456], [480, 400], [520, 400]]
+        style: muted
+        dashed: true
+        label: "*.INT.KYLEDEV.CO"
+        label_pos: [402, 442]
+      # NEW — the one record that makes the control plane relevant on the
+      # LAN: Pihole resolves k8s.int.kyledev.co straight to it.
+      - from: pihole
+        to: k3scp
+        points: [[184, 488], [184, 528]]
+        style: muted
+        dashed: true
+        label: "K8S.INT.KYLEDEV.CO"
+        label_pos: [216, 508]
+      # Kargo renders manifests and pushes them to the git repo, now over
+      # in column 1 below the LAN block; ArgoCD syncs from that same repo.
+      # The repo — not a direct Kargo->ArgoCD edge — is the actual GitOps
+      # handoff. Two distinct attach points on the repo's bottom edge
+      # (x=150 in, x=220 out) keep the two connectors from sharing a point.
+      - from: kargo
+        to: gitrepo
+        points: [[424, 860], [150, 860], [150, 728]]
+        style: muted
+        label: "PUSH"
+        label_pos: [287, 846]
+      # Leaves from the repo's right edge (rather than its bottom, which is
+      # already the PUSH edge's attach point) straight into ArgoCD's left
+      # edge, now that ArgoCD sits in its own stacked column.
+      - from: gitrepo
+        to: argocd
+        points: [[324, 696], [408, 696], [408, 776], [424, 776]]
+        style: muted
+        label: "SYNC"
+        label_pos: [432, 728]
+
+    legend:
+      - swatch: accent
+        label: "PRIMARY INGRESS"
+      - swatch: link
+        label: "TUNNEL / TAILNET / TLS"
+      - swatch: muted
+        label: "TRAFFIC / SYNC"
+      - swatch: muted-dashed
+        label: "CONFIG / SECURITY"

@@ -144,13 +144,17 @@ crowdsec:
     enabled: true
     lapiURL: "http://crowdsec-service:8080"
 
-    tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
-        effect: NoSchedule
+    # Keep agents off control-plane nodes. Longhorn CSI is not deployed there,
+    # so agent pods cannot mount the shared config PVC on masters.
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
+                - key: node-role.kubernetes.io/master
+                  operator: DoesNotExist
 
     env:
       - name: PARSERS
