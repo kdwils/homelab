@@ -55,6 +55,8 @@ data:
       http: 4000
     log:
       level: info
+    queryLog:
+      type: console
 ---
 # Source: homelab/charts/blocky/templates/extraservices.yaml
 apiVersion: v1
