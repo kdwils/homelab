@@ -266,6 +266,8 @@ blocky:
               http: 4000
             log:
               level: info
+            queryLog:
+              type: console
 
   service:
     create: true
