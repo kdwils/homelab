@@ -1,0 +1,108 @@
+blocky:
+  serviceAccount:
+    create: true
+
+  deployment:
+    create: true
+    replicas: 2
+    image:
+      repository: ghcr.io/0xerr0r/blocky
+      tag: v0.25
+    args:
+      - --config
+      - /app/config/config.yml
+    env:
+      TZ: America/New_York
+    resources:
+      limits:
+        memory: 256Mi
+        cpu: 500m
+      requests:
+        memory: 128Mi
+        cpu: 100m
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: blocky
+            topologyKey: kubernetes.io/hostname
+
+  configmap:
+    create: true
+    configmaps:
+      - name: blocky-config
+        mountPath: /app/config
+        readOnly: true
+        data:
+          config.yml: |
+            upstreams:
+              groups:
+                default:
+                  - 1.1.1.1
+                  - 9.9.9.9
+            bootstrapDns:
+              - tcp+udp:1.1.1.1
+            customDNS:
+              customTTL: 1h
+              mapping:
+                int.kyledev.co: 192.168.0.249
+                nas.int.kyledev.co: 192.168.0.170
+                k8s.int.kyledev.co: 192.168.0.20
+                ts.kyledev.co: 100.89.149.17
+            blocking:
+              denylists:
+                ads:
+                  - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+              clientGroupsBlock:
+                default:
+                  - ads
+              blockType: zeroIp
+              loading:
+                refreshPeriod: 24h
+            ports:
+              dns: 5353
+              http: 4000
+            log:
+              level: info
+
+  service:
+    create: true
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: "192.168.0.21"
+    ports:
+      - name: dns-udp
+        port: 53
+        targetPort: 5353
+        protocol: UDP
+      - name: dns-tcp
+        port: 53
+        targetPort: 5353
+        protocol: TCP
+      - name: http
+        port: 4000
+        targetPort: 4000
+        protocol: TCP
+
+  extraServices:
+    - name: tailscale
+      type: LoadBalancer
+      loadBalancerClass: tailscale
+      annotations:
+        tailscale.com/expose: "true"
+      ports:
+        - name: dns-udp
+          port: 53
+          targetPort: 5353
+          protocol: UDP
+        - name: dns-tcp
+          port: 53
+          targetPort: 5353
+          protocol: TCP
+
+  httproute:
+    create: false
+
+  pvc:
+    create: false

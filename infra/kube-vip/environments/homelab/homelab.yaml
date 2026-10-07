@@ -1,0 +1,60 @@
+kube-vip:
+  serviceAccount:
+    create: true
+    automount: true
+
+  deployment:
+    create: false
+
+  daemonset:
+    create: true
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: "true"
+    tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+    image:
+      repository: ghcr.io/kube-vip/kube-vip
+      tag: v0.8.0
+    securityContext:
+      capabilities:
+        add:
+          - NET_ADMIN
+          - NET_RAW
+          - SYS_TIME
+    env:
+      vip_arp: "true"
+      vip_interface: eth0
+      address: 192.168.0.20
+      port: "6443"
+      vip_subnet: "32"
+      cp_enable: "true"
+      lb_enable: "true"
+      svc_enable: "false"
+      vip_leaderelection: "true"
+      vip_leaseduration: "5"
+      vip_renewdeadline: "3"
+      vip_retryperiod: "1"
+
+  rbac:
+    create: true
+    rules:
+      - apiGroups: [""]
+        resources: ["nodes", "services", "endpoints", "pods"]
+        verbs: ["get", "list", "watch"]
+      - apiGroups: ["coordination.k8s.io"]
+        resources: ["leases"]
+        verbs: ["get", "create", "update"]
+
+  service:
+    create: false
+
+  pvc:
+    create: false
+
+  httproute:
+    create: false

@@ -1,0 +1,66 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: kube-vip
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: kube-vip
+  namespace: kube-vip
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: kube-vip
+  namespace: kube-vip
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/kube-vip/kube-vip
+        constraint: ^0.8.0
+        strictSemvers: false
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:infra/kube-vip/environments/**
+          - glob:charts/homelab/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: kube-vip
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: kube-vip
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: kube-vip
+        - name: imageRepo
+          value: ghcr.io/kube-vip/kube-vip
+        - name: valuesFilePath
+          value: infra/kube-vip/environments/homelab/homelab.yaml
+        - name: imageTagYamlPath
+          value: kube-vip.daemonset.image.tag
+      steps:
+        - task:
+            name: update-source-main
+            kind: ClusterPromotionTask

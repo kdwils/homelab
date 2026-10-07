@@ -1,8 +1,16 @@
 apiVersion: v2
 name: homelab
 description: Consolidated Helm chart for all homelab applications
-version: 0.1.0
+version: 0.2.0
 dependencies:
+  - name: homelab-chart
+    version: ^0.2.0
+    repository: oci://ghcr.io/kdwils/charts
+    alias: blocky
+  - name: homelab-chart
+    version: ^0.2.0
+    repository: oci://ghcr.io/kdwils/charts
+    alias: kube-vip
   - name: homelab-chart
     version: ^0.2.0
     repository: oci://ghcr.io/kdwils/charts

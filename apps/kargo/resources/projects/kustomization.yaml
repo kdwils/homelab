@@ -4,6 +4,7 @@ resources:
   - argocd.yaml
   - baldsky.yaml
   - bazarr.yaml
+  - blocky.yaml
   - blog.yaml
   - bluesky.yaml
   - byparr.yaml
@@ -16,6 +17,7 @@ resources:
   - flaresolverr.yaml
   - events.yaml
   - kargo.yaml
+  - kube-vip.yaml
   - homelab-project.yaml
   - homelab-chart.yaml
   - longhorn.yaml

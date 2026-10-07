@@ -352,6 +352,24 @@ spec:
         namespace: vaultwarden
         releaseName: vaultwarden
         outPath: ./target/apps/vaultwarden/environments/homelab/manifest.yaml
+    - uses: helm-template
+      as: render-blocky
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/infra/blocky/environments/homelab/homelab.yaml
+        namespace: dns
+        releaseName: blocky
+        outPath: ./target/infra/blocky/environments/homelab/manifest.yaml
+    - uses: helm-template
+      as: render-kube-vip
+      config:
+        path: ./source/charts/homelab
+        valuesFiles:
+          - ./source/infra/kube-vip/environments/homelab/homelab.yaml
+        namespace: kube-system
+        releaseName: kube-vip
+        outPath: ./target/infra/kube-vip/environments/homelab/manifest.yaml
     - uses: git-commit
       as: commit-all
       config:

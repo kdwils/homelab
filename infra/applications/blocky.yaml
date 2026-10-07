@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: blocky
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: blocky:homelab
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: dns
+    server: "https://kubernetes.default.svc"
+  source:
+    path: infra/blocky/environments/homelab
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: homelab
+  sources: []
+  project: infra
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
