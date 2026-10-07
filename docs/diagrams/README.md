@@ -21,11 +21,11 @@ together. The source of truth is
   `envoy-proxy-crowdsec-bouncer` for every request (ext-authz) and gets an
   allow/deny back; CrowdSec feeds ban decisions into that bouncer.
 - Kargo (in the cluster) → GitHub repo (`github.com/kdwils/homelab`) →
-  ArgoCD (back in the cluster). The repo is drawn as its own row below the
-  Home LAN block in column 1 — not inside any zone — since it's genuinely
-  external to the cluster, not just to the internet/tailnet zone. Kargo
-  renders manifests and pushes them to the repo; ArgoCD syncs from that
-  repo — the repo itself is the GitOps handoff, not a direct
+  ArgoCD (back in the cluster). The repo is drawn in the cluster column
+  (still with external treatment) so the GitOps loop stays in the
+  Kubernetes / external-git-repo area and does not cross into the HOME LAN
+  zone. Kargo renders manifests and pushes them to the repo; ArgoCD syncs
+  from that repo — the repo itself is the GitOps handoff, not a direct
   Kargo→ArgoCD edge. None of this is wired to the gateway — GitOps manages
   overall cluster state, it isn't a dependency of (or a traffic path
   through) the ingress gateway specifically.

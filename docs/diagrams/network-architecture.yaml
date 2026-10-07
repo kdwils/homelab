@@ -59,7 +59,7 @@ diagrams:
         x: 24
         y: 392
         w: 320
-        h: 488
+        h: 312
       # Right column, widened to fit the CrowdSec bouncer's full name and
       # the external git repo the GitOps loop writes through.
       - id: cluster
@@ -122,7 +122,7 @@ diagrams:
       - id: pihole
         zone: lan
         x: 44
-        y: 600
+        y: 512
         w: 280
         h: 64
         name: "Pihole"
@@ -132,7 +132,7 @@ diagrams:
       - id: m1
         zone: lan
         x: 44
-        y: 792
+        y: 600
         w: 88
         h: 64
         name: "m1"
@@ -142,7 +142,7 @@ diagrams:
       - id: m2
         zone: lan
         x: 140
-        y: 792
+        y: 600
         w: 88
         h: 64
         name: "m2"
@@ -152,7 +152,7 @@ diagrams:
       - id: m3
         zone: lan
         x: 236
-        y: 792
+        y: 600
         w: 88
         h: 64
         name: "m3"
@@ -301,7 +301,7 @@ diagrams:
       #    of its own (the diagram is capped at 3 zones) — its "external"
       #    treatment (faint solid border) marks it as outside the cluster. --
       - id: gitrepo
-        x: 44
+        x: 368
         y: 940
         w: 280
         h: 64
@@ -387,7 +387,7 @@ diagrams:
       # Router/DHCP forwards secondary DNS queries to Pi-hole in the LAN.
       - from: router
         to: pihole
-        points: [[324, 472], [380, 472], [380, 632], [324, 632]]
+        points: [[324, 472], [380, 472], [380, 552], [324, 552]]
         style: muted
         dashed: true
         label: "SECONDARY"
@@ -410,44 +410,45 @@ diagrams:
         label: "K8S.INT.KYLEDEV.CO"
         label_pos: [534, 544]
       # kube-vip load-balances port 6443 across the three control-plane
-      # nodes. Each leg drops out of the cluster, around the GitOps stack,
-      # and into the matching LAN node on its own horizontal level so the
-      # three routes stay independently traceable.
+      # nodes. Each leg drops straight down from a distinct point on the
+      # kube-vip bottom edge to its own horizontal level, then runs under the
+      # tight m1/m2/m3 group and rises into the matching node so the three
+      # routes stay orthogonal, non-overlapping, and independently traceable.
       - from: kubevip
         to: m1
-        points: [[400, 664], [400, 700], [88, 700], [88, 792]]
+        points: [[424, 664], [424, 688], [88, 688], [88, 664]]
         style: muted
       - from: kubevip
         to: m2
-        points: [[472, 664], [472, 716], [184, 716], [184, 792]]
+        points: [[472, 664], [472, 700], [184, 700], [184, 664]]
         style: muted
         label: "6443"
-        label_pos: [328, 716]
+        label_pos: [328, 690]
       - from: kubevip
         to: m3
-        points: [[544, 664], [544, 732], [280, 732], [280, 792]]
+        points: [[520, 664], [520, 712], [280, 712], [280, 664]]
         style: muted
 
-      # Kargo renders manifests and pushes them to the git repo, now over
-      # in column 1 below the LAN block; ArgoCD syncs from that same repo.
-      # The repo — not a direct Kargo->ArgoCD edge — is the actual GitOps
-      # handoff. Two distinct attach points on the repo's bottom edge
-      # (x=150 in, x=220 out) keep the two connectors from sharing a point.
+      # Kargo renders manifests and pushes them to the git repo; ArgoCD
+      # syncs from that same repo. The repo is now drawn in the cluster
+      # column (still with external treatment) so both GitOps edges stay
+      # inside the Kubernetes / external-git-repo area and never cross the
+      # HOME LAN zone. Distinct attach points on the repo keep the PUSH and
+      # SYNC connectors from sharing a point.
       - from: kargo
         to: gitrepo
-        points: [[424, 860], [184, 860], [184, 940]]
+        points: [[520, 892], [520, 952], [368, 952]]
         style: muted
         label: "PUSH"
-        label_pos: [287, 846]
-      # Leaves from the repo's right edge (rather than its bottom, which is
-      # already the PUSH edge's attach point) straight into ArgoCD's left
-      # edge, now that ArgoCD sits in its own stacked column.
+        label_pos: [544, 916]
+      # Leaves from the repo's right edge, runs up the right side of the
+      # GitOps stack, and enters ArgoCD's right edge.
       - from: gitrepo
         to: argocd
-        points: [[324, 972], [408, 972], [408, 776], [424, 776]]
+        points: [[648, 988], [648, 776], [616, 776]]
         style: muted
         label: "SYNC"
-        label_pos: [432, 900]
+        label_pos: [672, 900]
 
     legend:
       - swatch: accent
