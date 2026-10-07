@@ -1,0 +1,191 @@
+---
+# Source: homelab/charts/blocky/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: blocky
+  labels:
+    helm.sh/chart: blocky-0.2.0
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: false
+---
+# Source: homelab/charts/blocky/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blocky-config
+  labels:
+    helm.sh/chart: blocky-0.2.0
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yml: |
+    upstreams:
+      groups:
+        default:
+          - 1.1.1.1
+          - 9.9.9.9
+    bootstrapDns:
+      - tcp+udp:1.1.1.1
+    customDNS:
+      customTTL: 1h
+      mapping:
+        int.kyledev.co: 192.168.0.249
+        nas.int.kyledev.co: 192.168.0.170
+        k8s.int.kyledev.co: 192.168.0.20
+        ts.kyledev.co: 100.89.149.17
+    blocking:
+      denylists:
+        ads:
+          - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+      clientGroupsBlock:
+        default:
+          - ads
+      blockType: zeroIp
+      loading:
+        refreshPeriod: 24h
+    ports:
+      dns: 5353
+      http: 4000
+    log:
+      level: info
+---
+# Source: homelab/charts/blocky/templates/extraservices.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: blocky-tailscale
+  labels:
+    helm.sh/chart: blocky-0.2.0
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    tailscale.com/expose: "true"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  ports:
+    - port: 53
+      targetPort: 5353
+      protocol: UDP
+      name: dns-udp
+    - port: 53
+      targetPort: 5353
+      protocol: TCP
+      name: dns-tcp
+  selector:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+---
+# Source: homelab/charts/blocky/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: blocky
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.0.21
+  labels:
+    helm.sh/chart: blocky-0.2.0
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 53
+      targetPort: 5353
+      protocol: UDP
+      name: dns-udp
+    - port: 53
+      targetPort: 5353
+      protocol: TCP
+      name: dns-tcp
+    - port: 4000
+      targetPort: 4000
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+---
+# Source: homelab/charts/blocky/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blocky
+  labels:
+    helm.sh/chart: blocky-0.2.0
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: blocky
+      app.kubernetes.io/instance: blocky
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: blocky-0.2.0
+        app.kubernetes.io/name: blocky
+        app.kubernetes.io/instance: blocky
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: blocky
+      securityContext:
+        {}
+      containers:
+        - name: blocky
+          image: "ghcr.io/0xerr0r/blocky:v0.35.0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config
+            - /app/config/config.yml
+          ports:
+            - name: dns-udp
+              containerPort: 5353
+              protocol: UDP
+            - name: dns-tcp
+              containerPort: 5353
+              protocol: TCP
+            - name: http
+              containerPort: 4000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /app/config
+              name: configmap-blocky-config
+              readOnly: true
+          env:
+            - name: TZ
+              value: "America/New_York"
+      volumes:
+        - configMap:
+            name: blocky-config
+          name: configmap-blocky-config
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: blocky
+            topologyKey: kubernetes.io/hostname

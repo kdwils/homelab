@@ -1,0 +1,146 @@
+---
+# Source: homelab/charts/kube-vip/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-vip
+  labels:
+    helm.sh/chart: kube-vip-0.2.0
+    app.kubernetes.io/name: kube-vip
+    app.kubernetes.io/instance: kube-vip
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: homelab/charts/kube-vip/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kube-vip
+  labels:
+    helm.sh/chart: kube-vip-0.2.0
+    app.kubernetes.io/name: kube-vip
+    app.kubernetes.io/instance: kube-vip
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups:
+    - ""
+    resources:
+    - nodes
+    - services
+    - endpoints
+    - pods
+    verbs:
+    - get
+    - list
+    - watch
+  - apiGroups:
+    - coordination.k8s.io
+    resources:
+    - leases
+    verbs:
+    - get
+    - create
+    - update
+---
+# Source: homelab/charts/kube-vip/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-vip
+  labels:
+    helm.sh/chart: kube-vip-0.2.0
+    app.kubernetes.io/name: kube-vip
+    app.kubernetes.io/instance: kube-vip
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+subjects:
+  - kind: ServiceAccount
+    name: kube-vip
+    namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: kube-vip
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: homelab/charts/kube-vip/templates/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-vip
+  labels:
+    helm.sh/chart: kube-vip-0.2.0
+    app.kubernetes.io/name: kube-vip
+    app.kubernetes.io/instance: kube-vip
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kube-vip
+      app.kubernetes.io/instance: kube-vip
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: kube-vip-0.2.0
+        app.kubernetes.io/name: kube-vip
+        app.kubernetes.io/instance: kube-vip
+        app.kubernetes.io/version: "1.16.0"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      serviceAccountName: kube-vip
+      securityContext:
+        {}
+      containers:
+        - name: kube-vip
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+              - NET_RAW
+              - SYS_TIME
+          image: "ghcr.io/kube-vip/kube-vip:v1.2.4"
+          imagePullPolicy: IfNotPresent
+          args:
+            - manager
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: address
+              value: "192.168.0.20"
+            - name: cp_enable
+              value: "true"
+            - name: cp_namespace
+              value: "kube-system"
+            - name: lb_enable
+              value: "true"
+            - name: port
+              value: "6443"
+            - name: svc_enable
+              value: "false"
+            - name: vip_arp
+              value: "true"
+            - name: vip_interface
+              value: "eth0"
+            - name: vip_leaderelection
+              value: "true"
+            - name: vip_leaseduration
+              value: "5"
+            - name: vip_renewdeadline
+              value: "3"
+            - name: vip_retryperiod
+              value: "1"
+            - name: vip_subnet
+              value: "32"
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: "true"
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
