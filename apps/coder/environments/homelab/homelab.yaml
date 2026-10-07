@@ -20,6 +20,10 @@ coder:
             key: OIDC_CLIENT_SECRET
       - name: CODER_OIDC_SCOPES
         value: openid,profile,email,groups
+      - name: CODER_OIDC_ALLOW_SIGNUPS
+        value: "true"
+      - name: CODER_OIDC_SIGN_IN_TEXT
+        value: "Sign in with PocketID"
       - name: CODER_ACCESS_URL
         value: https://coder.int.kyledev.co
     service:
