@@ -683,13 +683,6 @@ spec:
         type: agent
         version: v1
     spec:
-      tolerations:
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/master
-          operator: Exists
-        - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
-          operator: Exists
       initContainers:
       - name: wait-for-lapi-and-register
         image: "crowdsecurity/crowdsec:v1.8.1"
@@ -855,6 +848,15 @@ spec:
           path: /var/log/pods
           type: Directory
         name: varlog-pods
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+              - key: node-role.kubernetes.io/master
+                operator: DoesNotExist
 ---
 # Source: crowdsec/charts/crowdsec/templates/appsec-deployment.yaml
 apiVersion: apps/v1
