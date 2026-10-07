@@ -1692,7 +1692,7 @@ kind: VerticalPodAutoscaler
 metadata:
   name: envoy-proxy-bouncer-homelab
   labels:
-    helm.sh/chart: homelab-0.1.31
+    helm.sh/chart: homelab-0.2.0
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: envoy-proxy-bouncer
     app.kubernetes.io/version: "1.16.0"
