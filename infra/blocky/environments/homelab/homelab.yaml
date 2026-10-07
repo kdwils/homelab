@@ -7,7 +7,7 @@ blocky:
     replicas: 2
     image:
       repository: ghcr.io/0xerr0r/blocky
-      tag: v0.25
+      tag: v0.35.0
     args:
       - --config
       - /app/config/config.yml

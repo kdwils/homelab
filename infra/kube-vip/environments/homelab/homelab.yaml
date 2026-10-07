@@ -19,7 +19,9 @@ kube-vip:
         operator: Exists
     image:
       repository: ghcr.io/kube-vip/kube-vip
-      tag: v0.8.0
+      tag: v1.2.4
+    args:
+      - manager
     securityContext:
       capabilities:
         add:
@@ -33,6 +35,7 @@ kube-vip:
       port: "6443"
       vip_subnet: "32"
       cp_enable: "true"
+      cp_namespace: kube-system
       lb_enable: "true"
       svc_enable: "false"
       vip_leaderelection: "true"
