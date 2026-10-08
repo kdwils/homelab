@@ -32,6 +32,7 @@ spec:
         branch: main
         includePaths:
           - glob:charts/metallb/**
+          - glob:infra/metallb/environments/**
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage

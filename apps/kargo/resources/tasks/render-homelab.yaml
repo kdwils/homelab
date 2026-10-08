@@ -195,6 +195,16 @@ spec:
         outPath: ./target/infra/longhorn/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
+      as: render-metallb
+      config:
+        path: ./source/charts/metallb
+        valuesFiles:
+          - ./source/infra/metallb/environments/homelab/homelab.yaml
+        namespace: metallb-system
+        releaseName: metallb
+        outPath: ./target/infra/metallb/environments/homelab/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-sealedsecrets
       config:
         path: ./source/charts/sealedsecrets

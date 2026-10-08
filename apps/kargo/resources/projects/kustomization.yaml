@@ -22,6 +22,7 @@ resources:
   - homelab-chart.yaml
   - longhorn.yaml
   - mealie.yaml
+  - metallb.yaml
   - mediaz.yaml
   - mgnx.yaml
   - nats.yaml
