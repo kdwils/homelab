@@ -1,0 +1,81 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: metallb-system
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: metallb-system
+  namespace: metallb-system
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: metallb
+  namespace: metallb-system
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: https://metallb.github.io/metallb
+        name: metallb
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:charts/metallb/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: metallb-system
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: metallb
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: metallb
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/metallb
+            - name: chartRepo
+              value: https://metallb.github.io/metallb
+            - name: chartName
+              value: metallb
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update metallb chart dependency
+            - name: prTitle
+              value: "Update metallb chart dependency"
+            - name: prDescription
+              value: Update metallb chart dependency
