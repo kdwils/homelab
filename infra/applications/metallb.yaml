@@ -12,9 +12,9 @@ spec:
     namespace: metallb-system
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/metallb
+    path: infra/metallb/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: infra
   syncPolicy:
