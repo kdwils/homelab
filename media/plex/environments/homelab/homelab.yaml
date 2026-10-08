@@ -37,7 +37,7 @@ plex:
 
   service:
     create: true
-    type: LoadBalancer
+    type: ClusterIP
     ports:
       - name: pms
         port: 32400
