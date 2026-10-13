@@ -1,0 +1,32 @@
+name: Cleanup stale Kargo promotion branches
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete kargo/promotion/* branches without an open PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          open=$(gh pr list --state open --limit 1000 --json headRefName -q '.[].headRefName')
+          gh api --paginate "repos/${GH_REPO}/git/matching-refs/heads/kargo/promotion/" -q '.[].ref' |
+            sed 's#^refs/heads/##' |
+            while read -r branch; do
+              if grep -qxF "$branch" <<<"$open"; then
+                echo "keep $branch (open PR)"
+                continue
+              fi
+              echo "delete $branch"
+              gh api -X DELETE "repos/${GH_REPO}/git/refs/heads/${branch}"
+            done
