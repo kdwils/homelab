@@ -79701,7 +79701,7 @@ kind: HTTPRoute
 metadata:
   name: grafana
   labels:
-    helm.sh/chart: homelab-0.2.0
+    helm.sh/chart: homelab-0.2.1
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: kube-prometheus-stack
     app.kubernetes.io/version: "1.16.0"
@@ -79732,7 +79732,7 @@ kind: HTTPRoute
 metadata:
   name: prometheus
   labels:
-    helm.sh/chart: homelab-0.2.0
+    helm.sh/chart: homelab-0.2.1
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: kube-prometheus-stack
     app.kubernetes.io/version: "1.16.0"
