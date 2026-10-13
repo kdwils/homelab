@@ -73,7 +73,7 @@ blocky:
     create: true
     type: LoadBalancer
     annotations:
-      metallb.universe.tf/loadBalancerIPs: "192.168.0.21"
+      metallb.io/loadBalancerIPs: "192.168.0.21"
     ports:
       - name: dns-udp
         port: 53
