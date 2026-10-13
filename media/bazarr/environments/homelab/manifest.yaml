@@ -93,8 +93,8 @@ spec:
               containerPort: 6767
               protocol: TCP
           livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
+            failureThreshold: 6
+            initialDelaySeconds: 90
             periodSeconds: 10
             tcpSocket:
               port: 6767
