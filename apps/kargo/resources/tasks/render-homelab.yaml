@@ -354,6 +354,16 @@ spec:
         releaseName: alloy
         outPath: ./target/monitoring/alloy/environments/homelab/manifest.yaml
     - uses: helm-template
+      as: render-cert-manager
+      config:
+        path: ./source/charts/cert-manager
+        valuesFiles:
+          - ./source/infra/cert-manager/environments/homelab/homelab.yaml
+        namespace: cert-manager
+        releaseName: cert-manager
+        outPath: ./target/infra/cert-manager/environments/homelab/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-cnpg
       config:
         path: ./source/charts/cnpg

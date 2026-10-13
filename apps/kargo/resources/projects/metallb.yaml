@@ -27,6 +27,8 @@ spec:
     - chart:
         repoURL: https://metallb.github.io/metallb
         name: metallb
+    - chart:
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
     - git:
         repoURL: https://github.com/kdwils/homelab.git
         branch: main
@@ -69,6 +71,16 @@ spec:
               value: https://metallb.github.io/metallb
             - name: chartName
               value: metallb
+        - task:
+            name: helm-update-single-oci-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/metallb
+            - name: chartRepo
+              value: oci://ghcr.io/kdwils/charts
+            - name: chartName
+              value: homelab-chart
         - task:
             name: git-ops-commit-pr
             kind: ClusterPromotionTask

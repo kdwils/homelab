@@ -1,0 +1,12 @@
+apiVersion: v2
+name: cert-manager
+description: cert-manager
+version: 0.1.0
+dependencies:
+  - name: cert-manager
+    version: v1.19.1
+    repository: https://charts.jetstack.io
+  - name: homelab-chart
+    version: 0.2.0
+    repository: oci://ghcr.io/kdwils/charts
+    alias: homelab

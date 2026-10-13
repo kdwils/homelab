@@ -1,0 +1,9 @@
+dependencies:
+- name: cert-manager
+  repository: https://charts.jetstack.io
+  version: v1.19.1
+- name: homelab-chart
+  repository: oci://ghcr.io/kdwils/charts
+  version: 0.2.0
+digest: sha256:263ee83514687064275be45671e34f8a773106785436ab9fe9331742a6d59d84
+generated: "2026-10-12T22:26:36.754946-04:00"

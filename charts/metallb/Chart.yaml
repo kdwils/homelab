@@ -6,3 +6,7 @@ dependencies:
   - name: metallb
     version: 0.16.1
     repository: https://metallb.github.io/metallb
+  - name: homelab-chart
+    version: 0.2.0
+    repository: oci://ghcr.io/kdwils/charts
+    alias: homelab

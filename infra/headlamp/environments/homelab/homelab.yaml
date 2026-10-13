@@ -47,6 +47,23 @@ homelab:
         OIDC_ISSUER_URL: AgBjIIdPe4pJsEaSgdMtaqJ/VDA4LFE/mcUP6YJ95Zw6I+2T1v9Cl2FTgvtg6ec9O/RxB/MR8sikg6EaOhoTq1m3ZhfDVBIubJ7BdlVMfJD3OrEtfs2m+TaNCd+CTZFzWS/xbOZm7DqXR9nrQ7qknbmgN/rwwU66Ge4UJJoX9YyKaOVdQ4PyWOKbKdGLcXEOTXF8dMkDkwkoiB9MjXfLrKJumcfC/Vbz5nygacYg+1KRMMz2j6U7sLG2J8XBk8m3iWKbyH0VRyjUadMlxQ7UtsBrZSjgCShM6kNwTo0Ll0QEqTT70mfmRdSlV0OX4WA/4LhwxMaxMF6/ltWBc9vIPflDqvRCcXlz96Lvj16RnsqezbBMU8k8xLjwpLfnTlgP18sryzUxRnYcc4Sv4eoUQaLpcvwDKNYf85oEXzrVk4X1wQtF91PCGPFPPZxjimyAH3KxV/ISLhye6QInPeDmneypZ99r1xGATFk+PoN2VCQOZBlrlTouXufKDmfHMMu9ijYDJmpbfuZnR9eqTblf9XT/BhGynRGg0kBihKe2ufrB/qVxaURRi0nFqaIzk3NVqpaY7lHwBP4Fb/Jly/DfZgpTvC04za4mOnkjO5Fou3vTJFdjCfNAqkVBa5BVOiKZYsUnciz+Aq3dU70Vg5FirlZhAx96tkbIKYz+/jAvPk1U8zDEoMGzRz7hjeixfQOMpD8frLaWhig7j5sr9cE25V6yXrHLSOquHPG+S0s=
         OIDC_SCOPES: AgC8Nit4zb5N+h2hqMIfJKCJwEPPxVJ1YXgQ5wEMkh0H0tIYXLEhNpK/lOukhGzr9wGXDoHZv/Shghs2PtJXyQoIzUKZapP12vNbpLDowJ7boZt7ZgCG1ZPx4v/XS56/s0yr6/s33Woia+Ldv3HxtcsWcOHpdeJY2WurgNzs22fcFV4H2hscAX93MgAd0WR6aUDNDSp1mpBXzc/DQhRF0+dAXaTTs8TKkIjFxgF7aRV6RtvWbMPeU7wvt+Js5C2BqRcIWfvPlxYDAauOwh5qE0/0qg4FUKe8xUw4XSFdgXQazxuHKpWlQwxmwMuUMc1W0VynBiBzvLq2rII9tJAkXTaDbzESSpBBRylvMeqW3oEWtHEjFxTV7u6Fw3B7cUjnABP1t8UNm5AvFd1bFugF07CBjdAOPWkYmbqcoCeUQ9QAk+eJ7uOkx4+yT8Zg+vPMNyzDjaVoc9rUZbZwUDvICy14pVu6n6izML1zatK70TSjWjsK8Nrtw/QMeqsqgp3qR9ojgbnzgUXZ1SNys0K8446PTicn0QtRtFAgHDVdBmpQWgUb4XonVYXoESYdk45FfITNPdeM5sGw5LhLC87MX1c4Mh1NF0l88COrOIL4P4q1D35yjkPivSU7h3hw66h5TaRWc3NvKL+oOBxlqRETsRkVrMZABRakz98WhoyKHMJ1/eDWZ0a4nOINtGgOq7MhsU1tkcxGkD1i3ZZpHqXRgi02DOJOmQ8qZv8fjl8=
 
+  verticalPodAutoscaler:
+    enabled: true
+    targetRef:
+      name: headlamp
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
+
   httproutes:
     - name: headlamp
       hostnames:

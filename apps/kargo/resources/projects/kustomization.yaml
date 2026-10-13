@@ -8,6 +8,7 @@ resources:
   - blog.yaml
   - bluesky.yaml
   - byparr.yaml
+  - cert-manager.yaml
   - cloudflared.yaml
   - cnpg.yaml
   - coder.yaml

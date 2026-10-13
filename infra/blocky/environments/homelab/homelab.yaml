@@ -28,6 +28,21 @@ blocky:
                 app.kubernetes.io/name: blocky
             topologyKey: kubernetes.io/hostname
 
+  verticalPodAutoscaler:
+    enabled: true
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 500m
+            memory: 512Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
+
   configmap:
     create: true
     configmaps:

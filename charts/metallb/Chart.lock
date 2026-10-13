@@ -2,5 +2,8 @@ dependencies:
 - name: metallb
   repository: https://metallb.github.io/metallb
   version: 0.16.1
-digest: sha256:977dbcaa14b6925207b57151423cd64ca047e7b50d8253df3c64760b8850f1cb
-generated: "2026-10-08T21:58:25.430303104Z"
+- name: homelab-chart
+  repository: oci://ghcr.io/kdwils/charts
+  version: 0.2.0
+digest: sha256:7105e524e4802e320d8670eebba7e04b00206214c20ba1ca9790a8296c0f7429
+generated: "2026-10-12T22:23:03.073663-04:00"

@@ -1,3 +1,22 @@
 metallb:
   frrk8s:
     enabled: false
+
+homelab:
+  verticalPodAutoscaler:
+    enabled: true
+    targetRef:
+      kind: DaemonSet
+      name: metallb-speaker
+    updatePolicy:
+      updateMode: InPlace
+    resourcePolicy:
+      containerPolicies:
+        - containerName: "*"
+          maxAllowed:
+            cpu: 250m
+            memory: 256Mi
+          controlledResources:
+            - cpu
+            - memory
+          controlledValues: RequestsAndLimits
