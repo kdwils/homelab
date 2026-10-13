@@ -1315,7 +1315,7 @@ spec:
         memory: 768Mi
       minAllowed:
         cpu: 500m
-        memory: 256Mi
+        memory: 500Mi
 ---
 # Source: crowdsec/charts/homelab/templates/vpa.yaml
 apiVersion: autoscaling.k8s.io/v1
@@ -1346,8 +1346,8 @@ spec:
         cpu: 500m
         memory: 512Mi
       minAllowed:
-        cpu: 100m
-        memory: 64Mi
+        cpu: 200m
+        memory: 256Mi
 ---
 # Source: crowdsec/charts/homelab/templates/vpa.yaml
 apiVersion: autoscaling.k8s.io/v1
@@ -1378,8 +1378,8 @@ spec:
         cpu: 500m
         memory: 512Mi
       minAllowed:
-        cpu: 50m
-        memory: 50Mi
+        cpu: 100m
+        memory: 256Mi
 ---
 # Source: crowdsec/charts/crowdsec/templates/tests/test_agent_up.yaml
 apiVersion: v1
