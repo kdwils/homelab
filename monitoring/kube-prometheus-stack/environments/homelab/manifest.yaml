@@ -77819,8 +77819,8 @@ data:
           },
           {
             "type": "textbox",
-            "name": "path",
-            "label": "Path (regex)",
+            "name": "status",
+            "label": "Status (regex, e.g. 5..)",
             "query": ".*",
             "current": {
               "text": ".*",
@@ -77836,18 +77836,18 @@ data:
           },
           {
             "type": "textbox",
-            "name": "status",
-            "label": "Status (regex, e.g. 5..)",
-            "query": ".*",
+            "name": "exclude",
+            "label": "Exclude hosts (regex)",
+            "query": "^$",
             "current": {
-              "text": ".*",
-              "value": ".*"
+              "text": "^$",
+              "value": "^$"
             },
             "options": [
               {
                 "selected": true,
-                "text": ".*",
-                "value": ".*"
+                "text": "^$",
+                "value": "^$"
               }
             ]
           }
@@ -77875,7 +77875,7 @@ data:
                 "type": "loki",
                 "uid": "loki"
               },
-              "expr": "sum(rate({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"$status\" [$__auto]))",
+              "expr": "sum(rate({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" [$__auto]))",
               "queryType": "range",
               "legendFormat": ""
             }
@@ -77926,7 +77926,7 @@ data:
                 "type": "loki",
                 "uid": "loki"
               },
-              "expr": "sum(rate({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"5..\" [$__auto])) / sum(rate({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" [$__auto]))",
+              "expr": "sum(rate({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"5..\" [$__auto])) / sum(rate({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" [$__auto]))",
               "queryType": "range",
               "legendFormat": ""
             }
@@ -77985,7 +77985,7 @@ data:
                 "type": "loki",
                 "uid": "loki"
               },
-              "expr": "max(quantile_over_time(0.95, {namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"$status\" | unwrap duration_ms [$__auto]))",
+              "expr": "max(quantile_over_time(0.95, {namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" | unwrap duration_ms [$__auto]))",
               "queryType": "range",
               "legendFormat": ""
             }
@@ -78044,7 +78044,7 @@ data:
                 "type": "loki",
                 "uid": "loki"
               },
-              "expr": "sum(count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"$status\" [$__range]))",
+              "expr": "sum(count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" [$__range]))",
               "queryType": "range",
               "legendFormat": ""
             }
@@ -78077,7 +78077,7 @@ data:
         {
           "id": 5,
           "type": "timeseries",
-          "title": "Requests by status",
+          "title": "Requests by host",
           "datasource": {
             "type": "loki",
             "uid": "loki"
@@ -78095,9 +78095,9 @@ data:
                 "type": "loki",
                 "uid": "loki"
               },
-              "expr": "sum by (response_code) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"$status\" [$__auto]))",
+              "expr": "sum by (host) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" [$__auto]))",
               "queryType": "range",
-              "legendFormat": "{{response_code}}"
+              "legendFormat": "{{host}}"
             }
           ],
           "fieldConfig": {
@@ -78116,7 +78116,7 @@ data:
         {
           "id": 6,
           "type": "timeseries",
-          "title": "p95 latency by host",
+          "title": "5xx by host",
           "datasource": {
             "type": "loki",
             "uid": "loki"
@@ -78134,14 +78134,14 @@ data:
                 "type": "loki",
                 "uid": "loki"
               },
-              "expr": "quantile_over_time(0.95, {namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"$status\" | unwrap duration_ms [$__auto]) by (host)",
+              "expr": "sum by (host) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"5..\" [$__auto]))",
               "queryType": "range",
               "legendFormat": "{{host}}"
             }
           ],
           "fieldConfig": {
             "defaults": {
-              "unit": "ms"
+              "unit": "short"
             },
             "overrides": []
           }
@@ -78149,13 +78149,13 @@ data:
         {
           "id": 7,
           "type": "table",
-          "title": "Recent requests (click trace_id to open the trace)",
+          "title": "Stats by host (selected time range)",
           "datasource": {
             "type": "loki",
             "uid": "loki"
           },
           "gridPos": {
-            "h": 11,
+            "h": 12,
             "w": 24,
             "x": 0,
             "y": 12
@@ -78167,76 +78167,212 @@ data:
                 "type": "loki",
                 "uid": "loki"
               },
-              "expr": "{namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"$status\"",
-              "queryType": "range",
-              "legendFormat": ""
+              "expr": "sum by (host) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" [$__range]))",
+              "queryType": "instant",
+              "legendFormat": "Requests"
+            },
+            {
+              "refId": "B",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "sum by (host) (rate({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" [$__range]))",
+              "queryType": "instant",
+              "legendFormat": "Req/s"
+            },
+            {
+              "refId": "C",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "sum by (host) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"2..\" [$__range]))",
+              "queryType": "instant",
+              "legendFormat": "2xx"
+            },
+            {
+              "refId": "D",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "sum by (host) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"3..\" [$__range]))",
+              "queryType": "instant",
+              "legendFormat": "3xx"
+            },
+            {
+              "refId": "E",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "sum by (host) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"4..\" [$__range]))",
+              "queryType": "instant",
+              "legendFormat": "4xx"
+            },
+            {
+              "refId": "F",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "sum by (host) (count_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"5..\" [$__range]))",
+              "queryType": "instant",
+              "legendFormat": "5xx"
+            },
+            {
+              "refId": "G",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "quantile_over_time(0.50, {namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" | unwrap duration_ms [$__range]) by (host)",
+              "queryType": "instant",
+              "legendFormat": "p50 ms"
+            },
+            {
+              "refId": "H",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "quantile_over_time(0.95, {namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" | unwrap duration_ms [$__range]) by (host)",
+              "queryType": "instant",
+              "legendFormat": "p95 ms"
+            },
+            {
+              "refId": "I",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "quantile_over_time(0.99, {namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" | unwrap duration_ms [$__range]) by (host)",
+              "queryType": "instant",
+              "legendFormat": "p99 ms"
+            },
+            {
+              "refId": "J",
+              "datasource": {
+                "type": "loki",
+                "uid": "loki"
+              },
+              "expr": "sum by (host) (sum_over_time({namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | host!~\"$exclude\" | response_code=~\"$status\" | unwrap bytes_sent [$__range]))",
+              "queryType": "instant",
+              "legendFormat": "Bytes out"
             }
           ],
           "transformations": [
             {
-              "id": "extractFields",
+              "id": "labelsToFields",
               "options": {
-                "source": "Line",
-                "format": "json",
-                "replace": false,
-                "keepTime": true
+                "mode": "columns"
+              }
+            },
+            {
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "calculateField",
+              "options": {
+                "mode": "binary",
+                "binary": {
+                  "left": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "5xx"
+                    }
+                  },
+                  "operator": "/",
+                  "right": {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Requests"
+                    }
+                  }
+                },
+                "alias": "5xx %",
+                "replaceFields": false
               }
             },
             {
               "id": "organize",
               "options": {
                 "excludeByName": {
-                  "Line": true,
-                  "labels": true,
-                  "id": true,
-                  "tsNs": true,
-                  "labelTypes": true,
-                  "start_time": true,
-                  "x_request_id": true,
-                  "bytes_sent": true,
                   "Time": true
                 },
+                "renameByName": {
+                  "Value #A": "Requests",
+                  "Value #B": "Req/s",
+                  "Value #C": "2xx",
+                  "Value #D": "3xx",
+                  "Value #E": "4xx",
+                  "Value #F": "5xx",
+                  "Value #G": "p50 ms",
+                  "Value #H": "p95 ms",
+                  "Value #I": "p99 ms",
+                  "Value #J": "Bytes out"
+                },
                 "indexByName": {
-                  "start_time": 0,
-                  "host": 1,
-                  "method": 2,
-                  "path": 3,
-                  "response_code": 4,
-                  "duration_ms": 5,
-                  "response_flags": 6,
-                  "upstream_host": 7,
-                  "trace_id": 8
+                  "host": 0,
+                  "Requests": 1,
+                  "Req/s": 2,
+                  "2xx": 3,
+                  "3xx": 4,
+                  "4xx": 5,
+                  "5xx": 6,
+                  "5xx %": 7,
+                  "p50 ms": 8,
+                  "p95 ms": 9,
+                  "p99 ms": 10,
+                  "Bytes out": 11
                 }
+              }
+            },
+            {
+              "id": "sortBy",
+              "options": {
+                "sort": [
+                  {
+                    "field": "Requests",
+                    "desc": true
+                  }
+                ]
               }
             }
           ],
           "fieldConfig": {
-            "defaults": {},
+            "defaults": {
+              "decimals": 0
+            },
             "overrides": [
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "trace_id"
+                  "options": "Req/s"
                 },
                 "properties": [
                   {
-                    "id": "links",
-                    "value": [
-                      {
-                        "title": "Open trace",
-                        "url": "/explore?orgId=1&left=%7B%22datasource%22%3A%22tempo%22%2C%22queries%22%3A%5B%7B%22refId%22%3A%22A%22%2C%22datasource%22%3A%7B%22type%22%3A%22tempo%22%2C%22uid%22%3A%22tempo%22%7D%2C%22queryType%22%3A%22traceql%22%2C%22query%22%3A%22${__value.raw}%22%7D%5D%2C%22range%22%3A%7B%22from%22%3A%22${__from}%22%2C%22to%22%3A%22${__to}%22%7D%7D",
-                        "targetBlank": true
-                      }
-                    ]
+                    "id": "decimals",
+                    "value": 2
                   }
                 ]
               },
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "response_code"
+                  "options": "5xx %"
                 },
                 "properties": [
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
                   {
                     "id": "custom.cellOptions",
                     "value": {
@@ -78254,11 +78390,49 @@ data:
                         },
                         {
                           "color": "orange",
-                          "value": 400
+                          "value": 0.01
                         },
                         {
                           "color": "red",
+                          "value": 0.05
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": "p(50|95|99) ms"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "color-text"
+                    }
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "orange",
                           "value": 500
+                        },
+                        {
+                          "color": "red",
+                          "value": 2000
                         }
                       ]
                     }
@@ -78268,12 +78442,54 @@ data:
               {
                 "matcher": {
                   "id": "byName",
-                  "options": "duration_ms"
+                  "options": "Bytes out"
                 },
                 "properties": [
                   {
                     "id": "unit",
-                    "value": "ms"
+                    "value": "bytes"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "4xx"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "color-text"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "orange"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "5xx"
+                },
+                "properties": [
+                  {
+                    "id": "custom.cellOptions",
+                    "value": {
+                      "type": "color-text"
+                    }
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "mode": "fixed",
+                      "fixedColor": "red"
+                    }
                   }
                 ]
               }
@@ -78281,7 +78497,7 @@ data:
           },
           "options": {
             "showHeader": true,
-            "sortBy": []
+            "cellHeight": "sm"
           }
         },
         {
@@ -78296,7 +78512,7 @@ data:
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 23
+            "y": 24
           },
           "targets": [
             {
@@ -78314,40 +78530,6 @@ data:
           "fieldConfig": {
             "defaults": {},
             "overrides": []
-          }
-        },
-        {
-          "id": 9,
-          "type": "logs",
-          "title": "Access log (filtered; trace_id links to Tempo)",
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "gridPos": {
-            "h": 10,
-            "w": 24,
-            "x": 0,
-            "y": 32
-          },
-          "targets": [
-            {
-              "refId": "A",
-              "datasource": {
-                "type": "loki",
-                "uid": "loki"
-              },
-              "expr": "{namespace=\"envoy-gateway-system\", container=\"envoy\"} | json | __error__=\"\" | host=~\"$host\" | path=~\"$path\" | response_code=~\"$status\"",
-              "queryType": "range",
-              "legendFormat": ""
-            }
-          ],
-          "options": {
-            "showTime": true,
-            "wrapLogMessage": false,
-            "prettifyLogMessage": true,
-            "enableLogDetails": true,
-            "sortOrder": "Descending"
           }
         }
       ]
