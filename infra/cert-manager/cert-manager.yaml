@@ -16,6 +16,8 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: cert-manager
+  labels:
+    kargo.akuity.io/project: "true"
 
 ---
 # Source: cert-manager/templates/crd-acme.cert-manager.io_challenges.yaml
