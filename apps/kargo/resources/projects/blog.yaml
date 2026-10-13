@@ -104,7 +104,6 @@ spec:
             repoURL: ${{ vars.gitRepo }}
             sourceBranch: ${{ outputs['push-feature-branch'].branch }}
             targetBranch: ${{ vars.targetBranch }}
-            createTargetBranch: false
             title: "Update blog image across environments"
             description: |
               ## Updates

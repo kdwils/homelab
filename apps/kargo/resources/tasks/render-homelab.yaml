@@ -408,7 +408,6 @@ spec:
         repoURL: ${{ vars.gitRepo }}
         sourceBranch: ${{ task.outputs['push-changes'].branch }}
         targetBranch: ${{ vars.targetBranch }}
-        createTargetBranch: false
         title: "Deploy all apps to homelab"
     - uses: git-wait-for-pr
       as: wait-approval

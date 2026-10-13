@@ -27,7 +27,8 @@ spec:
     - image:
         repoURL: ghcr.io/kasuboski/mediaz
         imageSelectionStrategy: NewestBuild
-        allowTags: ^sha-.*
+        allowTagsRegexes:
+          - ^sha-.*
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git

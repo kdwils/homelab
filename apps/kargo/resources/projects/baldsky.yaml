@@ -33,7 +33,8 @@ spec:
     - image:
         repoURL: ghcr.io/kdwils/baldsky
         imageSelectionStrategy: NewestBuild
-        allowTags: ^sha-.*
+        allowTagsRegexes:
+          - ^sha-.*
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git

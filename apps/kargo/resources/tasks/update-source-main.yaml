@@ -46,7 +46,6 @@ spec:
         repoURL: ${{ vars.gitRepo }}
         sourceBranch: ${{ task.outputs['push-feature-branch'].branch }}
         targetBranch: ${{ vars.targetBranch }}
-        createTargetBranch: false
         title: "Update image version"
         description: |
           ## Updates

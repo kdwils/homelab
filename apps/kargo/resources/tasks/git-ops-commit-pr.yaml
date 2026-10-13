@@ -27,7 +27,6 @@ spec:
         repoURL: ${{ vars.gitRepo }}
         sourceBranch: ${{ task.outputs['push-feature-branch'].branch }}
         targetBranch: ${{ vars.targetBranch }}
-        createTargetBranch: false
         title: ${{ vars.prTitle }}
         description: ${{ vars.prDescription }}
     - uses: git-wait-for-pr
