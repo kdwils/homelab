@@ -92,6 +92,7 @@ kube-prometheus-stack:
 
     prometheusSpec:
       retention: 3d
+      enableRemoteWriteReceiver: true
       enableFeatures:
         - scrapeconfig
 

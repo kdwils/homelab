@@ -9,7 +9,25 @@ tempo:
           http:
             endpoint: 0.0.0.0:4318
     metricsGenerator:
-      enabled: false
+      enabled: true
+      remoteWriteUrl: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
+      storage:
+        path: /var/tempo/generator/wal
+      traces_storage:
+        path: /var/tempo/generator/traces
+      processor:
+        local_blocks:
+          flush_to_storage: true
+          filter_server_spans: false
+        service_graphs: {}
+        span_metrics: {}
+    overrides:
+      defaults:
+        metrics_generator:
+          processors:
+            - local-blocks
+            - service-graphs
+            - span-metrics
   persistence:
     enabled: true
     storageClassName: longhorn
