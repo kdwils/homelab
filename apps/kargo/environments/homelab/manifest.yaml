@@ -290,7 +290,7 @@ metadata:
 data:
   EXTERNAL_WEBHOOK_SERVER_BASE_URL: https://localhost
   KARGO_NAMESPACE: kargo
-  CLUSTER_SECRETS_NAMESPACE: ""
+  CLUSTER_SECRETS_NAMESPACE: "kargo-system-resources"
   SYSTEM_RESOURCES_NAMESPACE: "kargo-system-resources"
   GLOBAL_CREDENTIALS_NAMESPACE: ""
   SHARED_RESOURCES_NAMESPACE: "kargo-cluster-secrets"
@@ -7378,7 +7378,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: kargo-cluster-secrets-reader
-  namespace: 
+  namespace: kargo-system-resources
   labels:
     helm.sh/chart: kargo-1.10.7
     app.kubernetes.io/name: kargo
@@ -7400,7 +7400,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: kargo-cluster-secrets-admin
-  namespace: 
+  namespace: kargo-system-resources
   labels:
     helm.sh/chart: kargo-1.10.7
     app.kubernetes.io/name: kargo
@@ -7571,7 +7571,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: kargo-cluster-secrets-reader
-  namespace: 
+  namespace: kargo-system-resources
   labels:
     helm.sh/chart: kargo-1.10.7
     app.kubernetes.io/name: kargo
@@ -7595,7 +7595,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: kargo-cluster-secrets-admin
-  namespace: 
+  namespace: kargo-system-resources
   labels:
     helm.sh/chart: kargo-1.10.7
     app.kubernetes.io/name: kargo
@@ -8056,7 +8056,7 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: management-controller
       annotations:
-        configmap/checksum: 6af7192e2d3d9b5b742f5ab00e9ba92e85bedd88d0f916ff2c2d432a19f0f00f
+        configmap/checksum: ce66eb107c61b7c815c084fba335802c830ec5928069ad3217f74bcc58766bf1
     spec:
       serviceAccount: kargo-management-controller
       containers:
