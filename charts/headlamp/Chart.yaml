@@ -1,0 +1,12 @@
+apiVersion: v2
+name: headlamp
+description: Headlamp Kubernetes UI with OIDC login and homelab chart for HTTPRoute and SealedSecrets
+version: 0.1.0
+dependencies:
+  - name: headlamp
+    version: 0.45.0
+    repository: https://kubernetes-sigs.github.io/headlamp/
+  - name: homelab-chart
+    version: 0.2.0
+    repository: oci://ghcr.io/kdwils/charts
+    alias: homelab

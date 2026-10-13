@@ -225,6 +225,16 @@ spec:
         outPath: ./target/infra/vpa/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
+      as: render-headlamp
+      config:
+        path: ./source/charts/headlamp
+        valuesFiles:
+          - ./source/infra/headlamp/environments/homelab/homelab.yaml
+        namespace: headlamp
+        releaseName: headlamp
+        outPath: ./target/infra/headlamp/environments/homelab/manifest.yaml
+        includeCRDs: true
+    - uses: helm-template
       as: render-tailscale
       config:
         path: ./source/charts/tailscale

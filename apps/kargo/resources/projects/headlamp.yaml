@@ -1,0 +1,94 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: headlamp
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: headlamp
+  namespace: headlamp
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: headlamp
+  namespace: headlamp
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: https://kubernetes-sigs.github.io/headlamp/
+        name: headlamp
+    - chart:
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:infra/headlamp/environments/**
+          - glob:charts/headlamp/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: headlamp
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: headlamp
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: headlamp
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/headlamp
+            - name: chartRepo
+              value: https://kubernetes-sigs.github.io/headlamp/
+            - name: chartName
+              value: headlamp
+        - task:
+            name: helm-update-single-oci-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/headlamp
+            - name: chartRepo
+              value: oci://ghcr.io/kdwils/charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update headlamp chart dependencies
+            - name: prTitle
+              value: "Update headlamp chart dependencies"
+            - name: prDescription
+              value: Update headlamp chart dependencies

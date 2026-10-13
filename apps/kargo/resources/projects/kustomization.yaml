@@ -15,6 +15,7 @@ resources:
   - envoy-gateway.yaml
   - envoy-proxy-bouncer.yaml
   - flaresolverr.yaml
+  - headlamp.yaml
   - events.yaml
   - kargo.yaml
   - kube-vip.yaml

@@ -15,5 +15,6 @@ resources:
   - sealed-secrets.yaml
   - tailscale.yaml
   - vpa.yaml
+  - headlamp.yaml
   - nfs-provisioner.yaml
   - system-upgrade.yaml

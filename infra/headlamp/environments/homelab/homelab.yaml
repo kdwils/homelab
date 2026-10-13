@@ -1,0 +1,62 @@
+headlamp:
+  fullnameOverride: headlamp
+
+  config:
+    inCluster: true
+    inClusterContextName: homelab
+    oidc:
+      secret:
+        create: false
+      externalSecret:
+        enabled: true
+        name: headlamp-oidc
+        hasScopes: true
+
+  clusterRoleBinding:
+    create: false
+  extraManifests:
+    - |
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRoleBinding
+      metadata:
+        name: oidc-k8s
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+        - apiGroup: rbac.authorization.k8s.io
+          kind: Group
+          name: k8s
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+homelab:
+  sealedsecrets:
+    - name: headlamp-oidc
+      data:
+        OIDC_CALLBACK_URL: AgC2+HfJZUc4r33NQkwC3XPX5vwvaolKfcQwmg0KLWMo+S05mMmwz6QgDg5i+AclsHUqo6Cuf76uodqSyRlLM6AlRhRotnFPd+MDATjTVK885ArzHSuDCMGtJg37dvH0hdjZJdLXIJk5QpOpG0oOhZexIK9c/b6Sg0POGHnPMuh7B4WQs7u5S3kFrH3l4OS/l5J3zLPy2APTHwaJ0YP4fSp3EM8m0g7r2nF3E0UeG6xQjkNwouD0yVYe6ppy+h34Aka8G6hql69my+lyaxnTG9o1Y6+DopzQy9I1AcXlSItfRpykxxrlKCxF+52CvYYZrH8gYK6kRfINSipTx3WLNeVpLhKDTdRXpV67xgcHvsxP2ge9kM+NEC7zvluEvQxgzG1XnuT59d27NG6lNZSQLogt50q1BmVao2q0D1bw45Cj6HaTfN4jiKc0tafQs+WGZFpH0mjv4x9z/YI2pbAVbTy4/NsH3aWlxLp6JoCsd0AzrVS7Cz8zJ73ZYyLkD7hte2QUmjey/1/JYTSjygTc46FSOWvQxE7vPddz2lnBJe9qZECHHCDVQuTLUocCFOP0/96St+joAhPrn3WH9ifKMlhDuJOqbGDidb0210k5f/b9LWAQR8umSrSZfXoXR8ceWmQOynfUEqI2EkUQtDmWX3f4L+qgr8utElOmu2Zh3XprtzdWhtLaumMVSt398hI07/VjEYLb51VZRBTdyR793zbQkMgx59dZXMKe5Df4L2BU19p8gjT3csR3cJzbERI=
+        OIDC_CLIENT_ID: AgCxIm/ZZse8GMte8knzgIYnUXI1VYDSupOob7weD3fKUn9/aYvToo5bjlmz+ZY31AdnGMTiDPTaQMMir6g0zhbn1AQ6wa9GPhQdmg4hBuGgzsahUgYgBc1x6GIOxS2TQZb+k2qBoh2Q//h0KrQdY5dida1V+I3C+oPFlnRbUvitOHO3w3SHs649QnWUq4p8zrg3fAcHLO1kDj21RFhafrekfwv/yEUQEz11ZyBM5vgTesAZMW7JawCXKEUnnVM1w4e97wTasZWy1djoYQAj6Ow7O1rwRa1a5WooRcsN3Gaed2T/dZ8ncaVZoXZTSDILUwsr5pTfWQQDEezIZeFI64HTUujA+BMI4meXgKTq/gG8BiV/6louwiETpApGD0ln+qfflKBvOnpmritbaXWfI6TSR/oguu+C7+AGqahObM01gA5xYp1d61HVBeVS4vEQ6eeceB7wVpZVsOxxaG34uIuyNTqRPKc5DRtG7N0zReseH5i0OrjV2QJSz+8nEcryMfSaR3wzG3yz6zC71nWkldpOvZadPW1LfNkxzF/lSLQ9RJ13Il5DyfzoghwRzeylQtyIzuaSCS7SmWA//zo0D6LMjcOa1QaGLQQk18CmTx0j1e3omHRNI5f0W1MS4r7eMILY5mSwNj6Z/NnXJgvBTPtXQijzNIfyNG1ueZTUy8vfYWNlsACF+eQApiGumJms2jiUpt3uxrZxV5fTZPnM9tegRLKv+ax2ewyF3jjqFmB56QrPtkk=
+        OIDC_CLIENT_SECRET: AgDYYw56VMQVryqkjuLtjhB5aUgs6Y5dcYT98baLU3GHoxyolFDQr4Ql2Yi9P1srNIihj/nOxid8YNWn8ydrk3QctW3HmNQQ8ydALneDVtDcByFWmfZj4AjHW34B7OGj/veBfFbx6cOnigGPFrSgQNf5bulp3UALgA0rwKnzk/7KKWvWAcplRd0IzzWG7PjIGoyz4SZ6z6T25rB5RV/q8R31E6RdfA+hBP6HJNSAlCRJYLXG92U93YJ5lh+3kZxs4ESffgB0g6qYqOBkLB90Z3jrvGq+Afj6EJb31y9u26n276rNKXEJ2bBHphAa9iLfEZvM9ZionohQPI0Qnt94Fh1388wIIJB72ifC+uoA+mXieuGkelEsS3/AKsl+SmcrkrZjqiKVsXUsL3LbfEzcBexckt0tMoqs3cVjG73aJfo51Y/osn8/oK/oVF0I3JqUl7WCfhBNCNAOgvU8p70o9YKZHhiP65ES2JDmXUUcYFRoHEMqRhnO+lun5PQWCj/IaE9dAD6YW6svFBnJpK9PL1kvG400NsI2Txyh6ePP8ZalnafbN06DJCbX7gD+87RIplD0AmkzKqyDJKqbMPjsXc9FKMPkom4wLaDMkoiQhFJsB039zZbIdfL+IqUbLMqX/Stov8HdpDPSbCz7303VGGtTrbUzWOM5r61gydRWXycywL01bZ+G5MqOMuPREFpYw8jy2uP4kJ6IU2FSDmrkc0P8xIEqM89an3CHQt86WfHfmg==
+        OIDC_ISSUER_URL: AgBjIIdPe4pJsEaSgdMtaqJ/VDA4LFE/mcUP6YJ95Zw6I+2T1v9Cl2FTgvtg6ec9O/RxB/MR8sikg6EaOhoTq1m3ZhfDVBIubJ7BdlVMfJD3OrEtfs2m+TaNCd+CTZFzWS/xbOZm7DqXR9nrQ7qknbmgN/rwwU66Ge4UJJoX9YyKaOVdQ4PyWOKbKdGLcXEOTXF8dMkDkwkoiB9MjXfLrKJumcfC/Vbz5nygacYg+1KRMMz2j6U7sLG2J8XBk8m3iWKbyH0VRyjUadMlxQ7UtsBrZSjgCShM6kNwTo0Ll0QEqTT70mfmRdSlV0OX4WA/4LhwxMaxMF6/ltWBc9vIPflDqvRCcXlz96Lvj16RnsqezbBMU8k8xLjwpLfnTlgP18sryzUxRnYcc4Sv4eoUQaLpcvwDKNYf85oEXzrVk4X1wQtF91PCGPFPPZxjimyAH3KxV/ISLhye6QInPeDmneypZ99r1xGATFk+PoN2VCQOZBlrlTouXufKDmfHMMu9ijYDJmpbfuZnR9eqTblf9XT/BhGynRGg0kBihKe2ufrB/qVxaURRi0nFqaIzk3NVqpaY7lHwBP4Fb/Jly/DfZgpTvC04za4mOnkjO5Fou3vTJFdjCfNAqkVBa5BVOiKZYsUnciz+Aq3dU70Vg5FirlZhAx96tkbIKYz+/jAvPk1U8zDEoMGzRz7hjeixfQOMpD8frLaWhig7j5sr9cE25V6yXrHLSOquHPG+S0s=
+        OIDC_SCOPES: AgC8Nit4zb5N+h2hqMIfJKCJwEPPxVJ1YXgQ5wEMkh0H0tIYXLEhNpK/lOukhGzr9wGXDoHZv/Shghs2PtJXyQoIzUKZapP12vNbpLDowJ7boZt7ZgCG1ZPx4v/XS56/s0yr6/s33Woia+Ldv3HxtcsWcOHpdeJY2WurgNzs22fcFV4H2hscAX93MgAd0WR6aUDNDSp1mpBXzc/DQhRF0+dAXaTTs8TKkIjFxgF7aRV6RtvWbMPeU7wvt+Js5C2BqRcIWfvPlxYDAauOwh5qE0/0qg4FUKe8xUw4XSFdgXQazxuHKpWlQwxmwMuUMc1W0VynBiBzvLq2rII9tJAkXTaDbzESSpBBRylvMeqW3oEWtHEjFxTV7u6Fw3B7cUjnABP1t8UNm5AvFd1bFugF07CBjdAOPWkYmbqcoCeUQ9QAk+eJ7uOkx4+yT8Zg+vPMNyzDjaVoc9rUZbZwUDvICy14pVu6n6izML1zatK70TSjWjsK8Nrtw/QMeqsqgp3qR9ojgbnzgUXZ1SNys0K8446PTicn0QtRtFAgHDVdBmpQWgUb4XonVYXoESYdk45FfITNPdeM5sGw5LhLC87MX1c4Mh1NF0l88COrOIL4P4q1D35yjkPivSU7h3hw66h5TaRWc3NvKL+oOBxlqRETsRkVrMZABRakz98WhoyKHMJ1/eDWZ0a4nOINtGgOq7MhsU1tkcxGkD1i3ZZpHqXRgi02DOJOmQ8qZv8fjl8=
+
+  httproutes:
+    - name: headlamp
+      hostnames:
+        - headlamp.int.kyledev.co
+      parentRefs:
+        - name: homelab
+          namespace: envoy-gateway-system
+      rules:
+        - backendRefs:
+            - group: ""
+              kind: Service
+              name: headlamp
+              port: 80

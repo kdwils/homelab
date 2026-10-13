@@ -1,0 +1,9 @@
+dependencies:
+- name: headlamp
+  repository: https://kubernetes-sigs.github.io/headlamp/
+  version: 0.45.0
+- name: homelab-chart
+  repository: oci://ghcr.io/kdwils/charts
+  version: 0.2.0
+digest: sha256:8fa2c64de31aa257a968b9b75d36e5c2e9697b9e7d86b8e973976c472743d49a
+generated: "2026-10-12T19:46:32.978241-04:00"
