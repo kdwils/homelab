@@ -6,7 +6,38 @@ kube-prometheus-stack:
     enabled: false
 
   grafana:
-    enabled: false
+    enabled: true
+
+    additionalDataSources:
+      - name: Tempo
+        uid: tempo
+        type: tempo
+        access: proxy
+        url: http://tempo.monitoring.svc.cluster.local:3200
+        jsonData:
+          tracesToLogsV2:
+            datasourceUid: loki
+            spanStartTimeShift: "-5m"
+            spanEndTimeShift: "5m"
+            filterByTraceID: true
+            customQuery: true
+            query: '{namespace="envoy-gateway-system"} |= "$${__span.traceId}"'
+          serviceMap:
+            datasourceUid: prometheus
+          nodeGraph:
+            enabled: true
+      - name: Loki
+        uid: loki
+        type: loki
+        access: proxy
+        url: http://loki.monitoring.svc.cluster.local:3100
+        jsonData:
+          derivedFields:
+            - name: trace_id
+              matcherRegex: '"trace_id":"(\w+)"'
+              url: "$${__value.raw}"
+              datasourceUid: tempo
+              urlDisplayLabel: View trace
 
     admin:
       existingSecret: grafana-admin-secret
@@ -75,7 +106,7 @@ kube-prometheus-stack:
                 storage: 20Gi
 
   prometheusOperator:
-    enabled: false
+    enabled: true
 
   kube-state-metrics:
     enabled: false

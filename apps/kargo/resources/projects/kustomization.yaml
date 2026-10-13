@@ -18,6 +18,9 @@ resources:
   - headlamp.yaml
   - events.yaml
   - kargo.yaml
+  - loki.yaml
+  - alloy.yaml
+  - kube-prometheus-stack.yaml
   - kube-vip.yaml
   - homelab-project.yaml
   - homelab-chart.yaml
@@ -36,6 +39,7 @@ resources:
   - sealedsecrets.yaml
   - sonarr.yaml
   - tailscale.yaml
+  - tempo.yaml
   - transmission.yaml
   - vpa.yaml
   - vaultwarden.yaml

@@ -1,0 +1,82 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: loki
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: loki
+  namespace: loki
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: loki
+  namespace: loki
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: https://grafana.github.io/helm-charts
+        name: loki
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:monitoring/loki/environments/**
+          - glob:charts/loki/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: loki
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: loki
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: loki
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/loki
+            - name: chartRepo
+              value: https://grafana.github.io/helm-charts
+            - name: chartName
+              value: loki
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update loki chart dependencies
+            - name: prTitle
+              value: "Update loki chart dependencies"
+            - name: prDescription
+              value: Update loki chart dependencies

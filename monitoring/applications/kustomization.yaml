@@ -3,6 +3,9 @@ kind: Kustomization
 
 resources:
   - envoy-bouncer.yaml
-  # - kube-prometheus-stack.yaml
+  - kube-prometheus-stack.yaml
   - namespace.yaml
   - crowdsec.yaml
+  - tempo.yaml
+  - loki.yaml
+  - alloy.yaml

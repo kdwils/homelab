@@ -1,0 +1,8 @@
+apiVersion: v2
+name: alloy
+description: Grafana Alloy
+version: 0.1.0
+dependencies:
+  - name: alloy
+    version: 1.13.1
+    repository: https://grafana.github.io/helm-charts

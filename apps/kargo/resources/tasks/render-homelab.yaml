@@ -327,6 +327,33 @@ spec:
         outPath: ./target/monitoring/kube-prometheus-stack/environments/homelab/manifest.yaml
         includeCRDs: true
     - uses: helm-template
+      as: render-tempo
+      config:
+        path: ./source/charts/tempo
+        valuesFiles:
+          - ./source/monitoring/tempo/environments/homelab/homelab.yaml
+        namespace: monitoring
+        releaseName: tempo
+        outPath: ./target/monitoring/tempo/environments/homelab/manifest.yaml
+    - uses: helm-template
+      as: render-loki
+      config:
+        path: ./source/charts/loki
+        valuesFiles:
+          - ./source/monitoring/loki/environments/homelab/homelab.yaml
+        namespace: monitoring
+        releaseName: loki
+        outPath: ./target/monitoring/loki/environments/homelab/manifest.yaml
+    - uses: helm-template
+      as: render-alloy
+      config:
+        path: ./source/charts/alloy
+        valuesFiles:
+          - ./source/monitoring/alloy/environments/homelab/homelab.yaml
+        namespace: monitoring
+        releaseName: alloy
+        outPath: ./target/monitoring/alloy/environments/homelab/manifest.yaml
+    - uses: helm-template
       as: render-cnpg
       config:
         path: ./source/charts/cnpg
