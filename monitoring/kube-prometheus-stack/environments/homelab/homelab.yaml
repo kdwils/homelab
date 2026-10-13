@@ -76,11 +76,68 @@ kube-prometheus-stack:
         role_attribute_path: contains(groups[*], 'admins') && 'Admin' || 'Viewer'
         use_pkce: true
 
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        memory: 768Mi
+
     sidecar:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
       datasources:
         enabled: true
       dashboards:
         enabled: true
+
+  # k3s runs apiserver/etcd/scheduler/controller-manager in one process: the kubelet
+  # endpoint re-exports apiserver/etcd metrics (~570k duplicate series). Drop them.
+  kubelet:
+    serviceMonitor:
+      metricRelabelings:
+        - action: drop
+          sourceLabels: [__name__, le]
+          regex: (csi_operations|storage_operation_duration)_seconds_bucket;(0.25|2.5|15|25|120|600)(\.0)?
+        - action: drop
+          sourceLabels: [__name__]
+          regex: (apiserver|etcd|aggregator|authentication|authorization|kube_apiserver|apiextensions|workqueue|rest_client|grpc_server|go_gc_duration|go_sched|kubernetes_feature)_.*
+
+  kubeApiServer:
+    serviceMonitor:
+      metricRelabelings:
+        - action: drop
+          regex: (etcd_request|apiserver_request_slo|apiserver_request_sli|apiserver_request)_duration_seconds_bucket;(0\.15|0\.2|0\.3|0\.35|0\.4|0\.45|0\.6|0\.7|0\.8|0\.9|1\.25|1\.5|1\.75|2|3|3\.5|4|4\.5|6|7|8|9|15|20|40|45|50)(\.0)?
+          sourceLabels: [__name__, le]
+        - action: drop
+          sourceLabels: [__name__]
+          regex: (apiserver_request_body_size_bytes|apiserver_response_sizes|apiserver_watch_events_sizes|apiserver_watch_list_duration_seconds|apiserver_watch_cache_read_wait_seconds|apiserver_request_sli_duration_seconds|etcd_request_duration_seconds)_bucket
+
+  # not reachable as separate targets on k3s
+  kubeEtcd:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+  kubeControllerManager:
+    enabled: false
+  kubeProxy:
+    enabled: false
+
+  defaultRules:
+    rules:
+      etcd: false
+      kubeSchedulerAlerting: false
+      kubeSchedulerRecording: false
+      kubeControllerManager: false
+      kubeProxy: false
+      kubeApiserverBurnrate: false
+      kubeApiserverHistogram: false
+      kubeApiserverSlos: false
+      windows: false
 
   prometheus:
     ingress:
@@ -92,6 +149,12 @@ kube-prometheus-stack:
 
     prometheusSpec:
       retention: 3d
+      resources:
+        requests:
+          cpu: 100m
+          memory: 1Gi
+        limits:
+          memory: 3Gi
       enableRemoteWriteReceiver: true
       enableFeatures:
         - scrapeconfig

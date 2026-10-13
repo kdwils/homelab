@@ -1,6 +1,12 @@
 tempo:
   tempo:
     retention: 72h
+    resources:
+      requests:
+        cpu: 50m
+        memory: 384Mi
+      limits:
+        memory: 1Gi
     receivers:
       otlp:
         protocols:
@@ -20,14 +26,12 @@ tempo:
           flush_to_storage: true
           filter_server_spans: false
         service_graphs: {}
-        span_metrics: {}
     overrides:
       defaults:
         metrics_generator:
           processors:
             - local-blocks
             - service-graphs
-            - span-metrics
   persistence:
     enabled: true
     storageClassName: longhorn

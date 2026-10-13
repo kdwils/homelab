@@ -20,8 +20,17 @@ loki:
     compactor:
       retention_enabled: true
       delete_request_store: filesystem
+  sidecar:
+    rules:
+      enabled: false
   singleBinary:
     replicas: 1
+    resources:
+      requests:
+        cpu: 50m
+        memory: 192Mi
+      limits:
+        memory: 512Mi
     persistence:
       enabled: true
       storageClass: longhorn
