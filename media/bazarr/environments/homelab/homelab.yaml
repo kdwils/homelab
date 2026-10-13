@@ -46,8 +46,8 @@ bazarr:
     livenessProbe:
       tcpSocket:
         port: 6767
-      initialDelaySeconds: 10
-      failureThreshold: 3
+      initialDelaySeconds: 90
+      failureThreshold: 6
       timeoutSeconds: 2
       periodSeconds: 10
     readinessProbe:
