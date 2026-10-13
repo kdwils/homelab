@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: kube-vip
   labels:
-    helm.sh/chart: kube-vip-0.2.0
+    helm.sh/chart: kube-vip-0.2.1
     app.kubernetes.io/name: kube-vip
     app.kubernetes.io/instance: kube-vip
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: ClusterRole
 metadata:
   name: kube-vip
   labels:
-    helm.sh/chart: kube-vip-0.2.0
+    helm.sh/chart: kube-vip-0.2.1
     app.kubernetes.io/name: kube-vip
     app.kubernetes.io/instance: kube-vip
     app.kubernetes.io/version: "1.16.0"
@@ -50,7 +50,7 @@ kind: ClusterRoleBinding
 metadata:
   name: kube-vip
   labels:
-    helm.sh/chart: kube-vip-0.2.0
+    helm.sh/chart: kube-vip-0.2.1
     app.kubernetes.io/name: kube-vip
     app.kubernetes.io/instance: kube-vip
     app.kubernetes.io/version: "1.16.0"
@@ -70,7 +70,7 @@ kind: DaemonSet
 metadata:
   name: kube-vip
   labels:
-    helm.sh/chart: kube-vip-0.2.0
+    helm.sh/chart: kube-vip-0.2.1
     app.kubernetes.io/name: kube-vip
     app.kubernetes.io/instance: kube-vip
     app.kubernetes.io/version: "1.16.0"
@@ -83,7 +83,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: kube-vip-0.2.0
+        helm.sh/chart: kube-vip-0.2.1
         app.kubernetes.io/name: kube-vip
         app.kubernetes.io/instance: kube-vip
         app.kubernetes.io/version: "1.16.0"
