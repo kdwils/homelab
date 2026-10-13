@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: cert-manager
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: cert-manager:homelab
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -10,12 +12,14 @@ spec:
     namespace: cert-manager
     server: "https://kubernetes.default.svc"
   source:
-    path: infra/cert-manager
+    path: infra/cert-manager/environments/homelab
     repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
+    targetRevision: homelab
   sources: []
   project: infra
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
