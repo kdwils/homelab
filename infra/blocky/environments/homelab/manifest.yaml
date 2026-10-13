@@ -192,3 +192,32 @@ spec:
               matchLabels:
                 app.kubernetes.io/name: blocky
             topologyKey: kubernetes.io/hostname
+---
+# Source: homelab/charts/blocky/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: blocky
+  labels:
+    helm.sh/chart: blocky-0.2.0
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/instance: blocky
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: blocky
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
