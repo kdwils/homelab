@@ -2332,7 +2332,7 @@ kind: VerticalPodAutoscaler
 metadata:
   name: metallb-homelab
   labels:
-    helm.sh/chart: homelab-0.2.0
+    helm.sh/chart: homelab-0.2.1
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: metallb
     app.kubernetes.io/version: "1.16.0"
