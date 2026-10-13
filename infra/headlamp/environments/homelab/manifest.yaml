@@ -186,3 +186,32 @@ spec:
     metadata:
       name: headlamp-oidc
       namespace: headlamp
+---
+# Source: headlamp/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: headlamp-homelab
+  labels:
+    helm.sh/chart: homelab-0.2.0
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: headlamp
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: headlamp
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi

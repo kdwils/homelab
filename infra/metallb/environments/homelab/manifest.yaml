@@ -2325,3 +2325,32 @@ webhooks:
     resources:
     - l2advertisements
   sideEffects: None
+---
+# Source: metallb/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: metallb-homelab
+  labels:
+    helm.sh/chart: homelab-0.2.0
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: metallb
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: DaemonSet
+    name: metallb-speaker
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 250m
+        memory: 256Mi
