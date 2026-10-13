@@ -1227,7 +1227,7 @@ kind: HTTPRoute
 metadata:
   name: crowdsec-homelab
   labels:
-    helm.sh/chart: homelab-0.2.0
+    helm.sh/chart: homelab-0.2.1
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: crowdsec
     app.kubernetes.io/version: "1.16.0"
@@ -1284,6 +1284,93 @@ spec:
     metadata:
       name: crowdsec-appsec-challenge-secret
       namespace: crowdsec
+---
+# Source: crowdsec/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: crowdsec-appsec
+  labels:
+    helm.sh/chart: homelab-0.2.1
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: crowdsec
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: crowdsec-appsec
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 1
+        memory: 768Mi
+---
+# Source: crowdsec/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: crowdsec-lapi
+  labels:
+    helm.sh/chart: homelab-0.2.1
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: crowdsec
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: crowdsec-lapi
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
+---
+# Source: crowdsec/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: crowdsec-agent
+  labels:
+    helm.sh/chart: homelab-0.2.1
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: crowdsec
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: DaemonSet
+    name: crowdsec-agent
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
 ---
 # Source: crowdsec/charts/crowdsec/templates/tests/test_agent_up.yaml
 apiVersion: v1

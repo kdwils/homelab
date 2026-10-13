@@ -10206,7 +10206,7 @@ kind: HTTPRoute
 metadata:
   name: kargo-homelab
   labels:
-    helm.sh/chart: homelab-0.2.0
+    helm.sh/chart: homelab-0.2.1
     app.kubernetes.io/name: homelab
     app.kubernetes.io/instance: kargo
     app.kubernetes.io/version: "1.16.0"
@@ -10544,3 +10544,119 @@ webhooks:
     - key: kargo.akuity.io/project
       operator: Exists
   failurePolicy: Ignore
+---
+# Source: longhorn/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: kargo-api
+  labels:
+    helm.sh/chart: homelab-0.2.1
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kargo-api
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 500m
+        memory: 512Mi
+---
+# Source: longhorn/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: kargo-controller
+  labels:
+    helm.sh/chart: homelab-0.2.1
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kargo-controller
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 1
+        memory: 512Mi
+---
+# Source: longhorn/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: kargo-management-controller
+  labels:
+    helm.sh/chart: homelab-0.2.1
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kargo-management-controller
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 250m
+        memory: 256Mi
+---
+# Source: longhorn/charts/homelab/templates/vpa.yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: kargo-webhooks-server
+  labels:
+    helm.sh/chart: homelab-0.2.1
+    app.kubernetes.io/name: homelab
+    app.kubernetes.io/instance: kargo
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kargo-webhooks-server
+  updatePolicy:
+    updateMode: InPlace
+  resourcePolicy:
+    containerPolicies:
+    - containerName: '*'
+      controlledResources:
+      - cpu
+      - memory
+      controlledValues: RequestsAndLimits
+      maxAllowed:
+        cpu: 250m
+        memory: 256Mi

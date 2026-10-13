@@ -5,7 +5,7 @@ kind: ServiceAccount
 metadata:
   name: blocky
   labels:
-    helm.sh/chart: blocky-0.2.0
+    helm.sh/chart: blocky-0.2.1
     app.kubernetes.io/name: blocky
     app.kubernetes.io/instance: blocky
     app.kubernetes.io/version: "1.16.0"
@@ -18,7 +18,7 @@ kind: ConfigMap
 metadata:
   name: blocky-config
   labels:
-    helm.sh/chart: blocky-0.2.0
+    helm.sh/chart: blocky-0.2.1
     app.kubernetes.io/name: blocky
     app.kubernetes.io/instance: blocky
     app.kubernetes.io/version: "1.16.0"
@@ -64,7 +64,7 @@ kind: Service
 metadata:
   name: blocky-tailscale
   labels:
-    helm.sh/chart: blocky-0.2.0
+    helm.sh/chart: blocky-0.2.1
     app.kubernetes.io/name: blocky
     app.kubernetes.io/instance: blocky
     app.kubernetes.io/version: "1.16.0"
@@ -95,7 +95,7 @@ metadata:
   annotations:
     metallb.io/loadBalancerIPs: 192.168.0.21
   labels:
-    helm.sh/chart: blocky-0.2.0
+    helm.sh/chart: blocky-0.2.1
     app.kubernetes.io/name: blocky
     app.kubernetes.io/instance: blocky
     app.kubernetes.io/version: "1.16.0"
@@ -125,7 +125,7 @@ kind: Deployment
 metadata:
   name: blocky
   labels:
-    helm.sh/chart: blocky-0.2.0
+    helm.sh/chart: blocky-0.2.1
     app.kubernetes.io/name: blocky
     app.kubernetes.io/instance: blocky
     app.kubernetes.io/version: "1.16.0"
@@ -141,7 +141,7 @@ spec:
   template:
     metadata:
       labels:
-        helm.sh/chart: blocky-0.2.0
+        helm.sh/chart: blocky-0.2.1
         app.kubernetes.io/name: blocky
         app.kubernetes.io/instance: blocky
         app.kubernetes.io/version: "1.16.0"
@@ -199,7 +199,7 @@ kind: VerticalPodAutoscaler
 metadata:
   name: blocky
   labels:
-    helm.sh/chart: blocky-0.2.0
+    helm.sh/chart: blocky-0.2.1
     app.kubernetes.io/name: blocky
     app.kubernetes.io/instance: blocky
     app.kubernetes.io/version: "1.16.0"
