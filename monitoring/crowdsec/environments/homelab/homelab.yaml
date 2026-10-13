@@ -311,6 +311,53 @@ appsecApi:
         targetPort: 7423
 
 homelab:
+  verticalPodAutoscalers:
+    - name: crowdsec-appsec
+      targetRef:
+        name: crowdsec-appsec
+      updatePolicy:
+        updateMode: InPlace
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            maxAllowed:
+              cpu: 1
+              memory: 768Mi
+            controlledResources:
+              - cpu
+              - memory
+            controlledValues: RequestsAndLimits
+    - name: crowdsec-lapi
+      targetRef:
+        name: crowdsec-lapi
+      updatePolicy:
+        updateMode: InPlace
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            maxAllowed:
+              cpu: 500m
+              memory: 512Mi
+            controlledResources:
+              - cpu
+              - memory
+            controlledValues: RequestsAndLimits
+    - name: crowdsec-agent
+      targetRef:
+        kind: DaemonSet
+        name: crowdsec-agent
+      updatePolicy:
+        updateMode: InPlace
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            maxAllowed:
+              cpu: 500m
+              memory: 512Mi
+            controlledResources:
+              - cpu
+              - memory
+            controlledValues: RequestsAndLimits
   sealedsecrets:
     - name: crowdsec-lapi-secrets
       data:

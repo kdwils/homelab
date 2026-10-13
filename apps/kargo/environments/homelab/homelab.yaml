@@ -1,4 +1,65 @@
 homelab:
+  verticalPodAutoscalers:
+    - name: kargo-api
+      targetRef:
+        name: kargo-api
+      updatePolicy:
+        updateMode: InPlace
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            maxAllowed:
+              cpu: 500m
+              memory: 512Mi
+            controlledResources:
+              - cpu
+              - memory
+            controlledValues: RequestsAndLimits
+    - name: kargo-controller
+      targetRef:
+        name: kargo-controller
+      updatePolicy:
+        updateMode: InPlace
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            maxAllowed:
+              cpu: 1
+              memory: 512Mi
+            controlledResources:
+              - cpu
+              - memory
+            controlledValues: RequestsAndLimits
+    - name: kargo-management-controller
+      targetRef:
+        name: kargo-management-controller
+      updatePolicy:
+        updateMode: InPlace
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            maxAllowed:
+              cpu: 250m
+              memory: 256Mi
+            controlledResources:
+              - cpu
+              - memory
+            controlledValues: RequestsAndLimits
+    - name: kargo-webhooks-server
+      targetRef:
+        name: kargo-webhooks-server
+      updatePolicy:
+        updateMode: InPlace
+      resourcePolicy:
+        containerPolicies:
+          - containerName: "*"
+            maxAllowed:
+              cpu: 250m
+              memory: 256Mi
+            controlledResources:
+              - cpu
+              - memory
+            controlledValues: RequestsAndLimits
   httproute:
     create: true
     hostnames:
