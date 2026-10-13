@@ -37,7 +37,7 @@ kargo:
 
   ## @section Global Parameters
   global:
-    clusterSecretsNamespace: ""
+    clusterSecretsNamespace: kargo-system-resources
     createClusterSecretsNamespace: false
 
     systemResources:
