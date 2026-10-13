@@ -1971,6 +1971,7 @@ spec:
           args:
             - --stderrthreshold=info
             - --v=4
+            - --pod-recommendation-min-memory-mb=50
           ports:
             - name: prometheus
               containerPort: 8942
