@@ -1972,6 +1972,7 @@ spec:
             - --stderrthreshold=info
             - --v=4
             - --pod-recommendation-min-memory-mb=50
+            - --pod-recommendation-min-cpu-millicores=50
           ports:
             - name: prometheus
               containerPort: 8942
