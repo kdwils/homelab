@@ -62843,10 +62843,14 @@ spec:
       samplingRate: 100
       provider:
         type: OpenTelemetry
+        port: 4317
         backendRefs:
-          - name: alloy
+          - group: ""
+            kind: Service
+            name: alloy
             namespace: monitoring
             port: 4317
+            weight: 1
     accessLog:
       settings:
         - format:

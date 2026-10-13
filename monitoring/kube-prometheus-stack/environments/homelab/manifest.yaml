@@ -79240,6 +79240,7 @@ spec:
   image: "quay.io/prometheus/prometheus:v3.15.0-distroless"
   imagePullPolicy: "IfNotPresent"
   version: "v3.15.0-distroless"
+  enableRemoteWriteReceiver: true
   externalUrl: http://kube-prometheus-stack-prometheus.monitoring:9090
   nodeSelector:
     kubernetes.io/os: linux
