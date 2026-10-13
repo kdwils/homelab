@@ -322,7 +322,7 @@ homelab:
           - containerName: "*"
             minAllowed:
               cpu: 500m
-              memory: 256Mi
+              memory: 500Mi
             maxAllowed:
               cpu: 1
               memory: 768Mi
@@ -339,8 +339,8 @@ homelab:
         containerPolicies:
           - containerName: "*"
             minAllowed:
-              cpu: 100m
-              memory: 64Mi
+              cpu: 200m
+              memory: 256Mi
             maxAllowed:
               cpu: 500m
               memory: 512Mi
@@ -358,8 +358,8 @@ homelab:
         containerPolicies:
           - containerName: "*"
             minAllowed:
-              cpu: 50m
-              memory: 50Mi
+              cpu: 100m
+              memory: 256Mi
             maxAllowed:
               cpu: 500m
               memory: 512Mi
