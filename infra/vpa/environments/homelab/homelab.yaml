@@ -24,6 +24,8 @@ vertical-pod-autoscaler:
       limits:
         cpu: 100m
         memory: 256Mi
+    extraArgs:
+      - --pod-recommendation-min-memory-mb=50
   updater:
     enabled: true
     replicas: 1
