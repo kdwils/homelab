@@ -93,7 +93,7 @@ kind: Service
 metadata:
   name: blocky
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.0.21
+    metallb.io/loadBalancerIPs: 192.168.0.21
   labels:
     helm.sh/chart: blocky-0.2.0
     app.kubernetes.io/name: blocky
