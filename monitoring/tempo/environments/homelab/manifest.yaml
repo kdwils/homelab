@@ -78,7 +78,6 @@ data:
               processors:
               - local-blocks
               - service-graphs
-              - span-metrics
           per_tenant_override_config: /conf/overrides.yaml
     metrics_generator:
       processor:
@@ -86,7 +85,6 @@ data:
               filter_server_spans: false
               flush_to_storage: true
             service_graphs: {}
-            span_metrics: {}
       storage:
         path: "/var/tempo/generator/wal"
         remote_write:
@@ -182,7 +180,7 @@ spec:
         app.kubernetes.io/name: tempo
         app.kubernetes.io/instance: tempo
       annotations:
-        checksum/config: 28bd0c724007b1aef1cbc43eaa91ba93a87ccecd906b66c4d98c2c3191b19bcd
+        checksum/config: b19b59e8954f8c80a799e40976dadc414a3ba1b2368ac27c275215e5f7afb798
     spec:
       serviceAccountName: tempo
       automountServiceAccountToken: true
@@ -237,7 +235,11 @@ spec:
             successThreshold: 1
             timeoutSeconds: 5
         resources:
-          {}
+          limits:
+            memory: 1Gi
+          requests:
+            cpu: 50m
+            memory: 384Mi
         env:
         volumeMounts:
         - mountPath: /conf

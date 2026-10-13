@@ -131,10 +131,7 @@ metadata:
     app.kubernetes.io/instance: loki
     app.kubernetes.io/version: "3.6.11"
   name: loki-clusterrole
-rules:
-- apiGroups: [""] # "" indicates the core API group
-  resources: ["configmaps", "secrets"]
-  verbs: ["get", "watch", "list"]
+rules: []
 ---
 # Source: loki/charts/loki/templates/backend/clusterrolebinding.yaml
 kind: ClusterRoleBinding
@@ -322,39 +319,12 @@ spec:
               mountPath: /etc/loki/runtime-config
             - name: storage
               mountPath: /var/loki
-            - name: sc-rules-volume
-              mountPath: "/rules"
           resources:
-            {}
-        - name: loki-sc-rules
-          image: docker.io/kiwigrid/k8s-sidecar:2.5.0
-          imagePullPolicy: IfNotPresent
-          env:
-            - name: METHOD
-              value: WATCH
-            - name: LABEL
-              value: "loki_rule"
-            - name: FOLDER
-              value: "/rules"
-            - name: RESOURCE
-              value: "both"
-            - name: WATCH_SERVER_TIMEOUT
-              value: "60"
-            - name: WATCH_CLIENT_TIMEOUT
-              value: "60"
-            - name: LOG_LEVEL
-              value: "INFO"
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            readOnlyRootFilesystem: true
-          volumeMounts:
-            - name: tmp
-              mountPath: /tmp
-            - name: sc-rules-volume
-              mountPath: "/rules"
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 192Mi
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -376,8 +346,6 @@ spec:
         - name: runtime-config
           configMap:
             name: loki-runtime
-        - name: sc-rules-volume
-          emptyDir: {}
   volumeClaimTemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
