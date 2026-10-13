@@ -77174,52 +77174,6 @@ data:
   cluster-total.json: |-
     {"editable":true,"links":[{"asDropdown":true,"includeVars":true,"keepTime":true,"tags":["kubernetes-mixin"],"targetBlank":false,"title":"Kubernetes","type":"dashboards"}],"panels":[{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"bps"}},"gridPos":{"h":9,"w":12,"x":0,"y":0},"id":1,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    (8 * rate(container_network_receive_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Current Rate of Bits Received","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"bps"}},"gridPos":{"h":9,"w":12,"x":12,"y":0},"id":2,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    (8 * rate(container_network_transmit_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Current Rate of Bits Transmitted","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"overrides":[{"matcher":{"id":"byRegexp","options":"/Bits/"},"properties":[{"id":"unit","value":"bps"}]},{"matcher":{"id":"byRegexp","options":"/Packets/"},"properties":[{"id":"unit","value":"pps"}]},{"matcher":{"id":"byName","options":"Namespace"},"properties":[{"id":"links","value":[{"title":"Drill down","url":"/d/8b7a8b326d7a6f1f04244066368c67af?${datasource:queryparam}&var-cluster=${cluster}&var-namespace=${__data.fields.Namespace}"}]}]}]},"gridPos":{"h":9,"w":24,"x":0,"y":9},"id":3,"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    (8 * rate(container_network_receive_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    (8 * rate(container_network_transmit_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"avg by (namespace) (\n    (8 * rate(container_network_receive_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"avg by (namespace) (\n    (8 * rate(container_network_transmit_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_receive_packets_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_transmit_packets_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_receive_packets_dropped_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_transmit_packets_dropped_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","format":"table","instant":true}],"title":"Current Status","transformations":[{"id":"joinByField","options":{"byField":"namespace","mode":"outer"}},{"id":"organize","options":{"excludeByName":{"Time":true,"Time 1":true,"Time 2":true,"Time 3":true,"Time 4":true,"Time 5":true,"Time 6":true,"Time 7":true,"Time 8":true},"indexByName":{"Time 1":0,"Time 2":1,"Time 3":2,"Time 4":3,"Time 5":4,"Time 6":5,"Time 7":6,"Time 8":7,"Value #A":9,"Value #B":10,"Value #C":11,"Value #D":12,"Value #E":13,"Value #F":14,"Value #G":15,"Value #H":16,"namespace":8},"renameByName":{"Value #A":"Rx Bits","Value #B":"Tx Bits","Value #C":"Rx Bits (Avg)","Value #D":"Tx Bits (Avg)","Value #E":"Rx Packets","Value #F":"Tx Packets","Value #G":"Rx Packets Dropped","Value #H":"Tx Packets Dropped","namespace":"Namespace"}}}],"type":"table"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"bps"}},"gridPos":{"h":9,"w":12,"x":0,"y":18},"id":4,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"avg by (namespace) (\n    (8 * rate(container_network_receive_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Average Rate of Bits Received","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"bps"}},"gridPos":{"h":9,"w":12,"x":12,"y":18},"id":5,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"avg by (namespace) (\n    (8 * rate(container_network_transmit_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Average Rate of Bits Transmitted","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"bps"}},"gridPos":{"h":9,"w":12,"x":0,"y":27},"id":6,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    (8 * rate(container_network_receive_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Receive Bandwidth","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"bps"}},"gridPos":{"h":9,"w":12,"x":12,"y":27},"id":7,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    (8 * rate(container_network_transmit_bytes_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]))\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Transmit Bandwidth","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"pps"}},"gridPos":{"h":9,"w":12,"x":0,"y":36},"id":8,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_receive_packets_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Rate of Received Packets","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"pps"}},"gridPos":{"h":9,"w":12,"x":12,"y":36},"id":9,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_transmit_packets_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Rate of Transmitted Packets","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"pps"}},"gridPos":{"h":9,"w":12,"x":0,"y":45},"id":10,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_receive_packets_dropped_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Rate of Received Packets Dropped","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"pps"}},"gridPos":{"h":9,"w":12,"x":12,"y":45},"id":11,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (namespace) (\n    rate(container_network_transmit_packets_dropped_total{cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval])\n  * on (cluster,namespace,pod) group_left ()\n    topk by (cluster,namespace,pod) (\n      1,\n      max by (cluster,namespace,pod) (kube_pod_info{host_network=\"false\",cluster=\"$cluster\"})\n    )\n)\n","legendFormat":"__auto"}],"title":"Rate of Transmitted Packets Dropped","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"percentunit"}},"gridPos":{"h":9,"w":12,"x":0,"y":54},"id":12,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (instance) (\n    rate(node_netstat_Tcp_RetransSegs{cluster=\"$cluster\"}[$__rate_interval]) / rate(node_netstat_Tcp_OutSegs{cluster=\"$cluster\"}[$__rate_interval])\n)\n","legendFormat":"__auto"}],"title":"Rate of TCP Retransmits out of all sent segments","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"showPoints":"never"},"unit":"percentunit"}},"gridPos":{"h":9,"w":12,"x":12,"y":54},"id":13,"interval":"1m","options":{"legend":{"asTable":true,"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum by (instance) (\n    rate(node_netstat_TcpExt_TCPSynRetrans{cluster=\"$cluster\"}[$__rate_interval]) / rate(node_netstat_Tcp_RetransSegs{cluster=\"$cluster\"}[$__rate_interval])\n)\n","legendFormat":"__auto"}],"title":"Rate of TCP SYN Retransmits out of all retransmits","type":"timeseries"}],"refresh":"10s","schemaVersion":39,"tags":["kubernetes-mixin"],"templating":{"list":[{"current":{"selected":true,"text":"default","value":"default"},"hide":0,"label":"Data source","name":"datasource","query":"prometheus","regex":"","type":"datasource"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"hide":2,"label":"cluster","name":"cluster","query":"label_values(up{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\"}, cluster)","refresh":2,"sort":1,"type":"query","allValue":".*"}]},"time":{"from":"now-1h","to":"now"},"timezone": "utc","title":"Kubernetes / Networking / Cluster","uid":"ff635a025bcfea7bc3dd4f508990a3e9"}
 ---
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/grafana/dashboards-1.14/controller-manager.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: monitoring
-  name: kube-prometheus-stack-controller-manager
-  annotations:
-    {}
-  labels:
-    grafana_dashboard: "1"
-    app: kube-prometheus-stack-grafana
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-data:
-  controller-manager.json: |-
-    {"editable":true,"links":[{"asDropdown":true,"includeVars":true,"keepTime":true,"tags":["kubernetes-mixin"],"targetBlank":false,"title":"Kubernetes","type":"dashboards"}],"panels":[{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"unit":"none"}},"gridPos":{"h":7,"w":4,"x":0,"y":0},"id":1,"interval":"1m","options":{"colorMode":"none"},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(up{cluster=\"$cluster\", job=\"kube-controller-manager\"})","instant":true}],"title":"Up","type":"stat"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":20,"x":4,"y":0},"id":2,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(workqueue_adds_total{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, name)","legendFormat":"{{cluster}} {{instance}} {{name}}"}],"title":"Work Queue Add Rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"short"}},"gridPos":{"h":7,"w":24,"x":0,"y":7},"id":3,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(workqueue_depth{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, name)","legendFormat":"{{cluster}} {{instance}} {{name}}"}],"title":"Work Queue Depth","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":24,"x":0,"y":14},"id":4,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(workqueue_queue_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, name, le))","legendFormat":"{{cluster}} {{instance}} {{name}}"}],"title":"Work Queue Latency","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":8,"x":0,"y":21},"id":5,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"2..\"}[$__rate_interval]))","legendFormat":"2xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))","legendFormat":"3xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"4..\"}[$__rate_interval]))","legendFormat":"4xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{job=\"kube-controller-manager\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))","legendFormat":"5xx"}],"title":"Kube API Request Rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":16,"x":8,"y":21},"id":6,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\", verb=\"POST\"}[$__rate_interval])) by (verb, le))","legendFormat":"{{verb}}"}],"title":"Post Request Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":24,"x":0,"y":28},"id":7,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-controller-manager\", instance=~\"$instance\", verb=\"GET\"}[$__rate_interval])) by (verb, le))","legendFormat":"{{verb}}"}],"title":"Get Request Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"bytes"}},"gridPos":{"h":7,"w":8,"x":0,"y":35},"id":8,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"process_resident_memory_bytes{cluster=\"$cluster\", job=\"kube-controller-manager\",instance=~\"$instance\"}","legendFormat":"{{instance}}"}],"title":"Memory","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"short"}},"gridPos":{"h":7,"w":8,"x":8,"y":35},"id":9,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"rate(process_cpu_seconds_total{cluster=\"$cluster\", job=\"kube-controller-manager\",instance=~\"$instance\"}[$__rate_interval])","legendFormat":"{{instance}}"}],"title":"CPU usage","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"short"}},"gridPos":{"h":7,"w":8,"x":16,"y":35},"id":10,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"go_goroutines{cluster=\"$cluster\", job=\"kube-controller-manager\",instance=~\"$instance\"}","legendFormat":"{{instance}}"}],"title":"Goroutines","type":"timeseries"}],"refresh":"10s","schemaVersion":39,"tags":["kubernetes-mixin"],"templating":{"list":[{"current":{"selected":true,"text":"default","value":"default"},"hide":0,"label":"Data source","name":"datasource","query":"prometheus","regex":"","type":"datasource"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"hide":2,"label":"cluster","name":"cluster","query":"label_values(up{job=\"kube-controller-manager\"}, cluster)","refresh":2,"sort":1,"type":"query","allValue":".*"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"hide":0,"includeAll":true,"label":"instance","name":"instance","query":"label_values(up{cluster=\"$cluster\", job=\"kube-controller-manager\"}, instance)","refresh":2,"sort":1,"type":"query"}]},"time":{"from":"now-1h","to":"now"},"timezone": "utc","title":"Kubernetes / Controller Manager","uid":"72e0e05bef5099e5f049b05fdc429ed4"}
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/grafana/dashboards-1.14/etcd.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: monitoring
-  name: kube-prometheus-stack-etcd
-  annotations:
-    {}
-  labels:
-    grafana_dashboard: "1"
-    app: kube-prometheus-stack-grafana
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-data:
-  etcd.json: |-
-    {"description":"etcd sample Grafana dashboard with Prometheus","panels":[{"datasource":{"type":"datasource","uid":"-- Mixed --"},"gridPos":{"h":7,"w":6,"x":0,"y":0},"id":1,"interval":"1m","options":{"colorMode":"none","graphMode":"none","reduceOptions":{"calcs":["lastNotNull"]}},"pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(etcd_server_has_leader{job=~\".*etcd.*\", job=\"$cluster\"})","legendFormat":"{{cluster}} - {{namespace}}\n"}],"title":"Up","type":"stat"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"ops"}},"gridPos":{"h":7,"w":10,"x":6,"y":0},"id":2,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(rate(grpc_server_started_total{job=~\".*etcd.*\", job=\"$cluster\",grpc_type=\"unary\"}[$__rate_interval]))","legendFormat":"RPC rate"},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(rate(grpc_server_handled_total{job=~\".*etcd.*\", job=\"$cluster\",grpc_type=\"unary\",grpc_code=~\"Unknown|FailedPrecondition|ResourceExhausted|Internal|Unavailable|DataLoss|DeadlineExceeded\"}[$__rate_interval]))","legendFormat":"RPC failed rate"}],"title":"RPC rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"}}},"gridPos":{"h":7,"w":8,"x":16,"y":0},"id":3,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(grpc_server_started_total{job=~\".*etcd.*\",job=\"$cluster\",grpc_service=\"etcdserverpb.Watch\",grpc_type=\"bidi_stream\"}) - sum(grpc_server_handled_total{job=\"$cluster\",grpc_service=\"etcdserverpb.Watch\",grpc_type=\"bidi_stream\"})","legendFormat":"Watch streams"},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(grpc_server_started_total{job=~\".*etcd.*\",job=\"$cluster\",grpc_service=\"etcdserverpb.Lease\",grpc_type=\"bidi_stream\"}) - sum(grpc_server_handled_total{job=\"$cluster\",grpc_service=\"etcdserverpb.Lease\",grpc_type=\"bidi_stream\"})","legendFormat":"Lease streams"}],"title":"Active streams","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"bytes"}},"gridPos":{"h":7,"w":8,"x":0,"y":25},"id":4,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"etcd_mvcc_db_total_size_in_bytes{job=~\".*etcd.*\", job=\"$cluster\"}","legendFormat":"{{instance}} DB size"}],"title":"DB size","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"s"}},"gridPos":{"h":7,"w":8,"x":8,"y":25},"id":5,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"histogram_quantile(0.99, sum(rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=~\".*etcd.*\", job=\"$cluster\"}[$__rate_interval])) by (instance, le))","legendFormat":"{{instance}} WAL fsync"},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=~\".*etcd.*\", job=\"$cluster\"}[$__rate_interval])) by (instance, le))","legendFormat":"{{instance}} DB fsync"}],"title":"Disk sync duration","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"bytes"}},"gridPos":{"h":7,"w":8,"x":16,"y":25},"id":6,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"process_resident_memory_bytes{job=~\".*etcd.*\", job=\"$cluster\"}","legendFormat":"{{instance}} resident memory"}],"title":"Memory","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"Bps"}},"gridPos":{"h":7,"w":6,"x":0,"y":50},"id":7,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"rate(etcd_network_client_grpc_received_bytes_total{job=~\".*etcd.*\", job=\"$cluster\"}[$__rate_interval])","legendFormat":"{{instance}} client traffic in"}],"title":"Client traffic in","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"Bps"}},"gridPos":{"h":7,"w":6,"x":6,"y":50},"id":8,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"rate(etcd_network_client_grpc_sent_bytes_total{job=~\".*etcd.*\", job=\"$cluster\"}[$__rate_interval])","legendFormat":"{{instance}} client traffic out"}],"title":"Client traffic out","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"Bps"}},"gridPos":{"h":7,"w":6,"x":12,"y":50},"id":9,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(rate(etcd_network_peer_received_bytes_total{job=~\".*etcd.*\", job=\"$cluster\"}[$__rate_interval])) by (instance)","legendFormat":"{{instance}} peer traffic in"}],"title":"Peer traffic in","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"Bps"}},"gridPos":{"h":7,"w":6,"x":18,"y":50},"id":10,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(rate(etcd_network_peer_sent_bytes_total{job=~\".*etcd.*\", job=\"$cluster\"}[$__rate_interval])) by (instance)","legendFormat":"{{instance}} peer traffic out"}],"title":"Peer traffic out","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"}}},"gridPos":{"h":7,"w":8,"x":0,"y":75},"id":11,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"changes(etcd_server_leader_changes_seen_total{job=~\".*etcd.*\", job=\"$cluster\"}[1d])","legendFormat":"{{instance}} total leader elections per day"}],"title":"Raft proposals","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"}}},"gridPos":{"h":7,"w":8,"x":8,"y":75},"id":12,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"changes(etcd_server_leader_changes_seen_total{job=~\".*etcd.*\", job=\"$cluster\"}[1d])","legendFormat":"{{instance}} total leader elections per day"}],"title":"Total leader elections per day","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":0,"lineWidth":2,"showPoints":"never"},"unit":"s"}},"gridPos":{"h":7,"w":8,"x":16,"y":75},"id":13,"interval":"1m","pluginVersion":"v10.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"histogram_quantile(0.99, sum by (instance, le) (rate(etcd_network_peer_round_trip_time_seconds_bucket{job=~\".*etcd.*\", job=\"$cluster\"}[$__rate_interval])))","legendFormat":"{{instance}} peer round trip time"}],"title":"Peer round trip time","type":"timeseries"}],"refresh":"10s","schemaVersion":36,"tags":["etcd-mixin"],"templating":{"list":[{"label":"Data Source","name":"datasource","query":"prometheus","type":"datasource"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"label":"cluster","name":"cluster","query":"label_values(etcd_server_has_leader{job=~\".*etcd.*\"}, job)","refresh":2,"type":"query","allValue":".*","hide":2}]},"time":{"from":"now-15m","to":"now"},"timezone": "utc","title":"etcd","uid":"c2f4e12cdf69feb95caa41a5a1b423d9"}
----
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/grafana/dashboards-1.14/grafana-overview.yaml
 apiVersion: v1
 kind: ConfigMap
@@ -77702,52 +77656,6 @@ metadata:
 data:
   prometheus.json: |-
     {"panels":[{"collapsed":false,"gridPos":{"h":1,"w":24,"x":0,"y":0},"id":1,"panels":[],"title":"Prometheus Stats","type":"row"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"decimals":2,"displayName":"","unit":"short"},"overrides":[{"matcher":{"id":"byName","options":"Time"},"properties":[{"id":"displayName","value":"Time"},{"id":"custom.align","value":null},{"id":"custom.hidden","value":"true"}]},{"matcher":{"id":"byName","options":"cluster"},"properties":[{"id":"custom.align","value":null},{"id":"unit","value":"short"},{"id":"decimals","value":2},{"id":"displayName","value":"Cluster"}]},{"matcher":{"id":"byName","options":"job"},"properties":[{"id":"custom.align","value":null},{"id":"unit","value":"short"},{"id":"decimals","value":2},{"id":"displayName","value":"Job"}]},{"matcher":{"id":"byName","options":"instance"},"properties":[{"id":"displayName","value":"Instance"},{"id":"custom.align","value":null},{"id":"unit","value":"short"},{"id":"decimals","value":2}]},{"matcher":{"id":"byName","options":"version"},"properties":[{"id":"displayName","value":"Version"},{"id":"custom.align","value":null},{"id":"unit","value":"short"},{"id":"decimals","value":2}]},{"matcher":{"id":"byName","options":"Value #A"},"properties":[{"id":"displayName","value":"Count"},{"id":"custom.align","value":null},{"id":"unit","value":"short"},{"id":"decimals","value":2},{"id":"custom.hidden","value":"true"}]},{"matcher":{"id":"byName","options":"Value #B"},"properties":[{"id":"displayName","value":"Uptime"},{"id":"custom.align","value":null},{"id":"unit","value":"s"}]}]},"gridPos":{"h":7,"w":24,"x":0,"y":1},"id":2,"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"count by (cluster, job, instance, version) (prometheus_build_info{cluster=~\"$cluster\", job=~\"$job\", instance=~\"$instance\"})","format":"table","instant":true,"legendFormat":""},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"max by (cluster, job, instance) (time() - process_start_time_seconds{cluster=~\"$cluster\", job=~\"$job\", instance=~\"$instance\"})","format":"table","instant":true,"legendFormat":""}],"title":"Prometheus Stats","type":"table"},{"collapsed":false,"gridPos":{"h":1,"w":24,"x":0,"y":8},"id":3,"panels":[],"title":"Discovery","type":"row"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never"},"min":0,"unit":"ms"}},"gridPos":{"h":7,"w":12,"x":0,"y":9},"id":4,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum(rate(prometheus_target_sync_length_seconds_sum{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}[5m])) by (cluster, job, scrape_job, instance) * 1e3","format":"time_series","legendFormat":"{{cluster}}:{{job}}:{{instance}}:{{scrape_job}}"}],"title":"Target Sync","type":"timeseries"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":100,"lineWidth":0,"showPoints":"never","stacking":{"mode":"normal"}},"min":0,"unit":"short"}},"gridPos":{"h":7,"w":12,"x":12,"y":9},"id":5,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum by (cluster, job, instance) (prometheus_sd_discovered_targets{cluster=~\"$cluster\", job=~\"$job\",instance=~\"$instance\"})","format":"time_series","legendFormat":"{{cluster}}:{{job}}:{{instance}}"}],"title":"Targets","type":"timeseries"},{"collapsed":false,"gridPos":{"h":1,"w":24,"x":0,"y":16},"id":6,"panels":[],"title":"Retrieval","type":"row"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never"},"min":0,"unit":"ms"}},"gridPos":{"h":7,"w":8,"x":0,"y":17},"id":7,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"rate(prometheus_target_interval_length_seconds_sum{cluster=~\"$cluster\", job=~\"$job\",instance=~\"$instance\"}[5m]) / rate(prometheus_target_interval_length_seconds_count{cluster=~\"$cluster\", job=~\"$job\",instance=~\"$instance\"}[5m]) * 1e3","format":"time_series","legendFormat":"{{cluster}}:{{job}}:{{instance}} {{interval}} configured"}],"title":"Average Scrape Interval Duration","type":"timeseries"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":100,"lineWidth":0,"showPoints":"never","stacking":{"mode":"normal"}},"min":0,"unit":"short"}},"gridPos":{"h":7,"w":8,"x":8,"y":17},"id":8,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum by (cluster, job, instance) (rate(prometheus_target_scrapes_exceeded_body_size_limit_total{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}[1m]))","format":"time_series","legendFormat":"exceeded body size limit: {{cluster}} {{job}} {{instance}}"},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum by (cluster, job, instance) (rate(prometheus_target_scrapes_exceeded_sample_limit_total{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}[1m]))","format":"time_series","legendFormat":"exceeded sample limit: {{cluster}} {{job}} {{instance}}"},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum by (cluster, job, instance) (rate(prometheus_target_scrapes_sample_duplicate_timestamp_total{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}[1m]))","format":"time_series","legendFormat":"duplicate timestamp: {{cluster}} {{job}} {{instance}}"},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum by (cluster, job, instance) (rate(prometheus_target_scrapes_sample_out_of_bounds_total{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}[1m]))","format":"time_series","legendFormat":"out of bounds: {{cluster}} {{job}} {{instance}}"},{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"sum by (cluster, job, instance) (rate(prometheus_target_scrapes_sample_out_of_order_total{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}[1m]))","format":"time_series","legendFormat":"out of order: {{cluster}} {{job}} {{instance}}"}],"title":"Scrape failures","type":"timeseries"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":100,"lineWidth":0,"showPoints":"never","stacking":{"mode":"normal"}},"min":0,"unit":"short"}},"gridPos":{"h":7,"w":8,"x":16,"y":17},"id":9,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"rate(prometheus_tsdb_head_samples_appended_total{cluster=~\"$cluster\", job=~\"$job\",instance=~\"$instance\"}[5m])","format":"time_series","legendFormat":"{{cluster}} {{job}} {{instance}}"}],"title":"Appended Samples","type":"timeseries"},{"collapsed":false,"gridPos":{"h":1,"w":24,"x":0,"y":24},"id":10,"panels":[],"title":"Storage","type":"row"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":100,"lineWidth":0,"showPoints":"never","stacking":{"mode":"normal"}},"min":0,"unit":"short"}},"gridPos":{"h":7,"w":12,"x":0,"y":25},"id":11,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"prometheus_tsdb_head_series{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}","format":"time_series","legendFormat":"{{cluster}} {{job}} {{instance}} head series"}],"title":"Head Series","type":"timeseries"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":100,"lineWidth":0,"showPoints":"never","stacking":{"mode":"normal"}},"min":0,"unit":"short"}},"gridPos":{"h":7,"w":12,"x":12,"y":25},"id":12,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"prometheus_tsdb_head_chunks{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\"}","format":"time_series","legendFormat":"{{cluster}} {{job}} {{instance}} head chunks"}],"title":"Head Chunks","type":"timeseries"},{"collapsed":false,"gridPos":{"h":1,"w":24,"x":0,"y":32},"id":13,"panels":[],"title":"Query","type":"row"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":100,"lineWidth":0,"showPoints":"never","stacking":{"mode":"normal"}},"min":0,"unit":"short"}},"gridPos":{"h":7,"w":12,"x":0,"y":33},"id":14,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"rate(prometheus_engine_query_duration_seconds_count{cluster=~\"$cluster\",job=~\"$job\",instance=~\"$instance\",slice=\"inner_eval\"}[5m])","format":"time_series","legendFormat":"{{cluster}} {{job}} {{instance}}"}],"title":"Query Rate","type":"timeseries"},{"datasource":{"type":"prometheus","uid":"$datasource"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":100,"lineWidth":0,"showPoints":"never","stacking":{"mode":"normal"}},"min":0,"unit":"ms"}},"gridPos":{"h":7,"w":12,"x":12,"y":33},"id":15,"options":{"tooltip":{"mode":"multi","sort":"desc"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"$datasource"},"expr":"max by (slice) (prometheus_engine_query_duration_seconds{quantile=\"0.9\",cluster=~\"$cluster\", job=~\"$job\",instance=~\"$instance\"}) * 1e3","format":"time_series","legendFormat":"{{slice}}"}],"title":"Stage Duration","type":"timeseries"}],"schemaVersion":39,"tags":["prometheus-mixin"],"templating":{"list":[{"current":{"selected":false,"text":"default","value":"default"},"hide":0,"label":"Data source","name":"datasource","query":"prometheus","type":"datasource"},{"allValue":".*","current":{"selected":false,"text":["$__all"],"value":["$__all"]},"datasource":{"type":"prometheus","uid":"${datasource}"},"hide":2,"includeAll":true,"label":"cluster","multi":true,"name":"cluster","query":"label_values(prometheus_build_info{}, cluster)","refresh":2,"sort":2,"type":"query"},{"allValue":".+","datasource":{"type":"prometheus","uid":"${datasource}"},"includeAll":true,"label":"job","multi":true,"name":"job","query":"label_values(prometheus_build_info{cluster=~\"$cluster\"}, job)","refresh":2,"sort":2,"type":"query"},{"allValue":".+","datasource":{"type":"prometheus","uid":"${datasource}"},"includeAll":true,"label":"instance","multi":true,"name":"instance","query":"label_values(prometheus_build_info{cluster=~\"$cluster\", job=~\"$job\"}, instance)","refresh":2,"sort":2,"type":"query"}]},"time":{"from":"now-1h","to":"now"},"timepicker":{"refresh_intervals":["60s"]},"timezone": "utc","title":"Prometheus / Overview","uid":"9fa0d141-d019-4ad7-8bc5-42196ee308bd"}
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/grafana/dashboards-1.14/proxy.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: monitoring
-  name: kube-prometheus-stack-proxy
-  annotations:
-    {}
-  labels:
-    grafana_dashboard: "1"
-    app: kube-prometheus-stack-grafana
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-data:
-  proxy.json: |-
-    {"editable":true,"links":[{"asDropdown":true,"includeVars":true,"keepTime":true,"tags":["kubernetes-mixin"],"targetBlank":false,"title":"Kubernetes","type":"dashboards"}],"panels":[{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"unit":"none"}},"gridPos":{"h":7,"w":4,"x":0,"y":0},"id":1,"interval":"1m","options":{"colorMode":"none"},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(up{cluster=\"$cluster\", job=\"kube-proxy\"})","instant":true}],"title":"Up","type":"stat"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":10,"x":4,"y":0},"id":2,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(kubeproxy_sync_proxy_rules_duration_seconds_count{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval]))","legendFormat":"rate"}],"title":"Rules Sync Rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":10,"x":14,"y":0},"id":3,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99,rate(kubeproxy_sync_proxy_rules_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval]))","legendFormat":"{{instance}}"}],"title":"Rules Sync Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":12,"x":0,"y":7},"id":4,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(kubeproxy_network_programming_duration_seconds_count{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval]))","legendFormat":"rate"}],"title":"Network Programming Rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":12,"x":12,"y":7},"id":5,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(kubeproxy_network_programming_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\"}[$__rate_interval])) by (instance, le))","legendFormat":"{{instance}}"}],"title":"Network Programming Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":8,"x":0,"y":14},"id":6,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"2..\"}[$__rate_interval]))","legendFormat":"2xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))","legendFormat":"3xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"4..\"}[$__rate_interval]))","legendFormat":"4xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kube-proxy\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))","legendFormat":"5xx"}],"title":"Kube API Request Rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":16,"x":8,"y":14},"id":7,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\",verb=\"POST\"}[$__rate_interval])) by (verb, le))","legendFormat":"{{verb}}"}],"title":"Post Request Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":24,"x":0,"y":21},"id":8,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-proxy\", instance=~\"$instance\", verb=\"GET\"}[$__rate_interval])) by (verb, le))","legendFormat":"{{verb}}"}],"title":"Get Request Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"bytes"}},"gridPos":{"h":7,"w":8,"x":0,"y":28},"id":9,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"process_resident_memory_bytes{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\"}","legendFormat":"{{instance}}"}],"title":"Memory","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"short"}},"gridPos":{"h":7,"w":8,"x":8,"y":28},"id":10,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"rate(process_cpu_seconds_total{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\"}[$__rate_interval])","legendFormat":"{{instance}}"}],"title":"CPU usage","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"short"}},"gridPos":{"h":7,"w":8,"x":16,"y":28},"id":11,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"go_goroutines{cluster=\"$cluster\", job=\"kube-proxy\",instance=~\"$instance\"}","legendFormat":"{{instance}}"}],"title":"Goroutines","type":"timeseries"}],"refresh":"10s","schemaVersion":39,"tags":["kubernetes-mixin"],"templating":{"list":[{"current":{"selected":true,"text":"default","value":"default"},"hide":0,"label":"Data source","name":"datasource","query":"prometheus","regex":"","type":"datasource"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"hide":2,"label":"cluster","name":"cluster","query":"label_values(up{job=\"kube-proxy\"}, cluster)","refresh":2,"sort":1,"type":"query","allValue":".*"},{"allValue":".+","datasource":{"type":"prometheus","uid":"${datasource}"},"hide":0,"includeAll":true,"label":"instance","name":"instance","query":"label_values(up{job=\"kube-proxy\", cluster=\"$cluster\", job=\"kube-proxy\"}, instance)","refresh":2,"type":"query"}]},"time":{"from":"now-1h","to":"now"},"timezone": "utc","title":"Kubernetes / Proxy","uid":"632e265de029684c40b21cb76bca4f94"}
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/grafana/dashboards-1.14/scheduler.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: monitoring
-  name: kube-prometheus-stack-scheduler
-  annotations:
-    {}
-  labels:
-    grafana_dashboard: "1"
-    app: kube-prometheus-stack-grafana
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-data:
-  scheduler.json: |-
-    {"editable":true,"links":[{"asDropdown":true,"includeVars":true,"keepTime":true,"tags":["kubernetes-mixin"],"targetBlank":false,"title":"Kubernetes","type":"dashboards"}],"panels":[{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"unit":"none"}},"gridPos":{"h":7,"w":4,"x":0,"y":0},"id":1,"interval":"1m","options":{"colorMode":"none"},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(up{cluster=\"$cluster\", job=\"kube-scheduler\"})","instant":true}],"title":"Up","type":"stat"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":10,"x":4,"y":0},"id":2,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(scheduler_scheduling_attempt_duration_seconds_count{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance)","legendFormat":"{{cluster}} {{instance}} e2e"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(scheduler_pod_scheduling_sli_duration_seconds_count{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance)","legendFormat":"{{cluster}} {{instance}} binding"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(scheduler_scheduling_algorithm_duration_seconds_count{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance)","legendFormat":"{{cluster}} {{instance}} scheduling algorithm"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(scheduler_volume_scheduling_duration_seconds_count{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance)","legendFormat":"{{cluster}} {{instance}} volume"}],"title":"Scheduling Rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":10,"x":14,"y":0},"id":3,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(scheduler_scheduling_attempt_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-scheduler\",instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, le))","legendFormat":"{{cluster}} {{instance}} e2e"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(scheduler_pod_scheduling_sli_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-scheduler\",instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, le))","legendFormat":"{{cluster}} {{instance}} binding"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(scheduler_scheduling_algorithm_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-scheduler\",instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, le))","legendFormat":"{{cluster}} {{instance}} scheduling algorithm"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(scheduler_volume_scheduling_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-scheduler\",instance=~\"$instance\"}[$__rate_interval])) by (cluster, instance, le))","legendFormat":"{{cluster}} {{instance}} volume"}],"title":"Scheduling latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":8,"x":0,"y":7},"id":4,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\",code=~\"2..\"}[$__rate_interval]))","legendFormat":"2xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))","legendFormat":"3xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\",code=~\"4..\"}[$__rate_interval]))","legendFormat":"4xx"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"sum(rate(rest_client_requests_total{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))","legendFormat":"5xx"}],"title":"Kube API Request Rate","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"ops"}},"gridPos":{"h":7,"w":16,"x":8,"y":7},"id":5,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\", verb=\"POST\"}[$__rate_interval])) by (verb, le))","legendFormat":"{{verb}}"}],"title":"Post Request Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"s"}},"gridPos":{"h":7,"w":24,"x":0,"y":14},"id":6,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"histogram_quantile(0.99, sum(rate(rest_client_request_duration_seconds_bucket{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\", verb=\"GET\"}[$__rate_interval])) by (verb, le))","legendFormat":"{{verb}}"}],"title":"Get Request Latency 99th Quantile","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"bytes"}},"gridPos":{"h":7,"w":8,"x":0,"y":21},"id":7,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"process_resident_memory_bytes{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\"}","legendFormat":"{{instance}}"}],"title":"Memory","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"short"}},"gridPos":{"h":7,"w":8,"x":8,"y":21},"id":8,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"rate(process_cpu_seconds_total{cluster=\"$cluster\", job=\"kube-scheduler\", instance=~\"$instance\"}[$__rate_interval])","legendFormat":"{{instance}}"}],"title":"CPU usage","type":"timeseries"},{"datasource":{"type":"datasource","uid":"-- Mixed --"},"fieldConfig":{"defaults":{"custom":{"fillOpacity":10,"showPoints":"never","spanNulls":true},"unit":"short"}},"gridPos":{"h":7,"w":8,"x":16,"y":21},"id":9,"interval":"1m","options":{"legend":{"asTable":true,"calcs":["lastNotNull"],"displayMode":"table","placement":"right","showLegend":true},"tooltip":{"mode":"single"}},"pluginVersion":"v13.0.0","targets":[{"datasource":{"type":"prometheus","uid":"${datasource}"},"expr":"go_goroutines{cluster=\"$cluster\", job=\"kube-scheduler\",instance=~\"$instance\"}","legendFormat":"{{instance}}"}],"title":"Goroutines","type":"timeseries"}],"refresh":"10s","schemaVersion":39,"tags":["kubernetes-mixin"],"templating":{"list":[{"current":{"selected":true,"text":"default","value":"default"},"hide":0,"label":"Data source","name":"datasource","query":"prometheus","regex":"","type":"datasource"},{"datasource":{"type":"prometheus","uid":"${datasource}"},"hide":2,"label":"cluster","name":"cluster","query":"label_values(up{job=\"kube-scheduler\"}, cluster)","refresh":2,"sort":1,"type":"query","allValue":".*"},{"allValue":".+","datasource":{"type":"prometheus","uid":"${datasource}"},"hide":0,"includeAll":true,"label":"instance","name":"instance","query":"label_values(up{job=\"kube-scheduler\", cluster=\"$cluster\"}, instance)","refresh":2,"type":"query"}]},"time":{"from":"now-1h","to":"now"},"timezone": "utc","title":"Kubernetes / Scheduler","uid":"2e6b6a3b4bddf1427b3a55aa1311c656"}
 ---
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/grafana/dashboards-1.14/workload-total.yaml
 apiVersion: v1
@@ -79123,118 +79031,6 @@ spec:
   selector:
     k8s-app: kube-dns
 ---
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-controller-manager/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: kube-prometheus-stack-kube-controller-manager
-  labels:
-    app: kube-prometheus-stack-kube-controller-manager
-    jobLabel: kube-controller-manager
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-  namespace: kube-system
-spec:
-  clusterIP: None
-  ports:
-    - name: http-metrics
-      port: 10252
-      protocol: TCP
-      targetPort: 10252
-  selector:
-    component: kube-controller-manager
-  type: ClusterIP
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-etcd/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: kube-prometheus-stack-kube-etcd
-  labels:
-    app: kube-prometheus-stack-kube-etcd
-    jobLabel: kube-etcd
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-  namespace: kube-system
-spec:
-  clusterIP: None
-  ports:
-    - name: http-metrics
-      port: 2381
-      protocol: TCP
-      targetPort: 2381
-  selector:
-    component: etcd
-  type: ClusterIP
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-proxy/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: kube-prometheus-stack-kube-proxy
-  labels:
-    app: kube-prometheus-stack-kube-proxy
-    jobLabel: kube-proxy
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-  namespace: kube-system
-spec:
-  clusterIP: None
-  ports:
-    - name: http-metrics
-      port: 10249
-      protocol: TCP
-      targetPort: 10249
-  selector:
-    k8s-app: kube-proxy
-  type: ClusterIP
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-scheduler/service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: kube-prometheus-stack-kube-scheduler
-  labels:
-    app: kube-prometheus-stack-kube-scheduler
-    jobLabel: kube-scheduler
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-  namespace: kube-system
-spec:
-  clusterIP: None
-  ports:
-    - name: http-metrics
-      port: 10251
-      protocol: TCP
-      targetPort: 10251
-  selector:
-    component: kube-scheduler
-  type: ClusterIP
----
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus-operator/service.yaml
 apiVersion: v1
 kind: Service
@@ -79525,6 +79321,12 @@ spec:
               value: http://localhost:3000/api/admin/provisioning/dashboards/reload
             - name: REQ_METHOD
               value: POST
+          resources:
+            limits:
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -79564,6 +79366,12 @@ spec:
               value: http://localhost:3000/api/admin/provisioning/datasources/reload
             - name: REQ_METHOD
               value: POST
+          resources:
+            limits:
+              memory: 128Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -79642,6 +79450,8 @@ spec:
               value: /etc/grafana/provisioning
             - name: GF_UNIFIED_STORAGE_INDEX_PATH
               value: /var/lib/grafana-search/bleve
+            - name: GOMEMLIMIT
+              value: "691MiB"
           envFrom:
             - secretRef:
                 name: grafana-oidc-secret
@@ -79656,6 +79466,12 @@ spec:
             httpGet:
               path: /api/health
               port: grafana
+          resources:
+            limits:
+              memory: 768Mi
+            requests:
+              cpu: 50m
+              memory: 256Mi
       volumes:
         - name: tmp
           emptyDir: {}
@@ -80017,6 +79833,12 @@ spec:
   enableAdminAPI: false
   enableFeatures:
   - scrapeconfig
+  resources:
+    limits:
+      memory: 3Gi
+    requests:
+      cpu: 100m
+      memory: 1Gi
   retention: "3d"
   tsdb:
     outOfOrderTimeWindow: 0s
@@ -80260,188 +80082,6 @@ spec:
         runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus-operator/configreloadersidecarerrors
         summary: config-reloader sidecar has not had a successful reload for 10m
       expr: max_over_time(reloader_last_reload_successful{namespace=~".+"}[5m]) == 0
-      for: 10m
-      labels:
-        severity: warning
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/etcd.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-etcd
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: etcd
-    rules:
-    - alert: etcdMembersDown
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdmembersdown
-        description: 'etcd cluster "{{ $labels.job }}": members are down ({{ $value }}).'
-        summary: etcd cluster members are down.
-      expr: |-
-        max without (endpoint) (
-          sum without (instance, pod) (up{job=~".*etcd.*"} == bool 0)
-        or
-          count without (To) (
-            sum without (instance, pod) (rate(etcd_network_peer_sent_failures_total{job=~".*etcd.*"}[120s])) > 0.01
-          )
-        )
-        > 0
-      for: 20m
-      labels:
-        severity: warning
-    - alert: etcdInsufficientMembers
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdinsufficientmembers
-        description: 'etcd cluster "{{ $labels.job }}": insufficient members ({{ $value }}).'
-        summary: etcd cluster has insufficient number of members.
-      expr: sum(up{job=~".*etcd.*"} == bool 1) without (instance, pod) < ((count(up{job=~".*etcd.*"}) without (instance, pod) + 1) / 2)
-      for: 3m
-      labels:
-        severity: critical
-    - alert: etcdNoLeader
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdnoleader
-        description: 'etcd cluster "{{ $labels.job }}": member {{ $labels.instance }} has no leader.'
-        summary: etcd cluster has no leader.
-      expr: etcd_server_has_leader{job=~".*etcd.*"} == 0
-      for: 1m
-      labels:
-        severity: critical
-    - alert: etcdHighNumberOfLeaderChanges
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdhighnumberofleaderchanges
-        description: 'etcd cluster "{{ $labels.job }}": {{ $value }} leader changes within the last 15 minutes. Frequent elections may be a sign of insufficient resources, high network latency, or disruptions by other components and should be investigated.'
-        summary: etcd cluster has high number of leader changes.
-      expr: increase((max without (instance, pod) (etcd_server_leader_changes_seen_total{job=~".*etcd.*"}) or 0*absent(etcd_server_leader_changes_seen_total{job=~".*etcd.*"}))[15m:1m]) >= 4
-      for: 5m
-      labels:
-        severity: warning
-    - alert: etcdHighNumberOfFailedGRPCRequests
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdhighnumberoffailedgrpcrequests
-        description: 'etcd cluster "{{ $labels.job }}": {{ $value }}% of requests for {{ $labels.grpc_method }} failed on etcd instance {{ $labels.instance }}.'
-        summary: etcd cluster has high number of failed grpc requests.
-      expr: |-
-        100 * sum(rate(grpc_server_handled_total{job=~".*etcd.*", grpc_code=~"Unknown|FailedPrecondition|ResourceExhausted|Internal|Unavailable|DataLoss|DeadlineExceeded"}[5m])) without (grpc_type, grpc_code)
-          /
-        sum(rate(grpc_server_handled_total{job=~".*etcd.*"}[5m])) without (grpc_type, grpc_code)
-          > 1
-      for: 10m
-      labels:
-        severity: warning
-    - alert: etcdHighNumberOfFailedGRPCRequests
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdhighnumberoffailedgrpcrequests
-        description: 'etcd cluster "{{ $labels.job }}": {{ $value }}% of requests for {{ $labels.grpc_method }} failed on etcd instance {{ $labels.instance }}.'
-        summary: etcd cluster has high number of failed grpc requests.
-      expr: |-
-        100 * sum(rate(grpc_server_handled_total{job=~".*etcd.*", grpc_code=~"Unknown|FailedPrecondition|ResourceExhausted|Internal|Unavailable|DataLoss|DeadlineExceeded"}[5m])) without (grpc_type, grpc_code)
-          /
-        sum(rate(grpc_server_handled_total{job=~".*etcd.*"}[5m])) without (grpc_type, grpc_code)
-          > 5
-      for: 5m
-      labels:
-        severity: critical
-    - alert: etcdGRPCRequestsSlow
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdgrpcrequestsslow
-        description: 'etcd cluster "{{ $labels.job }}": 99th percentile of gRPC requests is {{ $value }}s on etcd instance {{ $labels.instance }} for {{ $labels.grpc_method }} method.'
-        summary: etcd grpc requests are slow
-      expr: |-
-        histogram_quantile(0.99, sum(rate(grpc_server_handling_seconds_bucket{job=~".*etcd.*", grpc_method!="Defragment", grpc_type="unary"}[5m])) without(grpc_type))
-        > 0.15
-      for: 10m
-      labels:
-        severity: critical
-    - alert: etcdMemberCommunicationSlow
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdmembercommunicationslow
-        description: 'etcd cluster "{{ $labels.job }}": member communication with {{ $labels.To }} is taking {{ $value }}s on etcd instance {{ $labels.instance }}.'
-        summary: etcd cluster member communication is slow.
-      expr: |-
-        histogram_quantile(0.99, rate(etcd_network_peer_round_trip_time_seconds_bucket{job=~".*etcd.*"}[5m]))
-        > 0.15
-      for: 10m
-      labels:
-        severity: warning
-    - alert: etcdHighNumberOfFailedProposals
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdhighnumberoffailedproposals
-        description: 'etcd cluster "{{ $labels.job }}": {{ $value }} proposal failures within the last 30 minutes on etcd instance {{ $labels.instance }}.'
-        summary: etcd cluster has high number of proposal failures.
-      expr: rate(etcd_server_proposals_failed_total{job=~".*etcd.*"}[15m]) > 5
-      for: 15m
-      labels:
-        severity: warning
-    - alert: etcdHighFsyncDurations
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdhighfsyncdurations
-        description: 'etcd cluster "{{ $labels.job }}": 99th percentile fsync durations are {{ $value }}s on etcd instance {{ $labels.instance }}.'
-        summary: etcd cluster 99th percentile fsync durations are too high.
-      expr: |-
-        histogram_quantile(0.99, rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=~".*etcd.*"}[5m]))
-        > 0.5
-      for: 10m
-      labels:
-        severity: warning
-    - alert: etcdHighFsyncDurations
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdhighfsyncdurations
-        description: 'etcd cluster "{{ $labels.job }}": 99th percentile fsync durations are {{ $value }}s on etcd instance {{ $labels.instance }}.'
-        summary: etcd cluster 99th percentile fsync durations are too high.
-      expr: |-
-        histogram_quantile(0.99, rate(etcd_disk_wal_fsync_duration_seconds_bucket{job=~".*etcd.*"}[5m]))
-        > 1
-      for: 10m
-      labels:
-        severity: critical
-    - alert: etcdHighCommitDurations
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdhighcommitdurations
-        description: 'etcd cluster "{{ $labels.job }}": 99th percentile commit durations {{ $value }}s on etcd instance {{ $labels.instance }}.'
-        summary: etcd cluster 99th percentile commit durations are too high.
-      expr: |-
-        histogram_quantile(0.99, rate(etcd_disk_backend_commit_duration_seconds_bucket{job=~".*etcd.*"}[5m]))
-        > 0.25
-      for: 10m
-      labels:
-        severity: warning
-    - alert: etcdDatabaseQuotaLowSpace
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcddatabasequotalowspace
-        description: 'etcd cluster "{{ $labels.job }}": database size exceeds the defined quota on etcd instance {{ $labels.instance }}, please defrag or increase the quota as the writes to etcd will be disabled when it is full.'
-        summary: etcd cluster database is running full.
-      expr: (last_over_time(etcd_mvcc_db_total_size_in_bytes{job=~".*etcd.*"}[5m]) / last_over_time(etcd_server_quota_backend_bytes{job=~".*etcd.*"}[5m]))*100 > 95
-      for: 10m
-      labels:
-        severity: critical
-    - alert: etcdExcessiveDatabaseGrowth
-      annotations:
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcdexcessivedatabasegrowth
-        description: 'etcd cluster "{{ $labels.job }}": Predicting running out of disk space in the next four hours, based on write observations within the past four hours on etcd instance {{ $labels.instance }}, please check as it might be disruptive.'
-        summary: etcd cluster database growing very fast.
-      expr: predict_linear(etcd_mvcc_db_total_size_in_bytes{job=~".*etcd.*"}[4h], 4*60*60) > etcd_server_quota_backend_bytes{job=~".*etcd.*"}
-      for: 10m
-      labels:
-        severity: warning
-    - alert: etcdDatabaseHighFragmentationRatio
-      annotations:
-        description: 'etcd cluster "{{ $labels.job }}": database size in use on instance {{ $labels.instance }} is {{ $value | humanizePercentage }} of the actual allocated disk space, please run defragmentation (e.g. etcdctl defrag) to retrieve the unused fragmented disk space.'
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/etcd/etcddatabasehighfragmentationratio
-        summary: etcd database size in use is less than 50% of the actual allocated storage.
-      expr: (last_over_time(etcd_mvcc_db_total_size_in_use_in_bytes{job=~".*etcd.*"}[5m]) / last_over_time(etcd_mvcc_db_total_size_in_bytes{job=~".*etcd.*"}[5m])) < 0.5 and etcd_mvcc_db_total_size_in_use_in_bytes{job=~".*etcd.*"} > 104857600
       for: 10m
       labels:
         severity: warning
@@ -81016,374 +80656,6 @@ spec:
     - expr: sum by (cluster, code, verb) (increase(apiserver_request_total{job="apiserver",verb=~"LIST|GET|POST|PUT|PATCH|DELETE",code=~"5.."}[1h]))
       record: code_verb:apiserver_request_total:increase1h
 ---
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kube-apiserver-burnrate.rules.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-kube-apiserver-burnrate.rules
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: kube-apiserver-burnrate.rules
-    rules:
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[5m]))
-            -
-            (
-              (
-                sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope=~"resource|",le=~"1(\\.0)?"}[5m]))
-                or
-                vector(0)
-              )
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="namespace",le=~"5(\\.0)?"}[5m]))
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="cluster",le=~"30(\\.0)?"}[5m]))
-            )
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET",code=~"5.."}[5m]))
-        )
-      labels:
-        verb: read
-      record: cluster_verb:apiserver_request_sli_bad_events:rate5m
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[5m]))
-            -
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward",le=~"1(\\.0)?"}[5m]))
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",code=~"5.."}[5m]))
-        )
-      labels:
-        verb: write
-      record: cluster_verb:apiserver_request_sli_bad_events:rate5m
-    - expr: sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET"}[5m]))
-      labels:
-        verb: read
-      record: cluster_verb:apiserver_request_sli_events:rate5m
-    - expr: sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE"}[5m]))
-      labels:
-        verb: write
-      record: cluster_verb:apiserver_request_sli_events:rate5m
-    - expr: |-
-        cluster_verb:apiserver_request_sli_bad_events:rate5m
-        /
-        cluster_verb:apiserver_request_sli_events:rate5m
-      record: apiserver_request:burnrate5m
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[1h]))
-            -
-            (
-              (
-                sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope=~"resource|",le=~"1(\\.0)?"}[1h]))
-                or
-                vector(0)
-              )
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="namespace",le=~"5(\\.0)?"}[1h]))
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="cluster",le=~"30(\\.0)?"}[1h]))
-            )
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET",code=~"5.."}[1h]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET"}[1h]))
-      labels:
-        verb: read
-      record: apiserver_request:burnrate1h
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[1h]))
-            -
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward",le=~"1(\\.0)?"}[1h]))
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",code=~"5.."}[1h]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE"}[1h]))
-      labels:
-        verb: write
-      record: apiserver_request:burnrate1h
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[2h]))
-            -
-            (
-              (
-                sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope=~"resource|",le=~"1(\\.0)?"}[2h]))
-                or
-                vector(0)
-              )
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="namespace",le=~"5(\\.0)?"}[2h]))
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="cluster",le=~"30(\\.0)?"}[2h]))
-            )
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET",code=~"5.."}[2h]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET"}[2h]))
-      labels:
-        verb: read
-      record: apiserver_request:burnrate2h
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[2h]))
-            -
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward",le=~"1(\\.0)?"}[2h]))
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",code=~"5.."}[2h]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE"}[2h]))
-      labels:
-        verb: write
-      record: apiserver_request:burnrate2h
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[30m]))
-            -
-            (
-              (
-                sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope=~"resource|",le=~"1(\\.0)?"}[30m]))
-                or
-                vector(0)
-              )
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="namespace",le=~"5(\\.0)?"}[30m]))
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="cluster",le=~"30(\\.0)?"}[30m]))
-            )
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET",code=~"5.."}[30m]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET"}[30m]))
-      labels:
-        verb: read
-      record: apiserver_request:burnrate30m
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[30m]))
-            -
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward",le=~"1(\\.0)?"}[30m]))
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",code=~"5.."}[30m]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE"}[30m]))
-      labels:
-        verb: write
-      record: apiserver_request:burnrate30m
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[6h]))
-            -
-            (
-              (
-                sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope=~"resource|",le=~"1(\\.0)?"}[6h]))
-                or
-                vector(0)
-              )
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="namespace",le=~"5(\\.0)?"}[6h]))
-              +
-              sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward",scope="cluster",le=~"30(\\.0)?"}[6h]))
-            )
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET",code=~"5.."}[6h]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"LIST|GET"}[6h]))
-      labels:
-        verb: read
-      record: apiserver_request:burnrate6h
-    - expr: |-
-        (
-          (
-            # too slow
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_count{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[6h]))
-            -
-            sum by (cluster) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward",le=~"1(\\.0)?"}[6h]))
-          )
-          +
-          # errors
-          sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",code=~"5.."}[6h]))
-        )
-        /
-        sum by (cluster) (rate(apiserver_request_total{job="apiserver",verb=~"POST|PUT|PATCH|DELETE"}[6h]))
-      labels:
-        verb: write
-      record: apiserver_request:burnrate6h
-    - expr: |-
-        avg_over_time(cluster_verb:apiserver_request_sli_bad_events:rate5m[1d])
-        /
-        avg_over_time(cluster_verb:apiserver_request_sli_events:rate5m[1d])
-      record: apiserver_request:burnrate1d
-    - expr: |-
-        avg_over_time(cluster_verb:apiserver_request_sli_bad_events:rate5m[3d])
-        /
-        avg_over_time(cluster_verb:apiserver_request_sli_events:rate5m[3d])
-      record: apiserver_request:burnrate3d
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kube-apiserver-histogram.rules.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-kube-apiserver-histogram.rules
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: kube-apiserver-histogram.rules
-    rules:
-    - expr: histogram_quantile(0.99, sum by (cluster, le, resource) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",subresource!~"proxy|attach|log|exec|portforward"}[5m]))) > 0
-      labels:
-        quantile: '0.99'
-        verb: read
-      record: cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.99, sum by (cluster, le, resource) (rate(apiserver_request_sli_duration_seconds_bucket{job="apiserver",verb=~"POST|PUT|PATCH|DELETE",subresource!~"proxy|attach|log|exec|portforward"}[5m]))) > 0
-      labels:
-        quantile: '0.99'
-        verb: write
-      record: cluster_quantile:apiserver_request_sli_duration_seconds:histogram_quantile
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kube-apiserver-slos.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-kube-apiserver-slos
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: kube-apiserver-slos
-    rules:
-    - alert: KubeAPIErrorBudgetBurn
-      annotations:
-        description: The Kube API server is burning too much error budget on cluster {{ $labels.cluster }}.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeapierrorbudgetburn
-        summary: The Kube API server is burning too much error budget.
-      expr: |-
-        sum by (cluster) (apiserver_request:burnrate1h) > (14.40 * 0.01000)
-        and on (cluster)
-        sum by (cluster) (apiserver_request:burnrate5m) > (14.40 * 0.01000)
-      for: 2m
-      labels:
-        long: 1h
-        severity: critical
-        short: 5m
-    - alert: KubeAPIErrorBudgetBurn
-      annotations:
-        description: The Kube API server is burning too much error budget on cluster {{ $labels.cluster }}.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeapierrorbudgetburn
-        summary: The Kube API server is burning too much error budget.
-      expr: |-
-        sum by (cluster) (apiserver_request:burnrate6h) > (6.00 * 0.01000)
-        and on (cluster)
-        sum by (cluster) (apiserver_request:burnrate30m) > (6.00 * 0.01000)
-      for: 15m
-      labels:
-        long: 6h
-        severity: critical
-        short: 30m
-    - alert: KubeAPIErrorBudgetBurn
-      annotations:
-        description: The Kube API server is burning too much error budget on cluster {{ $labels.cluster }}.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeapierrorbudgetburn
-        summary: The Kube API server is burning too much error budget.
-      expr: |-
-        sum by (cluster) (apiserver_request:burnrate1d) > (3.00 * 0.01000)
-        and on (cluster)
-        sum by (cluster) (apiserver_request:burnrate2h) > (3.00 * 0.01000)
-      for: 1h
-      labels:
-        long: 1d
-        severity: warning
-        short: 2h
-    - alert: KubeAPIErrorBudgetBurn
-      annotations:
-        description: The Kube API server is burning too much error budget on cluster {{ $labels.cluster }}.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeapierrorbudgetburn
-        summary: The Kube API server is burning too much error budget.
-      expr: |-
-        sum by (cluster) (apiserver_request:burnrate3d) > (1.00 * 0.01000)
-        and on (cluster)
-        sum by (cluster) (apiserver_request:burnrate6h) > (1.00 * 0.01000)
-      for: 3h
-      labels:
-        long: 3d
-        severity: warning
-        short: 6h
----
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kube-prometheus-general.rules.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
@@ -81441,63 +80713,6 @@ spec:
       record: cluster:node_cpu:sum_rate5m
     - expr: cluster:node_cpu:sum_rate5m / count(sum(node_cpu_seconds_total) BY (instance, cpu))
       record: cluster:node_cpu:ratio
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kube-scheduler.rules.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-kube-scheduler.rules
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: kube-scheduler.rules
-    rules:
-    - expr: histogram_quantile(0.99, sum(rate(scheduler_scheduling_attempt_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.99'
-      record: cluster_quantile:scheduler_scheduling_attempt_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.99, sum(rate(scheduler_scheduling_algorithm_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.99'
-      record: cluster_quantile:scheduler_scheduling_algorithm_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.99, sum(rate(scheduler_pod_scheduling_sli_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.99'
-      record: cluster_quantile:scheduler_pod_scheduling_sli_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.9, sum(rate(scheduler_scheduling_attempt_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.9'
-      record: cluster_quantile:scheduler_scheduling_attempt_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.9, sum(rate(scheduler_scheduling_algorithm_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.9'
-      record: cluster_quantile:scheduler_scheduling_algorithm_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.9, sum(rate(scheduler_pod_scheduling_sli_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.9'
-      record: cluster_quantile:scheduler_pod_scheduling_sli_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.5, sum(rate(scheduler_scheduling_attempt_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.5'
-      record: cluster_quantile:scheduler_scheduling_attempt_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.5, sum(rate(scheduler_scheduling_algorithm_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.5'
-      record: cluster_quantile:scheduler_scheduling_algorithm_duration_seconds:histogram_quantile
-    - expr: histogram_quantile(0.5, sum(rate(scheduler_pod_scheduling_sli_duration_seconds_bucket{job="kube-scheduler"}[5m])) without(instance, pod))
-      labels:
-        quantile: '0.5'
-      record: cluster_quantile:scheduler_pod_scheduling_sli_duration_seconds:histogram_quantile
 ---
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kube-state-metrics.yaml
 apiVersion: monitoring.coreos.com/v1
@@ -82323,84 +81538,6 @@ spec:
       labels:
         severity: warning
 ---
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kubernetes-system-controller-manager.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-kubernetes-system-controller-manager
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: kubernetes-system-controller-manager
-    rules:
-    - alert: KubeControllerManagerDown
-      annotations:
-        description: KubeControllerManager has disappeared from Prometheus target discovery.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubecontrollermanagerdown
-        summary: Target disappeared from Prometheus target discovery.
-      expr: absent(up{job="kube-controller-manager"})
-      for: 15m
-      labels:
-        severity: critical
-    - alert: KubeControllerManagerInstanceUnreachable
-      annotations:
-        description: A KubeControllerManager instance has been unreachable for more than 15 minutes.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubecontrollermanagerinstanceunreachable
-        summary: KubeControllerManager instance is unreachable.
-      expr: up{job="kube-controller-manager"} == 0
-      for: 15m
-      labels:
-        severity: warning
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kubernetes-system-kube-proxy.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-kubernetes-system-kube-proxy
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: kubernetes-system-kube-proxy
-    rules:
-    - alert: KubeProxyDown
-      annotations:
-        description: KubeProxy has disappeared from Prometheus target discovery.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeproxydown
-        summary: Target disappeared from Prometheus target discovery.
-      expr: absent(up{job="kube-proxy"})
-      for: 15m
-      labels:
-        severity: critical
-    - alert: KubeProxyInstanceUnreachable
-      annotations:
-        description: A KubeProxy instance has been unreachable for more than 15 minutes.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeproxyinstanceunreachable
-        summary: KubeProxy instance is unreachable.
-      expr: up{job="kube-proxy"} == 0
-      for: 15m
-      labels:
-        severity: warning
----
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kubernetes-system-kubelet.yaml
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
@@ -82604,45 +81741,6 @@ spec:
       for: 15m
       labels:
         severity: critical
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kubernetes-system-scheduler.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kube-prometheus-stack-kubernetes-system-scheduler
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  groups:
-  - name: kubernetes-system-scheduler
-    rules:
-    - alert: KubeSchedulerDown
-      annotations:
-        description: KubeScheduler has disappeared from Prometheus target discovery.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeschedulerdown
-        summary: Target disappeared from Prometheus target discovery.
-      expr: absent(up{job="kube-scheduler"})
-      for: 15m
-      labels:
-        severity: critical
-    - alert: KubeSchedulerInstanceUnreachable
-      annotations:
-        description: A KubeScheduler instance has been unreachable for more than 15 minutes.
-        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeschedulerinstanceunreachable
-        summary: KubeScheduler instance is unreachable.
-      expr: up{job="kube-scheduler"} == 0
-      for: 15m
-      labels:
-        severity: warning
 ---
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/prometheus/rules-1.14/kubernetes-system.yaml
 apiVersion: monitoring.coreos.com/v1
@@ -83776,6 +82874,10 @@ spec:
         sourceLabels:
         - __name__
         - le
+      - action: drop
+        regex: (apiserver_request_body_size_bytes|apiserver_response_sizes|apiserver_watch_events_sizes|apiserver_watch_list_duration_seconds|apiserver_watch_cache_read_wait_seconds|apiserver_request_sli_duration_seconds|etcd_request_duration_seconds)_bucket
+        sourceLabels:
+        - __name__
     tlsConfig:
       ca:
         configMap:
@@ -83791,142 +82893,6 @@ spec:
     matchLabels:
       component: apiserver
       provider: kubernetes
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-controller-manager/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: kube-prometheus-stack-kube-controller-manager
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack-kube-controller-manager
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  jobLabel: jobLabel
-  
-  selector:
-    matchLabels:
-      app: kube-prometheus-stack-kube-controller-manager
-      release: "kube-prometheus-stack"
-  namespaceSelector:
-    matchNames:
-      - "kube-system"
-  endpoints:
-  - port: http-metrics
-    authorization:
-      credentials:
-        key: token
-        name: 'kube-prometheus-stack-prometheus-token'
-      type: Bearer
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-etcd/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: kube-prometheus-stack-kube-etcd
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack-kube-etcd
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  jobLabel: jobLabel
-  
-  selector:
-    matchLabels:
-      app: kube-prometheus-stack-kube-etcd
-      release: "kube-prometheus-stack"
-  namespaceSelector:
-    matchNames:
-      - "kube-system"
-  endpoints:
-  - port: http-metrics
-    authorization:
-      credentials:
-        key: token
-        name: 'kube-prometheus-stack-prometheus-token'
-      type: Bearer
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-proxy/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: kube-prometheus-stack-kube-proxy
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack-kube-proxy
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  jobLabel: jobLabel
-  
-  selector:
-    matchLabels:
-      app: kube-prometheus-stack-kube-proxy
-      release: "kube-prometheus-stack"
-  namespaceSelector:
-    matchNames:
-      - "kube-system"
-  endpoints:
-  - port: http-metrics
-    authorization:
-      credentials:
-        key: token
-        name: 'kube-prometheus-stack-prometheus-token'
-      type: Bearer
----
-# Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kube-scheduler/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: kube-prometheus-stack-kube-scheduler
-  namespace: monitoring
-  labels:
-    app: kube-prometheus-stack-kube-scheduler
-    
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: kube-prometheus-stack
-    app.kubernetes.io/version: "92.3.0"
-    app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-92.3.0
-    release: "kube-prometheus-stack"
-    heritage: "Helm"
-spec:
-  jobLabel: jobLabel
-  
-  selector:
-    matchLabels:
-      app: kube-prometheus-stack-kube-scheduler
-      release: "kube-prometheus-stack"
-  namespaceSelector:
-    matchNames:
-      - "kube-system"
-  endpoints:
-  - port: http-metrics
-    authorization:
-      credentials:
-        key: token
-        name: 'kube-prometheus-stack-prometheus-token'
-      type: Bearer
 ---
 # Source: kube-prometheus-stack/charts/kube-prometheus-stack/templates/exporters/kubelet/servicemonitor.yaml
 apiVersion: monitoring.coreos.com/v1
@@ -83977,6 +82943,10 @@ spec:
       sourceLabels:
       - __name__
       - le
+    - action: drop
+      regex: (apiserver|etcd|aggregator|authentication|authorization|kube_apiserver|apiextensions|workqueue|rest_client|grpc_server|go_gc_duration|go_sched|kubernetes_feature)_.*
+      sourceLabels:
+      - __name__
     relabelings:
     - action: replace
       sourceLabels:
