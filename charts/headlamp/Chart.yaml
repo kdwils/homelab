@@ -4,7 +4,7 @@ description: Headlamp Kubernetes UI with OIDC login and homelab chart for HTTPRo
 version: 0.1.0
 dependencies:
   - name: headlamp
-    version: 0.45.0
+    version: 0.46.0
     repository: https://kubernetes-sigs.github.io/headlamp/
   - name: homelab-chart
     version: 0.2.1
