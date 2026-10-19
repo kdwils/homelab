@@ -19,7 +19,7 @@ kube-vip:
         operator: Exists
     image:
       repository: ghcr.io/kube-vip/kube-vip
-      tag: v1.3.0
+      tag: v1.3.1
     args:
       - manager
     securityContext:
