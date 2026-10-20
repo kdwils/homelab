@@ -102,7 +102,7 @@ spec:
         {}
       containers:
         - name: cloudflared
-          image: "cloudflare/cloudflared:2026.10.1"
+          image: "cloudflare/cloudflared:2026.10.2"
           imagePullPolicy: IfNotPresent
           args:
             - tunnel
