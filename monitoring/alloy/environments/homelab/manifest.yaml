@@ -7,10 +7,10 @@ metadata:
   name: alloy
   namespace: monitoring
   labels:
-    helm.sh/chart: alloy-1.13.1
+    helm.sh/chart: alloy-1.14.0
     app.kubernetes.io/name: alloy
     app.kubernetes.io/instance: alloy
-    app.kubernetes.io/version: "v1.20.1"
+    app.kubernetes.io/version: "v1.21.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: alloy
     app.kubernetes.io/component: rbac
@@ -22,10 +22,10 @@ metadata:
   name: alloy
   namespace: monitoring
   labels:
-    helm.sh/chart: alloy-1.13.1
+    helm.sh/chart: alloy-1.14.0
     app.kubernetes.io/name: alloy
     app.kubernetes.io/instance: alloy
-    app.kubernetes.io/version: "v1.20.1"
+    app.kubernetes.io/version: "v1.21.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: alloy
     app.kubernetes.io/component: config
@@ -113,10 +113,10 @@ kind: ClusterRole
 metadata:
   name: alloy
   labels:
-    helm.sh/chart: alloy-1.13.1
+    helm.sh/chart: alloy-1.14.0
     app.kubernetes.io/name: alloy
     app.kubernetes.io/instance: alloy
-    app.kubernetes.io/version: "v1.20.1"
+    app.kubernetes.io/version: "v1.21.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: alloy
     app.kubernetes.io/component: rbac
@@ -241,10 +241,10 @@ kind: ClusterRoleBinding
 metadata:
   name: alloy
   labels:
-    helm.sh/chart: alloy-1.13.1
+    helm.sh/chart: alloy-1.14.0
     app.kubernetes.io/name: alloy
     app.kubernetes.io/instance: alloy
-    app.kubernetes.io/version: "v1.20.1"
+    app.kubernetes.io/version: "v1.21.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: alloy
     app.kubernetes.io/component: rbac
@@ -264,10 +264,10 @@ metadata:
   name: alloy
   namespace: monitoring
   labels:
-    helm.sh/chart: alloy-1.13.1
+    helm.sh/chart: alloy-1.14.0
     app.kubernetes.io/name: alloy
     app.kubernetes.io/instance: alloy
-    app.kubernetes.io/version: "v1.20.1"
+    app.kubernetes.io/version: "v1.21.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: alloy
     app.kubernetes.io/component: networking
@@ -297,10 +297,10 @@ metadata:
   name: alloy
   namespace: monitoring
   labels:
-    helm.sh/chart: alloy-1.13.1
+    helm.sh/chart: alloy-1.14.0
     app.kubernetes.io/name: alloy
     app.kubernetes.io/instance: alloy
-    app.kubernetes.io/version: "v1.20.1"
+    app.kubernetes.io/version: "v1.21.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: alloy
 spec:
@@ -319,7 +319,7 @@ spec:
       serviceAccountName: alloy
       containers:
         - name: alloy
-          image: docker.io/grafana/alloy:v1.20.1
+          image: docker.io/grafana/alloy:v1.21.0
           imagePullPolicy: IfNotPresent
           args:
             - run
