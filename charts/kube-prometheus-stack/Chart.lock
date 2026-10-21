@@ -1,9 +1,9 @@
 dependencies:
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
-  version: 92.8.0
+  version: 92.10.0
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
   version: 0.2.1
-digest: sha256:1442ece97ffb1a9441dfb6868ce2c778b09a7330f2f743c8edc00e95f7b37353
-generated: "2026-10-21T21:44:34.211260012Z"
+digest: sha256:6bd9dc563a7fe7ad1921bc043dd137f8539ae8c3a06ebfa8d0645ab1857ee2cc
+generated: "2026-10-21T21:50:33.633177344Z"
