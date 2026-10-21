@@ -18,7 +18,7 @@ rss:
 
     image:
       repository: freshrss/freshrss
-      tag: 1.30.2
+      tag: 1.30.3-alpine
       pullPolicy: IfNotPresent
     env:
       CRON_MIN: "13,43"
