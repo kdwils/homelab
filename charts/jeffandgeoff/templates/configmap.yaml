@@ -20,4 +20,4 @@ data:
       </body>
     </html>
 binaryData:
-  jeffandgeoff.jpg: {{ .Files.Get "files/image.jpg" | b64enc }}
+  jeffandgeoff.png: {{ .Files.Get "files/image.jpg" | b64enc }}
