@@ -17,6 +17,7 @@ resources:
   - envoy-proxy-bouncer.yaml
   - flaresolverr.yaml
   - headlamp.yaml
+  - jeffandgeoff.yaml
   - events.yaml
   - kargo.yaml
   - loki.yaml

@@ -1,0 +1,48 @@
+jeffandgeoff:
+  serviceAccount:
+    create: true
+    automount: false
+
+  deployment:
+    create: true
+    replicas: 1
+    deployStrategy: Recreate
+
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+
+    image:
+      repository: nginx
+      tag: alpine
+      pullPolicy: IfNotPresent
+
+    volumes:
+      - name: jeffandgeoff-image
+        configMap:
+          name: jeffandgeoff-image
+
+    volumeMounts:
+      - name: jeffandgeoff-image
+        mountPath: /usr/share/nginx/html
+        readOnly: true
+
+  service:
+    create: true
+    type: ClusterIP
+    port: 80
+    name: http
+
+  httproute:
+    create: true
+    hostnames:
+      - "jeffandgeoff.kyledev.co"
+      - "jeffandgeoff.int.kyledev.co"
+      - "jeffandgeoff.ts.kyledev.co"
+    parentRefs:
+      - name: homelab
+        namespace: envoy-gateway-system

@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jeffandgeoff
+  namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: jeffandgeoff:homelab
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: jeffandgeoff
+    server: "https://kubernetes.default.svc"
+  source:
+    path: apps/jeffandgeoff/environments/homelab
+    repoURL: "https://github.com/kdwils/homelab"
+    targetRevision: homelab
+  sources: []
+  project: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

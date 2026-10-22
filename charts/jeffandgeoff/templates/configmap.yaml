@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jeffandgeoff-image
+  labels:
+    app.kubernetes.io/name: jeffandgeoff
+    app.kubernetes.io/instance: {{ .Release.Name }}
+binaryData:
+  jeffandgeoff.jpg: {{ .Files.Get "files/jeffandgeoff.jpg" | b64enc }}

@@ -1,0 +1,81 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: jeffandgeoff
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: jeffandgeoff
+  namespace: jeffandgeoff
+spec:
+  promotionPolicies:
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: jeffandgeoff
+  namespace: jeffandgeoff
+spec:
+  interval: "1h0m0s"
+  subscriptions:
+    - chart:
+        repoURL: oci://ghcr.io/kdwils/charts/homelab-chart
+    - git:
+        repoURL: https://github.com/kdwils/homelab.git
+        branch: main
+        includePaths:
+          - glob:apps/jeffandgeoff/environments/**
+          - glob:charts/jeffandgeoff/**
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: jeffandgeoff
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: jeffandgeoff
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: https://github.com/kdwils/homelab
+        - name: targetBranch
+          value: main
+        - name: warehouse
+          value: jeffandgeoff
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        - task:
+            name: helm-update-single-oci-chart
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: charts/jeffandgeoff
+            - name: chartRepo
+              value: oci://ghcr.io/kdwils/charts
+            - name: chartName
+              value: homelab-chart
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: |
+                Update jeffandgeoff chart dependencies
+            - name: prTitle
+              value: "Update jeffandgeoff chart dependencies"
+            - name: prDescription
+              value: Update jeffandgeoff chart dependencies (homelab-chart)

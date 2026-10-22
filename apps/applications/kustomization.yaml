@@ -9,6 +9,7 @@ resources:
   - events.yaml
   # - excalidraw.yaml
   - hoarder.yaml
+  - jeffandgeoff.yaml
   - kargo.yaml
   - mealie.yaml
   - nats.yaml
