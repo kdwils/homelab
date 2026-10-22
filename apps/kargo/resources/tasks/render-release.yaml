@@ -1,0 +1,28 @@
+# Per-app render, step 2/3. Renders one Helm release into ./target. A Stage calls this
+# once per release (most apps have one; blog and baldsky have several).
+# All paths are repo-relative; ./source and ./target are added here.
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-release
+spec:
+  vars:
+    - name: chartPath
+    - name: valuesFile
+    - name: outFile
+    - name: namespace
+    - name: releaseName
+    # Stage vars are strings, so this is "true"/"false" and compared below
+    - name: includeCRDs
+      value: "false"
+  steps:
+    - uses: helm-template
+      as: helm-template
+      config:
+        path: ./source/${{ vars.chartPath }}
+        valuesFiles:
+          - ./source/${{ vars.valuesFile }}
+        namespace: ${{ vars.namespace }}
+        releaseName: ${{ vars.releaseName }}
+        outPath: ./target/${{ vars.outFile }}
+        includeCRDs: ${{ vars.includeCRDs == 'true' }}

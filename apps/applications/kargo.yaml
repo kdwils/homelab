@@ -35,11 +35,18 @@ spec:
   destination:
     namespace: kargo
     server: "https://kubernetes.default.svc"
-  source:
-    path: apps/kargo/resources
-    repoURL: "https://github.com/kdwils/homelab"
-    targetRevision: HEAD
-  sources: []
+  # Two sources, one Application, so Projects/Stages are never pruned or re-owned:
+  #   - kustomize: shared ClusterPromotionTasks, credentials, homelab-chart project
+  #   - helm: every per-app Project/Warehouse/Stage, generated from values.yaml
+  sources:
+    - path: apps/kargo/resources
+      repoURL: "https://github.com/kdwils/homelab"
+      targetRevision: HEAD
+    - path: charts/kargo-projects
+      repoURL: "https://github.com/kdwils/homelab"
+      targetRevision: HEAD
+      helm:
+        releaseName: kargo-projects
   project: apps
   syncPolicy:
     automated:

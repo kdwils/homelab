@@ -1,0 +1,238 @@
+{{- /*
+  One Project / ProjectConfig / Warehouse and a set of Stages per entry in .Values.apps.
+
+  Stage names inside a Project:
+    image apps  one per .stages entry (default "main"): opens a PR on main bumping the image tag
+    chart apps  "main": opens a PR on main bumping the chart dependencies
+    both        "render" (when .render is set): renders just this app onto the render branch
+
+  The promotion logic itself lives in the shared ClusterPromotionTasks under ../tasks.
+*/ -}}
+{{- $g := .Values.global }}
+{{- $hc := $g.homelabChart }}
+{{- $hcRepo := printf "%s/%s" $hc.repository $hc.name }}
+{{- $srcRepo := printf "%s.git" $g.repoURL }}
+{{- range $key, $app := .Values.apps }}
+{{- $project := default $key $app.project }}
+{{- $isImage := not (empty $app.image) }}
+{{- $stages := $app.stages | default (list (dict "name" "main")) }}
+{{- $chartPath := $app.chartPath | default $g.defaultChartPath }}
+{{- $tagKey := $app.tagKey | default (printf "%s.deployment.image.tag" $key) }}
+{{- /* chart dependencies this app tracks, in subscription order */ -}}
+{{- $charts := list }}
+{{- range $app.charts }}{{ $charts = append $charts . }}{{ end }}
+{{- if $app.homelabChart }}{{ $charts = append $charts (dict "repoURL" $hcRepo) }}{{ end }}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: {{ $project }}
+  annotations:
+    kargo.akuity.io/keep-namespace: "true"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: {{ $project }}
+  namespace: {{ $project }}
+spec:
+  promotionPolicies:
+    {{- if $isImage }}
+    {{- range $stages }}
+    - stageSelector:
+        name: {{ .name }}
+      autoPromotionEnabled: true
+    {{- end }}
+    {{- else }}
+    - stageSelector:
+        name: main
+      autoPromotionEnabled: true
+    {{- end }}
+    {{- if $app.render }}
+    - stageSelector:
+        name: render
+      autoPromotionEnabled: true
+    {{- end }}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: {{ $key }}
+  namespace: {{ $project }}
+spec:
+  interval: {{ $g.interval | quote }}
+  subscriptions:
+    {{- if $isImage }}
+    - image:
+        {{- toYaml $app.image | nindent 8 }}
+    {{- end }}
+    {{- range $charts }}
+    - chart:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if and $isImage $app.subscribeHomelabChart }}
+    - chart:
+        repoURL: {{ $hcRepo }}
+    {{- end }}
+    - git:
+        repoURL: {{ $srcRepo }}
+        branch: {{ $g.sourceBranch }}
+        includePaths:
+          - glob:{{ $app.dir }}/environments/**
+          - glob:{{ $chartPath }}/**
+{{- /* ---- source stages: bump image tag / chart deps via a PR on main ---- */}}
+{{- if $isImage }}
+{{- range $stages }}
+{{- $stage := . }}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: {{ $stage.name }}
+  namespace: {{ $project }}
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: {{ $key }}
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: {{ $g.repoURL }}
+        - name: targetBranch
+          value: {{ $g.sourceBranch }}
+        - name: warehouse
+          value: {{ $key }}
+        - name: imageRepo
+          value: {{ $app.image.repoURL }}
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        {{- range $stage.valuesFiles | default (list "homelab/homelab.yaml") }}
+        - task:
+            name: update-image-tag
+            kind: ClusterPromotionTask
+          vars:
+            - name: valuesFilePath
+              value: {{ $app.dir }}/environments/{{ . }}
+            - name: imageTagYamlPath
+              value: {{ $tagKey }}
+        {{- end }}
+        - task:
+            name: image-commit-pr
+            kind: ClusterPromotionTask
+{{- end }}
+{{- else }}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: main
+  namespace: {{ $project }}
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: {{ $key }}
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: gitRepo
+          value: {{ $g.repoURL }}
+        - name: targetBranch
+          value: {{ $g.sourceBranch }}
+        - name: warehouse
+          value: {{ $key }}
+      steps:
+        - task:
+            name: git-ops-clone
+            kind: ClusterPromotionTask
+        {{- range $charts }}
+        {{- $named := hasKey . "name" }}
+        - task:
+            name: {{ ternary "helm-update-single-chart" "helm-update-single-oci-chart" $named }}
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: {{ $chartPath }}
+            - name: chartRepo
+              value: {{ ternary .repoURL (regexReplaceAll "/[^/]+$" .repoURL "") $named }}
+            - name: chartName
+              value: {{ ternary .name (regexFind "[^/]+$" .repoURL) $named }}
+        {{- end }}
+        - task:
+            name: git-ops-commit-pr
+            kind: ClusterPromotionTask
+          vars:
+            - name: commitMessage
+              value: Update {{ $key }} chart dependencies
+            - name: prTitle
+              value: Update {{ $key }} chart dependencies
+            - name: prDescription
+              value: Update {{ $key }} chart dependencies
+{{- end }}
+{{- /* ---- render stage: render only this app onto the render branch ---- */}}
+{{- with $app.render }}
+{{- $render := . }}
+{{- $renderChart := $render.chart | default $chartPath }}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: render
+  namespace: {{ $project }}
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: {{ $key }}
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: app
+          value: {{ $key }}
+        - name: gitRepo
+          value: {{ $g.repoURL }}
+        - name: sourceRepo
+          value: {{ $srcRepo }}
+        - name: renderBranch
+          value: {{ $g.renderBranch }}
+        - name: batchBranch
+          value: {{ $g.renderBatchBranch }}
+      steps:
+        - task:
+            name: render-clone
+            kind: ClusterPromotionTask
+        {{- range $render.releases | default (list (dict)) }}
+        {{- $env := .env | default "homelab" }}
+        {{- $envDir := printf "%s/environments/%s" $app.dir $env }}
+        - task:
+            name: render-release
+            kind: ClusterPromotionTask
+          vars:
+            - name: chartPath
+              value: {{ $renderChart }}
+            - name: valuesFile
+              value: {{ $envDir }}/{{ .values | default "homelab.yaml" }}
+            - name: outFile
+              value: {{ $envDir }}/{{ .out | default "manifest.yaml" }}
+            - name: namespace
+              value: {{ $render.namespace }}
+            - name: releaseName
+              value: {{ .releaseName | default $render.releaseName | default $key }}
+            - name: includeCRDs
+              value: {{ $render.includeCRDs | default false | quote }}
+        {{- end }}
+        - task:
+            name: render-commit-pr
+            kind: ClusterPromotionTask
+{{- end }}
+{{- end }}

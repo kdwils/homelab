@@ -1,0 +1,447 @@
+# Source of truth for every per-app Kargo Project, ProjectConfig, Warehouse and
+# Stage (see templates/). To add or remove an app, edit this file only.
+#
+# Per-app keys
+#   dir                  source dir on main; values live in <dir>/environments/<env>/
+#   project              Kargo Project/namespace name (default: the app key)
+#   image                Warehouse image subscription, passed through verbatim
+#   tagKey               YAML key holding the image tag (default: <key>.deployment.image.tag)
+#   stages               image apps: [{name, valuesFiles}] one Stage per entry; each
+#                        Stage bumps the tag in every listed file (relative to
+#                        <dir>/environments/). Default: one "main" stage ->
+#                        homelab/homelab.yaml
+#   subscribeHomelabChart  image apps: also subscribe to the homelab-chart release
+#   chartPath            chart wrapper dir (charts/<x>); chart apps only
+#   charts               Warehouse chart subscriptions, passed through verbatim.
+#                        An entry with `name` is an HTTP repo; without it, OCI
+#   homelabChart         also subscribe to / bump the homelab-chart dependency
+#   render               present -> the app gets a `render` Stage that renders it
+#                        to global.renderBranch (same layout ArgoCD already reads)
+#     namespace          helm namespace (required)
+#     chart              chart to render (default: chartPath, else global.defaultChartPath)
+#     includeCRDs        default false
+#     releaseName        default: the app key
+#     releases           [{env, values, out, releaseName}]; defaults are
+#                        homelab / homelab.yaml / manifest.yaml / render.releaseName
+
+global:
+  repoURL: https://github.com/kdwils/homelab
+  sourceBranch: main
+  renderBranch: homelab
+  # shared branch every render stage pushes to; one PR (this -> renderBranch) batches them all
+  renderBatchBranch: render/pending
+  interval: 1h0m0s
+  defaultChartPath: charts/homelab
+  homelabChart:
+    repository: oci://ghcr.io/kdwils/charts
+    name: homelab-chart
+
+apps:
+
+  # ----------------------------------------------------------------------
+  # Container image apps: Kargo bumps the image tag in source values
+  # ----------------------------------------------------------------------
+  baldsky:
+    dir: apps/baldsky
+    image:
+      repoURL: ghcr.io/kdwils/baldsky
+      imageSelectionStrategy: NewestBuild
+      allowTagsRegexes:
+      - ^sha-.*
+      strictSemvers: false
+    stages:
+    - name: publisher
+      valuesFiles:
+      - homelab/publisher.yaml
+    - name: server
+      valuesFiles:
+      - homelab/server.yaml
+    - name: worker
+      valuesFiles:
+      - homelab/worker.yaml
+    render:
+      namespace: bluesky
+      releases:
+      - values: publisher.yaml
+        out: publisher.yaml
+        releaseName: baldsky-publisher
+      - values: server.yaml
+      - values: worker.yaml
+        out: worker.yaml
+        releaseName: baldsky-worker
+  bazarr:
+    dir: media/bazarr
+    image:
+      repoURL: linuxserver/bazarr
+      constraint: ^1.0.0
+      strictSemvers: false
+    render:
+      namespace: media
+  blocky:
+    dir: infra/blocky
+    image:
+      repoURL: ghcr.io/0xerr0r/blocky
+      constraint: ^0.35.0
+      strictSemvers: false
+    render:
+      namespace: dns
+  blog:
+    dir: apps/blog
+    image:
+      repoURL: ghcr.io/kdwils/blog
+      semverConstraint: ^1.0.0
+      strictSemvers: false
+    stages:
+    - name: main
+      valuesFiles:
+      - dev/homelab.yaml
+      - prod/homelab.yaml
+    render:
+      namespace: blog
+      releases:
+      - env: dev
+      - env: prod
+  bluesky:
+    dir: apps/bluesky
+    image:
+      repoURL: ghcr.io/bluesky-social/pds
+      semverConstraint: ^0.4.0
+      strictSemvers: false
+    render:
+      namespace: bluesky
+  byparr:
+    dir: media/byparr
+    image:
+      repoURL: ghcr.io/thephaseless/byparr
+      constraint: ^3.0.0
+      strictSemvers: false
+    render:
+      namespace: media
+  cloudflared:
+    dir: infra/cloudflared
+    image:
+      repoURL: cloudflare/cloudflared
+      constraint: ^2026.0.0
+      strictSemvers: false
+      discoveryLimit: 5
+    render:
+      namespace: cloudflared
+  events:
+    dir: apps/events
+    image:
+      repoURL: ghcr.io/kdwils/events
+      imageSelectionStrategy: NewestBuild
+      allowTagsRegexes:
+      - ^sha-.*
+      strictSemvers: false
+    render:
+      namespace: events
+  excalidraw:
+    dir: apps/excalidraw
+    image:
+      repoURL: excalidraw/excalidraw
+      imageSelectionStrategy: Digest
+      constraint: latest
+  flaresolverr:
+    dir: media/flaresolverr
+    image:
+      repoURL: ghcr.io/flaresolverr/flaresolverr
+      constraint: ^3.0.0
+      strictSemvers: false
+    render:
+      namespace: media
+  kube-vip:
+    dir: infra/kube-vip
+    image:
+      repoURL: ghcr.io/kube-vip/kube-vip
+      constraint: ^1.2.0
+      strictSemvers: false
+    tagKey: kube-vip.daemonset.image.tag
+    render:
+      namespace: kube-system
+  mealie:
+    dir: apps/mealie
+    image:
+      repoURL: ghcr.io/mealie-recipes/mealie
+      constraint: ^3.0.0
+      strictSemvers: false
+    render:
+      namespace: mealie
+  mediaz:
+    dir: media/mediaz
+    image:
+      repoURL: ghcr.io/kasuboski/mediaz
+      imageSelectionStrategy: NewestBuild
+      allowTagsRegexes:
+      - ^sha-.*
+      strictSemvers: false
+    render:
+      namespace: media
+  mgnx:
+    dir: media/mgnx
+    image:
+      repoURL: ghcr.io/kdwils/mgnx
+      imageSelectionStrategy: NewestBuild
+      allowTagsRegexes:
+      - ^sha-.*
+      strictSemvers: false
+    render:
+      namespace: media
+  plex:
+    dir: media/plex
+    image:
+      repoURL: plexinc/pms-docker
+      imageSelectionStrategy: NewestBuild
+      allowTagsRegexes:
+      - ^1\.\d+\.\d+\.\d+-[a-f0-9]+$
+    render:
+      namespace: media
+  pocketid:
+    dir: apps/pocketid
+    image:
+      repoURL: ghcr.io/pocket-id/pocket-id
+      constraint: ^2.0.0-0
+      allowTagsRegexes:
+      - ^v\d+\.\d+\.\d+-distroless$
+      strictSemvers: false
+    render:
+      namespace: pocketid
+  prowlarr:
+    dir: media/prowlarr
+    image:
+      repoURL: ghcr.io/linuxserver/prowlarr
+      constraint: ^2.0.0
+      strictSemvers: false
+    render:
+      namespace: media
+  radarr:
+    dir: media/radarr
+    image:
+      repoURL: linuxserver/radarr
+      constraint: ^6.0.0
+      strictSemvers: false
+    render:
+      namespace: radarr
+  rss:
+    dir: apps/rss
+    image:
+      repoURL: freshrss/freshrss
+      semverConstraint: ^1.0.0
+      strictSemvers: true
+    render:
+      namespace: rss
+  sonarr:
+    dir: media/sonarr
+    image:
+      repoURL: linuxserver/sonarr
+      constraint: ^4.0.0
+      strictSemvers: false
+    render:
+      namespace: media
+  transmission:
+    dir: media/transmission
+    image:
+      repoURL: haugene/transmission-openvpn
+      constraint: ^5.0.0
+      strictSemvers: false
+    render:
+      namespace: media
+  vaultwarden:
+    dir: apps/vaultwarden
+    image:
+      repoURL: vaultwarden/server
+      semverConstraint: ^1.0.0
+      strictSemvers: false
+    subscribeHomelabChart: true
+    render:
+      namespace: vaultwarden
+
+  # ----------------------------------------------------------------------
+  # Third-party chart wrappers: Kargo bumps chart dependency versions
+  # ----------------------------------------------------------------------
+  alloy:
+    dir: monitoring/alloy
+    chartPath: charts/alloy
+    charts:
+    - repoURL: https://grafana.github.io/helm-charts
+      name: alloy
+    render:
+      namespace: monitoring
+  argocd:
+    dir: infra/argocd
+    chartPath: charts/argocd
+    charts:
+    - repoURL: https://argoproj.github.io/argo-helm
+      name: argo-cd
+    homelabChart: true
+    render:
+      namespace: argocd
+      includeCRDs: true
+  cert-manager:
+    dir: infra/cert-manager
+    chartPath: charts/cert-manager
+    charts:
+    - repoURL: https://charts.jetstack.io
+      name: cert-manager
+    render:
+      namespace: cert-manager
+      includeCRDs: true
+  cnpg:
+    dir: infra/cnpg
+    chartPath: charts/cnpg
+    charts:
+    - repoURL: oci://ghcr.io/cloudnative-pg/charts/cloudnative-pg
+    render:
+      namespace: cnpg
+      includeCRDs: true
+  coder:
+    dir: apps/coder
+    chartPath: charts/coder
+    charts:
+    - repoURL: https://helm.coder.com/v2
+      name: coder
+    homelabChart: true
+    render:
+      namespace: coder
+  crowdsec:
+    dir: monitoring/crowdsec
+    chartPath: charts/crowdsec
+    charts:
+    - repoURL: https://crowdsecurity.github.io/helm-charts
+      name: crowdsec
+    homelabChart: true
+    render:
+      namespace: crowdsec
+  envoy-gateway-system:
+    dir: infra/envoy-gateway
+    chartPath: charts/envoy-gateway
+    charts:
+    - repoURL: oci://docker.io/envoyproxy/gateway-helm
+    homelabChart: true
+    render:
+      namespace: envoy-gateway-system
+      includeCRDs: true
+      releases:
+      - releaseName: envoy-gateway
+  envoy-proxy-bouncer:
+    dir: monitoring/envoy-proxy-bouncer
+    chartPath: charts/envoy-proxy-bouncer
+    charts:
+    - repoURL: oci://ghcr.io/kdwils/charts/envoy-proxy-bouncer
+    homelabChart: true
+    render:
+      namespace: crowdsec
+  headlamp:
+    dir: infra/headlamp
+    chartPath: charts/headlamp
+    charts:
+    - repoURL: https://kubernetes-sigs.github.io/headlamp/
+      name: headlamp
+    homelabChart: true
+    render:
+      namespace: headlamp
+      includeCRDs: true
+  kargo:
+    dir: apps/kargo
+    chartPath: charts/kargo
+    charts:
+    - repoURL: oci://ghcr.io/akuity/kargo-charts/kargo
+      semverConstraint: ^1.10.7
+    homelabChart: true
+    render:
+      namespace: kargo
+  kube-prometheus-stack:
+    dir: monitoring/kube-prometheus-stack
+    chartPath: charts/kube-prometheus-stack
+    charts:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      name: kube-prometheus-stack
+    homelabChart: true
+    render:
+      namespace: monitoring
+      includeCRDs: true
+  loki:
+    dir: monitoring/loki
+    chartPath: charts/loki
+    charts:
+    - repoURL: https://grafana.github.io/helm-charts
+      name: loki
+    render:
+      namespace: monitoring
+  longhorn:
+    project: longhorn-system
+    dir: infra/longhorn
+    chartPath: charts/longhorn
+    charts:
+    - repoURL: https://charts.longhorn.io
+      name: longhorn
+    homelabChart: true
+    render:
+      namespace: longhorn-system
+      includeCRDs: true
+  metallb:
+    project: metallb-system
+    dir: infra/metallb
+    chartPath: charts/metallb
+    charts:
+    - repoURL: https://metallb.github.io/metallb
+      name: metallb
+    homelabChart: true
+    render:
+      namespace: metallb-system
+      includeCRDs: true
+  nats:
+    dir: apps/nats
+    chartPath: charts/nats
+    charts:
+    - repoURL: https://nats-io.github.io/k8s/helm/charts/
+      name: nats
+    homelabChart: true
+    render:
+      namespace: nats
+      includeCRDs: true
+      releases:
+      - values: nats.yaml
+  overseerr:
+    dir: media/seerr
+    chartPath: charts/seerr
+    charts:
+    - repoURL: oci://ghcr.io/seerr-team/seerr/seerr-chart
+    homelabChart: true
+    render:
+      namespace: media
+  sealedsecrets:
+    dir: infra/sealedsecrets
+    chartPath: charts/sealedsecrets
+    charts:
+    - repoURL: https://bitnami-labs.github.io/sealed-secrets
+      name: sealed-secrets
+    render:
+      namespace: kube-system
+      includeCRDs: true
+  tailscale:
+    dir: infra/tailscale
+    chartPath: charts/tailscale
+    charts:
+    - repoURL: https://pkgs.tailscale.com/helmcharts
+      name: tailscale-operator
+    homelabChart: true
+    render:
+      namespace: tailscale
+  tempo:
+    dir: monitoring/tempo
+    chartPath: charts/tempo
+    charts:
+    - repoURL: https://grafana.github.io/helm-charts
+      name: tempo
+    render:
+      namespace: monitoring
+  vpa:
+    dir: infra/vpa
+    chartPath: charts/vpa
+    charts:
+    - repoURL: https://kubernetes.github.io/autoscaler
+      name: vertical-pod-autoscaler
+    render:
+      namespace: kube-system
+      includeCRDs: true

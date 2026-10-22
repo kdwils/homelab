@@ -3,3 +3,5 @@ secrets/
 secret.yaml
 values.yaml
 .DS_Store
+# generated Kargo project map, this one is source of truth and must be committed
+!charts/kargo-projects/values.yaml

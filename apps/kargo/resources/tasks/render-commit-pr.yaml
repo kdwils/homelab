@@ -1,0 +1,56 @@
+# Per-app render, step 3/3. Commits ./target and publishes it through ONE shared,
+# long-lived batch PR (batchBranch -> renderBranch) instead of one PR per app.
+#
+#   - git-push to a fixed branch: if another app's promotion pushed first, Kargo
+#     rebases onto it and retries. Safe because each app only touches its own
+#     files, and a second render of the same app cannot start until the first
+#     promotion finishes (it blocks on git-wait-for-pr below).
+#   - git-open-pr returns the already-open PR for the same source/target, so every
+#     app's promotion ends up waiting on the same PR. Merging it once releases all.
+#   - no diff -> git-commit skips itself and so do the push/PR steps.
+#
+# Requires "Automatically delete head branches" on the GitHub repo, so batchBranch
+# is recreated from the render branch after each merge.
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-commit-pr
+spec:
+  vars:
+    - name: app
+    - name: gitRepo
+    - name: sourceRepo
+    - name: renderBranch
+    - name: batchBranch
+  steps:
+    - uses: git-commit
+      as: commit-render
+      config:
+        path: ./target
+        message: |
+          Render ${{ vars.app }} from ${{ commitFrom(vars.sourceRepo).ID[:8] }}
+    - uses: git-push
+      as: push-render
+      if: ${{ status('commit-render') != 'Skipped' }}
+      config:
+        path: ./target
+        targetBranch: ${{ vars.batchBranch }}
+        maxAttempts: 30
+    - uses: git-open-pr
+      as: open-render-pr
+      if: ${{ status('commit-render') != 'Skipped' }}
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        sourceBranch: ${{ vars.batchBranch }}
+        targetBranch: ${{ vars.renderBranch }}
+        title: "Render updates"
+        description: |
+          Batched render updates for `${{ vars.renderBranch }}`. Every app's `render` stage
+          pushes its own commit to `${{ vars.batchBranch }}`; see the commit list for which apps changed.
+          Merge once to release them all.
+    - uses: git-wait-for-pr
+      as: wait-render-pr
+      if: ${{ status('open-render-pr') == 'Succeeded' }}
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        prNumber: ${{ task.outputs['open-render-pr'].pr.id }}

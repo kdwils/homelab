@@ -1,0 +1,20 @@
+# Bumps one image tag in one source values file inside ./repo (see git-ops-clone).
+# A Stage calls this once per file, then image-commit-pr.
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: update-image-tag
+spec:
+  vars:
+    - name: warehouse
+    - name: imageRepo
+    - name: valuesFilePath
+    - name: imageTagYamlPath
+  steps:
+    - uses: yaml-update
+      as: update-image-tag
+      config:
+        path: ./repo/${{ vars.valuesFilePath }}
+        updates:
+          - key: ${{ vars.imageTagYamlPath }}
+            value: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}

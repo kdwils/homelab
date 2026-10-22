@@ -4,4 +4,4 @@ resources:
   - sealedsecret.yaml
   - global-credentials-rolebinding.yaml
   - tasks
-  - projects
+  - homelab-chart-project.yaml

@@ -54,32 +54,35 @@ cd docs/diagrams && python3 generate_diagrams.py && python3 export_svgs.py
 
 ### Kargo Progressive Delivery
 
-Kargo resources live under `apps/kargo/`. There are two kinds of Kargo projects in this repo:
+Kargo resources live under `apps/kargo/`. Every per-app Project, ProjectConfig, Warehouse and Stage is **generated** by the Helm chart in `charts/kargo-projects/` from one values map (`charts/kargo-projects/values.yaml`). The shared promotion logic lives in ClusterPromotionTasks under `apps/kargo/resources/tasks/`. Both are synced by the `kargo-tasks` ArgoCD Application (two sources: kustomize + helm, tracking `main`).
 
-#### 1. Per-Application Projects (`apps/kargo/resources/projects/<app>.yaml`)
+```bash
+# Preview what the generator emits
+helm template kp charts/kargo-projects
+```
 
-Each app has a project/warehouse/stage that watches:
-- The app's container image (semver)
-- Git paths under the app's `environments/**` directory
-- `charts/homelab/**` (for apps using the consolidated chart)
+#### Per-Application Projects
 
-When new freight is available, the `main` stage opens a PR against `main` that updates image tags (or chart versions) in the source values files. `autoPromotionEnabled: true` means this happens automatically.
+Each app gets one Project/Warehouse and these Stages:
 
-#### 2. Global Render Project (`apps/kargo/resources/projects/homelab-project.yaml`)
+- **Source stage(s)** (`main`, or one per entry in `stages`): the Warehouse watches the app's image (or chart dependencies) plus Git paths `<dir>/environments/**` and the chart dir (`charts/homelab/**` or `charts/<component>/**`). A new image/chart opens a PR on `main` that bumps the tag/dependency.
+- **`render` Stage**: renders only this app (at the exact commit carried by the Freight) and pushes it to the shared `render/pending` branch, which has ONE batched PR against the `homelab` branch (merge it once to release every pending render), writing the same `<dir>/environments/<env>/manifest.yaml` paths ArgoCD already reads. If the render produces no diff, no branch or PR is created.
 
-- **Warehouse** `homelab-project` watches all source files on `main` (`apps/**`, `infra/**`, `media/**`, `monitoring/**`, `charts/**`)
-- **Stage** `deploy` runs the `render-homelab` ClusterPromotionTask
-- The `render-homelab` task (`apps/kargo/resources/tasks/render-homelab.yaml`) runs `helm template` for every app and writes the rendered manifests to the `homelab` branch
-- It then opens a PR against `homelab`; once merged, ArgoCD syncs
+`autoPromotionEnabled: true` for every stage, so the only manual gates are merging the PRs.
 
 **Promotion Flow**:
 ```
-New image/chart -> App project updates source values on main (PR) -> PR merged ->
-homelab-project detects main change -> render-homelab renders all manifests -> PR opened against homelab ->
-manual approval -> ArgoCD syncs
+New image/chart -> source stage opens PR on main -> PR merged -> new Freight (new commit) ->
+render stage renders just that app -> commit pushed to render/pending, shared PR against homelab -> manual approval (one merge for all pending apps) -> ArgoCD syncs
 ```
 
-When adding or removing an app, update the `render-homelab` ClusterPromotionTask so the new app is rendered and obsolete apps are removed.
+Shared tasks:
+- `git-ops-clone`, `update-image-tag`, `image-commit-pr`: image bump flow
+- `git-ops-clone`, `helm-update-single-chart` / `helm-update-single-oci-chart`, `git-ops-commit-pr`: chart dependency flow
+- `render-clone`, `render-release` (once per Helm release), `render-commit-pr`: per-app render
+- `update-helm-charts`: used only by the hand-written `homelab-chart-project.yaml` (bumps `charts/homelab` when a new `homelab-chart` is released)
+
+A change to `charts/homelab/**` fans out to every image app's `render` stage, but they all land in the same `render/pending` PR. This relies on the GitHub repo setting "Automatically delete head branches" so `render/pending` is recreated from `homelab` after each merge. If you close that PR without merging, delete `render/pending` by hand or later renders of the same apps will conflict.
 
 ### Application Patterns
 
@@ -217,7 +220,7 @@ securityPolicy:
 **Kargo**:
 - Watches for new images/charts automatically
 - App projects create PRs that update source values on `main`
-- The global `homelab-project` renders manifests and opens a PR against `homelab`
+- Each app's `render` stage renders its own manifests into the shared `render/pending` batch PR against `homelab`
 
 ## Working with Applications
 
@@ -256,24 +259,9 @@ source:
 
 5. Add the application file to the relevant `applications/kustomization.yaml`.
 
-6. Create Kargo project: `apps/kargo/resources/projects/<app>.yaml` (copy from an existing one, e.g. `bluesky.yaml` or `blog.yaml`).
+6. Add the app to `charts/kargo-projects/values.yaml` under `apps:` (copy a similar entry; the file header documents every key). That one entry generates the Project, Warehouse, source stage and `render` stage. Check with `helm template kp charts/kargo-projects`.
 
-7. Add the Kargo project to `apps/kargo/resources/projects/kustomization.yaml`.
-
-8. Update `apps/kargo/resources/tasks/render-homelab.yaml` to render the new app:
-```yaml
-- uses: helm-template
-  as: render-<app>
-  config:
-    path: ./source/charts/homelab
-    valuesFiles:
-      - ./source/apps/<app>/environments/homelab/homelab.yaml
-    namespace: <namespace>
-    releaseName: <app>
-    outPath: ./target/apps/<app>/environments/homelab/manifest.yaml
-```
-
-9. Commit and push. The app project will auto-promote source changes; the global `homelab-project` will render manifests and open a PR against `homelab`.
+7. Commit and push. The app's `render` stage will render the manifests and open a PR against `homelab`.
 
 #### Option 2: Third-Party Chart Wrapper (Pattern A2)
 
@@ -283,9 +271,7 @@ For infrastructure components with an upstream Helm chart.
 2. Download dependencies: `cd charts/<component> && helm dependency update`.
 3. Create `<project>/<component>/environments/homelab/homelab.yaml` with values.
 4. Create ArgoCD Application (`<project>/applications/<component>.yaml`) with `targetRevision: homelab`.
-5. Create Kargo project: `apps/kargo/resources/projects/<component>.yaml`.
-6. Add to `apps/kargo/resources/projects/kustomization.yaml`.
-7. Update `apps/kargo/resources/tasks/render-homelab.yaml` to render the new component using its own chart path.
+5. Add the component to `charts/kargo-projects/values.yaml` (chart app: `chartPath`, `charts`, `homelabChart`, `render`). Check with `helm template kp charts/kargo-projects`.
 
 #### Option 3: Simple Kustomize Application (Pattern B)
 
@@ -304,7 +290,7 @@ mkdir apps/<app>   # or infra/, monitoring/, media/
 **Kargo-Managed Apps (Patterns A and A2)**:
 - App projects update source values on `main` automatically
 - Review and merge those PRs
-- The global `homelab-project` will detect the change, render manifests, and open a PR against `homelab`
+- The app's `render` stage will detect the change, render its manifests, and open a PR against `homelab`
 - Review/merge the `homelab` PR to trigger ArgoCD sync
 
 **Simple Apps (Pattern B)**:
@@ -343,7 +329,6 @@ kubectl get secret <secret-name> -n <namespace>
     kargo/                      # Kargo config shared by ALL projects
       environments/homelab/     # Kargo installation values
       resources/
-        projects/               # One file per Kargo project
         tasks/                  # Shared ClusterPromotionTasks
     <app>/                      # Per-app values (Pattern A) or Kustomize manifests (Pattern B)
       environments/
@@ -363,6 +348,7 @@ kubectl get secret <secret-name> -n <namespace>
       environments/homelab/
         homelab.yaml
   charts/                       # Top-level Pattern A2 chart wrappers + consolidated homelab chart
+    kargo-projects/             # Generates every per-app Kargo project (values.yaml is the app map)
     homelab/                    # Meta-chart that declares all Pattern A apps as aliases
     <component>/                # One per Pattern A2 component
   docs/diagrams/                # Generated network/platform architecture diagram
@@ -422,6 +408,6 @@ Coder workspace templates and modules can be stored under `apps/coder/templates/
 - Simple Kustomize apps sync directly from `main`
 - Never commit unencrypted secrets - always use `kubeseal`
 - Infrastructure apps must remain operational - they are critical dependencies
-- When adding or removing a Kargo-managed app, update both the per-app Kargo project and the global `render-homelab` ClusterPromotionTask
+- When adding or removing a Kargo-managed app, edit only `charts/kargo-projects/values.yaml`
 - Review Kargo PRs carefully - they modify deployment manifests
 - Do not commit `secrets/`, `secret.yaml`, `values.yaml`, or `.terraform/` directories

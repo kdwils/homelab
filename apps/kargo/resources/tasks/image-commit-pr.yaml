@@ -1,32 +1,17 @@
+# Commits whatever update-image-tag changed in ./repo and opens a PR on targetBranch.
+# git-commit skips itself when nothing changed, so the push/PR steps are skipped too
+# instead of leaving an empty branch behind.
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ClusterPromotionTask
 metadata:
-  name: update-source-main
+  name: image-commit-pr
 spec:
   vars:
     - name: gitRepo
-      value: https://github.com/kdwils/homelab
     - name: targetBranch
-      value: main
     - name: warehouse
     - name: imageRepo
-    - name: valuesFilePath
-    - name: imageTagYamlPath
   steps:
-    - uses: git-clone
-      as: clone-main
-      config:
-        repoURL: ${{ vars.gitRepo }}
-        checkout:
-          - branch: ${{ vars.targetBranch }}
-            path: ./repo
-    - uses: yaml-update
-      as: update-image-tag
-      config:
-        path: ./repo/${{ vars.valuesFilePath }}
-        updates:
-          - key: ${{ vars.imageTagYamlPath }}
-            value: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
     - uses: git-commit
       as: commit-updates
       config:
@@ -36,11 +21,13 @@ spec:
           - Image: ${{ imageFrom(vars.imageRepo, warehouse(vars.warehouse)).Tag }}
     - uses: git-push
       as: push-feature-branch
+      if: ${{ status('commit-updates') != 'Skipped' }}
       config:
         path: ./repo
         generateTargetBranch: true
     - uses: git-open-pr
       as: open-pr-main
+      if: ${{ status('commit-updates') != 'Skipped' }}
       continueOnError: true
       config:
         repoURL: ${{ vars.gitRepo }}

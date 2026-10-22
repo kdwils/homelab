@@ -1,7 +1,10 @@
 resources:
-  - update-source-main.yaml
-  - render-homelab.yaml
-  - update-helm-charts.yaml
   - git-ops-clone.yaml
   - git-ops-commit-pr.yaml
   - helm-update-single-chart.yaml
+  - update-helm-charts.yaml
+  - update-image-tag.yaml
+  - image-commit-pr.yaml
+  - render-clone.yaml
+  - render-release.yaml
+  - render-commit-pr.yaml

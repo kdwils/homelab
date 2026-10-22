@@ -1,0 +1,24 @@
+# Per-app render, step 1/3. Checks out
+#   ./source  the exact source commit this Freight carries (not whatever main is now)
+#   ./target  the render branch that ArgoCD syncs from
+# render-release then writes into ./target and render-commit-pr ships it.
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: render-clone
+spec:
+  vars:
+    - name: gitRepo
+    # must match the Warehouse git subscription URL, it is how commitFrom() finds the commit
+    - name: sourceRepo
+    - name: renderBranch
+  steps:
+    - uses: git-clone
+      as: clone-repos
+      config:
+        repoURL: ${{ vars.gitRepo }}
+        checkout:
+          - commit: ${{ commitFrom(vars.sourceRepo).ID }}
+            path: ./source
+          - branch: ${{ vars.renderBranch }}
+            path: ./target
