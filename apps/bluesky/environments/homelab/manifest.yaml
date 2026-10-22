@@ -114,6 +114,20 @@ spec:
           env:
             - name: LOG_ENABLED
               value: "true"
+            - name: NODE_OPTIONS
+              value: "--import=@atproto/pds/telemetry"
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/otlp/v1/metrics"
+            - name: OTEL_EXPORTER_OTLP_METRICS_PROTOCOL
+              value: "http/protobuf"
+            - name: OTEL_METRIC_EXPORT_INTERVAL
+              value: "15000"
+            - name: OTEL_NODE_RESOURCE_DETECTORS
+              value: "env,host,os,process,serviceinstance,container"
+            - name: OTEL_SEMCONV_STABILITY_OPT_IN
+              value: "http"
+            - name: OTEL_SERVICE_NAME
+              value: "pds"
             - name: PDS_BLOBSTORE_DISK_LOCATION
               value: "/pds/blocks"
             - name: PDS_BSKY_APP_VIEW_DID
