@@ -83,10 +83,18 @@ spec:
     spec:
       serviceAccountName: pocketid
       securityContext:
-        {}
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
       containers:
         - name: pocketid
-          image: "ghcr.io/pocket-id/pocket-id:v2.19.0"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+          image: "ghcr.io/pocket-id/pocket-id:v2.19.0-distroless"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -110,10 +118,6 @@ spec:
           env:
             - name: APP_URL
               value: "https://pocketid.kyledev.co"
-            - name: PGID
-              value: "1000"
-            - name: PUID
-              value: "1000"
             - name: TRUST_PROXY
               value: "true"
           envFrom:
