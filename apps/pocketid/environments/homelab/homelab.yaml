@@ -17,14 +17,24 @@ pocketid:
 
     image:
       repository: ghcr.io/pocket-id/pocket-id
-      tag: v2.19.0
+      tag: v2.19.0-distroless
       pullPolicy: IfNotPresent
+
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
 
     env:
       APP_URL: "https://pocketid.kyledev.co"
       TRUST_PROXY: "true"
-      PUID: "1000"
-      PGID: "1000"
 
     envFrom:
       - secretRef:
