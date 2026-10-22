@@ -27,7 +27,8 @@ spec:
     - image:
         repoURL: ghcr.io/pocket-id/pocket-id
         constraint: ^2.0.0-0
-        allowTags: ^v\d+\.\d+\.\d+-distroless$
+        allowTagsRegexes:
+          - ^v\d+\.\d+\.\d+-distroless$
         strictSemvers: false
     - git:
         repoURL: https://github.com/kdwils/homelab.git
