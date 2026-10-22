@@ -156,6 +156,7 @@ kube-prometheus-stack:
         limits:
           memory: 3Gi
       enableRemoteWriteReceiver: true
+      enableOTLPReceiver: true
       enableFeatures:
         - scrapeconfig
 

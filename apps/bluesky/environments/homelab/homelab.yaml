@@ -28,6 +28,13 @@ bluesky:
       PDS_BSKY_APP_VIEW_DID: did:web:api.bsky.app
       PDS_CRAWLERS: https://bsky.network
       LOG_ENABLED: "true"
+      NODE_OPTIONS: --import=@atproto/pds/telemetry
+      OTEL_SERVICE_NAME: pds
+      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090/api/v1/otlp/v1/metrics
+      OTEL_EXPORTER_OTLP_METRICS_PROTOCOL: http/protobuf
+      OTEL_METRIC_EXPORT_INTERVAL: "15000"
+      OTEL_SEMCONV_STABILITY_OPT_IN: http
+      OTEL_NODE_RESOURCE_DETECTORS: env,host,os,process,serviceinstance,container
 
     envFrom:
       - secretRef:
