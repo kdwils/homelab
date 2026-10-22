@@ -35,7 +35,7 @@ data:
       </body>
     </html>
 binaryData:
-  jeffandgeoff.jpg:
+  image.png:
 ---
 # Source: jeffandgeoff/charts/jeffandgeoff/templates/service.yaml
 apiVersion: v1
