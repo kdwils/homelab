@@ -83,7 +83,6 @@ spec:
     spec:
       serviceAccountName: pocketid
       securityContext:
-        fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
@@ -94,7 +93,7 @@ spec:
             capabilities:
               drop:
               - ALL
-          image: "ghcr.io/pocket-id/pocket-id:v2.19.0-distroless"
+          image: "ghcr.io/pocket-id/pocket-id:v2.19.1-distroless"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
