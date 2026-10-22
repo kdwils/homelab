@@ -16,8 +16,8 @@ data:
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#000;">
-        <img src="/jeffandgeoff.png" alt="jeffandgeoff" style="max-width:100%;max-height:100vh;">
+        <img src="/jeffandgeoff.jpg" alt="jeffandgeoff" style="max-width:100%;max-height:100vh;">
       </body>
     </html>
 binaryData:
-  jeffandgeoff.png: {{ .Files.Get "files/jeffandgeoff.png" | b64enc }}
+  jeffandgeoff.jpg: {{ .Files.Get "files/jeffandgeoff.jpg" | b64enc }}
