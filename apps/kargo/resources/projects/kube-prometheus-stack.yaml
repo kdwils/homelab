@@ -22,7 +22,7 @@ metadata:
   name: kube-prometheus-stack
   namespace: kube-prometheus-stack
 spec:
-  interval: "1h0m0s"
+  interval: "168h0m0s"
   subscriptions:
     - chart:
         repoURL: https://prometheus-community.github.io/helm-charts
