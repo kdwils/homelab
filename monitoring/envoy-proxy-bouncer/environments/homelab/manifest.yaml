@@ -91,7 +91,7 @@ data:
         name: envoy-bouncer
       appSecURL: http://crowdsec-appsec-api-service:7422
       enabled: true
-      failOpen: true
+      failOpen: false
       httpTimeout: 1s
       routes:
       - hosts:
@@ -1526,7 +1526,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: c52b6f9bb3bed73ddf3009fa078769c10e85bb5f17283cfe3e82185d5a3b23a3
+        checksum/config: 520e5f8e61291c8c3cf00ded5040bdfc4f28ecbcbb4c88bd349b7dd71f9085a5
       labels:
         helm.sh/chart: homelab-envoy-proxy-bouncer-0.8.2
         app.kubernetes.io/name: homelab-envoy-proxy-bouncer
