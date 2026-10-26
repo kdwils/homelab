@@ -162,6 +162,7 @@ spec:
   extAuth:
     bodyToExtAuth:
       maxRequestBytes: 65536
+    failClosed: true
     grpc:
       backendRefs:
       - group: ""
