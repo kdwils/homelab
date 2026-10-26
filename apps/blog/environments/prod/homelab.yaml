@@ -68,7 +68,7 @@ blog:
 
   securityPolicy:
     extAuth:
-      failClosed: true
+      failOpen: false
       bodyToExtAuth:
         maxRequestBytes: 65536
       grpc:
