@@ -76,7 +76,7 @@ homelab-envoy-proxy-bouncer:
       apiKeySecretRef:
         name: "envoy-bouncer"
         key: "apiKey"
-      failOpen: false
+      failOpen: true
       httpTimeout: 1s
       routes:
         - hosts:
