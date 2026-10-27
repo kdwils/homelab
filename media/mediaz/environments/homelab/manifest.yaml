@@ -108,7 +108,7 @@ spec:
         {}
       containers:
         - name: mediaz
-          image: "ghcr.io/kasuboski/mediaz:sha-652175ecde3a9e207eea68c86dfe5fefe8388777"
+          image: "ghcr.io/kasuboski/mediaz:sha-7fd66429d20cff158dfeb18f062f7e325ae39e3c"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
