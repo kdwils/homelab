@@ -11,5 +11,5 @@ resources:
   - transmission.yaml
   - plex.yaml
   - prowlarr.yaml
-  # - mediaz.yaml
+  - mediaz.yaml
   # - mgnx.yaml
