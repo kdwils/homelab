@@ -4,7 +4,7 @@ mediaz:
 
   deployment:
     create: true
-    replicas: 0
+    replicas: 1
     deployStrategy: Recreate
 
     image:
@@ -113,8 +113,8 @@ mediaz:
       containerPolicies:
         - containerName: "*"
           maxAllowed:
-            cpu: 500m
-            memory: 512Mi
+            cpu: 100m
+            memory: 128Mi
           controlledResources:
             - cpu
             - memory
