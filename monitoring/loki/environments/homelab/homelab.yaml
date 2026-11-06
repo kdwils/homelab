@@ -24,7 +24,7 @@ loki:
     rules:
       enabled: false
   singleBinary:
-    replicas: 1
+    replicas: 0
     resources:
       requests:
         cpu: 50m

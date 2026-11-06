@@ -48,9 +48,9 @@ homelab-envoy-proxy-bouncer:
       - 74.98.224.241
     trustedIPHeader: "cf-connecting-ip"
     prometheus:
-      enabled: true
+      enabled: false
       serviceMonitor:
-        enabled: true
+        enabled: false
         prometheusMatchLabels:
           release: kube-prometheus-stack
 
