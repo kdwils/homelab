@@ -10,8 +10,16 @@ plex:
 
     image:
       repository: plexinc/pms-docker
-      tag: 1.43.5.11079-b3b13e506
+      tag: 1.43.7.11114-4b588ea35
       pullPolicy: IfNotPresent
+
+    resources:
+      requests:
+        cpu: "1500m"
+        memory: 2Gi
+
+    env:
+      PLEX_TRANSCODER_TEMP: /transcode
 
     envFrom:
       - secretRef:
@@ -24,6 +32,9 @@ plex:
       - name: plex
         persistentVolumeClaim:
           claimName: plex-pvc
+      - name: transcode
+        emptyDir:
+          sizeLimit: 25Gi
     volumeMounts:
       - mountPath: /movies
         name: media
@@ -34,6 +45,8 @@ plex:
       - mountPath: /config
         name: plex
         subPath: configs/plex
+      - mountPath: /transcode
+        name: transcode
 
   service:
     create: true
