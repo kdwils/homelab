@@ -48,7 +48,7 @@ baldsky:
 
   deployment:
     create: true
-    replicas: 2
+    replicas: 0
     deployStrategy: RollingUpdate
     args:
       - "serve"
