@@ -80623,10 +80623,10 @@ spec:
   - scrapeconfig
   resources:
     limits:
-      memory: 3Gi
+      memory: 2Gi
     requests:
-      cpu: 100m
-      memory: 1Gi
+      cpu: 50m
+      memory: 512Mi
   retention: "3d"
   tsdb:
     outOfOrderTimeWindow: 0s
