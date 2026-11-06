@@ -69,10 +69,10 @@ data:
       maxIdleConnsPerHost: 100
       tlsHandshakeTimeout: 10s
     prometheus:
-      enabled: true
+      enabled: false
       port: 9090
       serviceMonitor:
-        enabled: true
+        enabled: false
         interval: 30s
         prometheusMatchLabels:
           release: kube-prometheus-stack
@@ -1498,10 +1498,6 @@ spec:
       targetPort: grpc
       protocol: TCP
       name: grpc
-    - port: 9090
-      targetPort: metrics
-      protocol: TCP
-      name: metrics
   selector:
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
@@ -1526,7 +1522,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: c52b6f9bb3bed73ddf3009fa078769c10e85bb5f17283cfe3e82185d5a3b23a3
+        checksum/config: 5b69518efcbc66eeaadff0fc02cc1ecffe66fa4c458dbac71f5f31cfaaad925c
       labels:
         helm.sh/chart: homelab-envoy-proxy-bouncer-0.8.3
         app.kubernetes.io/name: homelab-envoy-proxy-bouncer
@@ -1553,9 +1549,6 @@ spec:
           ports:
             - name: grpc
               containerPort: 8080
-              protocol: TCP
-            - name: metrics
-              containerPort: 9090
               protocol: TCP
           livenessProbe:
             grpc:
@@ -1662,30 +1655,6 @@ spec:
     metadata:
       name: envoy-bouncer
       namespace: crowdsec
----
-# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: homelab-envoy-proxy-bouncer
-  namespace: crowdsec
-  labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.8.3
-    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.8.3"
-    app.kubernetes.io/managed-by: Helm
-    release: kube-prometheus-stack
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-      app.kubernetes.io/instance: envoy-proxy-bouncer
-  endpoints:
-    - port: metrics
-      path: /metrics
-      interval: 30s
-      scrapeTimeout: 10s
 ---
 # Source: envoy-proxy-bouncer/charts/homelab/templates/vpa.yaml
 apiVersion: autoscaling.k8s.io/v1
