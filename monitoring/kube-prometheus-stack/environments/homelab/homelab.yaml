@@ -151,10 +151,10 @@ kube-prometheus-stack:
       retention: 3d
       resources:
         requests:
-          cpu: 100m
-          memory: 1Gi
+          cpu: 50m
+          memory: 512Mi
         limits:
-          memory: 3Gi
+          memory: 2Gi
       enableRemoteWriteReceiver: true
       enableOTLPReceiver: true
       enableFeatures:
