@@ -120,7 +120,7 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 1500m
+              cpu: "1"
               memory: 2Gi
           volumeMounts:
             - mountPath: /movies
