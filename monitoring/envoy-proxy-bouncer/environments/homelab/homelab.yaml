@@ -59,11 +59,14 @@ homelab-envoy-proxy-bouncer:
       - 74.98.224.241
     trustedIPHeader: "cf-connecting-ip"
     prometheus:
-      enabled: false
+      enabled: true
+      port: 9090
       serviceMonitor:
-        enabled: false
+        enabled: true
+        interval: 30s
         prometheusMatchLabels:
           release: kube-prometheus-stack
+        scrapeTimeout: 10s
 
     templates:
       showDeniedPage: false
