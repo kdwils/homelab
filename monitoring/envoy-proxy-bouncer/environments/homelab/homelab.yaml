@@ -55,7 +55,8 @@ homelab-envoy-proxy-bouncer:
       rateLimitTTL: "5m"
       rateLimitCleanupInterval: "1m"
 
-    exemptIPs: []
+    exemptIPs:
+      - 74.98.224.241
     trustedIPHeader: "cf-connecting-ip"
     prometheus:
       enabled: true
