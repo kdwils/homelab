@@ -101,7 +101,7 @@ homelab-envoy-proxy-bouncer:
           port: 7422
 
     captcha:
-      enabled: true
+      enabled: false
       provider: "turnstile"
       siteKey: "0x4AAAAAAB1bbQbIpIhvAYwl"
       secretKeySecretRef:
