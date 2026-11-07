@@ -49,7 +49,7 @@ data:
       challengeDuration: 5m
       cookieDomain: .kyledev.co
       disableChallengeReplayProtection: true
-      enabled: false
+      enabled: true
       provider: turnstile
       secretKeySecretRef:
         key: secretKey
@@ -1506,6 +1506,10 @@ spec:
       targetPort: grpc
       protocol: TCP
       name: grpc
+    - port: 8081
+      targetPort: http
+      protocol: TCP
+      name: http
     - port: 9090
       targetPort: metrics
       protocol: TCP
@@ -1534,7 +1538,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: b5393df415d67da42f7e88e4abee3dc18598855b3e13bf0e0c849b841ef5ff51
+        checksum/config: 7df6da8f3152163f97e36eeb45c769d496f438b12ce533b9fbd806a71a6565b6
       labels:
         helm.sh/chart: homelab-envoy-proxy-bouncer-0.8.3
         app.kubernetes.io/name: homelab-envoy-proxy-bouncer
@@ -1561,6 +1565,9 @@ spec:
           ports:
             - name: grpc
               containerPort: 8080
+              protocol: TCP
+            - name: http
+              containerPort: 8081
               protocol: TCP
             - name: metrics
               containerPort: 9090
