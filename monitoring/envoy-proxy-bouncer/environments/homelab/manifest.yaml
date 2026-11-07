@@ -69,26 +69,18 @@ data:
       maxIdleConnsPerHost: 100
       tlsHandshakeTimeout: 10s
     prometheus:
-      enabled: true
+      enabled: false
       port: 9090
       serviceMonitor:
-        enabled: true
+        enabled: false
         interval: 30s
         prometheusMatchLabels:
           release: kube-prometheus-stack
         scrapeTimeout: 10s
     server:
       grpcPort: 8080
-      httpIdleTimeout: 120s
-      httpMaxHeaderBytes: 1048576
       httpPort: 8081
-      httpReadTimeout: 5s
-      httpWriteTimeout: 10s
       logLevel: debug
-      rateLimitBurst: 20
-      rateLimitCleanupInterval: 1m
-      rateLimitRequestsPerSecond: 10
-      rateLimitTTL: 5m
     templates:
       showDeniedPage: false
     trustedIPHeader: cf-connecting-ip
@@ -1506,10 +1498,6 @@ spec:
       targetPort: grpc
       protocol: TCP
       name: grpc
-    - port: 9090
-      targetPort: metrics
-      protocol: TCP
-      name: metrics
   selector:
     app.kubernetes.io/name: homelab-envoy-proxy-bouncer
     app.kubernetes.io/instance: envoy-proxy-bouncer
@@ -1534,7 +1522,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: b5393df415d67da42f7e88e4abee3dc18598855b3e13bf0e0c849b841ef5ff51
+        checksum/config: 5b69518efcbc66eeaadff0fc02cc1ecffe66fa4c458dbac71f5f31cfaaad925c
       labels:
         helm.sh/chart: homelab-envoy-proxy-bouncer-0.8.3
         app.kubernetes.io/name: homelab-envoy-proxy-bouncer
@@ -1555,15 +1543,12 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 65532
-          image: "ghcr.io/kdwils/envoy-proxy-bouncer:sha-426507ca76bd43321336685b5bab24a56750192b"
+          image: "ghcr.io/kdwils/envoy-proxy-bouncer:v0.8.3"
           imagePullPolicy: IfNotPresent
           args: ["serve", "--config", "/app/config/config.yaml"]
           ports:
             - name: grpc
               containerPort: 8080
-              protocol: TCP
-            - name: metrics
-              containerPort: 9090
               protocol: TCP
           livenessProbe:
             grpc:
@@ -1670,30 +1655,6 @@ spec:
     metadata:
       name: envoy-bouncer
       namespace: crowdsec
----
-# Source: envoy-proxy-bouncer/charts/homelab-envoy-proxy-bouncer/templates/servicemonitor.yaml
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: homelab-envoy-proxy-bouncer
-  namespace: crowdsec
-  labels:
-    helm.sh/chart: homelab-envoy-proxy-bouncer-0.8.3
-    app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-    app.kubernetes.io/instance: envoy-proxy-bouncer
-    app.kubernetes.io/version: "v0.8.3"
-    app.kubernetes.io/managed-by: Helm
-    release: kube-prometheus-stack
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: homelab-envoy-proxy-bouncer
-      app.kubernetes.io/instance: envoy-proxy-bouncer
-  endpoints:
-    - port: metrics
-      path: /metrics
-      interval: 30s
-      scrapeTimeout: 10s
 ---
 # Source: envoy-proxy-bouncer/charts/homelab/templates/vpa.yaml
 apiVersion: autoscaling.k8s.io/v1
