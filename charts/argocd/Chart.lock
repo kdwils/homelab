@@ -1,9 +1,9 @@
 dependencies:
 - name: argo-cd
   repository: https://argoproj.github.io/argo-helm
-  version: 10.11.7
+  version: 10.15.0
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
   version: 0.2.1
-digest: sha256:befad4eac54640004a62acfded25b57f2b614b3abd995d0e00ab113462cc7712
-generated: "2026-11-03T15:45:02.592793572Z"
+digest: sha256:51232e333e05624abd6d004bdbfb9ed753aedc59eaddba3e8a392558c62e61c1
+generated: "2026-11-07T17:46:21.229890472Z"
