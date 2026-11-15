@@ -93,7 +93,7 @@ spec:
             capabilities:
               drop:
               - ALL
-          image: "ghcr.io/pocket-id/pocket-id:v2.19.1-distroless"
+          image: "ghcr.io/pocket-id/pocket-id:v2.19.3-distroless"
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
