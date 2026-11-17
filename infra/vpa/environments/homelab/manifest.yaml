@@ -6,7 +6,7 @@ metadata:
   name: vpa-admission-controller
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -29,7 +29,7 @@ metadata:
   name: vpa-recommender
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -52,7 +52,7 @@ metadata:
   name: vpa-updater
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -75,7 +75,7 @@ metadata:
   name: vpa-admission-controller
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -90,7 +90,7 @@ metadata:
   name: vpa-recommender
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -105,7 +105,7 @@ metadata:
   name: vpa-updater
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1129,7 +1129,7 @@ kind: ClusterRole
 metadata:
   name: vpa-admission-controller
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1202,7 +1202,7 @@ kind: ClusterRole
 metadata:
   name: vpa-recommender-metrics-reader
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1224,7 +1224,7 @@ kind: ClusterRole
 metadata:
   name: vpa-recommender-actor
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1277,7 +1277,7 @@ kind: ClusterRole
 metadata:
   name: vpa-recommender-status-actor
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1299,7 +1299,7 @@ kind: ClusterRole
 metadata:
   name: vpa-recommender-checkpoint-actor
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1336,7 +1336,7 @@ kind: ClusterRole
 metadata:
   name: vpa-recommender-target-reader
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1386,7 +1386,7 @@ kind: ClusterRole
 metadata:
   name: vpa-updater-in-place
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1408,7 +1408,7 @@ kind: ClusterRole
 metadata:
   name: vpa-updater-actor
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1461,7 +1461,7 @@ kind: ClusterRole
 metadata:
   name: vpa-updater-evictioner
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1489,7 +1489,7 @@ kind: ClusterRole
 metadata:
   name: vpa-updater-target-reader
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1539,7 +1539,7 @@ kind: ClusterRole
 metadata:
   name: vpa-updater-status-reader
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1562,7 +1562,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-admission-controller
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1584,7 +1584,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-recommender-metrics-reader
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1606,7 +1606,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-recommender-actor
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1628,7 +1628,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-recommender-status-actor
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1650,7 +1650,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-recommender-checkpoint-actor
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1672,7 +1672,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-recommender-target-reader
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1694,7 +1694,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-updater-in-place-binding
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1716,7 +1716,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-updater-actor-binding
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1738,7 +1738,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-updater-target-reader-binding
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1760,7 +1760,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-updater-evictioner-binding
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1782,7 +1782,7 @@ kind: ClusterRoleBinding
 metadata:
   name: vpa-updater-status-reader-binding
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1805,7 +1805,7 @@ metadata:
   name: vpa-webhook
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1830,7 +1830,7 @@ metadata:
   name: vpa-admission-controller
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1891,20 +1891,20 @@ spec:
               name: prometheus
               protocol: TCP
           livenessProbe:
+            failureThreshold: 3
             httpGet:
               path: /health-check
               port: prometheus
               scheme: HTTP
             initialDelaySeconds: 5
             periodSeconds: 10
-            failureThreshold: 3
           readinessProbe:
+            failureThreshold: 3
             httpGet:
               path: /health-check
               port: prometheus
               scheme: HTTP
             periodSeconds: 10
-            failureThreshold: 3
           volumeMounts:
             - mountPath: /etc/tls-certs
               name: tls-certs
@@ -1936,7 +1936,7 @@ metadata:
   name: vpa-recommender
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -1981,20 +1981,20 @@ spec:
               containerPort: 8942
               protocol: TCP
           livenessProbe:
+            failureThreshold: 3
             httpGet:
               path: /health-check
               port: prometheus
               scheme: HTTP
             initialDelaySeconds: 5
             periodSeconds: 10
-            failureThreshold: 3
           readinessProbe:
+            failureThreshold: 3
             httpGet:
               path: /health-check
               port: prometheus
               scheme: HTTP
             periodSeconds: 10
-            failureThreshold: 3
           resources:
             limits:
               cpu: 100m
@@ -2022,7 +2022,7 @@ metadata:
   name: vpa-updater
   namespace: kube-system
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2085,20 +2085,20 @@ spec:
               cpu: 50m
               memory: 128Mi
           livenessProbe:
+            failureThreshold: 3
             httpGet:
               path: /health-check
               port: prometheus
               scheme: HTTP
             initialDelaySeconds: 5
             periodSeconds: 10
-            failureThreshold: 3
           readinessProbe:
+            failureThreshold: 3
             httpGet:
               path: /health-check
               port: prometheus
               scheme: HTTP
             periodSeconds: 10
-            failureThreshold: 3
 ---
 # Source: vpa/charts/vertical-pod-autoscaler/templates/admission-controller-webhook.yaml
 apiVersion: admissionregistration.k8s.io/v1
@@ -2106,7 +2106,7 @@ kind: MutatingWebhookConfiguration
 metadata:
   name: vpa-webhook-config
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2164,7 +2164,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-10"
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2181,7 +2181,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-10"
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2207,7 +2207,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-10"
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2233,7 +2233,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-10"
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2259,7 +2259,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-10"
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2284,7 +2284,7 @@ metadata:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2296,7 +2296,7 @@ spec:
     metadata:
       name: vpa-admission-certgen-patch
       labels:
-        helm.sh/chart: vertical-pod-autoscaler-0.16.0
+        helm.sh/chart: vertical-pod-autoscaler-0.17.0
         app.kubernetes.io/name: vertical-pod-autoscaler
         app.kubernetes.io/instance: vpa
         app.kubernetes.io/version: "1.8.1"
@@ -2338,7 +2338,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
     "helm.sh/hook-weight": "-5"
   labels:
-    helm.sh/chart: vertical-pod-autoscaler-0.16.0
+    helm.sh/chart: vertical-pod-autoscaler-0.17.0
     app.kubernetes.io/name: vertical-pod-autoscaler
     app.kubernetes.io/instance: vpa
     app.kubernetes.io/version: "1.8.1"
@@ -2350,7 +2350,7 @@ spec:
     metadata:
       name: vpa-admission-certgen
       labels:
-        helm.sh/chart: vertical-pod-autoscaler-0.16.0
+        helm.sh/chart: vertical-pod-autoscaler-0.17.0
         app.kubernetes.io/name: vertical-pod-autoscaler
         app.kubernetes.io/instance: vpa
         app.kubernetes.io/version: "1.8.1"
