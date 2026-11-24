@@ -1,9 +1,9 @@
 dependencies:
 - name: kargo
   repository: oci://ghcr.io/akuity/kargo-charts
-  version: 1.12.6
+  version: 1.12.7
 - name: homelab-chart
   repository: oci://ghcr.io/kdwils/charts
   version: 0.2.1
-digest: sha256:bef0921dc409e8939f8e3bc1739630a9f29ec24a34e3336211447fe227d2a0e5
-generated: "2026-11-16T23:55:26.246738886Z"
+digest: sha256:3bb884b613a727a63592d0a3e84160eb3f047824cf8907d469fed4b25068ad5f
+generated: "2026-11-24T19:56:36.865211361Z"
